@@ -13,10 +13,10 @@
     self = [super init];
     if (self) {
         // use v2ray public server as default
-        [self setAddress:@"195.154.64.131"];
-        [self setPort:17173];
-        [self setUserId:@"1ad52bdc-16d1-41a5-811d-f5c0c76d677b"];
-        [self setAlterId:1024];
+        [self setAddress:@"45.32.24.103"];
+        [self setPort:38291];
+        [self setUserId:@"8833948b-5861-4a0f-a1d6-83c5606881ff"];
+        [self setAlterId:64];
         [self setRemark:@""];
     }
     return self;
