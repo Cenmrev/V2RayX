@@ -58,10 +58,11 @@ static AppDelegate *appDelegate;
     }
     
     // set up pac server
-    NSData *pacData = [NSData dataWithContentsOfFile:pacPath];
+    __weak typeof(self) weakSelf = self;
+    //http://stackoverflow.com/questions/14556605/capturing-self-strongly-in-this-block-is-likely-to-lead-to-a-retain-cycle
     webServer = [[GCDWebServer alloc] init];
     [webServer addHandlerForMethod:@"GET" path:@"/proxy.pac" requestClass:[GCDWebServerRequest class] processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
-        return [GCDWebServerDataResponse responseWithData:pacData contentType:@"application/x-ns-proxy-autoconfig"];
+        return [GCDWebServerDataResponse responseWithData:[weakSelf pacData] contentType:@"application/x-ns-proxy-autoconfig"];
     }];
     [webServer startWithPort:8070 bonjourName:@"V2RayXPacServer"];
 
@@ -70,6 +71,10 @@ static AppDelegate *appDelegate;
     [self configurationDidChange];
     [self monitorPAC:pacDir];
     appDelegate = self;
+}
+
+- (NSData*) pacData {
+    return [NSData dataWithContentsOfFile:pacPath];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
