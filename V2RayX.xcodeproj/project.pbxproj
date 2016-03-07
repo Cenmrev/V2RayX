@@ -32,6 +32,7 @@
 		9577E1BD1C6B065E00093BD3 /* GCDWebServerFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1AF1C6B065E00093BD3 /* GCDWebServerFileResponse.m */; };
 		9577E1BE1C6B065E00093BD3 /* GCDWebServerStreamedResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1B11C6B065E00093BD3 /* GCDWebServerStreamedResponse.m */; };
 		957D34841C7A8A42007B0AA7 /* v2ray in Resources */ = {isa = PBXBuildFile; fileRef = 957D34831C7A8A42007B0AA7 /* v2ray */; };
+		95A143CC1C87FCDC008756B9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A143CA1C87FC6E008756B9 /* Cocoa.framework */; };
 		95E524CB1C674CC80008BB12 /* simple.pac in Resources */ = {isa = PBXBuildFile; fileRef = 95E524CA1C674CC80008BB12 /* simple.pac */; };
 		95FF39661C68B2B900718EA0 /* config-sample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95FF39651C68B2B900718EA0 /* config-sample.plist */; };
 /* End PBXBuildFile section */
@@ -104,6 +105,7 @@
 		9577E1B01C6B065E00093BD3 /* GCDWebServerStreamedResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDWebServerStreamedResponse.h; sourceTree = "<group>"; };
 		9577E1B11C6B065E00093BD3 /* GCDWebServerStreamedResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDWebServerStreamedResponse.m; sourceTree = "<group>"; };
 		957D34831C7A8A42007B0AA7 /* v2ray */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = v2ray; sourceTree = "<group>"; };
+		95A143CA1C87FC6E008756B9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		95E524CA1C674CC80008BB12 /* simple.pac */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple.pac; sourceTree = "<group>"; };
 		95FF39651C68B2B900718EA0 /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95A143CC1C87FCDC008756B9 /* Cocoa.framework in Frameworks */,
 				9504C0C11C662D9400352520 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -248,6 +251,7 @@
 		95FCB2451C688BB20081B6FD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				95A143CA1C87FC6E008756B9 /* Cocoa.framework */,
 				9504C0C01C662D9400352520 /* libz.tbd */,
 			);
 			name = Frameworks;
