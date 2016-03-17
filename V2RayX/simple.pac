@@ -23,9 +23,6 @@ var domains = [
 	"shadowx.work",
 	"v2ray.com",
 	"astrill.com",
-	
-
-	"inmac.org",
 
 	//Design
 	"deviantart.com",
@@ -56,7 +53,6 @@ var domains = [
 	"blogger.com",
 	"hexo.io",
 	"medium.com",
-
 
 	//GeneralNews
 	"rfi.my",
