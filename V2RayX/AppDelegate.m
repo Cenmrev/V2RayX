@@ -222,11 +222,11 @@ static AppDelegate *appDelegate;
     } else {
         dServerIndex = [NSNumber numberWithInteger:-1];
     }
-    //NSLog(@"local port:%@, udp:%@, profiles:%@",dLocalPort, dUdpSupport, dProfiles);
     return @[dProxyState,dMode,dLocalPort,dUdpSupport,dProfiles,dServerIndex];
 }
 
 - (void)readDefaults {
+    /*
     NSArray *defaultsArray = [self readDefaultsAsArray];
     proxyIsOn = [defaultsArray[0] boolValue];
     isAuto = [defaultsArray[1] boolValue];
@@ -235,8 +235,115 @@ static AppDelegate *appDelegate;
     [profiles removeAllObjects]; //Maybe unnecessary
     profiles = defaultsArray[4];
     selectedServerIndex = [defaultsArray[5] integerValue];
+     
+     
+     return @{@"proxyState": dProxyState,
+     @"mode": dMode,
+     @"localPort": dLocalPort,
+     @"udpSupport": dUdpSupport,
+     @"profiles": dProfiles,
+     @"serverIndex": dServerIndex };
+     
+     
+     */
+    NSDictionary *defaultsDic = [self readDefaultsAsDictionary];
+    proxyIsOn = [defaultsDic[@"proxyState"] boolValue];
+    isAuto = [defaultsDic[@"mode"] boolValue];
+    localPort = [defaultsDic[@"localPort"] integerValue];
+    udpSupport = [defaultsDic[@"udpSupport"] integerValue];
+    [profiles removeAllObjects];
+    profiles = defaultsDic[@"profiles"];
+    selectedServerIndex = [defaultsDic[@"serverIndex"] integerValue];
     NSLog(@"read %ld profiles, selected No.%ld", [profiles count] , selectedServerIndex);
 }
+
+- (NSDictionary*)readDefaultsAsDictionary {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *dProxyState = [defaults objectForKey:@"proxyIsOn"];
+    if (dProxyState == nil) {
+        dProxyState = [NSNumber numberWithBool:YES];//turn on proxy as default
+    }
+    NSNumber *dMode = [defaults objectForKey:@"isAuto"];
+    if (dMode == nil) {
+        dMode = [NSNumber numberWithBool:YES];//use auto mode as default
+    }
+    NSNumber* dLocalPort = [defaults objectForKey:@"localPort"];
+    if (dLocalPort == nil) {
+        dLocalPort = [NSNumber numberWithInteger:1081];//use 1081 as default local port
+    }
+    NSNumber* dUdpSupport = [defaults objectForKey:@"udpSupport"];
+    if (dUdpSupport == nil) {
+        dUdpSupport = [NSNumber numberWithBool:NO];// do not support udp as default
+    }
+    NSMutableArray *dProfilesInPlist = [defaults objectForKey:@"profiles"];
+    NSMutableArray *dProfiles = [[NSMutableArray alloc] init];
+    NSNumber *dServerIndex;
+    if ([dProfilesInPlist isKindOfClass:[NSArray class]] && [dProfilesInPlist count] > 0) {
+        for (NSDictionary *aProfile in dProfilesInPlist) {
+            
+            ServerProfile *newProfile = [[ServerProfile alloc] init];
+            [newProfile setAddress:aProfile[@"address"]];
+            [newProfile setPort:[aProfile[@"port"] integerValue]];
+            [newProfile setUserId:aProfile[@"userId"]];
+            [newProfile setAlterId:[aProfile[@"alterId"] integerValue]];
+            [newProfile setRemark:aProfile[@"remark"]];
+            [dProfiles addObject:newProfile];
+        }
+        dServerIndex = [defaults objectForKey:@"selectedServerIndex"];
+        if ([dServerIndex integerValue] <= 0 || [dServerIndex integerValue] >= [dProfiles count]) {
+            // "<= 0" also includes the case where dServerIndex is nil
+            dServerIndex = [NSNumber numberWithInteger:0]; // treate illeagle selectedServerIndex value
+        }
+    } else {
+        dServerIndex = [NSNumber numberWithInteger:-1];
+    }
+    //return @[dProxyState,dMode,dLocalPort,dUdpSupport,dProfiles,dServerIndex];
+    return @{@"proxyState": dProxyState,
+             @"mode": dMode,
+             @"localPort": dLocalPort,
+             @"udpSupport": dUdpSupport,
+             @"profiles": dProfiles,
+             @"serverIndex": dServerIndex };
+}
+/*
+- (void)readDefaultsAsDictionary {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSNumber *dProxyState = [defaults objectForKey:@"proxyIsOn"];
+    proxyIsOn = dProxyState == nil ? YES  : [dProxyState boolValue];//turn on proxy as default
+    
+    NSNumber *dMode = [defaults objectForKey:@"isAuto"];
+    isAuto = dMode == nil ? YES : [dMode boolValue];//use auto mode as default
+    
+    NSNumber* dLocalPort = [defaults objectForKey:@"localPort"];
+    localPort = dLocalPort == nil ? 1081 : [dLocalPort integerValue];//use 1081 as default local port
+    
+    NSNumber* dUdpSupport = [defaults objectForKey:@"udpSupport"];
+    udpSupport = dUdpSupport == nil ? NO : [dUdpSupport boolValue];// do not support udp as default
+    
+    
+    [profiles removeAllObjects]; //Maybe unnecessary
+    NSMutableArray *dProfilesInPlist = [defaults objectForKey:@"profiles"];
+    if ([dProfilesInPlist isKindOfClass:[NSArray class]] && [dProfilesInPlist count] > 0) {
+        for (NSDictionary *aProfile in dProfilesInPlist) {
+            ServerProfile *newProfile = [[ServerProfile alloc] init];
+            [newProfile setAddress:aProfile[@"address"]];
+            [newProfile setPort:[aProfile[@"port"] integerValue]];
+            [newProfile setUserId:aProfile[@"userId"]];
+            [newProfile setAlterId:[aProfile[@"alterId"] integerValue]];
+            [newProfile setRemark:aProfile[@"remark"]];
+            [profiles addObject:newProfile];
+        }
+        selectedServerIndex = [[defaults objectForKey:@"selectedServerIndex"] integerValue];
+        if (selectedServerIndex <= 0 || selectedServerIndex >= [profiles count]) {
+            // "<= 0" also includes the case where dServerIndex is nil
+            selectedServerIndex = 0; // treate illeagle selectedServerIndex value
+        }
+    } else {
+        selectedServerIndex = -1;
+    }
+}*/
+
 
 -(BOOL)reloadV2ray {
     runCommandLine(@"/bin/launchctl", @[@"unload", plistPath]);
@@ -374,7 +481,7 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
 
 -(void)configurationDidChange {
     [self readDefaults];
-    //NSLog(@"profiles = %ld, just after read.",[profiles count]);
+    NSLog(@"profiles = %ld, just after read.",[profiles count]);
     if (![self reloadV2ray]) {
         proxyIsOn = NO;
         [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO] forKey:@"proxyIsOn"];

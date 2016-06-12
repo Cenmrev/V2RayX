@@ -17,6 +17,7 @@
 - (IBAction)showConfigWindow:(id)sender;
 - (IBAction)editPac:(id)sender;
 - (NSArray*)readDefaultsAsArray;
+- (NSDictionary*)readDefaultsAsDictionary;
 @property (strong, nonatomic)  NSStatusItem *statusBarItem;
 @property (strong, nonatomic) IBOutlet NSMenu *statusBarMenu;
 @property (weak, nonatomic) IBOutlet NSMenuItem *v2rayStatusItem;

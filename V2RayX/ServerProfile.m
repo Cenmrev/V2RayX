@@ -13,11 +13,11 @@
     self = [super init];
     if (self) {
         // use v2ray public server as default
-        [self setAddress:@"45.32.24.103"];
-        [self setPort:38291];
-        [self setUserId:@"8833948b-5861-4a0f-a1d6-83c5606881ff"];
+        [self setAddress:@"v2ray.cool"];
+        [self setPort:10086];
+        [self setUserId:@"23ad6b10-8d1a-40f7-8ad0-e3e35cd38297"];
         [self setAlterId:64];
-        [self setRemark:@""];
+        [self setRemark:@"test server"];
     }
     return self;
 }
@@ -30,6 +30,20 @@
     return @[address,[NSNumber numberWithInteger:port], userId, [NSNumber numberWithInteger:alterId], remark];
 }
 
+- (NSDictionary*)dictionaryForm {
+    return @{@"address": address,
+             @"port": [NSNumber numberWithInteger:port],
+             @"userId": userId,
+             @"alterId": [NSNumber numberWithInteger:alterId],
+             @"remark": remark };
+}
+/*
+[newProfile setAddress:aProfile[@"address"]];
+[newProfile setPort:[aProfile[@"port"] integerValue]];
+[newProfile setUserId:aProfile[@"userId"]];
+[newProfile setAlterId:[aProfile[@"alterId"] integerValue]];
+[newProfile setRemark:aProfile[@"remark"]];
+*/
 - (NSDictionary*)v2rayConfigWithLocalPort:(NSInteger)localPort udpSupport:(BOOL)udp {
     //generate config template
     NSMutableDictionary *config = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config-sample" ofType:@"plist"]];

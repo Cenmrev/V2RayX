@@ -13,6 +13,7 @@
 @optional
 - (void)configurationDidChange;
 - (NSArray*)readDefaultsAsArray;
+- (NSDictionary*)readDefaultsAsDictionary;
 
 @end
 
