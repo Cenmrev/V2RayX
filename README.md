@@ -2,7 +2,7 @@
 ## what is V2Ray?
 [Project V2Ray](http://www.v2ray.com).
 
-## Download
+## Download V2RayX
 [Releases](https://github.com/Cenmrev/V2RayX/releases)
 
 ## How to build
@@ -10,10 +10,15 @@
 
 open V2RayX.xcodeproj and use Xcode to build V2RayX.
 
-## How does V2RayX workw
+## How does V2RayX work
 V2RayX provides a GUI to generate the config file for V2Ray. It includes V2Ray's binary executable(v1.7) in the Resources folder. V2RayX starts and stops V2Ray with `launchd` of OS X.
 
 V2RayX also allows users to toggle system proxy and switch proxy servers on the OS X menu bar.
+
+### manually update v2ray-core
+replace `V2RayX.app/Contents/Resources/v2ray` with the newest v2ray 
+version from [v2ray-core 
+repo](https://github.com/v2ray/v2ray-core/releases).
 
 ### Uninstall
 V2RayX will create the following files and folders:
