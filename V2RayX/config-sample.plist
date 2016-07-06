@@ -2,10 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>port</key>
-	<integer>1080</integer>
+	<key>dns</key>
+	<dict>
+		<key>servers</key>
+		<array>
+			<string>8.8.8.8</string>
+			<string>8.8.4.4</string>
+			<string>localhost</string>
+		</array>
+	</dict>
 	<key>inbound</key>
 	<dict>
+		<key>listen</key>
+		<string>127.0.0.1</string>
+		<key>port</key>
+		<integer>1080</integer>
 		<key>protocol</key>
 		<string>socks</string>
 		<key>settings</key>
@@ -18,6 +29,11 @@
 			<false/>
 		</dict>
 	</dict>
+	<key>log</key>
+	<dict>
+		<key>loglevel</key>
+		<string>warning</string>
+	</dict>
 	<key>outbound</key>
 	<dict>
 		<key>protocol</key>
@@ -28,84 +44,21 @@
 			<array>
 				<dict>
 					<key>address</key>
-					<string>195.154.64.131</string>
+					<string>v2ray.cool</string>
 					<key>port</key>
-					<integer>17173</integer>
+					<integer>10086</integer>
 					<key>users</key>
 					<array>
 						<dict>
 							<key>alterId</key>
-							<integer>1024</integer>
+							<integer>64</integer>
 							<key>id</key>
-							<string>1ad52bdc-16d1-41a5-811d-f5c0c76d677b</string>
+							<string>23ad6b10-8d1a-40f7-8ad0-e3e35cd38297</string>
 						</dict>
 					</array>
 				</dict>
 			</array>
 		</dict>
-	</dict>
-	<key>outboundDetour</key>
-	<array>
-		<dict>
-			<key>protocol</key>
-			<string>freedom</string>
-			<key>settings</key>
-			<dict/>
-			<key>tag</key>
-			<string>direct</string>
-		</dict>
-	</array>
-	<key>routing</key>
-	<dict>
-		<key>settings</key>
-		<dict>
-			<key>rules</key>
-			<array>
-				<dict>
-					<key>outboundTag</key>
-					<string>direct</string>
-					<key>type</key>
-					<string>chinasites</string>
-				</dict>
-				<dict>
-					<key>outboundTag</key>
-					<string>direct</string>
-					<key>type</key>
-					<string>field</string>
-					<key>ip</key>
-					<array>
-						<string>0.0.0.0/8</string>
-						<string>10.0.0.0/8</string>
-						<string>100.64.0.0/10</string>
-						<string>127.0.0.0/8</string>
-						<string>169.254.0.0/16</string>
-						<string>172.16.0.0/12</string>
-						<string>192.0.0.0/24</string>
-						<string>192.0.2.0/24</string>
-						<string>192.168.0.0/16</string>
-						<string>198.18.0.0/15</string>
-						<string>198.51.100.0/24</string>
-						<string>203.0.113.0/24</string>
-						<string>::1/128</string>
-						<string>fc00::/7</string>
-						<string>fe80::/10</string>
-					</array>
-				</dict>
-				<dict>
-					<key>outboundTag</key>
-					<string>direct</string>
-					<key>type</key>
-					<string>chinaip</string>
-				</dict>
-			</array>
-		</dict>
-		<key>strategy</key>
-		<string>rules</string>
-	</dict>
-	<key>log</key>
-	<dict>
-		<key>access</key>
-		<string></string>
 	</dict>
 </dict>
 </plist>

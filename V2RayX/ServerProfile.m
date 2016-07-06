@@ -48,7 +48,7 @@
     //generate config template
     NSMutableDictionary *config = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config-sample" ofType:@"plist"]];
     
-    config[@"port"] = [NSNumber numberWithInteger:localPort];
+    config[@"inbound"][@"port"] = [NSNumber numberWithInteger:localPort];
     config[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udp];
     config[@"outbound"][@"settings"][@"vnext"][0][@"address"] = self.address;
     config[@"outbound"][@"settings"][@"vnext"][0][@"port"] = [NSNumber numberWithInteger:self.port];
