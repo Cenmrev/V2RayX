@@ -25,21 +25,14 @@
     [_localPortField setFormatter:formatter];
     
     profiles = [[NSMutableArray alloc] init];
-    //profiles = [[NSMutableDictionary alloc] init];
-    //read defaults
-    //NSArray *defaultsArray = [[self delegate] readDefaultsAsArray];
+
     NSDictionary *defaultsDic = [[self delegate] readDefaultsAsDictionary];
     [self setLocalPort:[defaultsDic[@"localPort"] integerValue]];
     [self setUdpSupport:[defaultsDic[@"udpSupport"] boolValue]];
+    
     profiles = defaultsDic[@"profiles"];
     [_profileTable reloadData];
     _selectedServerIndex = [defaultsDic[@"serverIndex"] integerValue];
-    /*
-    [self setLocalPort:[defaultsArray[2] integerValue]];
-    [self setUdpSupport:[defaultsArray[3] boolValue]];
-    profiles = defaultsArray[4];
-    [_profileTable reloadData];
-    _selectedServerIndex = [defaultsArray[5] integerValue];*/
 }
 
 

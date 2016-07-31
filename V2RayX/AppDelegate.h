@@ -12,10 +12,7 @@
 
 - (IBAction)showHelp:(id)sender;
 - (IBAction)enableProxy:(id)sender;
-- (IBAction)chooseAutoMode:(id)sender;
-- (IBAction)chooseGlobalMode:(id)sender;
 - (IBAction)showConfigWindow:(id)sender;
-- (IBAction)editPac:(id)sender;
 - (NSArray*)readDefaultsAsArray;
 - (NSDictionary*)readDefaultsAsDictionary;
 @property (strong, nonatomic)  NSStatusItem *statusBarItem;

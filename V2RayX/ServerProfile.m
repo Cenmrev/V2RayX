@@ -18,6 +18,7 @@
         [self setUserId:@"23ad6b10-8d1a-40f7-8ad0-e3e35cd38297"];
         [self setAlterId:64];
         [self setRemark:@"test server"];
+        [self setUseKCP:false];
     }
     return self;
 }
@@ -27,7 +28,7 @@
 }
 
 - (NSArray*)toArray {
-    return @[address,[NSNumber numberWithInteger:port], userId, [NSNumber numberWithInteger:alterId], remark];
+    return @[address,[NSNumber numberWithInteger:port], userId, [NSNumber numberWithInteger:alterId], remark, [NSNumber numberWithBool:useKCP]];
 }
 
 - (NSDictionary*)dictionaryForm {
@@ -35,15 +36,10 @@
              @"port": [NSNumber numberWithInteger:port],
              @"userId": userId,
              @"alterId": [NSNumber numberWithInteger:alterId],
-             @"remark": remark };
+             @"remark": remark,
+             @"useKCP": [NSNumber numberWithBool:useKCP]};
 }
-/*
-[newProfile setAddress:aProfile[@"address"]];
-[newProfile setPort:[aProfile[@"port"] integerValue]];
-[newProfile setUserId:aProfile[@"userId"]];
-[newProfile setAlterId:[aProfile[@"alterId"] integerValue]];
-[newProfile setRemark:aProfile[@"remark"]];
-*/
+
 - (NSDictionary*)v2rayConfigWithLocalPort:(NSInteger)localPort udpSupport:(BOOL)udp {
     //generate config template
     NSMutableDictionary *config = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config-sample" ofType:@"plist"]];
@@ -53,6 +49,11 @@
     config[@"outbound"][@"settings"][@"vnext"][0][@"address"] = self.address;
     config[@"outbound"][@"settings"][@"vnext"][0][@"port"] = [NSNumber numberWithInteger:self.port];
     config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"id"] = self.userId;
+    if(self.useKCP){
+        config[@"outbound"][@"streamSettings"][@"network"] = @"kcp";
+    }else{
+        config[@"outbound"][@"streamSettings"][@"network"] = @"tcp";
+    }
     if (self.alterId > 0) {
         config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"alterId"] = [NSNumber numberWithInteger:alterId];
     } else {
@@ -66,5 +67,6 @@
 @synthesize userId;
 @synthesize alterId;
 @synthesize remark;
+@synthesize useKCP;
 
 @end
