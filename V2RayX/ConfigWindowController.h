@@ -26,10 +26,12 @@
 @property (weak) IBOutlet NSTextField *localPortField;
 @property (weak) IBOutlet NSTextField *portField;
 @property (weak) IBOutlet NSTextField *alterIdField;
+@property (weak) IBOutlet NSButton *useKCPField;
 
 @property (nonatomic, strong) ServerProfile* selectedProfile;
 @property NSInteger selectedServerIndex;
 @property NSInteger localPort;
 @property BOOL udpSupport;
+
 @property (nonatomic, weak) id<ConfigWindowControllerDelegate> delegate;
 @end

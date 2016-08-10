@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -14,9 +14,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
-                <outlet property="autoModeItem" destination="Cm9-3e-L2z" id="rca-1M-sFn"/>
                 <outlet property="enabelV2rayItem" destination="I9I-uu-xak" id="b3P-ct-RqE"/>
-                <outlet property="globalModeItem" destination="12u-76-Ytb" id="RA8-m2-Iv6"/>
                 <outlet property="serverListMenu" destination="pPD-dn-4h0" id="6sH-L6-Uzx"/>
                 <outlet property="serversItem" destination="3wi-Co-2Kd" id="kKi-8l-dDJ"/>
                 <outlet property="statusBarMenu" destination="yZm-2L-r3v" id="3iW-vb-TOn"/>
@@ -684,20 +682,7 @@
                         <action selector="enableProxy:" target="Voe-Tx-rLC" id="04r-lh-Ats"/>
                     </connections>
                 </menuItem>
-                <menuItem isSeparatorItem="YES" id="Zce-eo-WsH"/>
-                <menuItem title="Auto Mode" id="Cm9-3e-L2z">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="chooseAutoMode:" target="Voe-Tx-rLC" id="vf4-af-ifc"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="Global Mode" id="12u-76-Ytb">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="chooseGlobalMode:" target="Voe-Tx-rLC" id="mRp-Df-8Ma"/>
-                    </connections>
-                </menuItem>
-                <menuItem isSeparatorItem="YES" id="A8t-NG-v92"/>
+                <menuItem isSeparatorItem="YES" id="Hxg-OL-CEx"/>
                 <menuItem title="Servers" id="3wi-Co-2Kd">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Servers" id="eqU-gH-G4L"/>
@@ -706,12 +691,6 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="showConfigWindow:" target="Voe-Tx-rLC" id="jVU-tA-mPz"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="Edit pac file" id="3NY-51-bgh">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="editPac:" target="Voe-Tx-rLC" id="4jX-Hv-SpU"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="1ve-pA-4fu"/>
