@@ -161,6 +161,11 @@
 	<dict>
 		<key>kcpSettings</key>
 		<dict>
+			<key>header</key>
+			<dict>
+				<key>type</key>
+				<string>srtp</string>
+			</dict>
 			<key>uplinkCapacity</key>
 			<integer>1</integer>
 			<key>downlinkCapacity</key>
