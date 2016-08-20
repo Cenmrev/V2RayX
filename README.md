@@ -29,9 +29,11 @@ V2RayX will create the following files and folders:
 
 So, to totoally uninstall V2RayX, just delete V2RayX.app and the files above. :)
 
-## To do
-* Localization for Chinese language
-* a more detailed configuration window
-
 ##Acknowledge
 V2RayX uses [GCDWebServer](https://github.com/swisspol/GCDWebServer) to provide a local pac server. V2RayX also uses many ideas and codes from [ShadowsocksX](https://github.com/shadowsocks/shadowsocks-iOS/tree/master), especially, the codes of [v2rays_sysconfig](https://github.com/Cenmrev/V2RayX/blob/master/v2rayx_sysconf/main.m) are simply copied from [shadowsocks_sysconf](https://github.com/shadowsocks/shadowsocks-iOS/blob/master/shadowsocks_sysconf/main.m) with some modifications.
+
+## Disclaimer
+
+The developer does not major in CS nor Software Engineer and is currently busy with grad school courses. So V2rayX will not be updated frequently. Users can replace V2RayX.app/Contents/Resources/v2ray with the newest v2ray-core downloaded from [https://github.com/v2ray/v2ray-core/releases](https://github.com/v2ray/v2ray-core/releases).
+
+The developer currently does not have enough time to add more features to V2RayX, nor to merge PRs. However, forking and releasing your own version are always welcome.
