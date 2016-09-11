@@ -182,7 +182,7 @@ static AppDelegate *appDelegate;
     [self reloadV2ray];
     [self updateServerMenuList];
 }
-
+/*
 - (NSArray*)readDefaultsAsArray {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *dProxyState = [defaults objectForKey:@"proxyIsOn"];
@@ -200,6 +200,10 @@ static AppDelegate *appDelegate;
     NSNumber* dUdpSupport = [defaults objectForKey:@"udpSupport"];
     if (dUdpSupport == nil) {
         dUdpSupport = [NSNumber numberWithBool:NO];// do not support udp as default
+    }
+    NSNumber* dAllowPassive = [defaults objectForKey:@"allowPassive"];
+    if (dAllowPassive == nil) {
+        dAllowPassive = [NSNumber numberWithBool:YES]; // allow passive as default
     }
     NSMutableArray *dProfilesInPlist = [defaults objectForKey:@"profiles"];
     NSMutableArray *dProfiles = [[NSMutableArray alloc] init];
@@ -223,7 +227,7 @@ static AppDelegate *appDelegate;
         dServerIndex = [NSNumber numberWithInteger:-1];
     }
     return @[dProxyState,dMode,dLocalPort,dUdpSupport,dProfiles,dServerIndex];
-}
+}*/
 
 - (void)readDefaults {
     /*
@@ -287,6 +291,7 @@ static AppDelegate *appDelegate;
             [newProfile setUserId:aProfile[@"userId"]];
             [newProfile setAlterId:[aProfile[@"alterId"] integerValue]];
             [newProfile setRemark:aProfile[@"remark"]];
+            [newProfile setAllowPassive:aProfile[@"allowPassive"]];
             [dProfiles addObject:newProfile];
         }
         dServerIndex = [defaults objectForKey:@"selectedServerIndex"];

@@ -13,6 +13,8 @@
 	</dict>
 	<key>inbound</key>
 	<dict>
+		<key>allowPassive</key>
+		<false/>
 		<key>listen</key>
 		<string>127.0.0.1</string>
 		<key>port</key>
@@ -59,6 +61,86 @@
 				</dict>
 			</array>
 		</dict>
+	</dict>
+	<key>outboundDetour</key>
+	<array>
+		<dict>
+			<key>protocol</key>
+			<string>freedom</string>
+			<key>settings</key>
+			<dict/>
+			<key>tag</key>
+			<string>direct</string>
+		</dict>
+	</array>
+	<key>routing</key>
+	<dict>
+		<key>settings</key>
+		<dict>
+			<key>domainStrategy</key>
+			<string>IPIfNonMatch</string>
+			<key>rules</key>
+			<array>
+				<dict>
+					<key>outboundTag</key>
+					<string>direct</string>
+					<key>port</key>
+					<string>1-52</string>
+					<key>type</key>
+					<string>field</string>
+				</dict>
+				<dict>
+					<key>outboundTag</key>
+					<string>direct</string>
+					<key>port</key>
+					<string>54-79</string>
+					<key>type</key>
+					<string>field</string>
+				</dict>
+				<dict>
+					<key>outboundTag</key>
+					<string>direct</string>
+					<key>port</key>
+					<string>81-442</string>
+					<key>type</key>
+					<string>field</string>
+				</dict>
+				<dict>
+					<key>outboundTag</key>
+					<string>direct</string>
+					<key>port</key>
+					<string>444-65535</string>
+					<key>type</key>
+					<string>field</string>
+				</dict>
+				<dict>
+					<key>ip</key>
+					<array>
+						<string>0.0.0.0/8</string>
+						<string>10.0.0.0/8</string>
+						<string>100.64.0.0/10</string>
+						<string>127.0.0.0/8</string>
+						<string>169.254.0.0/16</string>
+						<string>172.16.0.0/12</string>
+						<string>192.0.0.0/24</string>
+						<string>192.0.2.0/24</string>
+						<string>192.168.0.0/16</string>
+						<string>198.18.0.0/15</string>
+						<string>198.51.100.0/24</string>
+						<string>203.0.113.0/24</string>
+						<string>::1/128</string>
+						<string>fc00::/7</string>
+						<string>fe80::/10</string>
+					</array>
+					<key>outboundTag</key>
+					<string>direct</string>
+					<key>type</key>
+					<string>field</string>
+				</dict>
+			</array>
+		</dict>
+		<key>strategy</key>
+		<string>rules</string>
 	</dict>
 </dict>
 </plist>

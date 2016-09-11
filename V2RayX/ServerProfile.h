@@ -16,5 +16,5 @@
 @property (nonatomic) NSString* userId;
 @property (nonatomic) NSInteger alterId;
 @property (nonatomic) NSString* remark;
-
+@property (nonatomic) NSNumber* allowPassive;
 @end

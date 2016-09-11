@@ -16,7 +16,7 @@
 - (IBAction)chooseGlobalMode:(id)sender;
 - (IBAction)showConfigWindow:(id)sender;
 - (IBAction)editPac:(id)sender;
-- (NSArray*)readDefaultsAsArray;
+//- (NSArray*)readDefaultsAsArray;
 - (NSDictionary*)readDefaultsAsDictionary;
 @property (strong, nonatomic)  NSStatusItem *statusBarItem;
 @property (strong, nonatomic) IBOutlet NSMenu *statusBarMenu;
