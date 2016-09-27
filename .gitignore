@@ -2,3 +2,4 @@ DerivedData/
 .DS_Store
 V2RayX.xcodeproj/project.xcworkspace
 V2RayX.xcodeproj/xcuserdata/
+build/
