@@ -10,7 +10,7 @@
 
 open V2RayX.xcodeproj and use Xcode to build V2RayX, or if you prefer command line, in the project folder, 
 
-`xcodebuild -project V2RayX.xcodeproj -target V2RayX -configuration Release -sdk macosx10.12`
+`xcodebuild -project V2RayX.xcodeproj -target V2RayX -configuration Release `
 
 Then you can find V2RayX.app in `./build/Release/V2RayX.app`.
 
