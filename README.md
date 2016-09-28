@@ -8,7 +8,11 @@
 ## How to build
 `git clone --recursive https://github.com/Cenmrev/V2RayX.git`
 
-open V2RayX.xcodeproj and use Xcode to build V2RayX.
+open V2RayX.xcodeproj and use Xcode to build V2RayX, or if you prefer command line, in the project folder, 
+
+`xcodebuild -project V2RayX.xcodeproj -target V2RayX -configuration Release -sdk macosx10.12`
+
+Then you can find V2RayX.app in `./build/Release/V2RayX.app`.
 
 ## How does V2RayX work
 V2RayX provides a GUI to generate the config file for V2Ray. It includes V2Ray's binary executable(v1.7) in the Resources folder. V2RayX starts and stops V2Ray with `launchd` of OS X.
