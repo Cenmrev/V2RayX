@@ -18,7 +18,7 @@
 		9504C0CF1C662DE300352520 /* v2rayx_sysconf in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0C61C662DB400352520 /* v2rayx_sysconf */; };
 		9504C0D11C66373400352520 /* install_helper.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0D01C662E0800352520 /* install_helper.sh */; };
 		9504C0D41C66511B00352520 /* ServerProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C0D31C66511B00352520 /* ServerProfile.m */; };
-		9558F4A61CE4646F000769F0 /* v2ray in Resources */ = {isa = PBXBuildFile; fileRef = 9558F4A51CE4646F000769F0 /* v2ray */; };
+		955671B31D9B428C00137ACF /* v2ray in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9558F4A51CE4646F000769F0 /* v2ray */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9577E1B21C6B065E00093BD3 /* GCDWebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1951C6B065D00093BD3 /* GCDWebServer.m */; };
 		9577E1B31C6B065E00093BD3 /* GCDWebServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1971C6B065D00093BD3 /* GCDWebServerConnection.m */; };
 		9577E1B41C6B065E00093BD3 /* GCDWebServerFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1991C6B065D00093BD3 /* GCDWebServerFunctions.m */; };
@@ -56,6 +56,16 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		955671B21D9B427500137ACF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				955671B31D9B428C00137ACF /* v2ray in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -268,6 +278,7 @@
 				9504C0741C662C3000352520 /* Sources */,
 				9504C0751C662C3000352520 /* Frameworks */,
 				9504C0761C662C3000352520 /* Resources */,
+				955671B21D9B427500137ACF /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -338,7 +349,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				95E524CB1C674CC80008BB12 /* simple.pac in Resources */,
-				9558F4A61CE4646F000769F0 /* v2ray in Resources */,
 				9504C0D11C66373400352520 /* install_helper.sh in Resources */,
 				9504C0CF1C662DE300352520 /* v2rayx_sysconf in Resources */,
 				9504C0821C662C3000352520 /* Assets.xcassets in Resources */,
