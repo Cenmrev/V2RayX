@@ -18,6 +18,7 @@
 		9504C0CF1C662DE300352520 /* v2rayx_sysconf in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0C61C662DB400352520 /* v2rayx_sysconf */; };
 		9504C0D11C66373400352520 /* install_helper.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0D01C662E0800352520 /* install_helper.sh */; };
 		9504C0D41C66511B00352520 /* ServerProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C0D31C66511B00352520 /* ServerProfile.m */; };
+		950F82321D9C01820066CB3A /* config-sample-rules.plist in Resources */ = {isa = PBXBuildFile; fileRef = 950F82311D9C01820066CB3A /* config-sample-rules.plist */; };
 		955671B31D9B428C00137ACF /* v2ray in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9558F4A51CE4646F000769F0 /* v2ray */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9577E1B21C6B065E00093BD3 /* GCDWebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1951C6B065D00093BD3 /* GCDWebServer.m */; };
 		9577E1B31C6B065E00093BD3 /* GCDWebServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1971C6B065D00093BD3 /* GCDWebServerConnection.m */; };
@@ -86,6 +87,7 @@
 		9504C0D01C662E0800352520 /* install_helper.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install_helper.sh; sourceTree = "<group>"; };
 		9504C0D21C66511B00352520 /* ServerProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerProfile.h; sourceTree = "<group>"; };
 		9504C0D31C66511B00352520 /* ServerProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerProfile.m; sourceTree = "<group>"; };
+		950F82311D9C01820066CB3A /* config-sample-rules.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample-rules.plist"; sourceTree = "<group>"; };
 		9558F4A51CE4646F000769F0 /* v2ray */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = v2ray; sourceTree = "<group>"; };
 		9577E1941C6B065D00093BD3 /* GCDWebServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDWebServer.h; sourceTree = "<group>"; };
 		9577E1951C6B065D00093BD3 /* GCDWebServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDWebServer.m; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				95FF39651C68B2B900718EA0 /* config-sample.plist */,
+				950F82311D9C01820066CB3A /* config-sample-rules.plist */,
 				95E524CA1C674CC80008BB12 /* simple.pac */,
 				9558F4A51CE4646F000769F0 /* v2ray */,
 				9504C0D01C662E0800352520 /* install_helper.sh */,
@@ -348,6 +351,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				950F82321D9C01820066CB3A /* config-sample-rules.plist in Resources */,
 				95E524CB1C674CC80008BB12 /* simple.pac in Resources */,
 				9504C0D11C66373400352520 /* install_helper.sh in Resources */,
 				9504C0CF1C662DE300352520 /* v2rayx_sysconf in Resources */,

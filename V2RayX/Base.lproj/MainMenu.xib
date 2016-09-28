@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -14,12 +14,13 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
-                <outlet property="autoModeItem" destination="Cm9-3e-L2z" id="rca-1M-sFn"/>
                 <outlet property="enabelV2rayItem" destination="I9I-uu-xak" id="b3P-ct-RqE"/>
                 <outlet property="globalModeItem" destination="12u-76-Ytb" id="RA8-m2-Iv6"/>
+                <outlet property="pacModeItem" destination="Cm9-3e-L2z" id="TlL-GV-776"/>
                 <outlet property="serverListMenu" destination="pPD-dn-4h0" id="6sH-L6-Uzx"/>
                 <outlet property="serversItem" destination="3wi-Co-2Kd" id="kKi-8l-dDJ"/>
                 <outlet property="statusBarMenu" destination="yZm-2L-r3v" id="3iW-vb-TOn"/>
+                <outlet property="v2rayRulesItem" destination="bUi-AV-IfA" id="p4V-ny-gh7"/>
                 <outlet property="v2rayStatusItem" destination="EFa-yl-fQC" id="z3V-zp-jw7"/>
             </connections>
         </customObject>
@@ -685,10 +686,16 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="Zce-eo-WsH"/>
-                <menuItem title="Auto Mode" id="Cm9-3e-L2z">
+                <menuItem title="V2Ray Rules" id="bUi-AV-IfA">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="chooseAutoMode:" target="Voe-Tx-rLC" id="vf4-af-ifc"/>
+                        <action selector="chooseV2rayRules:" target="Voe-Tx-rLC" id="D4f-2N-1Dq"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="PAC Mode" id="Cm9-3e-L2z">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="choosePacMode:" target="Voe-Tx-rLC" id="0yC-jW-pRH"/>
                     </connections>
                 </menuItem>
                 <menuItem title="Global Mode" id="12u-76-Ytb">

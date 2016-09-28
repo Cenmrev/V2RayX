@@ -17,7 +17,7 @@
     GCDWebServer *webServer;
     ConfigWindowController *configWindowController;
     BOOL proxyIsOn;
-    BOOL isAuto;
+    NSInteger proxyMode; // 0 = v2ray rules; 1 = pac; 2 = global
     NSInteger localPort;
     BOOL udpSupport;
     NSInteger selectedServerIndex;
@@ -64,7 +64,6 @@ static AppDelegate *appDelegate;
     [webServer addHandlerForMethod:@"GET" path:@"/proxy.pac" requestClass:[GCDWebServerRequest class] processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
         return [GCDWebServerDataResponse responseWithData:[weakSelf pacData] contentType:@"application/x-ns-proxy-autoconfig"];
     }];
-    [webServer startWithPort:8070 bonjourName:@"V2RayXPacServer"];
 
     profiles = [[NSMutableArray alloc] init];
     
@@ -100,9 +99,18 @@ static AppDelegate *appDelegate;
     }
 }
 
-- (IBAction)chooseAutoMode:(id)sender {
-    isAuto = YES;
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:isAuto] forKey:@"isAuto"];
+- (IBAction)chooseV2rayRules:(id)sender {
+    proxyMode = 0;
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInteger:proxyMode] forKey:@"proxyMode"];
+    [self updateMenus];
+    if (proxyIsOn) {
+        [self updateSystemProxy];
+    }
+}
+
+- (IBAction)choosePacMode:(id)sender {
+    proxyMode = 1;
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInteger:proxyMode] forKey:@"proxyMode"];
     [self updateMenus];
     if (proxyIsOn) {
         [self updateSystemProxy];
@@ -110,8 +118,8 @@ static AppDelegate *appDelegate;
 }
 
 - (IBAction)chooseGlobalMode:(id)sender {
-    isAuto = NO;
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:isAuto] forKey:@"isAuto"];
+    proxyMode = 2;
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInteger:proxyMode] forKey:@"proxyMode"];
     [self updateMenus];
     if (proxyIsOn) {
         [self updateSystemProxy];
@@ -146,8 +154,9 @@ static AppDelegate *appDelegate;
         [_statusBarItem setImage:[NSImage imageNamed:@"statusBarIcon_disabled"]];
         NSLog(@"icon updated");
     }
-    [_autoModeItem setState:isAuto];
-    [_globalModeItem setState:!isAuto];
+    [_v2rayRulesItem setState:proxyMode == 0];
+    [_pacModeItem setState:proxyMode == 1];
+    [_globalModeItem setState:proxyMode == 2];
 }
 
 - (void)updateServerMenuList {
@@ -182,77 +191,11 @@ static AppDelegate *appDelegate;
     [self reloadV2ray];
     [self updateServerMenuList];
 }
-/*
-- (NSArray*)readDefaultsAsArray {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *dProxyState = [defaults objectForKey:@"proxyIsOn"];
-    if (dProxyState == nil) {
-        dProxyState = [NSNumber numberWithBool:YES];//turn on proxy as default
-    }
-    NSNumber *dMode = [defaults objectForKey:@"isAuto"];
-    if (dMode == nil) {
-        dMode = [NSNumber numberWithBool:YES];//use auto mode as default
-    }
-    NSNumber* dLocalPort = [defaults objectForKey:@"localPort"];
-    if (dLocalPort == nil) {
-        dLocalPort = [NSNumber numberWithInteger:1081];//use 1081 as default local port
-    }
-    NSNumber* dUdpSupport = [defaults objectForKey:@"udpSupport"];
-    if (dUdpSupport == nil) {
-        dUdpSupport = [NSNumber numberWithBool:NO];// do not support udp as default
-    }
-    NSNumber* dAllowPassive = [defaults objectForKey:@"allowPassive"];
-    if (dAllowPassive == nil) {
-        dAllowPassive = [NSNumber numberWithBool:YES]; // allow passive as default
-    }
-    NSMutableArray *dProfilesInPlist = [defaults objectForKey:@"profiles"];
-    NSMutableArray *dProfiles = [[NSMutableArray alloc] init];
-    NSNumber *dServerIndex;
-    if ([dProfilesInPlist isKindOfClass:[NSArray class]] && [dProfilesInPlist count] > 0) {
-        for (NSArray *aProfileArray in dProfilesInPlist) {
-            ServerProfile *newProfile = [[ServerProfile alloc] init];
-            [newProfile setAddress:aProfileArray[0]];
-            [newProfile setPort:[aProfileArray[1] integerValue]];
-            [newProfile setUserId:aProfileArray[2]];
-            [newProfile setAlterId:[aProfileArray[3] integerValue]];
-            [newProfile setRemark:aProfileArray[4]];
-            [dProfiles addObject:newProfile];
-        }
-        dServerIndex = [defaults objectForKey:@"selectedServerIndex"];
-        if ([dServerIndex integerValue] <= 0 || [dServerIndex integerValue] >= [dProfiles count]) {
-            // "<= 0" also includes the case where dServerIndex is nil 
-            dServerIndex = [NSNumber numberWithInteger:0]; // treate illeagle selectedServerIndex value
-        }
-    } else {
-        dServerIndex = [NSNumber numberWithInteger:-1];
-    }
-    return @[dProxyState,dMode,dLocalPort,dUdpSupport,dProfiles,dServerIndex];
-}*/
 
 - (void)readDefaults {
-    /*
-    NSArray *defaultsArray = [self readDefaultsAsArray];
-    proxyIsOn = [defaultsArray[0] boolValue];
-    isAuto = [defaultsArray[1] boolValue];
-    localPort = [defaultsArray[2] integerValue];
-    udpSupport = [defaultsArray[3] boolValue];
-    [profiles removeAllObjects]; //Maybe unnecessary
-    profiles = defaultsArray[4];
-    selectedServerIndex = [defaultsArray[5] integerValue];
-     
-     
-     return @{@"proxyState": dProxyState,
-     @"mode": dMode,
-     @"localPort": dLocalPort,
-     @"udpSupport": dUdpSupport,
-     @"profiles": dProfiles,
-     @"serverIndex": dServerIndex };
-     
-     
-     */
     NSDictionary *defaultsDic = [self readDefaultsAsDictionary];
     proxyIsOn = [defaultsDic[@"proxyState"] boolValue];
-    isAuto = [defaultsDic[@"mode"] boolValue];
+    proxyMode = [defaultsDic[@"proxyMode"] integerValue];
     localPort = [defaultsDic[@"localPort"] integerValue];
     udpSupport = [defaultsDic[@"udpSupport"] integerValue];
     [profiles removeAllObjects];
@@ -267,9 +210,9 @@ static AppDelegate *appDelegate;
     if (dProxyState == nil) {
         dProxyState = [NSNumber numberWithBool:YES];//turn on proxy as default
     }
-    NSNumber *dMode = [defaults objectForKey:@"isAuto"];
+    NSNumber *dMode = [defaults objectForKey:@"proxyMode"];
     if (dMode == nil) {
-        dMode = [NSNumber numberWithBool:YES];//use auto mode as default
+        dMode = [NSNumber numberWithInteger:0];//use v2ray rules as default
     }
     NSNumber* dLocalPort = [defaults objectForKey:@"localPort"];
     if (dLocalPort == nil) {
@@ -310,52 +253,22 @@ static AppDelegate *appDelegate;
              @"profiles": dProfiles,
              @"serverIndex": dServerIndex };
 }
-/*
-- (void)readDefaultsAsDictionary {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    NSNumber *dProxyState = [defaults objectForKey:@"proxyIsOn"];
-    proxyIsOn = dProxyState == nil ? YES  : [dProxyState boolValue];//turn on proxy as default
-    
-    NSNumber *dMode = [defaults objectForKey:@"isAuto"];
-    isAuto = dMode == nil ? YES : [dMode boolValue];//use auto mode as default
-    
-    NSNumber* dLocalPort = [defaults objectForKey:@"localPort"];
-    localPort = dLocalPort == nil ? 1081 : [dLocalPort integerValue];//use 1081 as default local port
-    
-    NSNumber* dUdpSupport = [defaults objectForKey:@"udpSupport"];
-    udpSupport = dUdpSupport == nil ? NO : [dUdpSupport boolValue];// do not support udp as default
-    
-    
-    [profiles removeAllObjects]; //Maybe unnecessary
-    NSMutableArray *dProfilesInPlist = [defaults objectForKey:@"profiles"];
-    if ([dProfilesInPlist isKindOfClass:[NSArray class]] && [dProfilesInPlist count] > 0) {
-        for (NSDictionary *aProfile in dProfilesInPlist) {
-            ServerProfile *newProfile = [[ServerProfile alloc] init];
-            [newProfile setAddress:aProfile[@"address"]];
-            [newProfile setPort:[aProfile[@"port"] integerValue]];
-            [newProfile setUserId:aProfile[@"userId"]];
-            [newProfile setAlterId:[aProfile[@"alterId"] integerValue]];
-            [newProfile setRemark:aProfile[@"remark"]];
-            [profiles addObject:newProfile];
-        }
-        selectedServerIndex = [[defaults objectForKey:@"selectedServerIndex"] integerValue];
-        if (selectedServerIndex <= 0 || selectedServerIndex >= [profiles count]) {
-            // "<= 0" also includes the case where dServerIndex is nil
-            selectedServerIndex = 0; // treate illeagle selectedServerIndex value
-        }
-    } else {
-        selectedServerIndex = -1;
-    }
-}*/
-
 
 -(BOOL)reloadV2ray {
+    [self unloadV2ray];
+    return [self loadV2ray];
+}
+
+-(void)unloadV2ray {
     runCommandLine(@"/bin/launchctl", @[@"unload", plistPath]);
     NSLog(@"V2Ray core unloaded.");
+}
+
+-(BOOL)loadV2ray {
     if (selectedServerIndex >= 0 && selectedServerIndex < [profiles count]) {
         NSString *configPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/config.json",NSHomeDirectory()];
-        NSDictionary *configDic = [[profiles objectAtIndex:selectedServerIndex] v2rayConfigWithLocalPort:localPort udpSupport:udpSupport];
+        printf("proxy mode is %ld\n", (long)proxyMode);
+        NSDictionary *configDic = [[profiles objectAtIndex:selectedServerIndex] v2rayConfigWithLocalPort:localPort udpSupport:udpSupport v2rayRules:proxyMode == 0];
         NSData* v2rayJSONconfig = [NSJSONSerialization dataWithJSONObject:configDic options:NSJSONWritingPrettyPrinted error:nil];
         [v2rayJSONconfig writeToFile:configPath atomically:NO];
         [self generateLaunchdPlist:plistPath];
@@ -407,19 +320,30 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
 -(void)updateSystemProxy {
     NSArray *arguments;
     if (proxyIsOn) {
-        if (isAuto) {
+        if (proxyMode == 1) { // pac mode
             // close system proxy first to refresh pac file
+            if (![webServer isRunning]) {
+                [webServer startWithPort:8070 bonjourName:@"V2RayXPacServer"];
+            }
             runCommandLine(kV2RayXHelper, @[@"off"]);
-            
             arguments = @[@"auto"];
         } else {
+            if ([webServer isRunning]) {
+                [webServer stop];
+            }
             arguments = @[@"global", [NSString stringWithFormat:@"%ld", localPort]];
         }
+        [self loadV2ray];
     } else {
         arguments = [NSArray arrayWithObjects:@"off", nil];
+        if ([webServer isRunning]) {
+            [webServer stop];
+        }
+        [self unloadV2ray];
     }
+    //[self reloadV2ray];
     runCommandLine(kV2RayXHelper,arguments);
-    NSLog(@"system proxy state:%@,%@",proxyIsOn?@"on":@"off", isAuto?@"auto":@"global");
+    NSLog(@"system proxy state:%@,%ld",proxyIsOn?@"on":@"off", (long)proxyMode);
 }
 
 - (BOOL)installHelper {

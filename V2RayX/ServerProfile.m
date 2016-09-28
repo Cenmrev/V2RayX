@@ -46,9 +46,11 @@
 [newProfile setAlterId:[aProfile[@"alterId"] integerValue]];
 [newProfile setRemark:aProfile[@"remark"]];
 */
-- (NSDictionary*)v2rayConfigWithLocalPort:(NSInteger)localPort udpSupport:(BOOL)udp {
+- (NSDictionary*)v2rayConfigWithLocalPort:(NSInteger)localPort
+                               udpSupport:(BOOL)udp
+                               v2rayRules:(BOOL)rules{
     //generate config template
-    NSMutableDictionary *config = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config-sample" ofType:@"plist"]];
+    NSMutableDictionary *config = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:rules?@"config-sample-rules":@"config-sample" ofType:@"plist"]];
     
     config[@"inbound"][@"port"] = [NSNumber numberWithInteger:localPort];
     config[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udp];
