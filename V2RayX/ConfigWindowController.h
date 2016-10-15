@@ -30,6 +30,19 @@
 @property (weak) IBOutlet NSWindow* transportWindow;
 //kcp fields
 @property (weak) IBOutlet NSTextField *kcpMtuField;
+@property (weak) IBOutlet NSTextField *kcpTtiField;
+@property (weak) IBOutlet NSTextField *kcpUcField;
+@property (weak) IBOutlet NSTextField *kcpDcField;
+@property (weak) IBOutlet NSTextField *kcpRbField;
+@property (weak) IBOutlet NSTextField *kcpWbField;
+@property (weak) IBOutlet NSPopUpButton *kcpCongestionButton;
+@property (weak) IBOutlet NSPopUpButton *kcpHeaderTypeButton;
+//tcp fields
+@property (weak) IBOutlet NSButton *tcpCrButton;
+//ws fields
+@property (weak) IBOutlet NSButton *wsCrButton;
+@property (weak) IBOutlet NSTextField *wsPathField;
+
 
 @property (nonatomic, strong) ServerProfile* selectedProfile;
 @property NSInteger selectedServerIndex;

@@ -41,10 +41,11 @@
 
 - (NSDictionary*)v2rayConfigWithLocalPort:(NSInteger)localPort
                                udpSupport:(BOOL)udp
-                               v2rayRules:(BOOL)rules{
+                               v2rayRules:(BOOL)rules
+{
     //generate config template
     NSMutableDictionary *config = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:rules?@"config-sample-rules":@"config-sample" ofType:@"plist"]];
-    
+    config[@"transport"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"transportSettings"];
     config[@"inbound"][@"port"] = [NSNumber numberWithInteger:localPort];
     config[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udp];
     config[@"inbound"][@"allowPassive"] = [self allowPassive];
