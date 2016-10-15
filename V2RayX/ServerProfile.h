@@ -8,7 +8,6 @@
 #import <Foundation/Foundation.h>
 
 @interface ServerProfile : NSObject
-- (NSArray*)toArray;
 - (NSDictionary*)dictionaryForm;
 - (NSDictionary*)v2rayConfigWithLocalPort:(NSInteger)localPort
                                udpSupport:(BOOL)udp
@@ -19,4 +18,5 @@
 @property (nonatomic) NSInteger alterId;
 @property (nonatomic) NSString* remark;
 @property (nonatomic) NSNumber* allowPassive;
+@property (nonatomic) NSNumber* useMkcp;
 @end

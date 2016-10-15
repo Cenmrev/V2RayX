@@ -26,6 +26,8 @@
 @property (weak) IBOutlet NSTextField *localPortField;
 @property (weak) IBOutlet NSTextField *portField;
 @property (weak) IBOutlet NSTextField *alterIdField;
+@property (weak) IBOutlet NSTabView *globalTransportTab;
+@property (weak) IBOutlet NSButton *globalTransportButton;
 
 @property (nonatomic, strong) ServerProfile* selectedProfile;
 @property NSInteger selectedServerIndex;

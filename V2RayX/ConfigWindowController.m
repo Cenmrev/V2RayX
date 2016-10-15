@@ -17,6 +17,8 @@
 
 - (void)windowDidLoad {
     [super windowDidLoad];
+    [_globalTransportButton setState:0];
+    [self showtransportSettings:self];
     //set textField Display
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterNoStyle];
@@ -25,23 +27,15 @@
     [_localPortField setFormatter:formatter];
     
     profiles = [[NSMutableArray alloc] init];
-    //profiles = [[NSMutableDictionary alloc] init];
-    //read defaults
-    //NSArray *defaultsArray = [[self delegate] readDefaultsAsArray];
+    
     NSDictionary *defaultsDic = [[self delegate] readDefaultsAsDictionary];
     [self setLocalPort:[defaultsDic[@"localPort"] integerValue]];
     [self setUdpSupport:[defaultsDic[@"udpSupport"] boolValue]];
     profiles = defaultsDic[@"profiles"];
     [_profileTable reloadData];
     _selectedServerIndex = [defaultsDic[@"serverIndex"] integerValue];
-    /*
-    [self setLocalPort:[defaultsArray[2] integerValue]];
-    [self setUdpSupport:[defaultsArray[3] boolValue]];
-    profiles = defaultsArray[4];
-    [_profileTable reloadData];
-    _selectedServerIndex = [defaultsArray[5] integerValue];*/
-}
 
+}
 
 // set controller as profilesTable's datasource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
@@ -115,6 +109,21 @@
     [[self window] close];
 }
 
+- (IBAction)showtransportSettings:(id)sender {
+    NSRect windowFrame = [[self window] frame];
+    NSRect boxFrame = [_globalTransportTab frame];
+    printf("\nwindow heigh is %lf\n", windowFrame.size.height);
+    //windowFrame.size.height = 372;
+    if ([_globalTransportTab isHidden]) {
+        [_globalTransportTab setHidden:NO];
+        windowFrame.size.height += (boxFrame.size.height - 10);
+    } else {
+        windowFrame.size.height -= (boxFrame.size.height - 10);
+        [_globalTransportTab setHidden:YES];
+    }
+    //[_kcpSettingsBox setFrame:boxframe];
+    [[self window] setFrame:windowFrame display:YES animate:sender!=self];
+}
 
 @synthesize selectedProfile;
 @synthesize localPort;
