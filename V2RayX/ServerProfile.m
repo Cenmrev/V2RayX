@@ -34,7 +34,7 @@
              @"port": [NSNumber numberWithInteger:port],
              @"userId": userId,
              @"alterId": [NSNumber numberWithInteger:alterId],
-             @"remark": remark,
+             @"remark": remark != nil ? remark : @"",
              @"allowPassive": allowPassive,
              @"useMkcp": useMkcp};
 }
