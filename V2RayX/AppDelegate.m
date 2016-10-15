@@ -235,6 +235,7 @@ static AppDelegate *appDelegate;
             [newProfile setAlterId:[aProfile[@"alterId"] integerValue]];
             [newProfile setRemark:aProfile[@"remark"]];
             [newProfile setAllowPassive:aProfile[@"allowPassive"]];
+            [newProfile setUseMkcp:aProfile[@"useMkcp"]];
             [dProfiles addObject:newProfile];
         }
         dServerIndex = [defaults objectForKey:@"selectedServerIndex"];
@@ -341,7 +342,6 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
         }
         [self unloadV2ray];
     }
-    //[self reloadV2ray];
     runCommandLine(kV2RayXHelper,arguments);
     NSLog(@"system proxy state:%@,%ld",proxyIsOn?@"on":@"off", (long)proxyMode);
 }
@@ -410,8 +410,7 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
 
 -(void)configurationDidChange {
     [self readDefaults];
-    NSLog(@"profiles = %ld, just after read.",[profiles count]);
-    if (![self reloadV2ray]) {
+    if ([self reloadV2ray] == NO) {
         proxyIsOn = NO;
         [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO] forKey:@"proxyIsOn"];
     }

@@ -25,23 +25,15 @@
     [_localPortField setFormatter:formatter];
     
     profiles = [[NSMutableArray alloc] init];
-    //profiles = [[NSMutableDictionary alloc] init];
-    //read defaults
-    //NSArray *defaultsArray = [[self delegate] readDefaultsAsArray];
+    
     NSDictionary *defaultsDic = [[self delegate] readDefaultsAsDictionary];
     [self setLocalPort:[defaultsDic[@"localPort"] integerValue]];
     [self setUdpSupport:[defaultsDic[@"udpSupport"] boolValue]];
     profiles = defaultsDic[@"profiles"];
     [_profileTable reloadData];
     _selectedServerIndex = [defaultsDic[@"serverIndex"] integerValue];
-    /*
-    [self setLocalPort:[defaultsArray[2] integerValue]];
-    [self setUdpSupport:[defaultsArray[3] boolValue]];
-    profiles = defaultsArray[4];
-    [_profileTable reloadData];
-    _selectedServerIndex = [defaultsArray[5] integerValue];*/
-}
 
+}
 
 // set controller as profilesTable's datasource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
@@ -115,7 +107,87 @@
     [[self window] close];
 }
 
+- (IBAction)showtransportSettings:(id)sender {
+    if (_transportWindow == nil) {
+        [[NSBundle mainBundle] loadNibNamed:@"transportWindow" owner:self topLevelObjects:nil];
+    }
+    //set display
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle:NSNumberFormatterNoStyle];
+    [_kcpMtuField setFormatter:formatter];
+    [_kcpTtiField setFormatter:formatter];
+    [_kcpUcField setFormatter:formatter];
+    [_kcpDcField setFormatter:formatter];
+    [_kcpRbField setFormatter:formatter];
+    [_kcpWbField setFormatter:formatter];
+    //read settings
+    NSDictionary *transportSettings = [[NSUserDefaults standardUserDefaults] objectForKey:@"transportSettings"];
+    //kcp
+    [_kcpMtuField setIntegerValue:[transportSettings[@"kcpSettings"][@"mtu"] integerValue]];
+    [_kcpTtiField setIntegerValue:[transportSettings[@"kcpSettings"][@"tti"] integerValue]];
+    [_kcpUcField setIntegerValue:[transportSettings[@"kcpSettings"][@"uplinkCapacity"] integerValue]];
+    [_kcpDcField setIntegerValue:[transportSettings[@"kcpSettings"][@"downlinkCapacity"] integerValue]];
+    [_kcpRbField setIntegerValue:[transportSettings[@"kcpSettings"][@"readBufferSize"] integerValue]];
+    [_kcpWbField setIntegerValue:[transportSettings[@"kcpSettings"][@"writeBufferSize"] integerValue]];
+    [_kcpCongestionButton selectItemAtIndex:[transportSettings[@"kcpSettings"][@"congestion"] integerValue]];
+    NSString *headerType = transportSettings[@"kcpSettings"][@"header"][@"type"];
+    if ([headerType isKindOfClass:[NSString class]]) {
+        if ([headerType isEqualToString:@"srtp"]) {
+            [_kcpHeaderTypeButton selectItemAtIndex:1];
+        } else if ([headerType isEqualToString:@"utp"]) {
+            [_kcpHeaderTypeButton selectItemAtIndex:2];
+        }
+    }
+    //tcp
+    [_tcpCrButton setState:[transportSettings[@"tcpSettings"][@"connectionReuse"] boolValue]];
+    //websocket
+    [_wsCrButton setState:[transportSettings[@"wsSettings"][@"connectionReuse"] boolValue]];
+    [_wsPathField setStringValue:transportSettings[@"wsSettings"][@"path"]];
+    //show sheet
+    [[self window] beginSheet:_transportWindow completionHandler:^(NSModalResponse returnCode) {
+    }];
+}
 
+- (IBAction)tCancel:(id)sender {
+    [[self window] endSheet:_transportWindow];
+}
+- (IBAction)tOK:(id)sender {
+    NSAlert* settingAlert = [[NSAlert alloc] init];
+    [settingAlert setMessageText:@"Make sure you have read the help before clicking OK!"];
+    [settingAlert addButtonWithTitle:@"Yes, save!"];
+    [settingAlert addButtonWithTitle:@"Do not save."];
+    [settingAlert beginSheetModalForWindow:_transportWindow completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertFirstButtonReturn) {
+            //save settings
+            NSDictionary *transportSettings =
+            @{@"kcpSettings":
+                  @{@"mtu":[NSNumber numberWithInteger:[_kcpMtuField integerValue]],
+                    @"tti":[NSNumber numberWithInteger:[_kcpTtiField integerValue]],
+                    @"uplinkCapacity":[NSNumber numberWithInteger:[_kcpUcField integerValue]],
+                    @"downlinkCapacity":[NSNumber numberWithInteger:[_kcpDcField integerValue]],
+                    @"readBufferSize":[NSNumber numberWithInteger:[_kcpRbField integerValue]],
+                    @"writeBufferSize":[NSNumber numberWithInteger:[_kcpWbField integerValue]],
+                    @"congestion":[NSNumber numberWithBool:[_kcpCongestionButton indexOfSelectedItem]],
+                    @"header":@{@"type":[[_kcpHeaderTypeButton selectedItem] title]}
+                    },
+              @"tcpSettings": @{@"connectionReuse": [NSNumber numberWithBool:[_tcpCrButton state]]},
+              @"wsSettings": @{
+                  @"connectionReuse": [NSNumber numberWithBool:[_wsCrButton state]],
+                  @"path": [_wsPathField stringValue]
+                  }
+              };
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:transportSettings forKey:@"transportSettings"];
+            //close sheet
+            [self tCancel:nil];
+        }
+    }];
+
+
+}
+- (IBAction)transportHelp:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/05_transport.html"]];
+}
 @synthesize selectedProfile;
 @synthesize localPort;
 @synthesize udpSupport;

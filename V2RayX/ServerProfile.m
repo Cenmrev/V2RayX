@@ -19,16 +19,14 @@
         [self setAlterId:64];
         [self setRemark:@"test server"];
         [self setAllowPassive:[NSNumber numberWithBool:false]];//does not allow passive as default
+        [self setUseMkcp:[NSNumber numberWithBool:false]];
+
     }
     return self;
 }
 
 - (NSString*)description {
-    return [[self toArray] description];
-}
-
-- (NSArray*)toArray {
-    return @[address,[NSNumber numberWithInteger:port], userId, [NSNumber numberWithInteger:alterId], remark];
+    return [[self dictionaryForm] description];
 }
 
 - (NSDictionary*)dictionaryForm {
@@ -37,21 +35,17 @@
              @"userId": userId,
              @"alterId": [NSNumber numberWithInteger:alterId],
              @"remark": remark,
-             @"allowPassive": allowPassive};
+             @"allowPassive": allowPassive,
+             @"useMkcp": useMkcp};
 }
-/*
-[newProfile setAddress:aProfile[@"address"]];
-[newProfile setPort:[aProfile[@"port"] integerValue]];
-[newProfile setUserId:aProfile[@"userId"]];
-[newProfile setAlterId:[aProfile[@"alterId"] integerValue]];
-[newProfile setRemark:aProfile[@"remark"]];
-*/
+
 - (NSDictionary*)v2rayConfigWithLocalPort:(NSInteger)localPort
                                udpSupport:(BOOL)udp
-                               v2rayRules:(BOOL)rules{
+                               v2rayRules:(BOOL)rules
+{
     //generate config template
     NSMutableDictionary *config = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:rules?@"config-sample-rules":@"config-sample" ofType:@"plist"]];
-    
+    config[@"transport"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"transportSettings"];
     config[@"inbound"][@"port"] = [NSNumber numberWithInteger:localPort];
     config[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udp];
     config[@"inbound"][@"allowPassive"] = [self allowPassive];
@@ -63,6 +57,9 @@
     } else {
         [config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0] removeObjectForKey:@"alterId"];
     }
+    if ([self.useMkcp boolValue] == true) {
+        config[@"outbound"][@"streamSettings"] = @{@"network": @"kcp"};
+    }
     return config;
 }
 
@@ -72,4 +69,5 @@
 @synthesize alterId;
 @synthesize remark;
 @synthesize allowPassive;
+@synthesize useMkcp;
 @end
