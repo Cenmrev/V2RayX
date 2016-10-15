@@ -37,7 +37,6 @@ else
     cd V2RayX
     echo "-- start building V2RayX --"
     echo "-- 开始编译 V2RayX --"
-    cd V2RayX
     xcodebuild -project V2RayX.xcodeproj -target V2RayX -configuration Release
     if [[ $? == 0 ]]; then
         echo "-- build succeeded --"
