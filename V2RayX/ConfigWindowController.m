@@ -31,8 +31,8 @@
     [self setUdpSupport:[defaultsDic[@"udpSupport"] boolValue]];
     profiles = defaultsDic[@"profiles"];
     [_profileTable reloadData];
-    _selectedServerIndex = [defaultsDic[@"serverIndex"] integerValue];
-
+    _selectedServerIndex = [defaultsDic[@"selectedServerIndex"] integerValue];
+    [_profileTable selectRowIndexes:[[NSIndexSet alloc] initWithIndex:_selectedServerIndex] byExtendingSelection:NO];
 }
 
 // set controller as profilesTable's datasource
@@ -74,11 +74,18 @@
         NSInteger originalSelectedServerIndex = [_profileTable selectedRow];
         [profiles removeObjectAtIndex:originalSelectedServerIndex];
         if ([profiles count] > 0) {
+            /*
             if (originalSelectedServerIndex < [profiles count]) {
                 [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:originalSelectedServerIndex] byExtendingSelection:NO];
             } else {
                 [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:([profiles count] - 1)] byExtendingSelection:NO];
+            }*/
+            if (originalSelectedServerIndex == [profiles count]) {//deleted the last server
+                //select the last server of the remains
+                [self setSelectedServerIndex:[profiles count] - 1];
             }
+            [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedServerIndex] byExtendingSelection:NO];
+            [self setSelectedProfile:profiles[_selectedServerIndex]];
         } else { // all the profiles are deleted;
             [self setSelectedServerIndex:-1];
             [self setSelectedProfile:nil];
@@ -101,7 +108,7 @@
         [profileDicArray addObject:[p dictionaryForm]];
     }
     [defaults setObject:profileDicArray forKey:@"profiles"];
-    [defaults setObject:[NSNumber numberWithInteger:[_profileTable selectedRow]] forKey:@"selectedServerIndex"];
+    [defaults setObject:[NSNumber numberWithInteger:_selectedServerIndex] forKey:@"selectedServerIndex"];
     
     [[self delegate] configurationDidChange];
     [[self window] close];
