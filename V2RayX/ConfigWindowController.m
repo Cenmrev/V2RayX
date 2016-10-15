@@ -17,8 +17,6 @@
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    [_globalTransportButton setState:0];
-    [self showtransportSettings:self];
     //set textField Display
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterNoStyle];
@@ -110,21 +108,41 @@
 }
 
 - (IBAction)showtransportSettings:(id)sender {
-    NSRect windowFrame = [[self window] frame];
-    NSRect boxFrame = [_globalTransportTab frame];
-    printf("\nwindow heigh is %lf\n", windowFrame.size.height);
-    //windowFrame.size.height = 372;
-    if ([_globalTransportTab isHidden]) {
-        [_globalTransportTab setHidden:NO];
-        windowFrame.size.height += (boxFrame.size.height - 10);
-    } else {
-        windowFrame.size.height -= (boxFrame.size.height - 10);
-        [_globalTransportTab setHidden:YES];
+    if (_transportWindow == nil) {
+        [[NSBundle mainBundle] loadNibNamed:@"transportWindow" owner:self topLevelObjects:nil];
     }
-    //[_kcpSettingsBox setFrame:boxframe];
-    [[self window] setFrame:windowFrame display:YES animate:sender!=self];
+    //set display
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle:NSNumberFormatterNoStyle];
+    [_kcpMtuField setFormatter:formatter];
+    //read settings
+    NSDictionary *transportSettings = [[NSUserDefaults standardUserDefaults] objectForKey:@"transportSettings"];
+    [_kcpMtuField setIntegerValue:[transportSettings[@"kcpSettings"][@"mtu"] integerValue]];
+    //show sheet
+    [[self window] beginSheet:_transportWindow completionHandler:^(NSModalResponse returnCode) {
+        [NSApp stopModalWithCode: returnCode];
+    }];
+    [NSApp runModalForWindow:_transportWindow];
 }
 
+- (IBAction)tCancel:(id)sender {
+    [[self window] endSheet:_transportWindow];
+}
+- (IBAction)tOK:(id)sender {
+    //save settings
+    NSDictionary *transportSettings =
+        @{@"kcpSettings":
+              @{@"mtu":[NSNumber numberWithInteger:[_kcpMtuField integerValue]]
+                }
+          };
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:transportSettings forKey:@"transportSettings"];
+    //close sheet
+    [self tCancel:nil];
+}
+- (IBAction)transportHelp:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/05_transport.html"]];
+}
 @synthesize selectedProfile;
 @synthesize localPort;
 @synthesize udpSupport;

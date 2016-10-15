@@ -12,7 +12,6 @@
 
 @optional
 - (void)configurationDidChange;
-- (NSArray*)readDefaultsAsArray;
 - (NSDictionary*)readDefaultsAsDictionary;
 
 @end
@@ -26,8 +25,11 @@
 @property (weak) IBOutlet NSTextField *localPortField;
 @property (weak) IBOutlet NSTextField *portField;
 @property (weak) IBOutlet NSTextField *alterIdField;
-@property (weak) IBOutlet NSTabView *globalTransportTab;
 @property (weak) IBOutlet NSButton *globalTransportButton;
+
+@property (weak) IBOutlet NSWindow* transportWindow;
+//kcp fields
+@property (weak) IBOutlet NSTextField *kcpMtuField;
 
 @property (nonatomic, strong) ServerProfile* selectedProfile;
 @property NSInteger selectedServerIndex;
