@@ -387,8 +387,8 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
             [noServerAlert runModal];
             NSLog(@"V2Ray core loaded failed: no avalibale servers.");
         }
-        [self updateSystemProxy];
     }
+    [self updateSystemProxy];
     [self updateMenus];
     [self updateServerMenuList];
 }
