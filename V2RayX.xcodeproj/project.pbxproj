@@ -117,6 +117,7 @@
 		9577E1AF1C6B065E00093BD3 /* GCDWebServerFileResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDWebServerFileResponse.m; sourceTree = "<group>"; };
 		9577E1B01C6B065E00093BD3 /* GCDWebServerStreamedResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDWebServerStreamedResponse.h; sourceTree = "<group>"; };
 		9577E1B11C6B065E00093BD3 /* GCDWebServerStreamedResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDWebServerStreamedResponse.m; sourceTree = "<group>"; };
+		95862BD41DB2862E00F4A9CA /* compilefromsource.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = compilefromsource.sh; sourceTree = "<group>"; };
 		95A143CA1C87FC6E008756B9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		95E524CA1C674CC80008BB12 /* simple.pac */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple.pac; sourceTree = "<group>"; };
 		95FF39651C68B2B900718EA0 /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
@@ -145,6 +146,7 @@
 		9504C06F1C662C3000352520 = {
 			isa = PBXGroup;
 			children = (
+				95862BD41DB2862E00F4A9CA /* compilefromsource.sh */,
 				95FCB2451C688BB20081B6FD /* Frameworks */,
 				9504C07A1C662C3000352520 /* V2RayX */,
 				9504C0C71C662DB500352520 /* v2rayx_sysconf */,

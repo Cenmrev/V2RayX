@@ -6,13 +6,15 @@
 [Releases](https://github.com/Cenmrev/V2RayX/releases)
 
 ## How to build
+V2RayX.app is built by running one of the following commands in your terminal. You can install this via the command-line with curl.
+
+`sh -c "$(curl -fsSL https://raw.githubusercontent.com/Cenmrev/V2RayX/master/compilefromsource.sh)"`
+
+or step by step:
+
 `git clone --recursive https://github.com/Cenmrev/V2RayX.git`
 
-open V2RayX.xcodeproj and use Xcode to build V2RayX, or if you prefer command line, in the project folder, 
-
-`xcodebuild -project V2RayX.xcodeproj -target V2RayX -configuration Release `
-
-Then you can find V2RayX.app in `./build/Release/V2RayX.app`.
+open V2RayX.xcodeproj and use Xcode to build V2RayX.
 
 ## How does V2RayX work
 V2RayX provides a GUI to generate the config file for V2Ray. It includes V2Ray's binary executable(v1.7) in the Resources folder. V2RayX starts and stops V2Ray with `launchd` of OS X.
