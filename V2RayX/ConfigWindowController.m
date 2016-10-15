@@ -149,7 +149,8 @@
     [_tcpCrButton setState:[transportSettings[@"tcpSettings"][@"connectionReuse"] boolValue]];
     //websocket
     [_wsCrButton setState:[transportSettings[@"wsSettings"][@"connectionReuse"] boolValue]];
-    [_wsPathField setStringValue:transportSettings[@"wsSettings"][@"path"]];
+    NSString *savedWsPath = transportSettings[@"wsSettings"][@"path"];
+    [_wsPathField setStringValue: savedWsPath != nil ? savedWsPath : @""];
     //show sheet
     [[self window] beginSheet:_transportWindow completionHandler:^(NSModalResponse returnCode) {
     }];
@@ -180,7 +181,7 @@
               @"tcpSettings": @{@"connectionReuse": [NSNumber numberWithBool:[_tcpCrButton state]]},
               @"wsSettings": @{
                   @"connectionReuse": [NSNumber numberWithBool:[_wsCrButton state]],
-                  @"path": [_wsPathField stringValue]
+                  @"path": [_wsPathField stringValue] != nil ? [_wsPathField stringValue] : @""
                   }
               };
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
