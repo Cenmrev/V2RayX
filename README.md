@@ -17,9 +17,9 @@ or step by step:
 open V2RayX.xcodeproj and use Xcode to build V2RayX.
 
 ## How does V2RayX work
-V2RayX provides a GUI to generate the config file for V2Ray. It includes V2Ray's binary executable(v1.7) in the Resources folder. V2RayX starts and stops V2Ray with `launchd` of OS X.
+V2RayX provides a GUI to generate the config file for V2Ray. It includes V2Ray's binary executable in the app bundle. V2RayX starts and stops V2Ray with `launchd` of macOS.
 
-V2RayX also allows users to toggle system proxy and switch proxy servers on the OS X menu bar.
+V2RayX also allows users to toggle system proxy and switch proxy servers on the macOS menu bar.
 
 ### manually update v2ray-core
 replace `V2RayX.app/Contents/Resources/v2ray` with the newest v2ray 
