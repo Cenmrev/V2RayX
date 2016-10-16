@@ -4,7 +4,6 @@ VERSION="v2.2.1"
 cd $SRCROOT
 output="v0"
 if [[ -f ./v2ray-core-bin/v2ray ]]; then
-    echo "exit"
     output=$(./v2ray-core-bin/v2ray --version)
 fi
 existingVersion=${output:6:${#VERSION}}
