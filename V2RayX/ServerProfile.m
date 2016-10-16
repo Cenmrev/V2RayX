@@ -60,7 +60,10 @@
     if ([self.useMkcp boolValue] == true) {
         config[@"outbound"][@"streamSettings"] = @{@"network": @"kcp"};
     }
-    config[@"dns"][@"servers"] = [[[NSUserDefaults standardUserDefaults] objectForKey:@"dns"] componentsSeparatedByString:@","];
+    NSArray* dnsArray = [[[NSUserDefaults standardUserDefaults] objectForKey:@"dns"] componentsSeparatedByString:@","];
+    if ([dnsArray count] > 0) {
+        config[@"dns"][@"servers"] = dnsArray;
+    }
     return config;
 }
 
