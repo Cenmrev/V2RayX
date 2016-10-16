@@ -19,7 +19,7 @@
 		9504C0D11C66373400352520 /* install_helper.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0D01C662E0800352520 /* install_helper.sh */; };
 		9504C0D41C66511B00352520 /* ServerProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C0D31C66511B00352520 /* ServerProfile.m */; };
 		950F82321D9C01820066CB3A /* config-sample-rules.plist in Resources */ = {isa = PBXBuildFile; fileRef = 950F82311D9C01820066CB3A /* config-sample-rules.plist */; };
-		955671B31D9B428C00137ACF /* v2ray in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9558F4A51CE4646F000769F0 /* v2ray */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		953B60581DB3F6B700D40654 /* v2ray in CopyFiles */ = {isa = PBXBuildFile; fileRef = 953B60571DB3F6B700D40654 /* v2ray */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9565E28B1DB25C010082658C /* transportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9565E28A1DB25C010082658C /* transportWindow.xib */; };
 		9577E1B21C6B065E00093BD3 /* GCDWebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1951C6B065D00093BD3 /* GCDWebServer.m */; };
 		9577E1B31C6B065E00093BD3 /* GCDWebServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1971C6B065D00093BD3 /* GCDWebServerConnection.m */; };
@@ -65,7 +65,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				955671B31D9B428C00137ACF /* v2ray in CopyFiles */,
+				953B60581DB3F6B700D40654 /* v2ray in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +89,8 @@
 		9504C0D21C66511B00352520 /* ServerProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerProfile.h; sourceTree = "<group>"; };
 		9504C0D31C66511B00352520 /* ServerProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerProfile.m; sourceTree = "<group>"; };
 		950F82311D9C01820066CB3A /* config-sample-rules.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample-rules.plist"; sourceTree = "<group>"; };
-		9558F4A51CE4646F000769F0 /* v2ray */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = v2ray; sourceTree = "<group>"; };
+		953B60551DB3F65A00D40654 /* dlcore.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dlcore.sh; sourceTree = "<group>"; };
+		953B60571DB3F6B700D40654 /* v2ray */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = v2ray; path = "../v2ray-core-bin/v2ray"; sourceTree = "<group>"; };
 		9565E28A1DB25C010082658C /* transportWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = transportWindow.xib; sourceTree = "<group>"; };
 		9577E1941C6B065D00093BD3 /* GCDWebServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDWebServer.h; sourceTree = "<group>"; };
 		9577E1951C6B065D00093BD3 /* GCDWebServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDWebServer.m; sourceTree = "<group>"; };
@@ -191,8 +192,9 @@
 				95FF39651C68B2B900718EA0 /* config-sample.plist */,
 				950F82311D9C01820066CB3A /* config-sample-rules.plist */,
 				95E524CA1C674CC80008BB12 /* simple.pac */,
-				9558F4A51CE4646F000769F0 /* v2ray */,
 				9504C0D01C662E0800352520 /* install_helper.sh */,
+				953B60551DB3F65A00D40654 /* dlcore.sh */,
+				953B60571DB3F6B700D40654 /* v2ray */,
 				9504C07F1C662C3000352520 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -286,6 +288,7 @@
 				9504C0741C662C3000352520 /* Sources */,
 				9504C0751C662C3000352520 /* Frameworks */,
 				9504C0761C662C3000352520 /* Resources */,
+				953B60541DB3E31D00D40654 /* ShellScript */,
 				955671B21D9B427500137ACF /* CopyFiles */,
 			);
 			buildRules = (
@@ -369,6 +372,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		953B60541DB3E31D00D40654 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = $SRCROOT/V2RayX/dlcore.sh;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9504C0741C662C3000352520 /* Sources */ = {
