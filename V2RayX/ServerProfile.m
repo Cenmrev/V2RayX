@@ -60,6 +60,7 @@
     if ([self.useMkcp boolValue] == true) {
         config[@"outbound"][@"streamSettings"] = @{@"network": @"kcp"};
     }
+    config[@"dns"][@"servers"] = [[[NSUserDefaults standardUserDefaults] objectForKey:@"dns"] componentsSeparatedByString:@","];
     return config;
 }
 

@@ -29,6 +29,7 @@
     NSDictionary *defaultsDic = [[self delegate] readDefaultsAsDictionary];
     [self setLocalPort:[defaultsDic[@"localPort"] integerValue]];
     [self setUdpSupport:[defaultsDic[@"udpSupport"] boolValue]];
+    [self setDnsString:defaultsDic[@"dns"]];
     profiles = defaultsDic[@"profiles"];
     [_profileTable reloadData];
     _selectedServerIndex = [defaultsDic[@"selectedServerIndex"] integerValue];
@@ -109,7 +110,7 @@
     }
     [defaults setObject:profileDicArray forKey:@"profiles"];
     [defaults setObject:[NSNumber numberWithInteger:_selectedServerIndex] forKey:@"selectedServerIndex"];
-    
+    [defaults setObject:[[_dnsField stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""] forKey:@"dns"];
     [[self delegate] configurationDidChange];
     [[self window] close];
 }
@@ -199,4 +200,5 @@
 @synthesize selectedProfile;
 @synthesize localPort;
 @synthesize udpSupport;
+@synthesize dnsString;
 @end

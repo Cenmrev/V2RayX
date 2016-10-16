@@ -26,6 +26,7 @@
 @property (weak) IBOutlet NSTextField *portField;
 @property (weak) IBOutlet NSTextField *alterIdField;
 @property (weak) IBOutlet NSButton *globalTransportButton;
+@property (weak) IBOutlet NSTextField *dnsField;
 
 @property (weak) IBOutlet NSWindow* transportWindow;
 //kcp fields
@@ -44,9 +45,10 @@
 @property (weak) IBOutlet NSTextField *wsPathField;
 
 
-@property (nonatomic, strong) ServerProfile* selectedProfile;
+@property (nonatomic, weak) ServerProfile* selectedProfile;
 @property NSInteger selectedServerIndex;
 @property NSInteger localPort;
 @property BOOL udpSupport;
+@property (nonatomic, weak) NSString* dnsString;
 @property (nonatomic, weak) id<ConfigWindowControllerDelegate> delegate;
 @end

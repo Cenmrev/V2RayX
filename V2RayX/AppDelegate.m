@@ -201,6 +201,10 @@ static AppDelegate *appDelegate;
     if (dUdpSupport == nil) {
         dUdpSupport = [NSNumber numberWithBool:NO];// do not support udp as default
     }
+    NSString *dDnsString = [defaults objectForKey:@"dns"];
+    if (dDnsString == nil) {
+        dDnsString = @"";
+    }
     NSMutableArray *dProfilesInPlist = [defaults objectForKey:@"profiles"];
     NSMutableArray *dProfiles = [[NSMutableArray alloc] init];
     NSNumber *dServerIndex;
@@ -231,7 +235,8 @@ static AppDelegate *appDelegate;
              @"localPort": dLocalPort,
              @"udpSupport": dUdpSupport,
              @"profiles": dProfiles,
-             @"selectedServerIndex": dServerIndex };
+             @"selectedServerIndex": dServerIndex,
+             @"dns":dDnsString};
 }
 
 
