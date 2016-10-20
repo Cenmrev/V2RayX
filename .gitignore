@@ -4,3 +4,4 @@ V2RayX.xcodeproj/project.xcworkspace
 V2RayX.xcodeproj/xcuserdata/
 build/
 v2ray-core-bin/
+*.dylib
