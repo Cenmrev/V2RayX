@@ -36,6 +36,8 @@
 		9577E1BE1C6B065E00093BD3 /* GCDWebServerStreamedResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1B11C6B065E00093BD3 /* GCDWebServerStreamedResponse.m */; };
 		95A143CC1C87FCDC008756B9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A143CA1C87FC6E008756B9 /* Cocoa.framework */; };
 		95E524CB1C674CC80008BB12 /* simple.pac in Resources */ = {isa = PBXBuildFile; fileRef = 95E524CA1C674CC80008BB12 /* simple.pac */; };
+		95EEF7241DB7F7050073082C /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 95EEF7231DB7F7050073082C /* main.c */; };
+		95EEF72E1DB80A6F0073082C /* libv2ray.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 95EEF72C1DB7FCAA0073082C /* libv2ray.dylib */; };
 		95FF39661C68B2B900718EA0 /* config-sample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95FF39651C68B2B900718EA0 /* config-sample.plist */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +70,15 @@
 				953B60581DB3F6B700D40654 /* v2ray in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95EEF71F1DB7F7050073082C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -123,6 +134,12 @@
 		95862BD41DB2862E00F4A9CA /* compilefromsource.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = compilefromsource.sh; sourceTree = "<group>"; };
 		95A143CA1C87FC6E008756B9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		95E524CA1C674CC80008BB12 /* simple.pac */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple.pac; sourceTree = "<group>"; };
+		95EEF7211DB7F7050073082C /* libv2rayTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = libv2rayTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		95EEF7231DB7F7050073082C /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		95EEF7291DB7F7700073082C /* main.go */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.go; sourceTree = "<group>"; };
+		95EEF72A1DB7F7D10073082C /* config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
+		95EEF72B1DB7FC920073082C /* libv2ray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libv2ray.h; sourceTree = "<group>"; };
+		95EEF72C1DB7FCAA0073082C /* libv2ray.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libv2ray.dylib; path = libv2rayTest/libv2ray.dylib; sourceTree = SOURCE_ROOT; };
 		95FF39651C68B2B900718EA0 /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,6 +160,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		95EEF71E1DB7F7050073082C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95EEF72E1DB80A6F0073082C /* libv2ray.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -150,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				95862BD41DB2862E00F4A9CA /* compilefromsource.sh */,
+				95EEF7221DB7F7050073082C /* libv2rayTest */,
 				95FCB2451C688BB20081B6FD /* Frameworks */,
 				9504C07A1C662C3000352520 /* V2RayX */,
 				9504C0C71C662DB500352520 /* v2rayx_sysconf */,
@@ -162,6 +188,7 @@
 			children = (
 				9504C0781C662C3000352520 /* V2RayX.app */,
 				9504C0C61C662DB400352520 /* v2rayx_sysconf */,
+				95EEF7211DB7F7050073082C /* libv2rayTest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -268,9 +295,21 @@
 			path = Responses;
 			sourceTree = "<group>";
 		};
+		95EEF7221DB7F7050073082C /* libv2rayTest */ = {
+			isa = PBXGroup;
+			children = (
+				95EEF72B1DB7FC920073082C /* libv2ray.h */,
+				95EEF7231DB7F7050073082C /* main.c */,
+				95EEF7291DB7F7700073082C /* main.go */,
+				95EEF72A1DB7F7D10073082C /* config.json */,
+			);
+			path = libv2rayTest;
+			sourceTree = "<group>";
+		};
 		95FCB2451C688BB20081B6FD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				95EEF72C1DB7FCAA0073082C /* libv2ray.dylib */,
 				95A143CA1C87FC6E008756B9 /* Cocoa.framework */,
 				9504C0C01C662D9400352520 /* libz.tbd */,
 			);
@@ -318,6 +357,23 @@
 			productReference = 9504C0C61C662DB400352520 /* v2rayx_sysconf */;
 			productType = "com.apple.product-type.tool";
 		};
+		95EEF7201DB7F7050073082C /* libv2rayTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 95EEF7271DB7F7050073082C /* Build configuration list for PBXNativeTarget "libv2rayTest" */;
+			buildPhases = (
+				95EEF71D1DB7F7050073082C /* Sources */,
+				95EEF71E1DB7F7050073082C /* Frameworks */,
+				95EEF71F1DB7F7050073082C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libv2rayTest;
+			productName = libv2rayTest;
+			productReference = 95EEF7211DB7F7050073082C /* libv2rayTest */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -332,6 +388,11 @@
 					};
 					9504C0C51C662DB400352520 = {
 						CreatedOnToolsVersion = 7.2.1;
+					};
+					95EEF7201DB7F7050073082C = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 68X6GG3TRY;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -350,6 +411,7 @@
 			targets = (
 				9504C0771C662C3000352520 /* V2RayX */,
 				9504C0C51C662DB400352520 /* v2rayx_sysconf */,
+				95EEF7201DB7F7050073082C /* libv2rayTest */,
 			);
 		};
 /* End PBXProject section */
@@ -419,6 +481,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				9504C0C91C662DB500352520 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95EEF71D1DB7F7050073082C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95EEF7241DB7F7050073082C /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,6 +635,38 @@
 			};
 			name = Release;
 		};
+		95EEF7251DB7F7050073082C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				DEVELOPMENT_TEAM = 68X6GG3TRY;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libv2rayTest",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		95EEF7261DB7F7050073082C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				DEVELOPMENT_TEAM = 68X6GG3TRY;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libv2rayTest",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -594,6 +696,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		95EEF7271DB7F7050073082C /* Build configuration list for PBXNativeTarget "libv2rayTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				95EEF7251DB7F7050073082C /* Debug */,
+				95EEF7261DB7F7050073082C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
