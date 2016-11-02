@@ -75,12 +75,6 @@
         NSInteger originalSelectedServerIndex = [_profileTable selectedRow];
         [profiles removeObjectAtIndex:originalSelectedServerIndex];
         if ([profiles count] > 0) {
-            /*
-            if (originalSelectedServerIndex < [profiles count]) {
-                [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:originalSelectedServerIndex] byExtendingSelection:NO];
-            } else {
-                [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:([profiles count] - 1)] byExtendingSelection:NO];
-            }*/
             if (originalSelectedServerIndex == [profiles count]) {//deleted the last server
                 //select the last server of the remains
                 [self setSelectedServerIndex:[profiles count] - 1];

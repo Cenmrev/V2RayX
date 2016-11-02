@@ -45,7 +45,7 @@
 @property (weak) IBOutlet NSTextField *wsPathField;
 
 
-@property (nonatomic, weak) ServerProfile* selectedProfile;
+@property (nonatomic) ServerProfile* selectedProfile;
 @property NSInteger selectedServerIndex;
 @property NSInteger localPort;
 @property BOOL udpSupport;
