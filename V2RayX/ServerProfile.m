@@ -63,6 +63,8 @@
     NSArray* dnsArray = [[[NSUserDefaults standardUserDefaults] objectForKey:@"dns"] componentsSeparatedByString:@","];
     if ([dnsArray count] > 0) {
         config[@"dns"][@"servers"] = dnsArray;
+    } else {
+        config[@"dns"][@"servers"] = @[@"localhost"];
     }
     return config;
 }

@@ -29,7 +29,11 @@
     NSDictionary *defaultsDic = [[self delegate] readDefaultsAsDictionary];
     [self setLocalPort:[defaultsDic[@"localPort"] integerValue]];
     [self setUdpSupport:[defaultsDic[@"udpSupport"] boolValue]];
-    [self setDnsString:defaultsDic[@"dns"]];
+    if ([defaultsDic[@"dns"] length] > 0) {
+        [self setDnsString:defaultsDic[@"dns"]];
+    } else {
+        [self setDnsString:@"localhost"];
+    }
     profiles = defaultsDic[@"profiles"];
     [_profileTable reloadData];
     _selectedServerIndex = [defaultsDic[@"selectedServerIndex"] integerValue];
@@ -104,7 +108,11 @@
     }
     [defaults setObject:profileDicArray forKey:@"profiles"];
     [defaults setObject:[NSNumber numberWithInteger:_selectedServerIndex] forKey:@"selectedServerIndex"];
-    [defaults setObject:[[_dnsField stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""] forKey:@"dns"];
+    NSString* dnsStr = [[_dnsField stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if ([dnsStr length] == 0) {
+        dnsStr = @"localhost";
+    }
+    [defaults setObject:dnsStr forKey:@"dns"];
     [[self delegate] configurationDidChange];
     [[self window] close];
 }
