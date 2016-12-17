@@ -218,7 +218,7 @@ static AppDelegate *appDelegate;
             [newProfile setAlterId:[aProfile[@"alterId"] integerValue]];
             [newProfile setRemark:aProfile[@"remark"]];
             [newProfile setAllowPassive:aProfile[@"allowPassive"]];
-            [newProfile setUseMkcp:aProfile[@"useMkcp"]];
+            [newProfile setNetwork:aProfile[@"network"]];
             [dProfiles addObject:newProfile];
         }
         dServerIndex = [defaults objectForKey:@"selectedServerIndex"];

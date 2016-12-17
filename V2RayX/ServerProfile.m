@@ -19,7 +19,8 @@
         [self setAlterId:64];
         [self setRemark:@"test server"];
         [self setAllowPassive:[NSNumber numberWithBool:false]];//does not allow passive as default
-        [self setUseMkcp:[NSNumber numberWithBool:false]];
+        [self setNetwork:[NSNumber numberWithInteger:0]];
+        //[self setUseMkcp:[NSNumber numberWithBool:false]];
 
     }
     return self;
@@ -36,7 +37,7 @@
              @"alterId": [NSNumber numberWithInteger:alterId],
              @"remark": remark != nil ? remark : @"",
              @"allowPassive": allowPassive,
-             @"useMkcp": useMkcp};
+             @"network": network};
 }
 
 - (NSDictionary*)v2rayConfigWithLocalPort:(NSInteger)localPort
@@ -57,9 +58,11 @@
     } else {
         [config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0] removeObjectForKey:@"alterId"];
     }
-    if ([self.useMkcp boolValue] == true) {
+    config[@"outbound"][@"streamSettings"] = @{@"network": @[@"tcp", @"kcp", @"ws"][self.network.integerValue]};
+    /*
+    if ([self.network boolValue] == true) {
         config[@"outbound"][@"streamSettings"] = @{@"network": @"kcp"};
-    }
+    }*/
     NSArray* dnsArray = [[[NSUserDefaults standardUserDefaults] objectForKey:@"dns"] componentsSeparatedByString:@","];
     if ([dnsArray count] > 0) {
         config[@"dns"][@"servers"] = dnsArray;
@@ -75,5 +78,5 @@
 @synthesize alterId;
 @synthesize remark;
 @synthesize allowPassive;
-@synthesize useMkcp;
+@synthesize network;
 @end

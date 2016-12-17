@@ -18,5 +18,5 @@
 @property (nonatomic) NSInteger alterId;
 @property (nonatomic) NSString* remark;
 @property (nonatomic) NSNumber* allowPassive;
-@property (nonatomic) NSNumber* useMkcp;
+@property (nonatomic) NSNumber* network; //0:tcp, 1:kcp, 2:ws
 @end
