@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "16.png",
+      "filename" : "bxb16.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "statusBarIcon2x.png",
+      "filename" : "vxb32.png",
       "scale" : "2x"
     },
     {
