@@ -1,6 +1,9 @@
+![V2RayX](https://raw.githubusercontent.com/Cenmrev/V2RayX/master/V2RayX/Assets.xcassets/AppIcon.appiconset/vx128.png)
+
 # V2RayX: A simple GUI for V2Ray on macOS
 ## what is V2Ray?
 ![V2Ray logo](https://raw.githubusercontent.com/v2ray/manual/master/resources/favicon-152.png)
+
 [Project V2Ray](http://www.v2ray.com).
 
 ## Download V2RayX
