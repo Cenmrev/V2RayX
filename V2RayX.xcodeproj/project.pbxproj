@@ -534,7 +534,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = V2RayX/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = projectv2ray.V2RayX;
+				PRODUCT_BUNDLE_IDENTIFIER = cenmrev.V2RayX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -546,7 +546,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = V2RayX/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = projectv2ray.V2RayX;
+				PRODUCT_BUNDLE_IDENTIFIER = cenmrev.V2RayX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
