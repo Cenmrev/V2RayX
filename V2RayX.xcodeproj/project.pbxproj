@@ -37,6 +37,7 @@
 		95A143CC1C87FCDC008756B9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A143CA1C87FC6E008756B9 /* Cocoa.framework */; };
 		95E524CB1C674CC80008BB12 /* simple.pac in Resources */ = {isa = PBXBuildFile; fileRef = 95E524CA1C674CC80008BB12 /* simple.pac */; };
 		95FF39661C68B2B900718EA0 /* config-sample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95FF39651C68B2B900718EA0 /* config-sample.plist */; };
+		9D7109611E0F43BD008A6362 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9D7109601E0F43BD008A6362 /* Credits.rtf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,7 @@
 		95A143CA1C87FC6E008756B9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		95E524CA1C674CC80008BB12 /* simple.pac */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple.pac; sourceTree = "<group>"; };
 		95FF39651C68B2B900718EA0 /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
+		9D7109601E0F43BD008A6362 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 				9504C0D01C662E0800352520 /* install_helper.sh */,
 				953B60551DB3F65A00D40654 /* dlcore.sh */,
 				953B60571DB3F6B700D40654 /* v2ray */,
+				9D7109601E0F43BD008A6362 /* Credits.rtf */,
 				9504C07F1C662C3000352520 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -364,6 +367,7 @@
 				9504C0D11C66373400352520 /* install_helper.sh in Resources */,
 				9504C0CF1C662DE300352520 /* v2rayx_sysconf in Resources */,
 				9504C0821C662C3000352520 /* Assets.xcassets in Resources */,
+				9D7109611E0F43BD008A6362 /* Credits.rtf in Resources */,
 				9504C0851C662C3000352520 /* MainMenu.xib in Resources */,
 				95FF39661C68B2B900718EA0 /* config-sample.plist in Resources */,
 				9565E28B1DB25C010082658C /* transportWindow.xib in Resources */,
