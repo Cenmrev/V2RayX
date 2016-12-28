@@ -35,14 +35,14 @@ static AppDelegate *appDelegate;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     if (![self installHelper]) {
-        [[NSApplication sharedApplication] terminate:nil];// installed failed or stopped by user,
+        [[NSApplication sharedApplication] terminate:nil];// installation failed or stopped by user,
     };
     
     _statusBarItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     [_statusBarItem setMenu:_statusBarMenu];
     [_statusBarItem setHighlightMode:YES];
     
-    plistPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/v2rayproject.v2rayx.v2ray-core.plist",NSHomeDirectory()];
+    plistPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/cenmrev.v2rayx.v2ray-core.plist",NSHomeDirectory()];
     pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/pac.js",NSHomeDirectory()];
     
     NSFileManager* fileManager = [NSFileManager defaultManager];
@@ -64,12 +64,63 @@ static AppDelegate *appDelegate;
     [webServer addHandlerForMethod:@"GET" path:@"/proxy.pac" requestClass:[GCDWebServerRequest class] processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
         return [GCDWebServerDataResponse responseWithData:[weakSelf pacData] contentType:@"application/x-ns-proxy-autoconfig"];
     }];
-
+    NSNumber* firstUse = [[NSUserDefaults standardUserDefaults] objectForKey:@"firstUse"];
+    if(firstUse == nil || [firstUse boolValue] == true) {
+        [self writeDefaultSettings]; //explicitly write default settings to user defaults file
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:false] forKey:@"firstUse"];
+    }
     profiles = [[NSMutableArray alloc] init];
-    
     [self configurationDidChange];
     [self monitorPAC:pacDir];
     appDelegate = self;
+}
+
+- (void) writeDefaultSettings {
+    // from https://www.v2ray.com/chapter_02/05_transport.html
+    NSDictionary *defaultSettings =
+    @{
+      @"proxyIsOn": [NSNumber numberWithBool:false],
+      @"proxyMode": [NSNumber numberWithInteger:0],
+      @"selectedServerIndex": [NSNumber numberWithInteger:0],
+      @"localPort": [NSNumber numberWithInteger:1081],
+      @"udpSupport": [NSNumber numberWithBool:false],
+      @"dns": @"localhost",
+      @"profiles":@[
+                    @{
+                        @"address": @"v2ray.cool",
+                        @"port": [NSNumber numberWithInteger:10086],
+                        @"alterId": [NSNumber numberWithInteger:64],
+                        @"userId": @"23ad6b10-8d1a-40f7-8ad0-e3e35cd38297",
+                        @"network": [NSNumber numberWithInteger:0],
+                        @"allowPassive": [NSNumber numberWithBool:false],
+                        @"remark": @"test server"
+                        }
+                    ],
+      @"transportSettings":
+          @{
+              @"kcpSettings":
+                  @{@"mtu":[NSNumber numberWithInteger:1350],
+                    @"tti":[NSNumber numberWithInteger:50],
+                    @"uplinkCapacity":[NSNumber numberWithInteger:5],
+                    @"downlinkCapacity":[NSNumber numberWithInteger:20],
+                    @"readBufferSize":[NSNumber numberWithInteger:2],
+                    @"writeBufferSize":[NSNumber numberWithInteger:1],
+                    @"congestion":[NSNumber numberWithBool:false],
+                    @"header":@{@"type":@"none"}
+                    },
+              @"tcpSettings":
+                  @{@"connectionReuse": [NSNumber numberWithBool:true],
+                    @"header":@{@"type":@"none"}
+                    },
+              @"wsSettings": @{
+                      @"connectionReuse": [NSNumber numberWithBool:true],
+                      @"path": @""
+                      }
+              }
+    };
+    for (NSString* key in [defaultSettings allKeys]) {
+        [[NSUserDefaults standardUserDefaults] setObject:defaultSettings[key] forKey:key];
+    }
 }
 
 - (NSData*) pacData {
