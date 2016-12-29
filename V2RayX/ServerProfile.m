@@ -2,7 +2,7 @@
 //  ServerProfile.m
 //  V2RayX
 //
-//  Copyright © 2016年 Project V2Ray. All rights reserved.
+//  Copyright © 2016年 Cenmrev. All rights reserved.
 //
 
 #import "ServerProfile.h"

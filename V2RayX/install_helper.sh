@@ -3,7 +3,7 @@
 #  install_helper.sh
 #  V2RayX
 #
-#  Copyright © 2016年 Project V2Ray. All rights reserved.
+#  Copyright © 2016年 Cenmrev. All rights reserved.
 
 cd `dirname "${BASH_SOURCE[0]}"`
 sudo mkdir -p "/Library/Application Support/V2RayX/"

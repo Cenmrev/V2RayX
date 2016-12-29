@@ -4,7 +4,7 @@
 #  V2RayX
 #
 #  Created by Cenmrev on 10/15/16.
-#  Copyright © 2016 Project V2Ray. All rights reserved.
+#  Copyright © 2016 Cenmrev. All rights reserved.
 
 # http://apple.stackexchange.com/questions/50844/how-to-move-files-to-trash-from-command-line
 function moveToTrash () {
