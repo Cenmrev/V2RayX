@@ -26,16 +26,16 @@ V2RayX provides a GUI to generate the config file for V2Ray. It includes V2Ray's
 V2RayX also allows users to change system proxy settings and switch proxy servers on the macOS menu bar.
 
 ### manually update v2ray-core
-replace `V2RayX.app/Contents/Resources/v2ray` with the newest v2ray 
+replace `V2RayX.app/Contents/MacOS/v2ray` with the newest v2ray 
 version from [v2ray-core 
-repo](https://github.com/v2ray/v2ray-core/releases).
+repo](https://github.com/v2ray/v2ray-core/releases). However, compatibility is not guaranteed.
 
 ### Uninstall
 V2RayX will create the following files and folders:
 
 * `/Library/Application Support/V2RayX`
 * `~/Library/Application Support/V2RayX`
-* `~/Library/Preferences/projectv2ray.V2RayX.plist`
+* `~/Library/Preferences/cenmrev.V2RayX.plist`
 
 So, to totally uninstall V2RayX, just delete V2RayX.app and the files above. :)
 
