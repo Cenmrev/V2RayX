@@ -26,38 +26,28 @@ function moveToTrash () {
   done
 }
 
-
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BOLD='\033[1m'
+NORMAL='\033[0m'
 if [[ ! -f /Applications/Xcode.app/Contents/MacOS/Xcode ]]; then
-    echo "Xcode is needed to build V2RayX, Please install Xcode from App Store!"
-    echo "编译 V2RayX 需要 Xcode.app，请从 App Store 里安装 Xcode."
+    echo "${RED}Xcode is needed to build V2RayX, Please install Xcode from App Store!${NORMAL}"
+    echo "${RED}编译 V2RayX 需要 Xcode.app，请从 App Store 里安装 Xcode.${NORMAL}"
 else
-    echo "-- downloading source code --"
-    echo "-- 正在下载源码 --"
+    echo "${BOLD}-- Downloading source code --${NORMAL}"
+    echo "${BOLD}-- 正在下载源码 --${NORMAL}"
     git clone --recursive https://github.com/Cenmrev/V2RayX.git
     cd V2RayX
-    echo "-- start building V2RayX --"
-    echo "-- 开始编译 V2RayX --"
+    echo "${BOLD}-- Start building V2RayX --${NORMAL}"
+    echo "${BOLD}-- 开始编译 V2RayX --${NORMAL}"
     xcodebuild -project V2RayX.xcodeproj -target V2RayX -configuration Release
     if [[ $? == 0 ]]; then
-        echo "-- build succeeded --"
-        echo "-- 编译成功 --"
-        echo "Move V2RayX.app to the folder /Applications or not? 是否将编译得到的 V2RayX.app 移到应用程序文件夹？(yes/no)"
-        read -r a
-        if [[ $a == "yes" ]]; then
-            moveToTrash /Applications/V2RayX.app # delete old version
-            mv ./build/Release/V2RayX.app /Applications/
-            echo "Delete source codes or not? 是否删除下载的源码？(yes/no)"
-            read -r a 
-            if [[ $a == "yes" ]]; then
-                cd ..
-                moveToTrash V2RayX
-            fi
-        else 
-            echo "V2RayX.app: $(pwd)/build/Release/V2RayX.app"
-        fi
+        echo "${GREEN}-- Build succeeded --${NORMAL}"
+        echo "${GREEN}-- 编译成功 --${NORMAL}"
+        echo "${BOLD}V2RayX.app: $(pwd)/build/Release/V2RayX.app${NORMAL}"
     else
-        echo "-- build failed --"
-        echo "-- 编译失败 --"
+        echo "${RED}-- Build failed --${NORMAL}"
+        echo "${RED}-- 编译失败 --${NORMAL}"
     fi
 fi
 
