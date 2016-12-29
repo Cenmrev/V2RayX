@@ -139,7 +139,7 @@
     [_kcpDcField setIntegerValue:[transportSettings[@"kcpSettings"][@"downlinkCapacity"] integerValue]];
     [_kcpRbField setIntegerValue:[transportSettings[@"kcpSettings"][@"readBufferSize"] integerValue]];
     [_kcpWbField setIntegerValue:[transportSettings[@"kcpSettings"][@"writeBufferSize"] integerValue]];
-    [_kcpCongestionButton selectItemAtIndex:[transportSettings[@"kcpSettings"][@"congestion"] integerValue]];
+    [_kcpCongestionButton selectItemAtIndex:[transportSettings[@"kcpSettings"][@"congestion"] boolValue] ? 1 : 0];
     NSString *headerType = transportSettings[@"kcpSettings"][@"header"][@"type"];
     if ([headerType isKindOfClass:[NSString class]]) {
         if ([headerType isEqualToString:@"srtp"]) {
@@ -150,6 +150,7 @@
     }
     //tcp
     [_tcpCrButton setState:[transportSettings[@"tcpSettings"][@"connectionReuse"] boolValue]];
+    [_tcpHeaderTypeButton selectItemAtIndex:[transportSettings[@"tcpSettings"][@"header"][@"type"] isEqualToString:@"http"] ? 1 : 0];
     //websocket
     [_wsCrButton setState:[transportSettings[@"wsSettings"][@"connectionReuse"] boolValue]];
     NSString *savedWsPath = transportSettings[@"wsSettings"][@"path"];
@@ -159,6 +160,9 @@
     }];
 }
 
+- (IBAction)tReset:(id)sender {
+    
+}
 - (IBAction)tCancel:(id)sender {
     [[self window] endSheet:_transportWindow];
 }
@@ -178,10 +182,13 @@
                     @"downlinkCapacity":[NSNumber numberWithInteger:[_kcpDcField integerValue]],
                     @"readBufferSize":[NSNumber numberWithInteger:[_kcpRbField integerValue]],
                     @"writeBufferSize":[NSNumber numberWithInteger:[_kcpWbField integerValue]],
-                    @"congestion":[NSNumber numberWithBool:[_kcpCongestionButton indexOfSelectedItem]],
+                    @"congestion":[NSNumber numberWithBool:[_kcpCongestionButton indexOfSelectedItem] != 0],
                     @"header":@{@"type":[[_kcpHeaderTypeButton selectedItem] title]}
                     },
-              @"tcpSettings": @{@"connectionReuse": [NSNumber numberWithBool:[_tcpCrButton state]]},
+              @"tcpSettings":
+                  @{@"connectionReuse": [NSNumber numberWithBool:[_tcpCrButton state]],
+                    @"header":@{@"type":[[_tcpHeaderTypeButton selectedItem] title]}
+                    },
               @"wsSettings": @{
                   @"connectionReuse": [NSNumber numberWithBool:[_wsCrButton state]],
                   @"path": [_wsPathField stringValue] != nil ? [_wsPathField stringValue] : @""

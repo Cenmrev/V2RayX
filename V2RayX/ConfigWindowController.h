@@ -40,6 +40,7 @@
 @property (weak) IBOutlet NSPopUpButton *kcpHeaderTypeButton;
 //tcp fields
 @property (weak) IBOutlet NSButton *tcpCrButton;
+@property (weak) IBOutlet NSPopUpButton *tcpHeaderTypeButton;
 //ws fields
 @property (weak) IBOutlet NSButton *wsCrButton;
 @property (weak) IBOutlet NSTextField *wsPathField;

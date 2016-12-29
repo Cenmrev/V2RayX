@@ -12,6 +12,7 @@
 
 #define kV2RayXHelper @"/Library/Application Support/V2RayX/v2rayx_sysconf"
 #define kSysconfVersion @"v2rayx_sysconf 1.0.0"
+#define kV2RayXSettingVersion 1
 
 @interface AppDelegate () {
     GCDWebServer *webServer;
@@ -64,10 +65,12 @@ static AppDelegate *appDelegate;
     [webServer addHandlerForMethod:@"GET" path:@"/proxy.pac" requestClass:[GCDWebServerRequest class] processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
         return [GCDWebServerDataResponse responseWithData:[weakSelf pacData] contentType:@"application/x-ns-proxy-autoconfig"];
     }];
-    NSNumber* firstUse = [[NSUserDefaults standardUserDefaults] objectForKey:@"firstUse"];
-    if(firstUse == nil || [firstUse boolValue] == true) {
+    NSNumber* setingVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"setingVersion"];
+    if(setingVersion == nil || [setingVersion integerValue] != 1) {
+        NSAlert *noServerAlert = [[NSAlert alloc] init];
+        [noServerAlert setMessageText:@"Sorry, unknown settings!\nAll V2RayX settings will be reset."];
+        [noServerAlert runModal];
         [self writeDefaultSettings]; //explicitly write default settings to user defaults file
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:false] forKey:@"firstUse"];
     }
     profiles = [[NSMutableArray alloc] init];
     [self configurationDidChange];
@@ -79,6 +82,7 @@ static AppDelegate *appDelegate;
     // from https://www.v2ray.com/chapter_02/05_transport.html
     NSDictionary *defaultSettings =
     @{
+      @"setingVersion": [NSNumber numberWithInteger:kV2RayXSettingVersion],
       @"proxyIsOn": [NSNumber numberWithBool:false],
       @"proxyMode": [NSNumber numberWithInteger:0],
       @"selectedServerIndex": [NSNumber numberWithInteger:0],
