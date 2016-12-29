@@ -161,6 +161,22 @@
 }
 
 - (IBAction)tReset:(id)sender {
+    //kcp fields
+    [_kcpMtuField setIntegerValue:1350];
+    [_kcpTtiField setIntegerValue:50];
+    [_kcpUcField setIntegerValue:5];
+    [_kcpDcField setIntegerValue:20];
+    [_kcpRbField setIntegerValue:2];
+    [_kcpWbField setIntegerValue:1];
+    [_kcpCongestionButton selectItemAtIndex:0];
+    [_kcpHeaderTypeButton selectItemAtIndex:0];
+    //tcp fields
+    [_tcpCrButton setState:1];
+    [_tcpHeaderTypeButton selectItemAtIndex:0];
+    //ws fields
+    [_wsCrButton setState:1];
+    [_wsPathField setStringValue:@""];
+    
     
 }
 - (IBAction)tCancel:(id)sender {
