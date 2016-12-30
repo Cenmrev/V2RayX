@@ -22,11 +22,12 @@
 - (IBAction)okSave:(id)sender;
 @property (weak) IBOutlet NSTableView *profileTable;
 @property (weak) IBOutlet NSSegmentedControl *addRemoveButton;
+
 @property (weak) IBOutlet NSTextField *localPortField;
 @property (weak) IBOutlet NSTextField *portField;
 @property (weak) IBOutlet NSTextField *alterIdField;
-@property (weak) IBOutlet NSButton *globalTransportButton;
 @property (weak) IBOutlet NSTextField *dnsField;
+@property (weak) IBOutlet NSButton *globalTransportButton;
 
 @property (weak) IBOutlet NSWindow* transportWindow;
 //kcp fields

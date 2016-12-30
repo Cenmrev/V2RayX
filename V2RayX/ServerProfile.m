@@ -14,14 +14,13 @@
     if (self) {
         // use v2ray public server as default
         [self setAddress:@"v2ray.cool"];
-        [self setPort:10086];
+        [self setPort:@10086];
         [self setUserId:@"23ad6b10-8d1a-40f7-8ad0-e3e35cd38297"];
-        [self setAlterId:64];
+        [self setAlterId:@64];
         [self setRemark:@"test server"];
         [self setAllowPassive:[NSNumber numberWithBool:false]];//does not allow passive as default
-        [self setNetwork:[NSNumber numberWithInteger:0]];
-        //[self setUseMkcp:[NSNumber numberWithBool:false]];
-
+        [self setSecurity:@0]; //use aes-128-cfb as default
+        [self setNetwork:@0];
     }
     return self;
 }
@@ -31,13 +30,14 @@
 }
 
 - (NSDictionary*)dictionaryForm {
-    return @{@"address": address,
-             @"port": [NSNumber numberWithInteger:port],
-             @"userId": userId,
-             @"alterId": [NSNumber numberWithInteger:alterId],
+    return @{@"address": address != nil ? address : @"",
+             @"port": port != nil ? port : @0,
+             @"userId": userId != nil ? userId : @"",
+             @"alterId": alterId != nil ? alterId : @0,
              @"remark": remark != nil ? remark : @"",
-             @"allowPassive": allowPassive,
-             @"network": network};
+             @"allowPassive": allowPassive != nil ? allowPassive : [NSNumber numberWithBool:false],
+             @"security": security != nil ? security : @0,
+             @"network": network != nil ? network : @0};
 }
 
 - (NSDictionary*)v2rayConfigWithLocalPort:(NSInteger)localPort
@@ -51,14 +51,11 @@
     config[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udp];
     config[@"inbound"][@"allowPassive"] = [self allowPassive];
     config[@"outbound"][@"settings"][@"vnext"][0][@"address"] = self.address;
-    config[@"outbound"][@"settings"][@"vnext"][0][@"port"] = [NSNumber numberWithInteger:self.port];
+    config[@"outbound"][@"settings"][@"vnext"][0][@"port"] = self.port;
     config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"id"] = self.userId;
-    if (self.alterId > 0) {
-        config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"alterId"] = [NSNumber numberWithInteger:alterId];
-    } else {
-        [config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0] removeObjectForKey:@"alterId"];
-    }
-    config[@"outbound"][@"streamSettings"] = @{@"network": @[@"tcp", @"kcp", @"ws"][self.network.integerValue]};
+    config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"alterId"] = self.alterId;
+    config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"security"] = @[@"aes-128-cfb", @"aes-128-gcm", @"chacha20-poly1305"][self.security.integerValue % 3];
+    config[@"outbound"][@"streamSettings"] = @{@"network": @[@"tcp", @"kcp", @"ws"][self.network.integerValue % 3]};
     /*
     if ([self.network boolValue] == true) {
         config[@"outbound"][@"streamSettings"] = @{@"network": @"kcp"};
@@ -77,6 +74,7 @@
 @synthesize userId;
 @synthesize alterId;
 @synthesize remark;
+@synthesize security;
 @synthesize allowPassive;
 @synthesize network;
 @end

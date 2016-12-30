@@ -13,6 +13,7 @@
 #define kV2RayXHelper @"/Library/Application Support/V2RayX/v2rayx_sysconf"
 #define kSysconfVersion @"v2rayx_sysconf 1.0.0"
 #define kV2RayXSettingVersion 1
+#define nilCoalescing(a,b) ( (a != nil) ? (a) : (b) ) // equivalent to ?? operator in Swift
 
 @interface AppDelegate () {
     GCDWebServer *webServer;
@@ -92,23 +93,24 @@ static AppDelegate *appDelegate;
       @"profiles":@[
                     @{
                         @"address": @"v2ray.cool",
-                        @"port": [NSNumber numberWithInteger:10086],
-                        @"alterId": [NSNumber numberWithInteger:64],
+                        @"port": @10086,
+                        @"alterId": @64,
                         @"userId": @"23ad6b10-8d1a-40f7-8ad0-e3e35cd38297",
-                        @"network": [NSNumber numberWithInteger:0],
+                        @"network": @0,
                         @"allowPassive": [NSNumber numberWithBool:false],
+                        @"security": @0,
                         @"remark": @"test server"
                         }
                     ],
       @"transportSettings":
           @{
               @"kcpSettings":
-                  @{@"mtu":[NSNumber numberWithInteger:1350],
-                    @"tti":[NSNumber numberWithInteger:50],
-                    @"uplinkCapacity":[NSNumber numberWithInteger:5],
-                    @"downlinkCapacity":[NSNumber numberWithInteger:20],
-                    @"readBufferSize":[NSNumber numberWithInteger:2],
-                    @"writeBufferSize":[NSNumber numberWithInteger:1],
+                  @{@"mtu": @1350,
+                    @"tti": @50,
+                    @"uplinkCapacity": @5,
+                    @"downlinkCapacity": @20,
+                    @"readBufferSize": @2,
+                    @"writeBufferSize": @1,
                     @"congestion":[NSNumber numberWithBool:false],
                     @"header":@{@"type":@"none"}
                     },
@@ -208,7 +210,7 @@ static AppDelegate *appDelegate;
             if (![[p remark]isEqualToString:@""]) {
                 itemTitle = [p remark];
             } else {
-                itemTitle = [NSString stringWithFormat:@"%@:%ld",[p address], [p port]];
+                itemTitle = [NSString stringWithFormat:@"%@:%@",[p address], [p port]];
             }
             NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(switchServer:) keyEquivalent:@""];
             [newItem setTag:i];
@@ -240,26 +242,11 @@ static AppDelegate *appDelegate;
 
 - (NSDictionary*)readDefaultsAsDictionary {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *dProxyState = [defaults objectForKey:@"proxyIsOn"];
-    if (dProxyState == nil) {
-        dProxyState = [NSNumber numberWithBool:YES];//turn on proxy as default
-    }
-    NSNumber *dMode = [defaults objectForKey:@"proxyMode"];
-    if (dMode == nil) {
-        dMode = [NSNumber numberWithInteger:0];//use v2ray rules as default
-    }
-    NSNumber* dLocalPort = [defaults objectForKey:@"localPort"];
-    if (dLocalPort == nil) {
-        dLocalPort = [NSNumber numberWithInteger:1081];//use 1081 as default local port
-    }
-    NSNumber* dUdpSupport = [defaults objectForKey:@"udpSupport"];
-    if (dUdpSupport == nil) {
-        dUdpSupport = [NSNumber numberWithBool:NO];// do not support udp as default
-    }
-    NSString *dDnsString = [defaults objectForKey:@"dns"];
-    if (dDnsString == nil) {
-        dDnsString = @"";
-    }
+    NSNumber *dProxyState = nilCoalescing([defaults objectForKey:@"proxyIsOn"], [NSNumber numberWithBool:NO]); //turn on proxy as default
+    NSNumber *dMode = nilCoalescing([defaults objectForKey:@"proxyMode"], @0); // use v2ray rules as defualt mode
+    NSNumber* dLocalPort = nilCoalescing([defaults objectForKey:@"localPort"], @1081);//use 1081 as default local port
+    NSNumber* dUdpSupport = nilCoalescing([defaults objectForKey:@"udpSupport"], [NSNumber numberWithBool:NO]);// do not support udp as default
+    NSString *dDnsString = nilCoalescing([defaults objectForKey:@"dns"], @"");
     NSMutableArray *dProfilesInPlist = [defaults objectForKey:@"profiles"];
     NSMutableArray *dProfiles = [[NSMutableArray alloc] init];
     NSNumber *dServerIndex;
@@ -267,13 +254,14 @@ static AppDelegate *appDelegate;
         for (NSDictionary *aProfile in dProfilesInPlist) {
             
             ServerProfile *newProfile = [[ServerProfile alloc] init];
-            [newProfile setAddress:aProfile[@"address"]];
-            [newProfile setPort:[aProfile[@"port"] integerValue]];
-            [newProfile setUserId:aProfile[@"userId"]];
-            [newProfile setAlterId:[aProfile[@"alterId"] integerValue]];
-            [newProfile setRemark:aProfile[@"remark"]];
-            [newProfile setAllowPassive:aProfile[@"allowPassive"]];
-            [newProfile setNetwork:aProfile[@"network"]];
+            newProfile.address = nilCoalescing(aProfile[@"address"], @"");
+            newProfile.port = nilCoalescing(aProfile[@"port"], @10086);
+            newProfile.userId = nilCoalescing(aProfile[@"userId"], @"");
+            newProfile.alterId = nilCoalescing(aProfile[@"alterId"], @0);
+            newProfile.remark = nilCoalescing(aProfile[@"remark"], @"");
+            newProfile.allowPassive = nilCoalescing(aProfile[@"allowPassive"], [NSNumber numberWithBool:false]);
+            newProfile.network = nilCoalescing(aProfile[@"network"], @0);
+            newProfile.security = nilCoalescing(aProfile[@"security"], @0);
             [dProfiles addObject:newProfile];
         }
         dServerIndex = [defaults objectForKey:@"selectedServerIndex"];
