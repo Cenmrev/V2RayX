@@ -339,7 +339,7 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
         if (proxyMode == 1) { // pac mode
             // close system proxy first to refresh pac file
             if (![webServer isRunning]) {
-                [webServer startWithPort:8070 bonjourName:@"V2RayXPacServer"];
+                [webServer startWithPort:8070 bonjourName:nil];
             }
             runCommandLine(kV2RayXHelper, @[@"off"]);
             arguments = @[@"auto"];
