@@ -27,6 +27,7 @@
     FSEventStreamRef fsEventStream;
     NSString* plistPath;
     NSString* pacPath;
+    dispatch_queue_t taskQueue;
 }
 
 @end
@@ -36,6 +37,9 @@
 static AppDelegate *appDelegate;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    // create a serial queue used for NSTask operations
+    taskQueue = dispatch_queue_create("cenmrev.v2rayx.nstask", DISPATCH_QUEUE_SERIAL);
+    
     if (![self installHelper]) {
         [[NSApplication sharedApplication] terminate:nil];// installation failed or stopped by user,
     };
@@ -284,8 +288,10 @@ static AppDelegate *appDelegate;
 
 
 -(void)unloadV2ray {
-    runCommandLine(@"/bin/launchctl", @[@"unload", plistPath]);
-    NSLog(@"V2Ray core unloaded.");
+    dispatch_async(taskQueue, ^{
+        runCommandLine(@"/bin/launchctl", @[@"unload", plistPath]);
+        NSLog(@"V2Ray core unloaded.");
+    });
 }
 
 -(BOOL)loadV2ray {
@@ -295,8 +301,10 @@ static AppDelegate *appDelegate;
     NSData* v2rayJSONconfig = [NSJSONSerialization dataWithJSONObject:configDic options:NSJSONWritingPrettyPrinted error:nil];
     [v2rayJSONconfig writeToFile:configPath atomically:NO];
     [self generateLaunchdPlist:plistPath];
-    runCommandLine(@"/bin/launchctl",  @[@"load", plistPath]);
-    NSLog(@"V2Ray core loaded at port: %ld.", localPort);
+    dispatch_async(taskQueue, ^{
+        runCommandLine(@"/bin/launchctl",  @[@"load", plistPath]);
+        NSLog(@"V2Ray core loaded at port: %ld.", localPort);
+    });
     return YES;
 }
 
