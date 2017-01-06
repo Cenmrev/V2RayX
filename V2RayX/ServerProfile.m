@@ -46,7 +46,6 @@
 {
     //generate config template
     NSMutableDictionary *config = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:rules?@"config-sample-rules":@"config-sample" ofType:@"plist"]];
-    config[@"transport"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"transportSettings"];
     config[@"inbound"][@"port"] = [NSNumber numberWithInteger:localPort];
     config[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udp];
     config[@"inbound"][@"allowPassive"] = [self allowPassive];
@@ -55,11 +54,9 @@
     config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"id"] = self.userId;
     config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"alterId"] = self.alterId;
     config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"security"] = @[@"aes-128-cfb", @"aes-128-gcm", @"chacha20-poly1305"][self.security.integerValue % 3];
-    config[@"outbound"][@"streamSettings"] = @{@"network": @[@"tcp", @"kcp", @"ws"][self.network.integerValue % 3]};
-    /*
-    if ([self.network boolValue] == true) {
-        config[@"outbound"][@"streamSettings"] = @{@"network": @"kcp"};
-    }*/
+    NSMutableDictionary* streamSettings = [[[NSUserDefaults standardUserDefaults] objectForKey:@"transportSettings"] mutableCopy];
+    streamSettings[@"network"] = @[@"tcp", @"kcp", @"ws"][self.network.integerValue % 3];
+    config[@"outbound"][@"streamSettings"] = streamSettings;
     NSArray* dnsArray = [[[NSUserDefaults standardUserDefaults] objectForKey:@"dns"] componentsSeparatedByString:@","];
     if ([dnsArray count] > 0) {
         config[@"dns"][@"servers"] = dnsArray;
