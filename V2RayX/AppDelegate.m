@@ -93,6 +93,7 @@ static AppDelegate *appDelegate;
       @"selectedServerIndex": [NSNumber numberWithInteger:0],
       @"localPort": [NSNumber numberWithInteger:1081],
       @"udpSupport": [NSNumber numberWithBool:NO],
+      @"shareOverLan": [NSNumber numberWithBool:NO],
       @"dns": @"localhost",
       @"useTLS": [NSNumber numberWithBool:NO],
       @"tlsSettings": @{
@@ -254,6 +255,7 @@ static AppDelegate *appDelegate;
     NSNumber *dMode = nilCoalescing([defaults objectForKey:@"proxyMode"], @0); // use v2ray rules as defualt mode
     NSNumber* dLocalPort = nilCoalescing([defaults objectForKey:@"localPort"], @1081);//use 1081 as default local port
     NSNumber* dUdpSupport = nilCoalescing([defaults objectForKey:@"udpSupport"], [NSNumber numberWithBool:NO]);// do not support udp as default
+    NSNumber* dShareOverLan = nilCoalescing([defaults objectForKey:@"shareOverLan"], [NSNumber numberWithBool:NO]); //do not share over lan as default
     NSString *dDnsString = nilCoalescing([defaults objectForKey:@"dns"], @"");
     NSMutableArray *dProfilesInPlist = [defaults objectForKey:@"profiles"];
     NSMutableArray *dProfiles = [[NSMutableArray alloc] init];
@@ -285,6 +287,7 @@ static AppDelegate *appDelegate;
              @"proxyMode": dMode,
              @"localPort": dLocalPort,
              @"udpSupport": dUdpSupport,
+             @"shareOverLan": dShareOverLan,
              @"profiles": dProfiles,
              @"selectedServerIndex": dServerIndex,
              @"dns":dDnsString};
@@ -301,7 +304,7 @@ static AppDelegate *appDelegate;
 -(BOOL)loadV2ray {
     NSString *configPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/config.json",NSHomeDirectory()];
     printf("proxy mode is %ld\n", (long)proxyMode);
-    NSDictionary *configDic = [[profiles objectAtIndex:selectedServerIndex] v2rayConfigWithLocalPort:localPort udpSupport:udpSupport v2rayRules:proxyMode == 0];
+    NSDictionary *configDic = [[profiles objectAtIndex:selectedServerIndex] v2rayConfigWithRules:proxyMode == 0];
     NSData* v2rayJSONconfig = [NSJSONSerialization dataWithJSONObject:configDic options:NSJSONWritingPrettyPrinted error:nil];
     [v2rayJSONconfig writeToFile:configPath atomically:NO];
     [self generateLaunchdPlist:plistPath];

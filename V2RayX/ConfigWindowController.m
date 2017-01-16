@@ -29,6 +29,7 @@
     NSDictionary *defaultsDic = [[self delegate] readDefaultsAsDictionary];
     [self setLocalPort:[defaultsDic[@"localPort"] integerValue]];
     [self setUdpSupport:[defaultsDic[@"udpSupport"] boolValue]];
+    [self setShareOverLan:[defaultsDic[@"shareOverLan"] boolValue]];
     if ([defaultsDic[@"dns"] length] > 0) {
         [self setDnsString:defaultsDic[@"dns"]];
     } else {
@@ -101,6 +102,7 @@
     // save settings to file
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSNumber numberWithBool:udpSupport]  forKey:@"udpSupport"];
+    [defaults setObject:[NSNumber numberWithBool:shareOverLan]  forKey:@"shareOverLan"];
     [defaults setObject:[NSNumber numberWithInteger:localPort] forKey:@"localPort"];
     NSMutableArray* profileDicArray = [[NSMutableArray alloc] init];
     for (ServerProfile *p in profiles) {
@@ -235,5 +237,6 @@
 @synthesize selectedProfile;
 @synthesize localPort;
 @synthesize udpSupport;
+@synthesize shareOverLan;
 @synthesize dnsString;
 @end

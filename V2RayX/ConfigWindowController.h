@@ -53,6 +53,7 @@
 @property NSInteger selectedServerIndex;
 @property NSInteger localPort;
 @property BOOL udpSupport;
+@property BOOL shareOverLan;
 @property (nonatomic, weak) NSString* dnsString;
 @property (nonatomic, weak) id<ConfigWindowControllerDelegate> delegate;
 @end

@@ -40,21 +40,20 @@
              @"network": network != nil ? network : @0};
 }
 
-- (NSDictionary*)v2rayConfigWithLocalPort:(NSInteger)localPort
-                               udpSupport:(BOOL)udp
-                               v2rayRules:(BOOL)rules
+- (NSDictionary*)v2rayConfigWithRules:(BOOL)rules
 {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     //generate config template
     NSMutableDictionary *config = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:rules?@"config-sample-rules":@"config-sample" ofType:@"plist"]];
-    config[@"inbound"][@"port"] = [NSNumber numberWithInteger:localPort];
-    config[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udp];
+    config[@"inbound"][@"port"] = [userDefaults objectForKey:@"localPort"];
+    config[@"inbound"][@"listen"] = [[userDefaults objectForKey:@"shareOverLan"] boolValue] ? @"0.0.0.0" : @"127.0.0.1";
+    config[@"inbound"][@"settings"][@"udp"] = config[@"udpSupport"];
     config[@"inbound"][@"allowPassive"] = [self allowPassive];
     config[@"outbound"][@"settings"][@"vnext"][0][@"address"] = self.address;
     config[@"outbound"][@"settings"][@"vnext"][0][@"port"] = self.port;
     config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"id"] = self.userId;
     config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"alterId"] = self.alterId;
     config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"security"] = @[@"aes-128-cfb", @"aes-128-gcm", @"chacha20-poly1305"][self.security.integerValue % 3];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary* streamSettings = [[userDefaults objectForKey:@"transportSettings"] mutableCopy];
     streamSettings[@"network"] = @[@"tcp", @"kcp", @"ws"][self.network.integerValue % 3];
     streamSettings[@"security"] = [[userDefaults objectForKey:@"useTLS"] boolValue] ? @"tls" : @"none";

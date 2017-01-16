@@ -9,9 +9,7 @@
 
 @interface ServerProfile : NSObject
 - (NSDictionary*)dictionaryForm;
-- (NSDictionary*)v2rayConfigWithLocalPort:(NSInteger)localPort
-                               udpSupport:(BOOL)udp
-                               v2rayRules:(BOOL)rules;
+- (NSDictionary*)v2rayConfigWithRules:(BOOL)rules;
 @property (nonatomic) NSString* address;
 @property (nonatomic) NSNumber* port;
 @property (nonatomic) NSString* userId;

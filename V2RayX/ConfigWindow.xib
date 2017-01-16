@@ -441,10 +441,22 @@ Gw
                             <action selector="cancel:" target="-2" id="blN-np-Jtr"/>
                         </connections>
                     </button>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HGo-i2-l4d">
+                        <rect key="frame" x="325" y="378" width="119" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Share Over LAN" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="TXX-VD-4P4">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="-2" name="value" keyPath="self.shareOverLan" id="eeF-vl-cmx"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="162.5" y="312"/>
         </window>
+        <userDefaultsController representsSharedInstance="YES" id="I7n-bF-Cph"/>
     </objects>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
