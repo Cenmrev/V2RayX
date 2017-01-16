@@ -45,7 +45,9 @@
 //ws fields
 @property (weak) IBOutlet NSButton *wsCrButton;
 @property (weak) IBOutlet NSTextField *wsPathField;
-
+//tls fields
+@property (weak) IBOutlet NSButton *tlsUseButton;
+@property (weak) IBOutlet NSButton *tlsAiButton;
 
 @property (nonatomic) ServerProfile* selectedProfile;
 @property NSInteger selectedServerIndex;

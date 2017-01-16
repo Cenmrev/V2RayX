@@ -155,6 +155,11 @@
     [_wsCrButton setState:[transportSettings[@"wsSettings"][@"connectionReuse"] boolValue]];
     NSString *savedWsPath = transportSettings[@"wsSettings"][@"path"];
     [_wsPathField setStringValue: savedWsPath != nil ? savedWsPath : @""];
+    //tls
+    [_tlsUseButton setState:[[[NSUserDefaults standardUserDefaults] objectForKey:@"useTLS"] boolValue]];
+    NSDictionary* tlsSettings = [[NSUserDefaults standardUserDefaults] objectForKey:@"tlsSettings"];
+    [_tlsAiButton setState:[tlsSettings[@"allowInsecure"] boolValue]];
+    [self useTLS:nil];
     //show sheet
     [[self window] beginSheet:_transportWindow completionHandler:^(NSModalResponse returnCode) {
     }];
@@ -212,13 +217,18 @@
               };
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:transportSettings forKey:@"transportSettings"];
+            [defaults setObject:[NSNumber numberWithBool:[_tlsUseButton state]] forKey:@"useTLS"];
+            [defaults setObject:@{@"allowInsecure": [NSNumber numberWithBool:[_tlsAiButton state]]} forKey:@"tlsSettings"];
             //close sheet
-            [self tCancel:nil];
+            [[self window] endSheet:_transportWindow];
         }
     }];
-
-
 }
+
+- (IBAction)useTLS:(id)sender {
+    [_tlsAiButton setEnabled:[_tlsUseButton state]];
+}
+
 - (IBAction)transportHelp:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/05_transport.html"]];
 }

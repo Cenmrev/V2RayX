@@ -54,8 +54,11 @@
     config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"id"] = self.userId;
     config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"alterId"] = self.alterId;
     config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"security"] = @[@"aes-128-cfb", @"aes-128-gcm", @"chacha20-poly1305"][self.security.integerValue % 3];
-    NSMutableDictionary* streamSettings = [[[NSUserDefaults standardUserDefaults] objectForKey:@"transportSettings"] mutableCopy];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary* streamSettings = [[userDefaults objectForKey:@"transportSettings"] mutableCopy];
     streamSettings[@"network"] = @[@"tcp", @"kcp", @"ws"][self.network.integerValue % 3];
+    streamSettings[@"security"] = [[userDefaults objectForKey:@"useTLS"] boolValue] ? @"tls" : @"none";
+    streamSettings[@"tlsSettings"] = [userDefaults objectForKey:@"tlsSettings"];
     config[@"outbound"][@"streamSettings"] = streamSettings;
     NSArray* dnsArray = [[[NSUserDefaults standardUserDefaults] objectForKey:@"dns"] componentsSeparatedByString:@","];
     if ([dnsArray count] > 0) {

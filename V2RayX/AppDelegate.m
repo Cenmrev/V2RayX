@@ -12,7 +12,7 @@
 
 #define kV2RayXHelper @"/Library/Application Support/V2RayX/v2rayx_sysconf"
 #define kSysconfVersion @"v2rayx_sysconf 1.0.0"
-#define kV2RayXSettingVersion 1
+#define kV2RayXSettingVersion 2
 #define nilCoalescing(a,b) ( (a != nil) ? (a) : (b) ) // equivalent to ?? operator in Swift
 
 @interface AppDelegate () {
@@ -71,7 +71,7 @@ static AppDelegate *appDelegate;
         return [GCDWebServerDataResponse responseWithData:[weakSelf pacData] contentType:@"application/x-ns-proxy-autoconfig"];
     }];
     NSNumber* setingVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"setingVersion"];
-    if(setingVersion == nil || [setingVersion integerValue] != 1) {
+    if(setingVersion == nil || [setingVersion integerValue] != kV2RayXSettingVersion) {
         NSAlert *noServerAlert = [[NSAlert alloc] init];
         [noServerAlert setMessageText:@"Sorry, unknown settings!\nAll V2RayX settings will be reset."];
         [noServerAlert runModal];
@@ -88,12 +88,16 @@ static AppDelegate *appDelegate;
     NSDictionary *defaultSettings =
     @{
       @"setingVersion": [NSNumber numberWithInteger:kV2RayXSettingVersion],
-      @"proxyIsOn": [NSNumber numberWithBool:false],
+      @"proxyIsOn": [NSNumber numberWithBool:NO],
       @"proxyMode": [NSNumber numberWithInteger:0],
       @"selectedServerIndex": [NSNumber numberWithInteger:0],
       @"localPort": [NSNumber numberWithInteger:1081],
-      @"udpSupport": [NSNumber numberWithBool:false],
+      @"udpSupport": [NSNumber numberWithBool:NO],
       @"dns": @"localhost",
+      @"useTLS": [NSNumber numberWithBool:NO],
+      @"tlsSettings": @{
+              @"allowInsecure": [NSNumber numberWithBool:NO]
+              },
       @"profiles":@[
                     @{
                         @"address": @"v2ray.cool",
