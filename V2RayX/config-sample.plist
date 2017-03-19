@@ -13,8 +13,6 @@
 	</dict>
 	<key>inbound</key>
 	<dict>
-		<key>allowPassive</key>
-		<false/>
 		<key>listen</key>
 		<string>127.0.0.1</string>
 		<key>port</key>
@@ -56,6 +54,8 @@
 							<integer>64</integer>
 							<key>id</key>
 							<string>23ad6b10-8d1a-40f7-8ad0-e3e35cd38297</string>
+							<key>security</key>
+							<string>auto</string>
 						</dict>
 					</array>
 				</dict>
@@ -141,6 +141,16 @@
 		</dict>
 		<key>strategy</key>
 		<string>rules</string>
+	</dict>
+	<key>transport</key>
+	<dict>
+		<key>kcpSettings</key>
+		<dict>
+			<key>downlinkCapacity</key>
+			<integer>10</integer>
+			<key>uplinkCapacity</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 </dict>
 </plist>
