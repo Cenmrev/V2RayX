@@ -38,6 +38,7 @@
 		95E524CB1C674CC80008BB12 /* simple.pac in Resources */ = {isa = PBXBuildFile; fileRef = 95E524CA1C674CC80008BB12 /* simple.pac */; };
 		95FF39661C68B2B900718EA0 /* config-sample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95FF39651C68B2B900718EA0 /* config-sample.plist */; };
 		9D7109611E0F43BD008A6362 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9D7109601E0F43BD008A6362 /* Credits.rtf */; };
+		9D7DFE541EBEC947001FECBD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7DFE531EBEC947001FECBD /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,15 @@
 				953B60581DB3F6B700D40654 /* v2ray in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D7DFE4F1EBEC947001FECBD /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -126,6 +136,8 @@
 		95E524CA1C674CC80008BB12 /* simple.pac */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple.pac; sourceTree = "<group>"; };
 		95FF39651C68B2B900718EA0 /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
 		9D7109601E0F43BD008A6362 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		9D7DFE511EBEC947001FECBD /* jsonplist */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = jsonplist; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D7DFE531EBEC947001FECBD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +157,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9D7DFE4E1EBEC947001FECBD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -152,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				95862BD41DB2862E00F4A9CA /* compilefromsource.sh */,
+				9D7DFE521EBEC947001FECBD /* jsonplist */,
 				95FCB2451C688BB20081B6FD /* Frameworks */,
 				9504C07A1C662C3000352520 /* V2RayX */,
 				9504C0C71C662DB500352520 /* v2rayx_sysconf */,
@@ -164,6 +184,7 @@
 			children = (
 				9504C0781C662C3000352520 /* V2RayX.app */,
 				9504C0C61C662DB400352520 /* v2rayx_sysconf */,
+				9D7DFE511EBEC947001FECBD /* jsonplist */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -281,6 +302,14 @@
 			path = V2RayX;
 			sourceTree = "<group>";
 		};
+		9D7DFE521EBEC947001FECBD /* jsonplist */ = {
+			isa = PBXGroup;
+			children = (
+				9D7DFE531EBEC947001FECBD /* main.m */,
+			);
+			path = jsonplist;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -321,6 +350,23 @@
 			productReference = 9504C0C61C662DB400352520 /* v2rayx_sysconf */;
 			productType = "com.apple.product-type.tool";
 		};
+		9D7DFE501EBEC947001FECBD /* jsonplist */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D7DFE571EBEC947001FECBD /* Build configuration list for PBXNativeTarget "jsonplist" */;
+			buildPhases = (
+				9D7DFE4D1EBEC947001FECBD /* Sources */,
+				9D7DFE4E1EBEC947001FECBD /* Frameworks */,
+				9D7DFE4F1EBEC947001FECBD /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = jsonplist;
+			productName = jsonplist;
+			productReference = 9D7DFE511EBEC947001FECBD /* jsonplist */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -335,6 +381,10 @@
 					};
 					9504C0C51C662DB400352520 = {
 						CreatedOnToolsVersion = 7.2.1;
+					};
+					9D7DFE501EBEC947001FECBD = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -353,6 +403,7 @@
 			targets = (
 				9504C0771C662C3000352520 /* V2RayX */,
 				9504C0C51C662DB400352520 /* v2rayx_sysconf */,
+				9D7DFE501EBEC947001FECBD /* jsonplist */,
 			);
 		};
 /* End PBXProject section */
@@ -423,6 +474,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				9504C0C91C662DB500352520 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D7DFE4D1EBEC947001FECBD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D7DFE541EBEC947001FECBD /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,6 +628,28 @@
 			};
 			name = Release;
 		};
+		9D7DFE551EBEC947001FECBD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9D7DFE561EBEC947001FECBD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -598,6 +679,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		9D7DFE571EBEC947001FECBD /* Build configuration list for PBXNativeTarget "jsonplist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D7DFE551EBEC947001FECBD /* Debug */,
+				9D7DFE561EBEC947001FECBD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
