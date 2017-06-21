@@ -132,6 +132,7 @@
     [_kcpDcField setFormatter:formatter];
     [_kcpRbField setFormatter:formatter];
     [_kcpWbField setFormatter:formatter];
+    [_muxConcurrencyField setFormatter:formatter];
     //read settings
     NSDictionary *transportSettings = [[NSUserDefaults standardUserDefaults] objectForKey:@"transportSettings"];
     //kcp
@@ -162,6 +163,17 @@
     NSDictionary* tlsSettings = [[NSUserDefaults standardUserDefaults] objectForKey:@"tlsSettings"];
     [_tlsAiButton setState:[tlsSettings[@"allowInsecure"] boolValue]];
     [self useTLS:nil];
+    // mux
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"mux"] != nil) {
+        NSNumber* enableDefault = [[defaults objectForKey:@"mux"] objectForKey:@"enable"];
+        NSNumber* concurrencyDefault = [[defaults objectForKey:@"mux"] objectForKey:@"concurrency"];
+        [_muxEnableButton setState:enableDefault==nil?NO:[enableDefault boolValue]];
+        [_muxConcurrencyField setIntegerValue:concurrencyDefault==nil?8:[concurrencyDefault integerValue]];
+    } else {
+        [_muxEnableButton setState:NO];
+        [_muxConcurrencyField setIntegerValue:8];
+    }
     //show sheet
     [[self window] beginSheet:_transportWindow completionHandler:^(NSModalResponse returnCode) {
     }];
@@ -183,6 +195,9 @@
     //ws fields
     [_wsCrButton setState:1];
     [_wsPathField setStringValue:@""];
+    //mux fields
+    [_muxEnableButton setState:0];
+    [_muxEnableButton setIntegerValue:8];
     
     
 }
@@ -221,6 +236,9 @@
             [defaults setObject:transportSettings forKey:@"transportSettings"];
             [defaults setObject:[NSNumber numberWithBool:[_tlsUseButton state]] forKey:@"useTLS"];
             [defaults setObject:@{@"allowInsecure": [NSNumber numberWithBool:[_tlsAiButton state]]} forKey:@"tlsSettings"];
+            [defaults setObject:@{@"enable":[NSNumber numberWithBool:[_muxEnableButton state]],
+                                  @"concurrency":[NSNumber numberWithInteger:[_muxConcurrencyField integerValue]]
+                                  } forKey:@"mux"];
             //close sheet
             [[self window] endSheet:_transportWindow];
         }

@@ -48,6 +48,10 @@
 //tls fields
 @property (weak) IBOutlet NSButton *tlsUseButton;
 @property (weak) IBOutlet NSButton *tlsAiButton;
+//mux fields
+@property (weak) IBOutlet NSButton *muxEnableButton;
+@property (weak) IBOutlet NSTextField *muxConcurrencyField;
+
 
 @property (nonatomic) ServerProfile* selectedProfile;
 @property NSInteger selectedServerIndex;

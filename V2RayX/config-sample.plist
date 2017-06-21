@@ -36,6 +36,11 @@
 	</dict>
 	<key>outbound</key>
 	<dict>
+		<key>mux</key>
+		<dict>
+			<key>enabled</key>
+			<false/>
+		</dict>
 		<key>protocol</key>
 		<string>vmess</string>
 		<key>settings</key>
@@ -53,7 +58,7 @@
 							<key>alterId</key>
 							<integer>64</integer>
 							<key>id</key>
-							<string>23ad6b10-8d1a-40f7-8ad0-e3e35cd38297</string>
+							<string>a3482e88-686a-4a58-8126-99c9df64b7bf</string>
 							<key>security</key>
 							<string>auto</string>
 						</dict>
@@ -141,16 +146,6 @@
 		</dict>
 		<key>strategy</key>
 		<string>rules</string>
-	</dict>
-	<key>transport</key>
-	<dict>
-		<key>kcpSettings</key>
-		<dict>
-			<key>downlinkCapacity</key>
-			<integer>10</integer>
-			<key>uplinkCapacity</key>
-			<integer>1</integer>
-		</dict>
 	</dict>
 </dict>
 </plist>

@@ -49,6 +49,9 @@
     config[@"inbound"][@"listen"] = [[userDefaults objectForKey:@"shareOverLan"] boolValue] ? @"0.0.0.0" : @"127.0.0.1";
     config[@"inbound"][@"settings"][@"udp"] = config[@"udpSupport"];
     config[@"inbound"][@"allowPassive"] = [self allowPassive];
+    if ([userDefaults objectForKey:@"mux"] != nil) {
+        config[@"outbound"][@"mux"] = [userDefaults objectForKey:@"mux"];
+    }
     config[@"outbound"][@"settings"][@"vnext"][0][@"address"] = self.address;
     config[@"outbound"][@"settings"][@"vnext"][0][@"port"] = self.port;
     config[@"outbound"][@"settings"][@"vnext"][0][@"users"][0][@"id"] = self.userId;
