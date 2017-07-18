@@ -25,6 +25,14 @@ V2RayX provides a GUI to generate the config file for V2Ray. It includes V2Ray's
 
 V2RayX also allows users to change system proxy settings and switch proxy servers on the macOS menu bar.
 
+### auto-run on login
+Open macOS System Preferences -> Users & Group -> Login Itmes, add V2RayX.app to
+the list.
+
+### 登录后自动运行
+打开 macOS 系统设置 -> 用户与组 -> 登录项，把 V2RayX.app 添加到列表中。
+
+
 ### manually update v2ray-core
 replace `V2RayX.app/Contents/MacOS/v2ray` with the newest v2ray 
 version from [v2ray-core 
