@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -14,7 +14,10 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="ExportCmdItem" destination="2fK-AZ-akH" id="uAl-g6-ILH"/>
+                <outlet property="copyExportCmdItem" destination="2fK-AZ-akH" id="8ih-wF-CRR"/>
                 <outlet property="enabelV2rayItem" destination="I9I-uu-xak" id="b3P-ct-RqE"/>
+                <outlet property="exportCmdItem" destination="2fK-AZ-akH" id="ajC-EG-s6I"/>
                 <outlet property="globalModeItem" destination="12u-76-Ytb" id="RA8-m2-Iv6"/>
                 <outlet property="pacModeItem" destination="Cm9-3e-L2z" id="TlL-GV-776"/>
                 <outlet property="serverListMenu" destination="pPD-dn-4h0" id="6sH-L6-Uzx"/>
@@ -723,6 +726,13 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="1ve-pA-4fu"/>
+                <menuItem title="Copy HTTP Proxy Shell Export Line" id="2fK-AZ-akH">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="copyExportCmd:" target="Voe-Tx-rLC" id="OMz-Lv-Wmr"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="YAD-DW-T91"/>
                 <menuItem title="Help" id="Yq1-i5-ecF">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>

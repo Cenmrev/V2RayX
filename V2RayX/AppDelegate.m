@@ -478,6 +478,11 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
     FSEventStreamStart(fsEventStream);
 }
 
+- (IBAction)copyExportCmd:(id)sender {
+    [[NSPasteboard generalPasteboard] clearContents];
+    [[NSPasteboard generalPasteboard] setString:@"export http_proxy=\"http://127.0.0.1:8001\"" forType:NSStringPboardType];
+}
+
 void onPACChange(
                  ConstFSEventStreamRef streamRef,
                  void *clientCallBackInfo,

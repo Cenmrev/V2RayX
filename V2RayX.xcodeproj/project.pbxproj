@@ -36,9 +36,9 @@
 		9577E1BE1C6B065E00093BD3 /* GCDWebServerStreamedResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1B11C6B065E00093BD3 /* GCDWebServerStreamedResponse.m */; };
 		95A143CC1C87FCDC008756B9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A143CA1C87FC6E008756B9 /* Cocoa.framework */; };
 		95E524CB1C674CC80008BB12 /* simple.pac in Resources */ = {isa = PBXBuildFile; fileRef = 95E524CA1C674CC80008BB12 /* simple.pac */; };
-		95FF39661C68B2B900718EA0 /* config-sample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95FF39651C68B2B900718EA0 /* config-sample.plist */; };
 		9D7109611E0F43BD008A6362 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9D7109601E0F43BD008A6362 /* Credits.rtf */; };
 		9D7DFE541EBEC947001FECBD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7DFE531EBEC947001FECBD /* main.m */; };
+		9DB4FE951F205BEB00CCEE5F /* config-sample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DB4FE941F205BEB00CCEE5F /* config-sample.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,10 +134,10 @@
 		95862BD41DB2862E00F4A9CA /* compilefromsource.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = compilefromsource.sh; sourceTree = "<group>"; };
 		95A143CA1C87FC6E008756B9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		95E524CA1C674CC80008BB12 /* simple.pac */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple.pac; sourceTree = "<group>"; };
-		95FF39651C68B2B900718EA0 /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
 		9D7109601E0F43BD008A6362 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		9D7DFE511EBEC947001FECBD /* jsonplist */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = jsonplist; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D7DFE531EBEC947001FECBD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9DB4FE941F205BEB00CCEE5F /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,8 +212,8 @@
 		9504C07E1C662C3000352520 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				95FF39651C68B2B900718EA0 /* config-sample.plist */,
 				950F82311D9C01820066CB3A /* config-sample-rules.plist */,
+				9DB4FE941F205BEB00CCEE5F /* config-sample.plist */,
 				95E524CA1C674CC80008BB12 /* simple.pac */,
 				9504C0D01C662E0800352520 /* install_helper.sh */,
 				953B60551DB3F65A00D40654 /* dlcore.sh */,
@@ -413,6 +413,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DB4FE951F205BEB00CCEE5F /* config-sample.plist in Resources */,
 				950F82321D9C01820066CB3A /* config-sample-rules.plist in Resources */,
 				95E524CB1C674CC80008BB12 /* simple.pac in Resources */,
 				9504C0D11C66373400352520 /* install_helper.sh in Resources */,
@@ -420,7 +421,6 @@
 				9504C0821C662C3000352520 /* Assets.xcassets in Resources */,
 				9D7109611E0F43BD008A6362 /* Credits.rtf in Resources */,
 				9504C0851C662C3000352520 /* MainMenu.xib in Resources */,
-				95FF39661C68B2B900718EA0 /* config-sample.plist in Resources */,
 				9565E28B1DB25C010082658C /* transportWindow.xib in Resources */,
 				9504C08D1C662C9100352520 /* ConfigWindow.xib in Resources */,
 			);
