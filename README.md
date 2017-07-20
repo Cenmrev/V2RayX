@@ -6,6 +6,8 @@
 
 [Project V2Ray](http://www.v2ray.com).
 
+__YOU SHOULD READ V2RAY'S OFFICIAL INSTRUCTION BEFORE USING V2RAYX!__
+
 ## Download V2RayX
 [Releases](https://github.com/Cenmrev/V2RayX/releases)
 
@@ -24,6 +26,8 @@ open V2RayX.xcodeproj and use Xcode to build V2RayX.
 V2RayX provides a GUI to generate the config file for V2Ray. It includes V2Ray's binary executable in the app bundle. V2RayX starts and stops V2Ray with `launchd` of macOS.
 
 V2RayX also allows users to change system proxy settings and switch proxy servers on the macOS menu bar.
+
+As default, V2RayX will open a socks5 proxy at port `1081` as the main inbound, as well as a http proxy at port `8001` as an inboundDetour.
 
 ### auto-run on login
 Open macOS System Preferences -> Users & Group -> Login Itmes, add V2RayX.app to
