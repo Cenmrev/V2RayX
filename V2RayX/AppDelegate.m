@@ -145,7 +145,7 @@ static AppDelegate *appDelegate;
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     runCommandLine(@"/bin/launchctl", @[@"unload", plistPath]);
     NSLog(@"V2RayX quiting, V2Ray core unloaded.");
-    if (proxyIsOn) {
+    if (proxyIsOn && proxyMode != 3) {
         proxyIsOn = NO;
         [self updateSystemProxy];//close system proxy
     }
@@ -172,6 +172,11 @@ static AppDelegate *appDelegate;
 
 - (IBAction)chooseGlobalMode:(id)sender {
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInteger:2] forKey:@"proxyMode"];
+    [self configurationDidChange];
+}
+
+- (IBAction)chooseManualMode:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInteger:3] forKey:@"proxyMode"];
     [self configurationDidChange];
 }
 
@@ -206,6 +211,8 @@ static AppDelegate *appDelegate;
     [_v2rayRulesItem setState:proxyMode == 0];
     [_pacModeItem setState:proxyMode == 1];
     [_globalModeItem setState:proxyMode == 2];
+    [_manualModeItem setState:proxyMode == 3];
+    
 }
 
 - (void)updateServerMenuList {
@@ -362,7 +369,11 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
             if ([webServer isRunning]) {
                 [webServer stop];
             }
-            arguments = @[@"global", [NSString stringWithFormat:@"%ld", localPort]];
+            if (proxyMode == 3) { // manual mode
+                arguments = @[@"donothing"]; // do nothing
+            } else { // global mode and rule mode
+                arguments = @[@"global", [NSString stringWithFormat:@"%ld", localPort]];
+            }
         }
     } else {
         arguments = [NSArray arrayWithObjects:@"off", nil];

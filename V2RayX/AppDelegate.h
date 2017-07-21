@@ -15,6 +15,7 @@
 - (IBAction)choosePacMode:(id)sender;
 - (IBAction)chooseV2rayRules:(id)sender;
 - (IBAction)chooseGlobalMode:(id)sender;
+- (IBAction)chooseManualMode:(id)sender;
 - (IBAction)showConfigWindow:(id)sender;
 - (IBAction)editPac:(id)sender;
 //- (NSArray*)readDefaultsAsArray;
@@ -26,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet NSMenuItem *pacModeItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *v2rayRulesItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *globalModeItem;
+@property (weak) IBOutlet NSMenuItem *manualModeItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *serversItem;
 @property (weak, nonatomic) IBOutlet NSMenu *serverListMenu;
 

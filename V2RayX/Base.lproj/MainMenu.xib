@@ -19,6 +19,7 @@
                 <outlet property="enabelV2rayItem" destination="I9I-uu-xak" id="b3P-ct-RqE"/>
                 <outlet property="exportCmdItem" destination="2fK-AZ-akH" id="ajC-EG-s6I"/>
                 <outlet property="globalModeItem" destination="12u-76-Ytb" id="RA8-m2-Iv6"/>
+                <outlet property="manualModeItem" destination="P4q-kj-6fs" id="5XH-9p-w3e"/>
                 <outlet property="pacModeItem" destination="Cm9-3e-L2z" id="TlL-GV-776"/>
                 <outlet property="serverListMenu" destination="pPD-dn-4h0" id="6sH-L6-Uzx"/>
                 <outlet property="serversItem" destination="3wi-Co-2Kd" id="kKi-8l-dDJ"/>
@@ -706,6 +707,12 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="chooseGlobalMode:" target="Voe-Tx-rLC" id="mRp-Df-8Ma"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Manual Mode" id="P4q-kj-6fs">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="chooseManualMode:" target="Voe-Tx-rLC" id="ELM-Qb-zRn"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="A8t-NG-v92"/>

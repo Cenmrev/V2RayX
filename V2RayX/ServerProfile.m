@@ -47,6 +47,7 @@
     NSMutableDictionary *config = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:rules?@"config-sample-rules":@"config-sample" ofType:@"plist"]];
     config[@"inbound"][@"port"] = [userDefaults objectForKey:@"localPort"];
     config[@"inbound"][@"listen"] = [[userDefaults objectForKey:@"shareOverLan"] boolValue] ? @"0.0.0.0" : @"127.0.0.1";
+    config[@"inboundDetour"][0][@"listen"] = [[userDefaults objectForKey:@"shareOverLan"] boolValue] ? @"0.0.0.0" : @"127.0.0.1";
     config[@"inbound"][@"settings"][@"udp"] = config[@"udpSupport"];
     config[@"inbound"][@"allowPassive"] = [self allowPassive];
     if ([userDefaults objectForKey:@"mux"] != nil) {
