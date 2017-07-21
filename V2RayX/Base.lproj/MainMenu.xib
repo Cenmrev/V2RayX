@@ -14,10 +14,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
-                <outlet property="ExportCmdItem" destination="2fK-AZ-akH" id="uAl-g6-ILH"/>
-                <outlet property="copyExportCmdItem" destination="2fK-AZ-akH" id="8ih-wF-CRR"/>
                 <outlet property="enabelV2rayItem" destination="I9I-uu-xak" id="b3P-ct-RqE"/>
-                <outlet property="exportCmdItem" destination="2fK-AZ-akH" id="ajC-EG-s6I"/>
                 <outlet property="globalModeItem" destination="12u-76-Ytb" id="RA8-m2-Iv6"/>
                 <outlet property="manualModeItem" destination="P4q-kj-6fs" id="5XH-9p-w3e"/>
                 <outlet property="pacModeItem" destination="Cm9-3e-L2z" id="TlL-GV-776"/>
