@@ -24,6 +24,7 @@
 @property (weak) IBOutlet NSSegmentedControl *addRemoveButton;
 
 @property (weak) IBOutlet NSTextField *localPortField;
+@property (weak) IBOutlet NSTextField *httpPortField;
 @property (weak) IBOutlet NSTextField *portField;
 @property (weak) IBOutlet NSTextField *alterIdField;
 @property (weak) IBOutlet NSTextField *dnsField;
@@ -56,6 +57,7 @@
 @property (nonatomic) ServerProfile* selectedProfile;
 @property NSInteger selectedServerIndex;
 @property NSInteger localPort;
+@property NSInteger httpPort;
 @property BOOL udpSupport;
 @property BOOL shareOverLan;
 @property (nonatomic, weak) NSString* dnsString;

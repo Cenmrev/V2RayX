@@ -23,11 +23,13 @@
     [_portField setFormatter:formatter];
     [_alterIdField setFormatter:formatter];
     [_localPortField setFormatter:formatter];
+    [_httpPortField setFormatter:formatter];
     
     profiles = [[NSMutableArray alloc] init];
     
     NSDictionary *defaultsDic = [[self delegate] readDefaultsAsDictionary];
     [self setLocalPort:[defaultsDic[@"localPort"] integerValue]];
+    [self setHttpPort:[defaultsDic[@"httpPort"] integerValue]];
     [self setUdpSupport:[defaultsDic[@"udpSupport"] boolValue]];
     [self setShareOverLan:[defaultsDic[@"shareOverLan"] boolValue]];
     if ([defaultsDic[@"dns"] length] > 0) {
@@ -104,6 +106,7 @@
     [defaults setObject:[NSNumber numberWithBool:udpSupport]  forKey:@"udpSupport"];
     [defaults setObject:[NSNumber numberWithBool:shareOverLan]  forKey:@"shareOverLan"];
     [defaults setObject:[NSNumber numberWithInteger:localPort] forKey:@"localPort"];
+    [defaults setObject:[NSNumber numberWithInteger:httpPort] forKey:@"httpPort"];
     NSMutableArray* profileDicArray = [[NSMutableArray alloc] init];
     for (ServerProfile *p in profiles) {
         [profileDicArray addObject:[p dictionaryForm]];
@@ -256,6 +259,7 @@
 }
 @synthesize selectedProfile;
 @synthesize localPort;
+@synthesize httpPort;
 @synthesize udpSupport;
 @synthesize shareOverLan;
 @synthesize dnsString;

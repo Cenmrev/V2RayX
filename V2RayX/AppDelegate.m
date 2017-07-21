@@ -22,6 +22,7 @@
     BOOL proxyIsOn;
     NSInteger proxyMode; // 0 = v2ray rules; 1 = pac; 2 = global
     NSInteger localPort;
+    NSInteger httpPort;
     BOOL udpSupport;
     NSInteger selectedServerIndex;
     NSMutableArray *profiles;
@@ -250,6 +251,7 @@ static AppDelegate *appDelegate;
     proxyIsOn = [defaultsDic[@"proxyState"] boolValue];
     proxyMode = [defaultsDic[@"proxyMode"] integerValue];
     localPort = [defaultsDic[@"localPort"] integerValue];
+    httpPort = [defaultsDic[@"httpPort"] integerValue];
     udpSupport = [defaultsDic[@"udpSupport"] integerValue];
     [profiles removeAllObjects];
     profiles = defaultsDic[@"profiles"];
@@ -262,6 +264,7 @@ static AppDelegate *appDelegate;
     NSNumber *dProxyState = nilCoalescing([defaults objectForKey:@"proxyIsOn"], [NSNumber numberWithBool:NO]); //turn on proxy as default
     NSNumber *dMode = nilCoalescing([defaults objectForKey:@"proxyMode"], @0); // use v2ray rules as defualt mode
     NSNumber* dLocalPort = nilCoalescing([defaults objectForKey:@"localPort"], @1081);//use 1081 as default local port
+    NSNumber* dHttpPort = nilCoalescing([defaults objectForKey:@"httpPort"], @8001); //use 8001 as default local http port
     NSNumber* dUdpSupport = nilCoalescing([defaults objectForKey:@"udpSupport"], [NSNumber numberWithBool:NO]);// do not support udp as default
     NSNumber* dShareOverLan = nilCoalescing([defaults objectForKey:@"shareOverLan"], [NSNumber numberWithBool:NO]); //do not share over lan as default
     NSString *dDnsString = nilCoalescing([defaults objectForKey:@"dns"], @"");
@@ -294,6 +297,7 @@ static AppDelegate *appDelegate;
     return @{@"proxyState": dProxyState,
              @"proxyMode": dMode,
              @"localPort": dLocalPort,
+             @"httpPort": dHttpPort,
              @"udpSupport": dUdpSupport,
              @"shareOverLan": dShareOverLan,
              @"profiles": dProfiles,
@@ -517,7 +521,8 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
 
 - (IBAction)copyExportCmd:(id)sender {
     [[NSPasteboard generalPasteboard] clearContents];
-    [[NSPasteboard generalPasteboard] setString:@"export http_proxy=\"http://127.0.0.1:8001\"" forType:NSStringPboardType];
+    NSString* command = [NSString stringWithFormat:@"export http_proxy=\"http://127.0.0.1:%ld\"; export HTTP_PROXY=\"http://127.0.0.1:%ld\"; export https_proxy=\"http://127.0.0.1:%ld\"; export HTTPS_PROXY=\"http://127.0.0.1:%ld\"", httpPort, httpPort, httpPort, httpPort];
+    [[NSPasteboard generalPasteboard] setString:command forType:NSStringPboardType];
 }
 
 void onPACChange(
