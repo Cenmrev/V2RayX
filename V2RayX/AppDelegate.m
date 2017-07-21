@@ -9,6 +9,7 @@
 #import "GCDWebServer.h"
 #import "GCDWebServerDataResponse.h"
 #import "ConfigWindowController.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 
 #define kV2RayXHelper @"/Library/Application Support/V2RayX/v2rayx_sysconf"
 #define kSysconfVersion @"v2rayx_sysconf 1.0.0"
@@ -370,7 +371,7 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
                 [webServer stop];
             }
             if (proxyMode == 3) { // manual mode
-                arguments = @[@"donothing"]; // do nothing
+                arguments = [self currentProxySetByMe] ? @[@"off"] : @[@"-v"];
             } else { // global mode and rule mode
                 arguments = @[@"global", [NSString stringWithFormat:@"%ld", localPort]];
             }
@@ -383,6 +384,31 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
     }
     runCommandLine(kV2RayXHelper,arguments);
     NSLog(@"system proxy state:%@,%ld",proxyIsOn?@"on":@"off", (long)proxyMode);
+}
+
+-(BOOL)currentProxySetByMe {
+    SCPreferencesRef prefRef = SCPreferencesCreate(nil, CFSTR("V2RayX"), nil);
+    NSDictionary* sets = (__bridge NSDictionary *)SCPreferencesGetValue(prefRef, kSCPrefNetworkServices);
+    //NSLog(@"%@", sets);
+    for (NSString *key in [sets allKeys]) {
+        NSMutableDictionary *dict = [sets objectForKey:key];
+        NSString *hardware = [dict valueForKeyPath:@"Interface.Hardware"];
+        if ([hardware isEqualToString:@"AirPort"] || [hardware isEqualToString:@"Wi-Fi"] || [hardware isEqualToString:@"Ethernet"]) {
+            NSDictionary* proxy = dict[(NSString*)kSCEntNetProxies];
+            BOOL autoProxy = [proxy[(NSString*) kCFNetworkProxiesProxyAutoConfigURLString] isEqualToString:@"http://127.0.0.1:8070/proxy.pac"];
+            BOOL autoProxyEnabled = [proxy[(NSString*) kCFNetworkProxiesProxyAutoConfigEnable] boolValue];
+            BOOL socksProxy = [proxy[(NSString*) kCFNetworkProxiesSOCKSProxy] isEqualToString:@"127.0.0.1"];
+            BOOL socksPort = [proxy[(NSString*) kCFNetworkProxiesSOCKSProxy] integerValue] == localPort;
+            BOOL socksProxyEnabled = [proxy[(NSString*) kCFNetworkProxiesSOCKSEnable] boolValue];
+            if ((autoProxyEnabled && autoProxy) || (socksProxyEnabled && socksPort && socksProxy) ) {
+                continue;
+            } else {
+                NSLog(@"Device %@ is not set by me", key);
+                return NO;
+            }
+        }
+    }
+    return YES;
 }
 
 - (BOOL)installHelper {
