@@ -30,9 +30,9 @@
 }
 
 - (NSDictionary*)dictionaryForm {
-    return @{@"address": address != nil ? address : @"",
+    return @{@"address": address != nil ? [address stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] : @"",
              @"port": port != nil ? port : @0,
-             @"userId": userId != nil ? userId : @"",
+             @"userId": userId != nil ? [userId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]: @"",
              @"alterId": alterId != nil ? alterId : @0,
              @"remark": remark != nil ? remark : @"",
              @"allowPassive": allowPassive != nil ? allowPassive : [NSNumber numberWithBool:false],
