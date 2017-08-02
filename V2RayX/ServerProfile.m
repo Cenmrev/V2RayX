@@ -40,10 +40,12 @@
              @"network": network != nil ? network : @0};
 }
 
+
+
 - (NSDictionary*)v2rayConfigWithRules:(BOOL)rules
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    //generate config template
+//    generate config template
     NSMutableDictionary *config = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:rules?@"config-sample-rules":@"config-sample" ofType:@"plist"]];
     config[@"inbound"][@"port"] = [userDefaults objectForKey:@"localPort"];
     config[@"inbound"][@"listen"] = [[userDefaults objectForKey:@"shareOverLan"] boolValue] ? @"0.0.0.0" : @"127.0.0.1";
