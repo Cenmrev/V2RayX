@@ -10,7 +10,7 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         if (argc < 2) {
-            printf("Please provide at least one imput file!\n");
+            printf("Please provide at least one input file!\n");
             return 1;
         }
         NSString* imputFile = [NSString stringWithFormat:@"%s", argv[1]];
