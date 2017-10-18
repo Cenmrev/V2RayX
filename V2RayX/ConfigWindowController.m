@@ -167,6 +167,9 @@
     [_tlsUseButton setState:[[[NSUserDefaults standardUserDefaults] objectForKey:@"useTLS"] boolValue]];
     NSDictionary* tlsSettings = [[NSUserDefaults standardUserDefaults] objectForKey:@"tlsSettings"];
     [_tlsAiButton setState:[tlsSettings[@"allowInsecure"] boolValue]];
+    if (tlsSettings[@"serverName"]) {
+        [_tlsSnField setStringValue:tlsSettings[@"serverName"]];
+    }
     [self useTLS:nil];
     // mux
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
@@ -240,7 +243,10 @@
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:transportSettings forKey:@"transportSettings"];
             [defaults setObject:[NSNumber numberWithBool:[_tlsUseButton state]] forKey:@"useTLS"];
-            [defaults setObject:@{@"allowInsecure": [NSNumber numberWithBool:[_tlsAiButton state]]} forKey:@"tlsSettings"];
+            [defaults setObject:@{
+                                  @"allowInsecure": [NSNumber numberWithBool:[_tlsAiButton state]],
+                                  @"serverName": [_tlsSnField stringValue]
+                                  } forKey:@"tlsSettings"];
             [defaults setObject:@{@"enable":[NSNumber numberWithBool:[_muxEnableButton state]],
                                   @"concurrency":[NSNumber numberWithInteger:[_muxConcurrencyField integerValue]]
                                   } forKey:@"mux"];
@@ -252,6 +258,7 @@
 
 - (IBAction)useTLS:(id)sender {
     [_tlsAiButton setEnabled:[_tlsUseButton state]];
+    [_tlsSnField setEnabled:[_tlsUseButton state]];
 }
 
 - (IBAction)transportHelp:(id)sender {

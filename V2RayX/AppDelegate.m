@@ -99,7 +99,8 @@ static AppDelegate *appDelegate;
       @"dns": @"localhost",
       @"useTLS": [NSNumber numberWithBool:NO],
       @"tlsSettings": @{
-              @"allowInsecure": [NSNumber numberWithBool:NO]
+              @"allowInsecure": [NSNumber numberWithBool:NO],
+              @"serverName": @""
               },
       @"profiles":@[
                     @{
