@@ -1,7 +1,9 @@
 ![V2RayX](https://raw.githubusercontent.com/Cenmrev/V2RayX/master/V2RayX/Assets.xcassets/AppIcon.appiconset/vx128.png)
 
 # V2RayX: A simple GUI for V2Ray on macOS
-## what is V2Ray?
+
+## What is V2Ray?
+
 ![V2Ray logo](https://raw.githubusercontent.com/v2ray/manual/master/resources/favicon-152.png)
 
 [Project V2Ray](http://www.v2ray.com).
@@ -9,9 +11,15 @@
 __YOU SHOULD READ V2RAY'S OFFICIAL INSTRUCTION BEFORE USING V2RAYX!__
 
 ## Download V2RayX
-[Releases](https://github.com/Cenmrev/V2RayX/releases)
+
+Download from [Releases](https://github.com/Cenmrev/V2RayX/releases), or install by [Homebrew-Cask](https://caskroom.github.io/).
+
+```sh
+brew cask install v2rayx
+```
 
 ## How to build
+
 V2RayX.app is built by running one of the following commands in your terminal. You can install this via the command-line with curl.
 
 `sh -c "$(curl -fsSL https://raw.githubusercontent.com/Cenmrev/V2RayX/master/compilefromsource.sh)"`
@@ -23,6 +31,7 @@ or step by step:
 open V2RayX.xcodeproj and use Xcode to build V2RayX.
 
 ## How does V2RayX work
+
 V2RayX provides a GUI to generate the config file for V2Ray. It includes V2Ray's binary executable in the app bundle. V2RayX starts and stops V2Ray with `launchd` of macOS.
 
 V2RayX also allows users to change system proxy settings and switch proxy servers on the macOS menu bar.
@@ -30,19 +39,21 @@ V2RayX also allows users to change system proxy settings and switch proxy server
 As default, V2RayX will open a socks5 proxy at port `1081` as the main inbound, as well as a http proxy at port `8001` as an inboundDetour.
 
 ### auto-run on login
+
 Open macOS System Preferences -> Users & Group -> Login Itmes, add V2RayX.app to
 the list.
 
 ### 登录后自动运行
+
 打开 macOS 系统设置 -> 用户与组 -> 登录项，把 V2RayX.app 添加到列表中。
 
-
 ### manually update v2ray-core
-replace `V2RayX.app/Contents/MacOS/v2ray` with the newest v2ray 
-version from [v2ray-core 
-repo](https://github.com/v2ray/v2ray-core/releases). However, compatibility is not guaranteed.
+
+replace `V2RayX.app/Contents/MacOS/v2ray` with the newest v2ray
+version from [v2ray-core repo](https://github.com/v2ray/v2ray-core/releases). However, compatibility is not guaranteed.
 
 ### Uninstall
+
 V2RayX will create the following files and folders:
 
 * `/Library/Application Support/V2RayX`
