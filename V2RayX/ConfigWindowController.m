@@ -174,7 +174,7 @@
     // mux
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults objectForKey:@"mux"] != nil) {
-        NSNumber* enableDefault = [[defaults objectForKey:@"mux"] objectForKey:@"enable"];
+        NSNumber* enableDefault = [[defaults objectForKey:@"mux"] objectForKey:@"enabled"];
         NSNumber* concurrencyDefault = [[defaults objectForKey:@"mux"] objectForKey:@"concurrency"];
         [_muxEnableButton setState:enableDefault==nil?NO:[enableDefault boolValue]];
         [_muxConcurrencyField setIntegerValue:concurrencyDefault==nil?8:[concurrencyDefault integerValue]];
@@ -247,7 +247,7 @@
                                   @"allowInsecure": [NSNumber numberWithBool:[_tlsAiButton state]],
                                   @"serverName": [_tlsSnField stringValue]
                                   } forKey:@"tlsSettings"];
-            [defaults setObject:@{@"enable":[NSNumber numberWithBool:[_muxEnableButton state]],
+            [defaults setObject:@{@"enabled":[NSNumber numberWithBool:[_muxEnableButton state]],
                                   @"concurrency":[NSNumber numberWithInteger:[_muxConcurrencyField integerValue]]
                                   } forKey:@"mux"];
             //close sheet

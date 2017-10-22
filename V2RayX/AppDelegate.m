@@ -102,6 +102,10 @@ static AppDelegate *appDelegate;
               @"allowInsecure": [NSNumber numberWithBool:NO],
               @"serverName": @""
               },
+      @"mux": @{
+              @"concurrency": @8,
+              @"enabled": @0
+      },
       @"profiles":@[
                     @{
                         @"address": @"v2ray.cool",
