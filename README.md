@@ -22,6 +22,10 @@ or step by step:
 
 open V2RayX.xcodeproj and use Xcode to build V2RayX.
 
+Build using brew cask:
+
+`brew cask install v2rayx`
+
 ## How does V2RayX work
 V2RayX provides a GUI to generate the config file for V2Ray. It includes V2Ray's binary executable in the app bundle. V2RayX starts and stops V2Ray with `launchd` of macOS.
 
