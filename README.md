@@ -48,8 +48,9 @@ the list.
 打开 macOS 系统设置 -> 用户与组 -> 登录项，把 V2RayX.app 添加到列表中。
 
 ### manually update v2ray-core
-
-replace `V2RayX.app/Contents/MacOS/v2ray` with the newest v2ray version from [v2ray-core repo](https://github.com/v2ray/v2ray-core/releases). However, compatibility is not guaranteed.
+replace `V2RayX.app/Contents/Resources/v2ray` with the newest v2ray 
+version from [v2ray-core 
+repo](https://github.com/v2ray/v2ray-core/releases). However, compatibility is not guaranteed.
 
 ### Uninstall
 

@@ -102,6 +102,10 @@ static AppDelegate *appDelegate;
               @"allowInsecure": [NSNumber numberWithBool:NO],
               @"serverName": @""
               },
+      @"mux": @{
+              @"concurrency": @8,
+              @"enabled": @0
+      },
       @"profiles":@[
                     @{
                         @"address": @"v2ray.cool",
@@ -329,7 +333,7 @@ static AppDelegate *appDelegate;
 }
 
 -(void)generateLaunchdPlist:(NSString*)path {
-    NSString* v2rayPath = [NSString stringWithFormat:@"%@/Contents/MacOS/v2ray", [[NSBundle mainBundle] bundlePath]];
+    NSString* v2rayPath = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
     NSString *configPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/config.json",NSHomeDirectory()];
     NSDictionary *runPlistDic = [[NSDictionary alloc] initWithObjects:@[@"v2rayproject.v2rayx.v2ray-core", @[v2rayPath, @"-config", configPath], [NSNumber numberWithBool:YES]] forKeys:@[@"Label", @"ProgramArguments", @"RunAtLoad"]];
     [runPlistDic writeToFile:path atomically:NO];
