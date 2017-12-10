@@ -29,40 +29,6 @@
 			<false/>
 		</dict>
 	</dict>
-	<key>inboundDetour</key>
-	<array>
-		<dict>
-			<key>allocate</key>
-			<dict>
-				<key>concurrency</key>
-				<integer>3</integer>
-				<key>refresh</key>
-				<integer>5</integer>
-				<key>strategy</key>
-				<string>always</string>
-			</dict>
-			<key>domainOverride</key>
-			<array>
-				<string>http</string>
-				<string>tls</string>
-			</array>
-			<key>listen</key>
-			<string>127.0.0.1</string>
-			<key>port</key>
-			<string>8001</string>
-			<key>protocol</key>
-			<string>http</string>
-			<key>settings</key>
-			<dict>
-				<key>timeout</key>
-				<integer>0</integer>
-			</dict>
-			<key>streamSettings</key>
-			<dict/>
-			<key>tag</key>
-			<string>httpDetour</string>
-		</dict>
-	</array>
 	<key>log</key>
 	<dict>
 		<key>loglevel</key>
@@ -73,7 +39,7 @@
 		<key>mux</key>
 		<dict>
 			<key>enabled</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>protocol</key>
 		<string>vmess</string>
@@ -83,7 +49,7 @@
 			<array>
 				<dict>
 					<key>address</key>
-					<string>v2ray.cool</string>
+					<string>192.168.1.9</string>
 					<key>port</key>
 					<integer>10086</integer>
 					<key>users</key>
@@ -92,13 +58,32 @@
 							<key>alterId</key>
 							<integer>64</integer>
 							<key>id</key>
-							<string>a3482e88-686a-4a58-8126-99c9df64b7bf</string>
+							<string>23ad6b10-8d1a-40f7-8ad0-e3e35cd38297</string>
 							<key>security</key>
 							<string>auto</string>
 						</dict>
 					</array>
 				</dict>
 			</array>
+		</dict>
+		<key>streamSettings</key>
+		<dict>
+			<key>network</key>
+			<string>tcp</string>
+			<key>security</key>
+			<string>none</string>
+			<key>tlsSettings</key>
+			<dict>
+				<key>allowInsecure</key>
+				<true/>
+				<key>serverName</key>
+				<string>v2ray.cool</string>
+			</dict>
+			<key>wsSettings</key>
+			<dict>
+				<key>path</key>
+				<string>/v2ray.cool/</string>
+			</dict>
 		</dict>
 	</dict>
 	<key>outboundDetour</key>
@@ -112,6 +97,17 @@
 			<string>direct</string>
 		</dict>
 	</array>
+	<key>policy</key>
+	<dict>
+		<key>levels</key>
+		<dict>
+			<key>0</key>
+			<dict>
+				<key>uplinkOnly</key>
+				<integer>0</integer>
+			</dict>
+		</dict>
+	</dict>
 	<key>routing</key>
 	<dict>
 		<key>settings</key>

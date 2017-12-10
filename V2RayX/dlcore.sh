@@ -1,4 +1,4 @@
-VERSION="v2.41"
+VERSION="v3.1"
 
 
 cd $SRCROOT
@@ -13,7 +13,11 @@ if [ "$VERSION" != "$existingVersion" ]; then
         cd v2ray-core-bin
         unzip -o v2ray-macos.zip
         mv v2ray-${VERSION}-macos/v2ray v2ray
+        mv v2ray-${VERSION}-macos/v2ctl v2ctl
+        mv v2ray-${VERSION}-macos/geoip.dat geoip.dat
+        mv v2ray-${VERSION}-macos/geosite.dat geosite.dat
         chmod +x ./v2ray
+        chmod +x ./v2ctl
         rm -r v2ray-*
         exit 0
     else
