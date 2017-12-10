@@ -38,7 +38,7 @@ the list.
 
 
 ### manually update v2ray-core
-replace `V2RayX.app/Contents/MacOS/v2ray` with the newest v2ray 
+replace `V2RayX.app/Contents/Resources/v2ray` with the newest v2ray 
 version from [v2ray-core 
 repo](https://github.com/v2ray/v2ray-core/releases). However, compatibility is not guaranteed.
 
