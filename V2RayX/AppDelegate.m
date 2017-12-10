@@ -104,7 +104,7 @@ static AppDelegate *appDelegate;
               },
       @"mux": @{
               @"concurrency": @8,
-              @"enabled": @0
+              @"enabled": [NSNumber numberWithBool:NO],
       },
       @"profiles":@[
                     @{
