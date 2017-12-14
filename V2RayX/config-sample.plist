@@ -2,6 +2,40 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>inboundDetour</key>
+	<array>
+		<dict>
+			<key>allocate</key>
+			<dict>
+				<key>concurrency</key>
+				<integer>3</integer>
+				<key>refresh</key>
+				<integer>5</integer>
+				<key>strategy</key>
+				<string>always</string>
+			</dict>
+			<key>domainOverride</key>
+			<array>
+				<string>http</string>
+				<string>tls</string>
+			</array>
+			<key>listen</key>
+			<string>127.0.0.1</string>
+			<key>port</key>
+			<string>8001</string>
+			<key>protocol</key>
+			<string>http</string>
+			<key>settings</key>
+			<dict>
+				<key>timeout</key>
+				<integer>0</integer>
+			</dict>
+			<key>streamSettings</key>
+			<dict/>
+			<key>tag</key>
+			<string>httpDetour</string>
+		</dict>
+	</array>
 	<key>dns</key>
 	<dict>
 		<key>servers</key>
