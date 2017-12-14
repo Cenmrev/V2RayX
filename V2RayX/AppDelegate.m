@@ -75,7 +75,7 @@ static AppDelegate *appDelegate;
     NSNumber* setingVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"setingVersion"];
     if(setingVersion == nil || [setingVersion integerValue] != kV2RayXSettingVersion) {
         NSAlert *noServerAlert = [[NSAlert alloc] init];
-        [noServerAlert setMessageText:@"Sorry, unknown settings!\nAll V2RayX settings will be reset."];
+        [noServerAlert setMessageText:@"If you are running V2RayX for the first time, ignore this message. \nSorry, unknown settings!\nAll V2RayX settings will be reset."];
         [noServerAlert runModal];
         [self writeDefaultSettings]; //explicitly write default settings to user defaults file
     }
@@ -426,7 +426,7 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
         NSAlert *installAlert = [[NSAlert alloc] init];
         [installAlert addButtonWithTitle:@"Install"];
         [installAlert addButtonWithTitle:@"Quit"];
-        [installAlert setMessageText:@"V2RayX needs to install a small tool to /Library/Application Support/V2RayX/ with administrator privileges to set system proxy quickly."];
+        [installAlert setMessageText:@"V2RayX needs to install a small tool to /Library/Application Support/V2RayX/ with administrator privileges to set system proxy quickly.\nOtherwise you need to type in the administrator password every time you change system proxy through V2RayX."];
         if ([installAlert runModal] == NSAlertFirstButtonReturn) {
             NSLog(@"start install");
             NSString *helperPath = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"install_helper.sh"];
