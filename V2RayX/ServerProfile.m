@@ -20,7 +20,6 @@
         [self setUserId:@"23ad6b10-8d1a-40f7-8ad0-e3e35cd38297"];
         [self setAlterId:@64];
         [self setRemark:@"test server"];
-        [self setAllowPassive:[NSNumber numberWithBool:false]];//does not allow passive as default
         [self setSecurity:@0]; //use aes-128-cfb as default
         [self setNetwork:@0];
     }
@@ -37,7 +36,6 @@
              @"userId": userId != nil ? [userId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]: @"",
              @"alterId": alterId != nil ? alterId : @0,
              @"remark": remark != nil ? remark : @"",
-             @"allowPassive": allowPassive != nil ? allowPassive : [NSNumber numberWithBool:false],
              @"security": security != nil ? security : @0,
              @"network": network != nil ? network : @0};
 }
@@ -54,7 +52,6 @@
     config[@"inboundDetour"][0][@"listen"] = [[userDefaults objectForKey:@"shareOverLan"] boolValue] ? @"0.0.0.0" : @"127.0.0.1";
     config[@"inboundDetour"][0][@"port"] = [userDefaults objectForKey:@"httpPort"];
     config[@"inbound"][@"settings"][@"udp"] = config[@"udpSupport"];
-    config[@"inbound"][@"allowPassive"] = [self allowPassive];
     if ([userDefaults objectForKey:@"mux"] != nil) {
         config[@"outbound"][@"mux"] = [userDefaults objectForKey:@"mux"];
     }
@@ -83,6 +80,5 @@
 @synthesize alterId;
 @synthesize remark;
 @synthesize security;
-@synthesize allowPassive;
 @synthesize network;
 @end

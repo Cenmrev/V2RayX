@@ -29,7 +29,9 @@
     FSEventStreamRef fsEventStream;
     NSString* plistPath;
     NSString* pacPath;
+    NSString* logDirPath;
     dispatch_queue_t taskQueue;
+    
 }
 
 @end
@@ -64,6 +66,17 @@ static AppDelegate *appDelegate;
         NSString* simplePac = [[NSBundle mainBundle] pathForResource:@"simple" ofType:@"pac"];
         [fileManager copyItemAtPath:simplePac toPath:pacPath error:nil];
     }
+    
+    // Create Log Dir
+    do {
+        NSString* logDirName = [NSString stringWithFormat:@"cenmrev.v2rayx.log.%@",
+                                [[NSUUID UUID] UUIDString]];
+        logDirPath = [NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), logDirName];
+    } while ([fileManager fileExistsAtPath:logDirPath]);
+    NSLog(@"%@", logDirPath);
+    [fileManager createDirectoryAtPath:logDirPath withIntermediateDirectories:YES attributes:nil error:nil];
+    [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/access.log", logDirPath] contents:nil attributes:nil];
+    [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/error.log", logDirPath] contents:nil attributes:nil];
     
     // set up pac server
     __weak typeof(self) weakSelf = self;
@@ -113,7 +126,6 @@ static AppDelegate *appDelegate;
                         @"alterId": @64,
                         @"userId": @"23ad6b10-8d1a-40f7-8ad0-e3e35cd38297",
                         @"network": @0,
-                        @"allowPassive": [NSNumber numberWithBool:false],
                         @"security": @0,
                         @"remark": @"test server"
                         }
@@ -150,8 +162,12 @@ static AppDelegate *appDelegate;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
+    //unload v2ray
     runCommandLine(@"/bin/launchctl", @[@"unload", plistPath]);
     NSLog(@"V2RayX quiting, V2Ray core unloaded.");
+    //remove log file
+    [[NSFileManager defaultManager] removeItemAtPath:logDirPath error:nil];
+    //turn off proxy
     if (proxyIsOn && proxyMode != 3) {
         proxyIsOn = NO;
         [self updateSystemProxy];//close system proxy
@@ -285,7 +301,6 @@ static AppDelegate *appDelegate;
             newProfile.userId = nilCoalescing(aProfile[@"userId"], @"");
             newProfile.alterId = nilCoalescing(aProfile[@"alterId"], @0);
             newProfile.remark = nilCoalescing(aProfile[@"remark"], @"");
-            newProfile.allowPassive = nilCoalescing(aProfile[@"allowPassive"], [NSNumber numberWithBool:false]);
             newProfile.network = nilCoalescing(aProfile[@"network"], @0);
             newProfile.security = nilCoalescing(aProfile[@"security"], @0);
             [dProfiles addObject:newProfile];

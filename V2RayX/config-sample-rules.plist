@@ -65,6 +65,10 @@
 	</dict>
 	<key>log</key>
 	<dict>
+		<key>error</key>
+		<string></string>
+		<key>access</key>
+		<string></string>
 		<key>loglevel</key>
 		<string>warning</string>
 	</dict>

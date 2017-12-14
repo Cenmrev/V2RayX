@@ -15,7 +15,6 @@
 @property (nonatomic) NSString* userId;
 @property (nonatomic) NSNumber* alterId;
 @property (nonatomic) NSString* remark;
-@property (nonatomic) NSNumber* allowPassive;
 @property (nonatomic) NSNumber* security; //0:aes-128-cfb, 1:aes-128-gcm, 2:chacha20-poly1305
 @property (nonatomic) NSNumber* network; //0:tcp, 1:kcp, 2:ws
 @end
