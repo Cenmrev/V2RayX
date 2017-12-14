@@ -264,6 +264,10 @@
 - (IBAction)transportHelp:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/05_transport.html"]];
 }
+
+- (IBAction)showLog:(id)sender {
+    [[NSWorkspace sharedWorkspace] openFile:[[self delegate] logDirPath]];
+}
 @synthesize selectedProfile;
 @synthesize localPort;
 @synthesize httpPort;

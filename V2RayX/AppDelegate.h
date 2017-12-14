@@ -18,6 +18,7 @@
 - (IBAction)chooseManualMode:(id)sender;
 - (IBAction)showConfigWindow:(id)sender;
 - (IBAction)editPac:(id)sender;
+- (NSString*)logDirPath;
 //- (NSArray*)readDefaultsAsArray;
 - (NSDictionary*)readDefaultsAsDictionary;
 @property (strong, nonatomic)  NSStatusItem *statusBarItem;

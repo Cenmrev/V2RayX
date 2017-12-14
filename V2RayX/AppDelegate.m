@@ -31,7 +31,6 @@
     NSString* pacPath;
     NSString* logDirPath;
     dispatch_queue_t taskQueue;
-    
 }
 
 @end
@@ -555,6 +554,10 @@ void onPACChange(
 {
     //NSLog(@"pac changed");
     [appDelegate updateSystemProxy];
+}
+
+- (NSString*)logDirPath {
+    return logDirPath;
 }
 
 @end

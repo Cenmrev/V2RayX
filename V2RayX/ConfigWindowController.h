@@ -13,7 +13,7 @@
 @optional
 - (void)configurationDidChange;
 - (NSDictionary*)readDefaultsAsDictionary;
-
+- (NSString*)logDirPath;
 @end
 
 @interface ConfigWindowController : NSWindowController <NSTableViewDataSource, NSTableViewDelegate>
