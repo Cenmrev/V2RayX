@@ -17,6 +17,7 @@
     ConfigWindowController *configWindowController;
 
     dispatch_queue_t taskQueue;
+    dispatch_source_t dispatchPacSource;
     FSEventStreamRef fsEventStream;
 }
 
@@ -80,7 +81,16 @@ static AppDelegate *appDelegate;
     profiles = [[NSMutableArray alloc] init];
     [self readDefaults];
     [self configurationDidChange];
-    [self monitorPAC:pacDir];
+    
+    //https://randexdev.com/2012/03/how-to-detect-directory-changes-using-gcd/
+    int fildes = open([pacPath cStringUsingEncoding:NSUTF8StringEncoding], O_RDONLY);
+    dispatchPacSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE, fildes, DISPATCH_VNODE_WRITE | DISPATCH_VNODE_EXTEND, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+    dispatch_source_set_event_handler(dispatchPacSource, ^{
+        NSLog(@"pac changed");
+        [appDelegate updateSystemProxy];
+    });
+    dispatch_resume(dispatchPacSource);
+    
     appDelegate = self;
 }
 
@@ -111,6 +121,8 @@ static AppDelegate *appDelegate;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
+    //stop monitor pac
+    dispatch_source_cancel(dispatchPacSource);
     //unload v2ray
     runCommandLine(@"/bin/launchctl", @[@"unload", plistPath]);
     NSLog(@"V2RayX quiting, V2Ray core unloaded.");
@@ -524,46 +536,12 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
     [self updateServerMenuList];
 }
 
-- (void)monitorPAC:(NSString *)filePath {
-    if (fsEventStream) {
-        return;
-    }
-    CFStringRef mypath = (__bridge CFStringRef)(filePath);
-    CFArrayRef pathsToWatch = CFArrayCreate(NULL, (const void **)&mypath, 1, NULL);
-    void *callbackInfo = NULL; // could put stream-specific data here.
-    CFAbsoluteTime latency = 3.0; /* Latency in seconds */
-    
-    /* Create the stream, passing in a callback */
-    fsEventStream = FSEventStreamCreate(NULL,
-                                        &onPACChange,
-                                        callbackInfo,
-                                        pathsToWatch,
-                                        kFSEventStreamEventIdSinceNow, /* Or a previous event ID */
-                                        latency,
-                                        kFSEventStreamCreateFlagNone /* Flags explained in reference */
-                                        );
-    FSEventStreamScheduleWithRunLoop(fsEventStream, [[NSRunLoop mainRunLoop] getCFRunLoop], (__bridge CFStringRef)NSDefaultRunLoopMode);
-    FSEventStreamStart(fsEventStream);
-}
-
 - (IBAction)copyExportCmd:(id)sender {
     [[NSPasteboard generalPasteboard] clearContents];
     NSString* command = [NSString stringWithFormat:@"export http_proxy=\"http://127.0.0.1:%ld\"; export HTTP_PROXY=\"http://127.0.0.1:%ld\"; export https_proxy=\"http://127.0.0.1:%ld\"; export HTTPS_PROXY=\"http://127.0.0.1:%ld\"", httpPort, httpPort, httpPort, httpPort];
     [[NSPasteboard generalPasteboard] setString:command forType:NSStringPboardType];
 }
 
-
-void onPACChange(
-                 ConstFSEventStreamRef streamRef,
-                 void *clientCallBackInfo,
-                 size_t numEvents,
-                 void *eventPaths,
-                 const FSEventStreamEventFlags eventFlags[],
-                 const FSEventStreamEventId eventIds[])
-{
-    //NSLog(@"pac changed");
-    [appDelegate updateSystemProxy];
-}
 
 @synthesize logDirPath;
 
