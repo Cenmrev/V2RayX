@@ -53,7 +53,7 @@
                                                   }
                                           }
                                   }];
-        [self setProxySettings:@{}];
+        [self setProxySettings:@{@"address": @"", @"port": @0}];
         [self setMuxSettings:@{
                                @"enabled": [NSNumber numberWithBool:NO],
                                @"concurrency": @8
@@ -81,40 +81,59 @@
     profile.level = [outDict[@"settings"][@"vnext"][0][@"users"][0][@"level"] unsignedIntegerValue];
     profile.security = [securityDict[outDict[@"settings"][@"vnext"][0][@"users"][0][@"security"]] unsignedIntegerValue];
     profile.network = [netWorkDict[outDict[@"streamSettings"][@"network"]] unsignedIntegerValue];
-    profile.streamSettings = nilCoalescing(outDict[@"streamSettings"], @{});
-    profile.proxySettings = nilCoalescing(outDict[@"proxySettings"], @{});
-    profile.muxSettings = nilCoalescing(outDict[@"setMuxSettings"], @{});
-    
+    if (outDict[@"streamSettings"] != nil) {
+        profile.streamSettings = outDict[@"streamSettings"];
+    }
+    if (outDict[@"proxySettings"][@"outbound-proxy-config"][@"settings"][@"servers"][0] != nil) {
+        profile.proxySettings = outDict[@"proxySettings"][@"outbound-proxy-config"][@"settings"][@"servers"][0];
+    }
+    if (outDict[@"setMuxSettings"] != nil) {
+        profile.muxSettings = outDict[@"setMuxSettings"];
+    }
     return profile;
 }
 
-- (NSDictionary*)outboundProfile {
+- (NSMutableDictionary*)outboundProfile {
     NSMutableDictionary* fullStreamSettings = [NSMutableDictionary dictionaryWithDictionary:streamSettings];
     fullStreamSettings[@"network"] = @[@"tcp",@"kcp", @"ws"][network];
-    return @{
-             @"sendThrough": sendThrough,
-             @"protocol": @"vmess",
-             @"settings": @{
-                     @"vnext": @[
-                             @{
-                                 @"remark": nilCoalescing(remark, @""),
-                                 @"address": nilCoalescing([address stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] , @""),
-                                 @"port": [NSNumber numberWithUnsignedInteger:port],
-                                 @"users": @[
-                                         @{
-                                             @"id": userId != nil ? [userId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]: @"",
-                                             @"alterId": [NSNumber numberWithUnsignedInteger:alterId],
-                                             @"security": @[@"aes-128-cfb", @"aes-128-gcm", @"chacha20-poly1305", @"auto"][security],
-                                             @"level": [NSNumber numberWithUnsignedInteger:level]
-                                             }
-                                         ]
-                                 }
-                             ]
-                     },
-             @"streamSettings": fullStreamSettings,
-             //@"proxySettings": proxySettings, //currently does not support
-             @"mux": muxSettings,
-             };
+    NSDictionary* result =
+    @{
+      @"sendThrough": sendThrough,
+      @"protocol": @"vmess",
+      @"settings": @{
+              @"vnext": @[
+                      @{
+                          @"remark": nilCoalescing(remark, @""),
+                          @"address": nilCoalescing([address stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] , @""),
+                          @"port": [NSNumber numberWithUnsignedInteger:port],
+                          @"users": @[
+                                  @{
+                                      @"id": userId != nil ? [userId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]: @"",
+                                      @"alterId": [NSNumber numberWithUnsignedInteger:alterId],
+                                      @"security": @[@"aes-128-cfb", @"aes-128-gcm", @"chacha20-poly1305", @"auto"][security],
+                                      @"level": [NSNumber numberWithUnsignedInteger:level]
+                                      }
+                                  ]
+                          }
+                      ]
+              },
+      @"streamSettings": fullStreamSettings,
+      @"proxySettings": [@{
+              @"tag": @"transit",
+              @"outbound-proxy-config": @{
+                      @"protocol": @"socks",
+                      @"settings": @{
+                              @"servers": @[@{
+                                                @"address": nilCoalescing(proxySettings[@"address"], @"") ,
+                                                @"port": nilCoalescing(proxySettings[@"port"], @0),
+                                                }]
+                              },
+                      @"tag": @"transit"
+                      }
+              } mutableCopy],
+      @"mux": muxSettings,
+      };
+    return [result mutableCopy];
 }
 
 @synthesize address;

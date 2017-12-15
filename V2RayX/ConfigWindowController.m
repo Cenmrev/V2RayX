@@ -119,7 +119,7 @@
     [_muxConcurrencyField setFormatter:formatter];
     [_proxyPortField setFormatter:formatter];
     //read settings
-    NSDictionary *transportSettings = [profiles[_selectedServerIndex] streamSettings];
+    NSDictionary *transportSettings = [selectedProfile streamSettings];
     //kcp
     [_kcpMtuField setIntegerValue:[transportSettings[@"kcpSettings"][@"mtu"] integerValue]];
     [_kcpTtiField setIntegerValue:[transportSettings[@"kcpSettings"][@"tti"] integerValue]];
@@ -231,8 +231,10 @@
                                           @"enabled":[NSNumber numberWithBool:[_muxEnableButton state]],
                                           @"concurrency":[NSNumber numberWithInteger:[_muxConcurrencyField integerValue]]
                                           };
+            NSDictionary* proxySettings = @{@"address": nilCoalescing([_proxyAddressField stringValue], @""), @"port": @([_proxyPortField integerValue])};
             self.selectedProfile.muxSettings = muxSettings;
             self.selectedProfile.streamSettings = streamSettings;
+            self.selectedProfile.proxySettings = proxySettings;
             //close sheet
             [[self window] endSheet:_transportWindow];
         }
@@ -245,7 +247,7 @@
 }
 
 - (IBAction)transportHelp:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/05_transport.html"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://v2ray.com/chapter_02/05_transport.html"]];
 }
 
 - (IBAction)showLog:(id)sender {

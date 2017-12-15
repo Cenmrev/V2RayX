@@ -332,6 +332,13 @@ static AppDelegate *appDelegate;
     fullConfig[@"inboundDetour"][0][@"port"] = @(httpPort);
     fullConfig[@"inbound"][@"settings"][@"udp"] = @(udpSupport);
     fullConfig[@"outbound"] = [selectedProfile outboundProfile];
+    if ([selectedProfile.proxySettings[@"address"] isKindOfClass:[NSString class]] && [selectedProfile.proxySettings[@"address"] length] > 0) {
+        [fullConfig[@"outboundDetour"] addObject:fullConfig[@"outbound"][@"proxySettings"][@"outbound-proxy-config"]];
+        [fullConfig[@"outbound"][@"proxySettings"] removeObjectForKey:@"outbound-proxy-config"];
+    } else {
+        printf("befr\n");
+        [fullConfig[@"outbound"] removeObjectForKey:@"proxySettings"];
+    }
     NSArray* dnsArray = [dnsString componentsSeparatedByString:@","];
     if ([dnsArray count] > 0) {
         fullConfig[@"dns"][@"servers"] = dnsArray;
