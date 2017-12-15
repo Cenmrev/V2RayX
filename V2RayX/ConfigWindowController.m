@@ -117,6 +117,7 @@
     [_kcpRbField setFormatter:formatter];
     [_kcpWbField setFormatter:formatter];
     [_muxConcurrencyField setFormatter:formatter];
+    [_proxyPortField setFormatter:formatter];
     //read settings
     NSDictionary *transportSettings = [profiles[_selectedServerIndex] streamSettings];
     //kcp

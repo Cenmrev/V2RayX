@@ -48,6 +48,9 @@
 @property (weak) IBOutlet NSButton *muxEnableButton;
 @property (weak) IBOutlet NSTextField *muxConcurrencyField;
 
+//proxy fields
+@property (weak) IBOutlet NSTextField *proxyAddressField;
+@property (weak) IBOutlet NSTextField *proxyPortField;
 
 @property (nonatomic) ServerProfile* selectedProfile;
 @property NSInteger selectedServerIndex;
