@@ -154,16 +154,13 @@
     }
     [self useTLS:nil];
     // mux
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"mux"] != nil) {
-        NSNumber* enableDefault = [[defaults objectForKey:@"mux"] objectForKey:@"enabled"];
-        NSNumber* concurrencyDefault = [[defaults objectForKey:@"mux"] objectForKey:@"concurrency"];
-        [_muxEnableButton setState:enableDefault==nil?NO:[enableDefault boolValue]];
-        [_muxConcurrencyField setIntegerValue:concurrencyDefault==nil?8:[concurrencyDefault integerValue]];
-    } else {
-        [_muxEnableButton setState:NO];
-        [_muxConcurrencyField setIntegerValue:8];
-    }
+    NSDictionary *muxSettings = [selectedProfile muxSettings];
+    [_muxEnableButton setState:[nilCoalescing(muxSettings[@"enabled"], @NO) boolValue]];
+    [_muxConcurrencyField setIntegerValue:[nilCoalescing(muxSettings[@"concurrency"], @8) integerValue]];
+    // proxy
+    NSDictionary *proxySettings = [selectedProfile proxySettings];
+    [_proxyAddressField setStringValue:nilCoalescing(proxySettings[@"address"], @"")];
+    [_proxyPortField setIntegerValue:[nilCoalescing(proxySettings[@"port"], @0) integerValue]];
     //show sheet
     [[self window] beginSheet:_transportWindow completionHandler:^(NSModalResponse returnCode) {
     }];
