@@ -15,6 +15,7 @@
                 <outlet property="globalTransportButton" destination="L0C-0n-d5i" id="GRx-qD-mvf"/>
                 <outlet property="httpPortField" destination="aVm-xn-0cZ" id="9lo-hP-jbp"/>
                 <outlet property="localPortField" destination="2do-qQ-ANK" id="OIL-pR-1TG"/>
+                <outlet property="logLevelButton" destination="WBJ-AN-z5m" id="6KR-S2-AcM"/>
                 <outlet property="portField" destination="vAX-58-HRK" id="l6R-dx-TNq"/>
                 <outlet property="profileTable" destination="fje-9q-W5F" id="qQT-rE-cPV"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="DXu-va-1Ry"/>
@@ -41,7 +42,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2do-qQ-ANK">
-                        <rect key="frame" x="141" y="399" width="74" height="22"/>
+                        <rect key="frame" x="141" y="398" width="74" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="jN0-7e-Eex">
                             <numberFormatter key="formatter" formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="mKI-i3-kT1"/>
@@ -50,7 +51,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="-2" name="value" keyPath="self.localPort" id="k14-Md-7l3">
+                            <binding destination="-2" name="value" keyPath="self.appDelegate.localPort" id="Qy6-eZ-dnd">
                                 <dictionary key="options">
                                     <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                     <bool key="NSValidatesImmediately" value="YES"/>
@@ -68,7 +69,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="-2" name="value" keyPath="self.httpPort" id="3q7-XI-l3L">
+                            <binding destination="-2" name="value" keyPath="self.appDelegate.httpPort" id="MP8-et-l3C">
                                 <dictionary key="options">
                                     <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                     <bool key="NSValidatesImmediately" value="YES"/>
@@ -84,7 +85,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <binding destination="-2" name="value" keyPath="self.udpSupport" id="eXY-qy-U3j"/>
+                            <binding destination="-2" name="value" keyPath="self.appDelegate.udpSupport" id="2C0-Jq-CWl"/>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="749" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="reb-n0-jKg">
@@ -114,7 +115,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="-2" name="value" keyPath="self.dnsString" id="Y1a-JG-9Wu"/>
+                            <binding destination="-2" name="value" keyPath="self.appDelegate.dnsString" id="xHX-QN-6DE"/>
                         </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="749" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ecy-ho-llN">
@@ -155,7 +156,7 @@
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
-                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="OSC-ac-Duc">
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" title="Text Cell" id="OSC-ac-Duc">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -281,6 +282,15 @@
                                         </binding>
                                     </connections>
                                 </textField>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fuj-Rp-O27">
+                                    <rect key="frame" x="145" y="113" width="36" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="level:" id="dET-23-6A4">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JLl-jc-bFO">
                                     <rect key="frame" x="75" y="142" width="275" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -393,9 +403,29 @@
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
                                     <connections>
-                                        <action selector="showtransportSettings:" target="-2" id="Wd3-Ko-7E6"/>
+                                        <action selector="showTransportSettings:" target="-2" id="XZJ-IV-UYE"/>
                                     </connections>
                                 </button>
+                                <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6tp-vX-b46">
+                                    <rect key="frame" x="187" y="110" width="56" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="AFJ-Ob-fyN">
+                                        <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="VUD-g0-3qe"/>
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        <allowedInputSourceLocales>
+                                            <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                                        </allowedInputSourceLocales>
+                                    </textFieldCell>
+                                    <connections>
+                                        <binding destination="-2" name="value" keyPath="self.selectedProfile.level" id="Alm-mJ-QTO">
+                                            <dictionary key="options">
+                                                <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
+                                </textField>
                             </subviews>
                         </view>
                     </box>
@@ -456,7 +486,7 @@ Gw
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <binding destination="-2" name="value" keyPath="self.shareOverLan" id="eeF-vl-cmx"/>
+                            <binding destination="-2" name="value" keyPath="self.appDelegate.shareOverLan" id="bIN-YN-4rS"/>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jbe-gs-AvT">

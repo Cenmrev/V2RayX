@@ -10,27 +10,14 @@
 #import "GCDWebServerDataResponse.h"
 #import "ConfigWindowController.h"
 #import <SystemConfiguration/SystemConfiguration.h>
-
-#define kV2RayXHelper @"/Library/Application Support/V2RayX/v2rayx_sysconf"
-#define kSysconfVersion @"v2rayx_sysconf 1.0.0"
-#define kV2RayXSettingVersion 2
-#define nilCoalescing(a,b) ( (a != nil) ? (a) : (b) ) // equivalent to ?? operator in Swift
+#import "ServerProfile.h"
 
 @interface AppDelegate () {
     GCDWebServer *webServer;
     ConfigWindowController *configWindowController;
-    BOOL proxyIsOn;
-    NSInteger proxyMode; // 0 = v2ray rules; 1 = pac; 2 = global
-    NSInteger localPort;
-    NSInteger httpPort;
-    BOOL udpSupport;
-    NSInteger selectedServerIndex;
-    NSMutableArray *profiles;
-    FSEventStreamRef fsEventStream;
-    NSString* plistPath;
-    NSString* pacPath;
-    NSString* logDirPath;
+
     dispatch_queue_t taskQueue;
+    FSEventStreamRef fsEventStream;
 }
 
 @end
@@ -72,7 +59,6 @@ static AppDelegate *appDelegate;
                                 [[NSUUID UUID] UUIDString]];
         logDirPath = [NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), logDirName];
     } while ([fileManager fileExistsAtPath:logDirPath]);
-    NSLog(@"%@", logDirPath);
     [fileManager createDirectoryAtPath:logDirPath withIntermediateDirectories:YES attributes:nil error:nil];
     [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/access.log", logDirPath] contents:nil attributes:nil];
     [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/error.log", logDirPath] contents:nil attributes:nil];
@@ -92,65 +78,29 @@ static AppDelegate *appDelegate;
         [self writeDefaultSettings]; //explicitly write default settings to user defaults file
     }
     profiles = [[NSMutableArray alloc] init];
+    [self readDefaults];
     [self configurationDidChange];
     [self monitorPAC:pacDir];
     appDelegate = self;
 }
 
 - (void) writeDefaultSettings {
-    // from https://www.v2ray.com/chapter_02/05_transport.html
     NSDictionary *defaultSettings =
     @{
       @"setingVersion": [NSNumber numberWithInteger:kV2RayXSettingVersion],
-      @"proxyIsOn": [NSNumber numberWithBool:NO],
-      @"proxyMode": [NSNumber numberWithInteger:0],
+      @"logLevel": @"none",
+      @"proxyState": [NSNumber numberWithBool:NO],
+      @"proxyMode": @(manual),
       @"selectedServerIndex": [NSNumber numberWithInteger:0],
       @"localPort": [NSNumber numberWithInteger:1081],
+      @"httpPort": [NSNumber numberWithInteger:8001],
       @"udpSupport": [NSNumber numberWithBool:NO],
       @"shareOverLan": [NSNumber numberWithBool:NO],
-      @"dns": @"localhost",
-      @"useTLS": [NSNumber numberWithBool:NO],
-      @"tlsSettings": @{
-              @"allowInsecure": [NSNumber numberWithBool:NO],
-              @"serverName": @""
-              },
-      @"mux": @{
-              @"concurrency": @8,
-              @"enabled": [NSNumber numberWithBool:NO],
-      },
+      @"dnsString": @"localhost",
       @"profiles":@[
-                    @{
-                        @"address": @"v2ray.cool",
-                        @"port": @10086,
-                        @"alterId": @64,
-                        @"userId": @"23ad6b10-8d1a-40f7-8ad0-e3e35cd38297",
-                        @"network": @0,
-                        @"security": @0,
-                        @"remark": @"test server"
-                        }
-                    ],
-      @"transportSettings":
-          @{
-              @"kcpSettings":
-                  @{@"mtu": @1350,
-                    @"tti": @50,
-                    @"uplinkCapacity": @5,
-                    @"downlinkCapacity": @20,
-                    @"readBufferSize": @2,
-                    @"writeBufferSize": @1,
-                    @"congestion":[NSNumber numberWithBool:false],
-                    @"header":@{@"type":@"none"}
-                    },
-              @"tcpSettings":
-                  @{@"connectionReuse": [NSNumber numberWithBool:true],
-                    @"header":@{@"type":@"none"}
-                    },
-              @"wsSettings": @{
-                      @"connectionReuse": [NSNumber numberWithBool:true],
-                      @"path": @""
-                      }
-              }
-    };
+              [[[ServerProfile alloc] init] outboundProfile]
+              ],
+      };
     for (NSString* key in [defaultSettings allKeys]) {
         [[NSUserDefaults standardUserDefaults] setObject:defaultSettings[key] forKey:key];
     }
@@ -166,9 +116,32 @@ static AppDelegate *appDelegate;
     NSLog(@"V2RayX quiting, V2Ray core unloaded.");
     //remove log file
     [[NSFileManager defaultManager] removeItemAtPath:logDirPath error:nil];
+    //save settings
+    //[[NSUserDefaults standardUserDefaults] setObject:dnsString forKey:@"dnsString"];
+    NSMutableArray* profilesArray = [[NSMutableArray alloc] init];
+    for (ServerProfile* p in profiles) {
+        [profilesArray addObject:[p outboundProfile]];
+    }
+    NSDictionary *settings =
+    @{
+      @"logLevel": logLevel,
+      @"proxyState": @(proxyState),
+      @"proxyMode": @(proxyMode),
+      @"selectedServerIndex": @(selectedServerIndex),
+      @"localPort": @(localPort),
+      @"httpPort": @(httpPort),
+      @"udpSupport": @(udpSupport),
+      @"shareOverLan": @(shareOverLan),
+      @"dnsString": dnsString,
+      @"profiles":profilesArray,
+      };
+    for (NSString* key in [settings allKeys]) {
+        [[NSUserDefaults standardUserDefaults] setObject:settings[key] forKey:key];
+    }
+    NSLog(@"Settings saved.");
     //turn off proxy
-    if (proxyIsOn && proxyMode != 3) {
-        proxyIsOn = NO;
+    if (proxyState && proxyMode != 3) {
+        proxyState = NO;
         [self updateSystemProxy];//close system proxy
     }
 }
@@ -178,27 +151,27 @@ static AppDelegate *appDelegate;
 }
 
 - (IBAction)enableProxy:(id)sender {
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:!proxyIsOn] forKey:@"proxyIsOn"];
+    proxyState = !proxyState;
     [self configurationDidChange];
 }
 
 - (IBAction)chooseV2rayRules:(id)sender {
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInteger:0] forKey:@"proxyMode"];
+    proxyMode = rules;
     [self configurationDidChange];
 }
 
 - (IBAction)choosePacMode:(id)sender {
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInteger:1] forKey:@"proxyMode"];
+    proxyMode = pac;
     [self configurationDidChange];
 }
 
 - (IBAction)chooseGlobalMode:(id)sender {
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInteger:2] forKey:@"proxyMode"];
+    proxyMode = global;
     [self configurationDidChange];
 }
 
 - (IBAction)chooseManualMode:(id)sender {
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInteger:3] forKey:@"proxyMode"];
+    proxyMode = manual;
     [self configurationDidChange];
 }
 
@@ -207,7 +180,7 @@ static AppDelegate *appDelegate;
         [configWindowController close];
     }
     configWindowController =[[ConfigWindowController alloc] initWithWindowNibName:@"ConfigWindow"];
-    configWindowController.delegate = self;
+    configWindowController.appDelegate = self;
     [configWindowController showWindow:self];
     [NSApp activateIgnoringOtherApps:YES];
     [configWindowController.window makeKeyAndOrderFront:nil];
@@ -217,8 +190,12 @@ static AppDelegate *appDelegate;
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[[NSURL fileURLWithPath:pacPath]]];
 }
 
+- (IBAction)viewLog:(id)sender {
+    [[NSWorkspace sharedWorkspace] openFile:logDirPath];
+}
+
 - (void)updateMenus {
-    if (proxyIsOn) {
+    if (proxyState) {
         [_v2rayStatusItem setTitle:@"V2Ray: On"];
         [_enabelV2rayItem setTitle:@"Stop V2Ray"];
         NSImage *icon = [NSImage imageNamed:@"statusBarIcon"];
@@ -230,10 +207,10 @@ static AppDelegate *appDelegate;
         [_statusBarItem setImage:[NSImage imageNamed:@"statusBarIcon_disabled"]];
         NSLog(@"icon updated");
     }
-    [_v2rayRulesItem setState:proxyMode == 0];
-    [_pacModeItem setState:proxyMode == 1];
-    [_globalModeItem setState:proxyMode == 2];
-    [_manualModeItem setState:proxyMode == 3];
+    [_v2rayRulesItem setState:proxyMode == rules];
+    [_pacModeItem setState:proxyMode == pac];
+    [_globalModeItem setState:proxyMode == global];
+    [_manualModeItem setState:proxyMode == manual];
     
 }
 
@@ -248,11 +225,11 @@ static AppDelegate *appDelegate;
             if (![[p remark]isEqualToString:@""]) {
                 itemTitle = [p remark];
             } else {
-                itemTitle = [NSString stringWithFormat:@"%@:%@",[p address], [p port]];
+                itemTitle = [NSString stringWithFormat:@"%@:%lu",[p address], (unsigned long)[p port]];
             }
             NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(switchServer:) keyEquivalent:@""];
             [newItem setTag:i];
-            newItem.state = i == selectedServerIndex?1:0;
+            newItem.state = i == selectedServerIndex? 1 : 0;
             [_serverListMenu addItem:newItem];
             i++;
         }
@@ -268,40 +245,38 @@ static AppDelegate *appDelegate;
 
 - (void)readDefaults {
     NSDictionary *defaultsDic = [self readDefaultsAsDictionary];
-    proxyIsOn = [defaultsDic[@"proxyState"] boolValue];
+    NSLog(@"read def array");
+    proxyState = [defaultsDic[@"proxyState"] boolValue];
     proxyMode = [defaultsDic[@"proxyMode"] integerValue];
     localPort = [defaultsDic[@"localPort"] integerValue];
     httpPort = [defaultsDic[@"httpPort"] integerValue];
     udpSupport = [defaultsDic[@"udpSupport"] integerValue];
+    shareOverLan = [defaultsDic[@"shareOverLan"] boolValue];
     [profiles removeAllObjects];
     profiles = defaultsDic[@"profiles"];
+    dnsString = defaultsDic[@"dnsString"];
+    logLevel = defaultsDic[@"logLevel"];
     selectedServerIndex = [defaultsDic[@"selectedServerIndex"] integerValue];
     NSLog(@"read %ld profiles, selected No.%ld", [profiles count] , selectedServerIndex);
 }
 
 - (NSDictionary*)readDefaultsAsDictionary {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *dProxyState = nilCoalescing([defaults objectForKey:@"proxyIsOn"], [NSNumber numberWithBool:NO]); //turn on proxy as default
-    NSNumber *dMode = nilCoalescing([defaults objectForKey:@"proxyMode"], @0); // use v2ray rules as defualt mode
+    NSString *dLogLevel = nilCoalescing([defaults objectForKey:@"logLevel"], @"none");
+    NSNumber *dProxyState = nilCoalescing([defaults objectForKey:@"proxyState"], [NSNumber numberWithBool:NO]); //turn off proxy as default
+    NSNumber *dMode = nilCoalescing([defaults objectForKey:@"proxyMode"], [NSNumber numberWithInteger:rules]); // use v2ray rules as defualt mode
     NSNumber* dLocalPort = nilCoalescing([defaults objectForKey:@"localPort"], @1081);//use 1081 as default local port
+    
     NSNumber* dHttpPort = nilCoalescing([defaults objectForKey:@"httpPort"], @8001); //use 8001 as default local http port
     NSNumber* dUdpSupport = nilCoalescing([defaults objectForKey:@"udpSupport"], [NSNumber numberWithBool:NO]);// do not support udp as default
     NSNumber* dShareOverLan = nilCoalescing([defaults objectForKey:@"shareOverLan"], [NSNumber numberWithBool:NO]); //do not share over lan as default
-    NSString *dDnsString = nilCoalescing([defaults objectForKey:@"dns"], @"");
+    NSString *dDnsString = nilCoalescing([defaults objectForKey:@"dnsString"], @"localhost");
     NSMutableArray *dProfilesInPlist = [defaults objectForKey:@"profiles"];
     NSMutableArray *dProfiles = [[NSMutableArray alloc] init];
     NSNumber *dServerIndex;
     if ([dProfilesInPlist isKindOfClass:[NSArray class]] && [dProfilesInPlist count] > 0) {
         for (NSDictionary *aProfile in dProfilesInPlist) {
-            
-            ServerProfile *newProfile = [[ServerProfile alloc] init];
-            newProfile.address = nilCoalescing(aProfile[@"address"], @"");
-            newProfile.port = nilCoalescing(aProfile[@"port"], @10086);
-            newProfile.userId = nilCoalescing(aProfile[@"userId"], @"");
-            newProfile.alterId = nilCoalescing(aProfile[@"alterId"], @0);
-            newProfile.remark = nilCoalescing(aProfile[@"remark"], @"");
-            newProfile.network = nilCoalescing(aProfile[@"network"], @0);
-            newProfile.security = nilCoalescing(aProfile[@"security"], @0);
+            ServerProfile *newProfile =  [ServerProfile readFromAnOutboundDic:aProfile];
             [dProfiles addObject:newProfile];
         }
         dServerIndex = [defaults objectForKey:@"selectedServerIndex"];
@@ -312,8 +287,8 @@ static AppDelegate *appDelegate;
     } else {
         dServerIndex = [NSNumber numberWithInteger:-1];
     }
-    //return @[dProxyState,dMode,dLocalPort,dUdpSupport,dProfiles,dServerIndex];
     return @{@"proxyState": dProxyState,
+             @"logLevel": dLogLevel,
              @"proxyMode": dMode,
              @"localPort": dLocalPort,
              @"httpPort": dHttpPort,
@@ -321,7 +296,7 @@ static AppDelegate *appDelegate;
              @"shareOverLan": dShareOverLan,
              @"profiles": dProfiles,
              @"selectedServerIndex": dServerIndex,
-             @"dns":dDnsString};
+             @"dnsString":dDnsString};
 }
 
 
@@ -332,11 +307,44 @@ static AppDelegate *appDelegate;
     });
 }
 
+- (NSDictionary*)generateFullConfigFrom:(ServerProfile*)selectedProfile {
+    NSMutableDictionary* fullConfig = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config-sample" ofType:@"plist"]];
+    fullConfig[@"log"] = @{
+                           @"access": [NSString stringWithFormat:@"%@/access.log", logDirPath],
+                           @"error": [NSString stringWithFormat:@"%@/error.log", logDirPath],
+                           @"loglevel": logLevel
+                           };
+    fullConfig[@"inbound"][@"port"] = @(localPort);
+    fullConfig[@"inbound"][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
+    fullConfig[@"inboundDetour"][0][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
+    fullConfig[@"inboundDetour"][0][@"port"] = @(httpPort);
+    fullConfig[@"inbound"][@"settings"][@"udp"] = @(udpSupport);
+    fullConfig[@"outbound"] = [selectedProfile outboundProfile];
+    NSArray* dnsArray = [dnsString componentsSeparatedByString:@","];
+    if ([dnsArray count] > 0) {
+        fullConfig[@"dns"][@"servers"] = dnsArray;
+    } else {
+        fullConfig[@"dns"][@"servers"] = @[@"localhost"];
+    }
+    if (proxyMode == rules) {
+        [fullConfig[@"routing"][@"settings"][@"rules"][4][@"ip"] addObject:@"geoip:cn"];
+        [fullConfig[@"routing"][@"settings"][@"rules"]
+         addObject:@{ @"domain": @[@"geosite:cn"],
+                      @"outboundTag": @"direct",
+                      @"type": @"field",
+                     }];
+    } else if (proxyMode == manual) {
+        fullConfig[@"routing"][@"settings"][@"rules"] = @[];
+    }
+    
+    return fullConfig;
+}
+
 -(BOOL)loadV2ray {
     NSString *configPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/config.json",NSHomeDirectory()];
     printf("proxy mode is %ld\n", (long)proxyMode);
-    NSDictionary *configDic = [[profiles objectAtIndex:selectedServerIndex] v2rayConfigWithRules:proxyMode == 0];
-    NSData* v2rayJSONconfig = [NSJSONSerialization dataWithJSONObject:configDic options:NSJSONWritingPrettyPrinted error:nil];
+    NSDictionary *fullConfig = [self generateFullConfigFrom:profiles[selectedServerIndex]];
+    NSData* v2rayJSONconfig = [NSJSONSerialization dataWithJSONObject:fullConfig options:NSJSONWritingPrettyPrinted error:nil];
     [v2rayJSONconfig writeToFile:configPath atomically:NO];
     [self generateLaunchdPlist:plistPath];
     dispatch_async(taskQueue, ^{
@@ -381,7 +389,7 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
 
 -(void)updateSystemProxy {
     NSArray *arguments;
-    if (proxyIsOn) {
+    if (proxyState) {
         if (proxyMode == 1) { // pac mode
             // close system proxy first to refresh pac file
             if (![webServer isRunning]) {
@@ -406,7 +414,7 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
         }
     }
     runCommandLine(kV2RayXHelper,arguments);
-    NSLog(@"system proxy state:%@,%ld",proxyIsOn?@"on":@"off", (long)proxyMode);
+    NSLog(@"system proxy state:%@,%ld",proxyState?@"on":@"off", (long)proxyMode);
 }
 
 -(BOOL)currentProxySetByMe {
@@ -498,13 +506,13 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
 
 -(void)configurationDidChange {
     [self unloadV2ray];
-    [self readDefaults];
-    if (proxyIsOn) {
+    //[self readDefaults];
+    if (proxyState) {
         if (selectedServerIndex >= 0 && selectedServerIndex < [profiles count]) {
             [self loadV2ray];
         } else {
-            proxyIsOn = NO;
-            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO] forKey:@"proxyIsOn"];
+            proxyState = NO;
+            //[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO] forKey:@"proxyState"];
             NSAlert *noServerAlert = [[NSAlert alloc] init];
             [noServerAlert setMessageText:@"No available Server Profiles!"];
             [noServerAlert runModal];
@@ -544,6 +552,7 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
     [[NSPasteboard generalPasteboard] setString:command forType:NSStringPboardType];
 }
 
+
 void onPACChange(
                  ConstFSEventStreamRef streamRef,
                  void *clientCallBackInfo,
@@ -556,8 +565,16 @@ void onPACChange(
     [appDelegate updateSystemProxy];
 }
 
-- (NSString*)logDirPath {
-    return logDirPath;
-}
+@synthesize logDirPath;
 
+@synthesize proxyState;
+@synthesize proxyMode;
+@synthesize localPort;
+@synthesize httpPort;
+@synthesize udpSupport;
+@synthesize shareOverLan;
+@synthesize selectedServerIndex;
+@synthesize dnsString;
+@synthesize profiles;
+@synthesize logLevel;
 @end

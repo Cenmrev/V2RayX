@@ -6,6 +6,7 @@
 //
 
 #import "ConfigWindowController.h"
+#import "AppDelegate.h"
 
 @interface ConfigWindowController () {
     NSMutableArray *profiles;
@@ -24,23 +25,20 @@
     [_alterIdField setFormatter:formatter];
     [_localPortField setFormatter:formatter];
     [_httpPortField setFormatter:formatter];
+    profiles = [appDelegate profiles];
+    NSLog(@"%ld", [profiles count]);
+    _selectedServerIndex = [appDelegate selectedServerIndex];
     
-    profiles = [[NSMutableArray alloc] init];
-    
-    NSDictionary *defaultsDic = [[self delegate] readDefaultsAsDictionary];
-    [self setLocalPort:[defaultsDic[@"localPort"] integerValue]];
-    [self setHttpPort:[defaultsDic[@"httpPort"] integerValue]];
-    [self setUdpSupport:[defaultsDic[@"udpSupport"] boolValue]];
-    [self setShareOverLan:[defaultsDic[@"shareOverLan"] boolValue]];
-    if ([defaultsDic[@"dns"] length] > 0) {
-        [self setDnsString:defaultsDic[@"dns"]];
-    } else {
-        [self setDnsString:@"localhost"];
-    }
-    profiles = defaultsDic[@"profiles"];
     [_profileTable reloadData];
-    _selectedServerIndex = [defaultsDic[@"selectedServerIndex"] integerValue];
     [_profileTable selectRowIndexes:[[NSIndexSet alloc] initWithIndex:_selectedServerIndex] byExtendingSelection:NO];
+    NSDictionary *logLevelDic = @{
+                               @"debug": @4,
+                               @"info": @3,
+                               @"warning": @2,
+                               @"error":@1,
+                               @"none":@0
+                               };
+    [_logLevelButton selectItemAtIndex:[logLevelDic[[appDelegate logLevel]] integerValue]];
 }
 
 // set controller as profilesTable's datasource
@@ -55,14 +53,6 @@
     } else {
         return nil;
     }
-}
-
-- (void)tableView:(NSTableView *)aTableView
-   setObjectValue:(id)anObject
-   forTableColumn:(NSTableColumn *)aTableColumn
-              row:(NSInteger)rowIndex{
-    [selectedProfile setAddress:anObject];
-    [aTableView reloadData];
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
@@ -101,28 +91,19 @@
 }
 
 - (IBAction)okSave:(id)sender {
-    // save settings to file
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[NSNumber numberWithBool:udpSupport]  forKey:@"udpSupport"];
-    [defaults setObject:[NSNumber numberWithBool:shareOverLan]  forKey:@"shareOverLan"];
-    [defaults setObject:[NSNumber numberWithInteger:localPort] forKey:@"localPort"];
-    [defaults setObject:[NSNumber numberWithInteger:httpPort] forKey:@"httpPort"];
-    NSMutableArray* profileDicArray = [[NSMutableArray alloc] init];
-    for (ServerProfile *p in profiles) {
-        [profileDicArray addObject:[p dictionaryForm]];
-    }
-    [defaults setObject:profileDicArray forKey:@"profiles"];
-    [defaults setObject:[NSNumber numberWithInteger:_selectedServerIndex] forKey:@"selectedServerIndex"];
+    
     NSString* dnsStr = [[_dnsField stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""];
     if ([dnsStr length] == 0) {
         dnsStr = @"localhost";
     }
-    [defaults setObject:dnsStr forKey:@"dns"];
-    [[self delegate] configurationDidChange];
+    appDelegate.dnsString = dnsStr;
+    appDelegate.logLevel = _logLevelButton.selectedItem.title;
+    
+    [appDelegate configurationDidChange];
     [[self window] close];
 }
 
-- (IBAction)showtransportSettings:(id)sender {
+- (IBAction)showTransportSettings:(id)sender {
     if (_transportWindow == nil) {
         [[NSBundle mainBundle] loadNibNamed:@"transportWindow" owner:self topLevelObjects:nil];
     }
@@ -137,7 +118,7 @@
     [_kcpWbField setFormatter:formatter];
     [_muxConcurrencyField setFormatter:formatter];
     //read settings
-    NSDictionary *transportSettings = [[NSUserDefaults standardUserDefaults] objectForKey:@"transportSettings"];
+    NSDictionary *transportSettings = [profiles[_selectedServerIndex] streamSettings];
     //kcp
     [_kcpMtuField setIntegerValue:[transportSettings[@"kcpSettings"][@"mtu"] integerValue]];
     [_kcpTtiField setIntegerValue:[transportSettings[@"kcpSettings"][@"tti"] integerValue]];
@@ -220,7 +201,7 @@
     [settingAlert beginSheetModalForWindow:_transportWindow completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSAlertFirstButtonReturn) {
             //save settings
-            NSDictionary *transportSettings =
+            NSDictionary *streamSettings =
             @{@"kcpSettings":
                   @{@"mtu":[NSNumber numberWithInteger:[_kcpMtuField integerValue]],
                     @"tti":[NSNumber numberWithInteger:[_kcpTtiField integerValue]],
@@ -238,18 +219,19 @@
               @"wsSettings": @{
                   @"connectionReuse": [NSNumber numberWithBool:[_wsCrButton state]],
                   @"path": [_wsPathField stringValue] != nil ? [_wsPathField stringValue] : @""
-                  }
+                  },
+              @"security": [_tlsUseButton state] ? @"tls" : @"none",
+              @"tlsSettings": @{
+                  @"serverName": [_tlsSnField stringValue],
+                  @"allowInsecure": [NSNumber numberWithBool:[_tlsAiButton state]==1],
+              },
               };
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:transportSettings forKey:@"transportSettings"];
-            [defaults setObject:[NSNumber numberWithBool:[_tlsUseButton state]] forKey:@"useTLS"];
-            [defaults setObject:@{
-                                  @"allowInsecure": [NSNumber numberWithBool:[_tlsAiButton state]],
-                                  @"serverName": [_tlsSnField stringValue]
-                                  } forKey:@"tlsSettings"];
-            [defaults setObject:@{@"enabled":[NSNumber numberWithBool:[_muxEnableButton state]],
-                                  @"concurrency":[NSNumber numberWithInteger:[_muxConcurrencyField integerValue]]
-                                  } forKey:@"mux"];
+            NSDictionary* muxSettings = @{
+                                          @"enabled":[NSNumber numberWithBool:[_muxEnableButton state]],
+                                          @"concurrency":[NSNumber numberWithInteger:[_muxConcurrencyField integerValue]]
+                                          };
+            self.selectedProfile.muxSettings = muxSettings;
+            self.selectedProfile.streamSettings = streamSettings;
             //close sheet
             [[self window] endSheet:_transportWindow];
         }
@@ -266,12 +248,9 @@
 }
 
 - (IBAction)showLog:(id)sender {
-    [[NSWorkspace sharedWorkspace] openFile:[[self delegate] logDirPath]];
+    [appDelegate viewLog:sender];
 }
+
 @synthesize selectedProfile;
-@synthesize localPort;
-@synthesize httpPort;
-@synthesize udpSupport;
-@synthesize shareOverLan;
-@synthesize dnsString;
+@synthesize appDelegate;
 @end

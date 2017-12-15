@@ -8,14 +8,6 @@
 #import <Cocoa/Cocoa.h>
 #import "ServerProfile.h"
 
-@protocol ConfigWindowControllerDelegate <NSObject>
-
-@optional
-- (void)configurationDidChange;
-- (NSDictionary*)readDefaultsAsDictionary;
-- (NSString*)logDirPath;
-@end
-
 @interface ConfigWindowController : NSWindowController <NSTableViewDataSource, NSTableViewDelegate>
 - (IBAction)addRemoveServer:(id)sender;
 - (IBAction)cancel:(id)sender;
@@ -29,6 +21,7 @@
 @property (weak) IBOutlet NSTextField *alterIdField;
 @property (weak) IBOutlet NSTextField *dnsField;
 @property (weak) IBOutlet NSButton *globalTransportButton;
+@property (weak) IBOutlet NSPopUpButton *logLevelButton;
 
 @property (weak) IBOutlet NSWindow* transportWindow;
 //kcp fields
@@ -58,10 +51,7 @@
 
 @property (nonatomic) ServerProfile* selectedProfile;
 @property NSInteger selectedServerIndex;
-@property NSInteger localPort;
-@property NSInteger httpPort;
-@property BOOL udpSupport;
-@property BOOL shareOverLan;
-@property (nonatomic, weak) NSString* dnsString;
-@property (nonatomic, weak) id<ConfigWindowControllerDelegate> delegate;
+
+@property AppDelegate* appDelegate;
+
 @end

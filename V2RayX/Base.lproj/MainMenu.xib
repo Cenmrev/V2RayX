@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -729,6 +729,12 @@
                         <action selector="editPac:" target="Voe-Tx-rLC" id="4jX-Hv-SpU"/>
                     </connections>
                 </menuItem>
+                <menuItem title="View log" id="5Vg-qU-2V2">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="viewLog:" target="Voe-Tx-rLC" id="6j0-df-F3G"/>
+                    </connections>
+                </menuItem>
                 <menuItem isSeparatorItem="YES" id="1ve-pA-4fu"/>
                 <menuItem title="Copy HTTP Proxy Shell Export Line" id="2fK-AZ-akH">
                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -753,7 +759,7 @@
                 <menuItem title="Quit" id="8f2-cF-RxH">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="terminate:" target="-1" id="SZu-Iy-jKu"/>
+                        <action selector="terminate:" target="-2" id="Clz-zf-6So"/>
                     </connections>
                 </menuItem>
             </items>
@@ -762,5 +768,8 @@
         <menu title="ServerList" id="pPD-dn-4h0">
             <point key="canvasLocation" x="445" y="279.5"/>
         </menu>
+        <menuItem title="Item" id="Gg2-Qw-2CF">
+            <modifierMask key="keyEquivalentModifierMask"/>
+        </menuItem>
     </objects>
 </document>
