@@ -330,13 +330,12 @@ static AppDelegate *appDelegate;
     fullConfig[@"inbound"][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
     fullConfig[@"inboundDetour"][0][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
     fullConfig[@"inboundDetour"][0][@"port"] = @(httpPort);
-    fullConfig[@"inbound"][@"settings"][@"udp"] = @(udpSupport);
+    fullConfig[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udpSupport];
     fullConfig[@"outbound"] = [selectedProfile outboundProfile];
     if ([selectedProfile.proxySettings[@"address"] isKindOfClass:[NSString class]] && [selectedProfile.proxySettings[@"address"] length] > 0) {
         [fullConfig[@"outboundDetour"] addObject:fullConfig[@"outbound"][@"proxySettings"][@"outbound-proxy-config"]];
         [fullConfig[@"outbound"][@"proxySettings"] removeObjectForKey:@"outbound-proxy-config"];
     } else {
-        printf("befr\n");
         [fullConfig[@"outbound"] removeObjectForKey:@"proxySettings"];
     }
     NSArray* dnsArray = [dnsString componentsSeparatedByString:@","];

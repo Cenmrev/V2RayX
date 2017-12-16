@@ -211,21 +211,21 @@
                     @"header":@{@"type":[[_kcpHeaderTypeButton selectedItem] title]}
                     },
               @"tcpSettings":
-                  @{@"connectionReuse": [NSNumber numberWithBool:[_tcpCrButton state]],
+                  @{@"connectionReuse": [NSNumber numberWithBool:[_tcpCrButton state]==1],
                     @"header":@{@"type":[[_tcpHeaderTypeButton selectedItem] title]}
                     },
               @"wsSettings": @{
-                  @"connectionReuse": [NSNumber numberWithBool:[_wsCrButton state]],
-                  @"path": [_wsPathField stringValue] != nil ? [_wsPathField stringValue] : @""
+                  @"connectionReuse": [NSNumber numberWithBool:[_wsCrButton state]==1],
+                  @"path": nilCoalescing([_wsPathField stringValue], @"")
                   },
               @"security": [_tlsUseButton state] ? @"tls" : @"none",
               @"tlsSettings": @{
-                  @"serverName": [_tlsSnField stringValue],
+                  @"serverName": nilCoalescing([_tlsSnField stringValue], @""),
                   @"allowInsecure": [NSNumber numberWithBool:[_tlsAiButton state]==1],
               },
               };
             NSDictionary* muxSettings = @{
-                                          @"enabled":[NSNumber numberWithBool:[_muxEnableButton state]],
+                                          @"enabled":[NSNumber numberWithBool:[_muxEnableButton state]==1],
                                           @"concurrency":[NSNumber numberWithInteger:[_muxConcurrencyField integerValue]]
                                           };
             NSDictionary* proxySettings = @{@"address": nilCoalescing([_proxyAddressField stringValue], @""), @"port": @([_proxyPortField integerValue])};
