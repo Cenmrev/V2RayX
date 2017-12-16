@@ -26,11 +26,10 @@
     [_localPortField setFormatter:formatter];
     [_httpPortField setFormatter:formatter];
     profiles = [appDelegate profiles];
-    NSLog(@"%ld", [profiles count]);
-    _selectedServerIndex = [appDelegate selectedServerIndex];
-    
     [_profileTable reloadData];
-    [_profileTable selectRowIndexes:[[NSIndexSet alloc] initWithIndex:_selectedServerIndex] byExtendingSelection:NO];
+    [self setSelectedServerIndex:appDelegate.selectedServerIndex];// must be put after reloadData!
+    [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedServerIndex] byExtendingSelection:NO];
+    NSLog(@"%ld", (long)[_profileTable selectedRow]);
     NSDictionary *logLevelDic = @{
                                @"debug": @4,
                                @"info": @3,
@@ -57,8 +56,8 @@
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
     if ([profiles count] > 0) {
-        [self setSelectedProfile:[profiles objectAtIndex:[_profileTable selectedRow]]];
         [self setSelectedServerIndex:[_profileTable selectedRow]];
+        [self setSelectedProfile:profiles[_selectedServerIndex]];
     }
 }
 
@@ -98,7 +97,7 @@
     }
     appDelegate.dnsString = dnsStr;
     appDelegate.logLevel = _logLevelButton.selectedItem.title;
-    
+    appDelegate.selectedServerIndex = _selectedServerIndex;
     [appDelegate configurationDidChange];
     [[self window] close];
 }

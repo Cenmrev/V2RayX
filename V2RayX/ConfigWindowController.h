@@ -53,7 +53,7 @@
 @property (weak) IBOutlet NSTextField *proxyPortField;
 
 @property (nonatomic) ServerProfile* selectedProfile;
-@property NSInteger selectedServerIndex;
+@property (nonatomic) NSInteger selectedServerIndex;
 
 @property AppDelegate* appDelegate;
 
