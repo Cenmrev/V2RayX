@@ -13,10 +13,9 @@
 - (ServerProfile*)init {
     self = [super init];
     if (self) {
-        // use v2ray public server as default
-        [self setAddress:@"v2ray.cool"];
+        [self setAddress:@"server.cc"];
         [self setPort:10086];
-        [self setUserId:@"23ad6b10-8d1a-40f7-8ad0-e3e35cd38287"];
+        [self setUserId:@"00000000-0000-0000-0000-000000000000"];
         [self setAlterId:64];
         [self setLevel:0];
         [self setRemark:@"test server"];
@@ -26,7 +25,7 @@
         [self setStreamSettings:@{
                                   @"security": @"none",
                                   @"tlsSettings": @{
-                                          @"serverName": @"v2ray.com",
+                                          @"serverName": @"server.cc",
                                           @"allowInsecure": [NSNumber numberWithBool:NO]
                                           },
                                   @"tcpSettings": @{
@@ -49,7 +48,7 @@
                                   @"wsSettings": @{
                                           @"path": @"",
                                           @"headers": @{
-                                                  @"Host": @"v2ray.com"
+                                                  @"Host": @"server.cc"
                                                   }
                                           }
                                   }];
