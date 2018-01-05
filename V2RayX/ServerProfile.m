@@ -86,8 +86,8 @@
     if (outDict[@"proxySettings"][@"outbound-proxy-config"][@"settings"][@"servers"][0] != nil) {
         profile.proxySettings = outDict[@"proxySettings"][@"outbound-proxy-config"][@"settings"][@"servers"][0];
     }
-    if (outDict[@"setMuxSettings"] != nil) {
-        profile.muxSettings = outDict[@"setMuxSettings"];
+    if (outDict[@"mux"] != nil) {
+        profile.muxSettings = outDict[@"mux"];
     }
     return profile;
 }

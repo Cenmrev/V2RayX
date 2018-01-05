@@ -145,8 +145,8 @@
     NSString *savedWsPath = transportSettings[@"wsSettings"][@"path"];
     [_wsPathField setStringValue: savedWsPath != nil ? savedWsPath : @""];
     //tls
-    [_tlsUseButton setState:[[[NSUserDefaults standardUserDefaults] objectForKey:@"useTLS"] boolValue]];
-    NSDictionary* tlsSettings = [[NSUserDefaults standardUserDefaults] objectForKey:@"tlsSettings"];
+    [_tlsUseButton setState:[[transportSettings objectForKey:@"security"] boolValue]];
+    NSDictionary* tlsSettings = [transportSettings objectForKey:@"tlsSettings"];
     [_tlsAiButton setState:[tlsSettings[@"allowInsecure"] boolValue]];
     if (tlsSettings[@"serverName"]) {
         [_tlsSnField setStringValue:tlsSettings[@"serverName"]];
