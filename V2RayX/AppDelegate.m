@@ -422,7 +422,7 @@ void runCommandLine(NSString* launchPath, NSArray* arguments) {
             if (proxyMode == 3) { // manual mode
                 arguments = [self currentProxySetByMe] ? @[@"off"] : @[@"-v"];
             } else { // global mode and rule mode
-                arguments = @[@"global", [NSString stringWithFormat:@"%ld", localPort]];
+                arguments = @[@"global", [NSString stringWithFormat:@"%ld", localPort], [NSString stringWithFormat:@"%ld", httpPort]];
             }
         }
     } else {
