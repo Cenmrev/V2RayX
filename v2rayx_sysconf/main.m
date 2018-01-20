@@ -109,7 +109,7 @@ int main(int argc, const char * argv[])
             
         }
         
-        printf("proxy setx to %s\n", [mode UTF8String]);
+        printf("proxy set to %s\n", [mode UTF8String]);
     }
     
     return 0;
