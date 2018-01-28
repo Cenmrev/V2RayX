@@ -8,7 +8,7 @@
 #import <Cocoa/Cocoa.h>
 
 #define kV2RayXHelper @"/Library/Application Support/V2RayX/v2rayx_sysconf"
-#define kSysconfVersion @"v2rayx_sysconf 1.0.0"
+#define kSysconfVersion @"v2rayx_sysconf 1.1.0"
 #define kV2RayXSettingVersion 3
 #define nilCoalescing(a,b) ( (a != nil) ? (a) : (b) ) // equivalent to ?? operator in Swift
 
