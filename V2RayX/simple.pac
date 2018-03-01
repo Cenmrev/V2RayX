@@ -193,14 +193,14 @@ var domains = [
 
 	//cdn
 	"cloudfront.net",
-	"colwiz.com",
+	"colwiz.com"
 ];
 
 function FindProxyForURL(url, host) {
     for (var i = domains.length - 1; i >= 0; i--) {
     	if (dnsDomainIs(host, domains[i])) {
-    		return V2Ray
-    	};
-    };
+            return V2Ray;
+    	}
+    }
     return "DIRECT";
 }
