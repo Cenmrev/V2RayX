@@ -12,7 +12,10 @@ __YOU SHOULD READ V2RAY'S OFFICIAL INSTRUCTION BEFORE USING V2RAYX!__
 
 ## Download V2RayX
 
-Download from [Releases](https://github.com/Cenmrev/V2RayX/releases), or install by [Homebrew-Cask](https://caskroom.github.io/).
+~~Download from [Releases](https://github.com/Cenmrev/V2RayX/releases).~~ 
+ __Precompiled binary version will no longer be provided in the release page.__
+
+By [Homebrew-Cask](https://caskroom.github.io/).
 
 ```sh
 brew cask install v2rayx
@@ -40,12 +43,8 @@ As default, V2RayX will open a socks5 proxy at port `1081` as the main inbound, 
 
 ### auto-run on login
 
-Open macOS System Preferences -> Users & Group -> Login Itmes, add V2RayX.app to
+Open macOS System Preferences -> Users & Group -> Login Items, add V2RayX.app to
 the list.
-
-### 登录后自动运行
-
-打开 macOS 系统设置 -> 用户与组 -> 登录项，把 V2RayX.app 添加到列表中。
 
 ### manually update v2ray-core
 replace `V2RayX.app/Contents/Resources/v2ray` with the newest v2ray 
@@ -68,9 +67,12 @@ V2RayX uses [GCDWebServer](https://github.com/swisspol/GCDWebServer) to provide 
 
 ## Donation
 
-If Project V2Ray or V2RayX helped you, you can also help us by donation __in your will__. To donate to Project V2Ray, you may refer to [this page](https://www.v2ray.com/chapter_00/02_donate.html). To help this GUI program, you can send gift cards to `cenmrev@tutanota.de`.
+If Project V2Ray or V2RayX helped you, you can also help us by donation __in your will__. To donate to Project V2Ray, you may refer to [this page](https://www.v2ray.com/chapter_00/02_donate.html).
 
 ## Disclaimer
+
+This tool is mainly for personal usage. For professional users and technique 
+support, commercial software like proxifier is recommended. Please refer to [#60](https://github.com/Cenmrev/V2RayX/issues/60#issuecomment-369531443).
 
 The developer does not major in CS nor Software Engineer and currently is busy with grad school courses. So V2rayX will not be updated frequently. Users can replace V2RayX.app/Contents/Resources/v2ray with the newest v2ray-core downloaded from [https://github.com/v2ray/v2ray-core/releases](https://github.com/v2ray/v2ray-core/releases).
 
