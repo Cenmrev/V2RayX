@@ -447,7 +447,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = $SRCROOT/V2RayX/dlcore.sh;
+			shellScript = "\"$SRCROOT\"/V2RayX/dlcore.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 

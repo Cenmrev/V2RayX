@@ -1,7 +1,7 @@
 VERSION="v3.10"
 
 
-cd $SRCROOT
+cd "$SRCROOT"
 output="v0"
 if [[ -f ./v2ray-core-bin/v2ray ]]; then
     output=$(./v2ray-core-bin/v2ray --version)
