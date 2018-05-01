@@ -50,7 +50,11 @@
                                           @"headers": @{
                                                   @"Host": @"server.cc"
                                                   }
-                                          }
+                                          },
+                                  @"httpSettings": @{
+                                            @"host": @[@""],
+                                            @"path": @""
+                                        }
                                   }];
         [self setProxySettings:@{@"address": @"", @"port": @0}];
         [self setMuxSettings:@{
@@ -66,7 +70,7 @@
 }
 
 + (ServerProfile*)readFromAnOutboundDic:(NSDictionary*)outDict {
-    NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2 };
+    NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2, @"http":@3 };
     NSDictionary *securityDict = @{@"aes-128-cfb":@0, @"aes-128-gcm":@1, @"chacha20-poly1305":@2, @"auto":@3};
     
     ServerProfile* profile = [[ServerProfile alloc] init];
@@ -94,7 +98,7 @@
 
 - (NSMutableDictionary*)outboundProfile {
     NSMutableDictionary* fullStreamSettings = [NSMutableDictionary dictionaryWithDictionary:streamSettings];
-    fullStreamSettings[@"network"] = @[@"tcp",@"kcp", @"ws"][network];
+    fullStreamSettings[@"network"] = @[@"tcp",@"kcp", @"ws", @"http"][network];
     NSDictionary* result =
     @{
       @"sendThrough": sendThrough,

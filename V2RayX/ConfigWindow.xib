@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,6 +16,7 @@
                 <outlet property="httpPortField" destination="aVm-xn-0cZ" id="9lo-hP-jbp"/>
                 <outlet property="localPortField" destination="2do-qQ-ANK" id="OIL-pR-1TG"/>
                 <outlet property="logLevelButton" destination="WBJ-AN-z5m" id="6KR-S2-AcM"/>
+                <outlet property="networkButton" destination="tMD-b4-w2E" id="MLa-PK-H4t"/>
                 <outlet property="portField" destination="vAX-58-HRK" id="l6R-dx-TNq"/>
                 <outlet property="profileTable" destination="fje-9q-W5F" id="qQT-rE-cPV"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="DXu-va-1Ry"/>
@@ -339,7 +340,7 @@
                                     </connections>
                                 </textField>
                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tMD-b4-w2E">
-                                    <rect key="frame" x="258" y="12" width="95" height="26"/>
+                                    <rect key="frame" x="248" y="12" width="105" height="26"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <popUpButtonCell key="cell" type="push" title="tcp" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Jhw-Hk-xHQ" id="07T-9g-FQm">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -349,12 +350,18 @@
                                                 <menuItem title="tcp" state="on" id="Jhw-Hk-xHQ"/>
                                                 <menuItem title="kcp" id="5Eb-2c-mug"/>
                                                 <menuItem title="WebSocket" id="PPM-JS-9Su"/>
+                                                <menuItem title="http/2" id="PLv-I0-cbi">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
                                             </items>
                                         </menu>
                                         <connections>
                                             <binding destination="-2" name="selectedIndex" keyPath="self.selectedProfile.network" id="75g-Vf-9I5"/>
                                         </connections>
                                     </popUpButtonCell>
+                                    <connections>
+                                        <action selector="chooseNetwork:" target="-2" id="iEL-P5-UOS"/>
+                                    </connections>
                                 </popUpButton>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pjH-rG-hNQ">
                                     <rect key="frame" x="11" y="81" width="58" height="17"/>
@@ -366,7 +373,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c51-zU-mXj">
-                                    <rect key="frame" x="195" y="17" width="59" height="17"/>
+                                    <rect key="frame" x="184" y="17" width="59" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Network:" id="Dkz-gS-91s">
                                         <font key="font" metaFont="system"/>

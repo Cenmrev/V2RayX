@@ -61,6 +61,28 @@
     }
 }
 
+- (IBAction)chooseNetwork:(NSPopUpButton *)sender {
+    [self checkTLSforHttp2];
+}
+
+- (BOOL)checkTLSforHttp2 {
+    if ([_networkButton indexOfSelectedItem] == 3) { // selected http/2
+        BOOL tlsEnabled = [selectedProfile.streamSettings[@"security"] isEqual: @"tls"];
+        if (!tlsEnabled) {
+            NSAlert *httpTlsAlerm = [[NSAlert alloc] init];
+            [httpTlsAlerm addButtonWithTitle:@"Close"];
+            [httpTlsAlerm addButtonWithTitle:@"Help"];
+            [httpTlsAlerm setMessageText:@"Both client and server must enable TLS to use HTTP/2 network! Enbale TLS in transport settings. Click \"Help\" if you need more information"];
+            if ([httpTlsAlerm runModal] == NSAlertSecondButtonReturn) {
+                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/transport/h2.html#tips"]];
+            }
+            [_networkButton selectItemAtIndex:0];
+            return NO; // does not pass checking
+        }
+    }
+    return true; //  pass checking
+}
+
 - (IBAction)addRemoveServer:(id)sender {
     if ([sender selectedSegment] == 0) {
         ServerProfile* newProfile = [[ServerProfile alloc] init];
@@ -90,7 +112,9 @@
 }
 
 - (IBAction)okSave:(id)sender {
-    
+    if (![self checkTLSforHttp2]) {
+        return;
+    }
     NSString* dnsStr = [[_dnsField stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""];
     if ([dnsStr length] == 0) {
         dnsStr = @"localhost";
@@ -144,6 +168,14 @@
     [_wsCrButton setState:[transportSettings[@"wsSettings"][@"connectionReuse"] boolValue]];
     NSString *savedWsPath = transportSettings[@"wsSettings"][@"path"];
     [_wsPathField setStringValue: savedWsPath != nil ? savedWsPath : @""];
+    //http/2
+    [_httpPathField setStringValue:nilCoalescing(transportSettings[@"httpSettings"][@"path"], @"")];
+    NSArray* hostArray = transportSettings[@"httpSettings"][@"host"];
+    NSString* hostString = @"";
+    if([hostArray count] > 0) {
+        hostString = [hostArray componentsJoinedByString:@","];
+    }
+    [_httpHostsField setStringValue:hostString];
     //tls
     [_tlsUseButton setState:[[transportSettings objectForKey:@"security"] boolValue]];
     NSDictionary* tlsSettings = [transportSettings objectForKey:@"tlsSettings"];
@@ -181,6 +213,9 @@
     //ws fields
     [_wsCrButton setState:1];
     [_wsPathField setStringValue:@""];
+    //http/2 fields
+    [_httpHostsField setStringValue:@""];
+    [_httpPathField setStringValue:@""];
     //mux fields
     [_muxEnableButton setState:0];
     [_muxEnableButton setIntegerValue:8];
@@ -195,6 +230,13 @@
     [settingAlert setMessageText:@"Make sure you have read the help before clicking OK!"];
     [settingAlert addButtonWithTitle:@"Yes, save!"];
     [settingAlert addButtonWithTitle:@"Do not save."];
+    NSArray* httpHosts;
+    if ([_httpHostsField stringValue] == nil) {
+        httpHosts = @[];
+    } else {
+        NSString* hostsString = [[_httpHostsField stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""];
+        httpHosts = [hostsString componentsSeparatedByString:@","];
+    }
     [settingAlert beginSheetModalForWindow:_transportWindow completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSAlertFirstButtonReturn) {
             //save settings
@@ -222,6 +264,10 @@
                   @"serverName": nilCoalescing([_tlsSnField stringValue], @""),
                   @"allowInsecure": [NSNumber numberWithBool:[_tlsAiButton state]==1],
               },
+              @"httpSettings": @{
+                      @"host": httpHosts,
+                      @"path": nilCoalescing([_httpPathField stringValue], @"")
+                      }
               };
             NSDictionary* muxSettings = @{
                                           @"enabled":[NSNumber numberWithBool:[_muxEnableButton state]==1],

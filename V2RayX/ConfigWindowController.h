@@ -9,6 +9,8 @@
 #import "ServerProfile.h"
 
 @interface ConfigWindowController : NSWindowController <NSTableViewDataSource, NSTableViewDelegate>
+- (IBAction)chooseNetwork:(NSPopUpButton *)sender;
+@property (weak) IBOutlet NSPopUpButton *networkButton;
 - (IBAction)addRemoveServer:(id)sender;
 - (IBAction)cancel:(id)sender;
 - (IBAction)okSave:(id)sender;
@@ -39,6 +41,10 @@
 //ws fields
 @property (weak) IBOutlet NSButton *wsCrButton;
 @property (weak) IBOutlet NSTextField *wsPathField;
+//https fields
+@property (weak) IBOutlet NSTextField *httpHostsField;
+@property (weak) IBOutlet NSTextField *httpPathField;
+
 //tls fields
 @property (weak) IBOutlet NSButton *tlsUseButton;
 @property (weak) IBOutlet NSButton *tlsAiButton;
