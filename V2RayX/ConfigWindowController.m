@@ -123,6 +123,7 @@
     appDelegate.logLevel = _logLevelButton.selectedItem.title;
     appDelegate.selectedServerIndex = _selectedServerIndex;
     [appDelegate configurationDidChange];
+    
     [[self window] close];
 }
 
