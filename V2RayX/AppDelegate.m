@@ -345,7 +345,7 @@ static AppDelegate *appDelegate;
         fullConfig[@"dns"][@"servers"] = @[@"localhost"];
     }
     if (proxyMode == rules) {
-        [fullConfig[@"routing"][@"settings"][@"rules"][4][@"ip"] addObject:@"geoip:cn"];
+        [fullConfig[@"routing"][@"settings"][@"rules"][0][@"ip"] addObject:@"geoip:cn"];
         [fullConfig[@"routing"][@"settings"][@"rules"]
          addObject:@{ @"domain": @[@"geosite:cn"],
                       @"outboundTag": @"direct",
