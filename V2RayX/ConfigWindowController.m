@@ -163,7 +163,11 @@
         }
     }
     //tcp
-    [_tcpHeaderTypeButton selectItemAtIndex:[transportSettings[@"tcpSettings"][@"header"][@"type"] isEqualToString:@"http"] ? 1 : 0];
+    [_tcpHeaderCusButton setState:[transportSettings[@"tcpSettings"][@"header"][@"type"] isEqualToString:@"http"] ? 1 : 0];
+    if ([_tcpHeaderCusButton state]) {
+        [_tcpHdField setString:
+         [[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:transportSettings[@"tcpSettings"][@"header"] options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding]];
+    }
     //websocket
     [_wsCrButton setState:[transportSettings[@"wsSettings"][@"connectionReuse"] boolValue]];
     NSString *savedWsPath = transportSettings[@"wsSettings"][@"path"];
@@ -208,7 +212,7 @@
     [_kcpCongestionButton selectItemAtIndex:0];
     [_kcpHeaderTypeButton selectItemAtIndex:0];
     //tcp fields
-    [_tcpHeaderTypeButton selectItemAtIndex:0];
+    [_tcpHeaderCusButton setState:0];
     //ws fields
     [_wsCrButton setState:1];
     [_wsPathField setStringValue:@""];
@@ -225,6 +229,23 @@
     [[self window] endSheet:_transportWindow];
 }
 - (IBAction)tOK:(id)sender {
+    //check tcp header
+    NSString* tcpHttpHeaderString = @"{\"type\": \"none\"}";
+    if ([self->_tcpHeaderCusButton state]) {
+        tcpHttpHeaderString = [self->_tcpHdField string];
+    }
+    NSError* httpHeaderParseError;
+    NSDictionary* tcpHttpHeader = [NSJSONSerialization JSONObjectWithData:[tcpHttpHeaderString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&httpHeaderParseError];
+    NSLog(@"%@", tcpHttpHeader);
+    if (httpHeaderParseError) {
+        NSAlert* parseAlert = [[NSAlert alloc] init];
+        [parseAlert setMessageText:@"Error in parsing customized http header!"];
+        [parseAlert beginSheetModalForWindow:_transportWindow completionHandler:^(NSModalResponse returnCode) {
+            return;
+        }];
+        return;
+    }
+    
     NSAlert* settingAlert = [[NSAlert alloc] init];
     [settingAlert setMessageText:@"Make sure you have read the help before clicking OK!"];
     [settingAlert addButtonWithTitle:@"Yes, save!"];
@@ -239,45 +260,43 @@
     [settingAlert beginSheetModalForWindow:_transportWindow completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSAlertFirstButtonReturn) {
             //save settings
+            
             NSDictionary *streamSettings =
             @{@"kcpSettings":
-                  @{@"mtu":[NSNumber numberWithInteger:[_kcpMtuField integerValue]],
-                    @"tti":[NSNumber numberWithInteger:[_kcpTtiField integerValue]],
-                    @"uplinkCapacity":[NSNumber numberWithInteger:[_kcpUcField integerValue]],
-                    @"downlinkCapacity":[NSNumber numberWithInteger:[_kcpDcField integerValue]],
-                    @"readBufferSize":[NSNumber numberWithInteger:[_kcpRbField integerValue]],
-                    @"writeBufferSize":[NSNumber numberWithInteger:[_kcpWbField integerValue]],
-                    @"congestion":[NSNumber numberWithBool:[_kcpCongestionButton indexOfSelectedItem] != 0],
-                    @"header":@{@"type":[[_kcpHeaderTypeButton selectedItem] title]}
+                  @{@"mtu":[NSNumber numberWithInteger:[self->_kcpMtuField integerValue]],
+                    @"tti":[NSNumber numberWithInteger:[self->_kcpTtiField integerValue]],
+                    @"uplinkCapacity":[NSNumber numberWithInteger:[self->_kcpUcField integerValue]],
+                    @"downlinkCapacity":[NSNumber numberWithInteger:[self->_kcpDcField integerValue]],
+                    @"readBufferSize":[NSNumber numberWithInteger:[self->_kcpRbField integerValue]],
+                    @"writeBufferSize":[NSNumber numberWithInteger:[self->_kcpWbField integerValue]],
+                    @"congestion":[NSNumber numberWithBool:[self->_kcpCongestionButton indexOfSelectedItem] != 0],
+                    @"header":@{@"type":[[self->_kcpHeaderTypeButton selectedItem] title]}
                     },
-              @"tcpSettings":
-                  @{
-                    @"header":@{@"type":[[_tcpHeaderTypeButton selectedItem] title]}
-                    },
+              @"tcpSettings":@{@"header": tcpHttpHeader},
               @"wsSettings": @{
-                  @"connectionReuse": [NSNumber numberWithBool:[_wsCrButton state]==1],
-                  @"path": nilCoalescing([_wsPathField stringValue], @"")
+                      @"connectionReuse": [NSNumber numberWithBool:[self->_wsCrButton state]==1],
+                      @"path": nilCoalescing([self->_wsPathField stringValue], @"")
                   },
-              @"security": [_tlsUseButton state] ? @"tls" : @"none",
+              @"security": [self->_tlsUseButton state] ? @"tls" : @"none",
               @"tlsSettings": @{
-                  @"serverName": nilCoalescing([_tlsSnField stringValue], @""),
-                  @"allowInsecure": [NSNumber numberWithBool:[_tlsAiButton state]==1],
+                      @"serverName": nilCoalescing([self->_tlsSnField stringValue], @""),
+                      @"allowInsecure": [NSNumber numberWithBool:[self->_tlsAiButton state]==1],
               },
               @"httpSettings": @{
                       @"host": httpHosts,
-                      @"path": nilCoalescing([_httpPathField stringValue], @"")
+                      @"path": nilCoalescing([self->_httpPathField stringValue], @"")
                       }
               };
             NSDictionary* muxSettings = @{
-                                          @"enabled":[NSNumber numberWithBool:[_muxEnableButton state]==1],
-                                          @"concurrency":[NSNumber numberWithInteger:[_muxConcurrencyField integerValue]]
+                                          @"enabled":[NSNumber numberWithBool:[self->_muxEnableButton state]==1],
+                                          @"concurrency":[NSNumber numberWithInteger:[self->_muxConcurrencyField integerValue]]
                                           };
-            NSDictionary* proxySettings = @{@"address": nilCoalescing([_proxyAddressField stringValue], @""), @"port": @([_proxyPortField integerValue])};
+            NSDictionary* proxySettings = @{@"address": nilCoalescing([self->_proxyAddressField stringValue], @""), @"port": @([self->_proxyPortField integerValue])};
             self.selectedProfile.muxSettings = muxSettings;
             self.selectedProfile.streamSettings = streamSettings;
             self.selectedProfile.proxySettings = proxySettings;
             //close sheet
-            [[self window] endSheet:_transportWindow];
+            [[self window] endSheet:self->_transportWindow];
         }
     }];
 }

@@ -36,7 +36,9 @@
 @property (weak) IBOutlet NSPopUpButton *kcpCongestionButton;
 @property (weak) IBOutlet NSPopUpButton *kcpHeaderTypeButton;
 //tcp fields
-@property (weak) IBOutlet NSPopUpButton *tcpHeaderTypeButton;
+@property (weak) IBOutlet NSButton *tcpHeaderCusButton;
+@property (unsafe_unretained) IBOutlet NSTextView *tcpHdField;
+
 //ws fields
 @property (weak) IBOutlet NSButton *wsCrButton;
 @property (weak) IBOutlet NSTextField *wsPathField;
