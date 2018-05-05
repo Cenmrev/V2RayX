@@ -10,6 +10,7 @@
 
 @interface ConfigWindowController () {
     NSMutableArray *profiles;
+    NSMutableArray *cusProfiles;
 }
 
 @end
@@ -26,6 +27,7 @@
     [_localPortField setFormatter:formatter];
     [_httpPortField setFormatter:formatter];
     profiles = [appDelegate profiles];
+    cusProfiles = [appDelegate cusProfiles];
     [_profileTable reloadData];
     [self setSelectedServerIndex:appDelegate.selectedServerIndex];// must be put after reloadData!
     [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedServerIndex] byExtendingSelection:NO];
@@ -40,25 +42,55 @@
     [_logLevelButton selectItemAtIndex:[logLevelDic[[appDelegate logLevel]] integerValue]];
 }
 
-// set controller as profilesTable's datasource
+// set controller as profilesTable and cusProfileTable's datasource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return [profiles count];
+    if (tableView == _profileTable) {
+        return [profiles count];
+    }
+    if (tableView == _cusProfileTable) {
+        return [cusProfiles count];
+    }
+    return 0;
+}
+
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+    if (tableView == _cusProfileTable) {
+        [cusProfiles setObject:object atIndexedSubscript:row];
+    }
 }
 
 - (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    if ([profiles count] > 0) {
-        ServerProfile* p = [profiles objectAtIndex:row];
-        return [p address];
-    } else {
-        return nil;
+    if (tableView == _profileTable) {
+        if ([profiles count] > 0) {
+            ServerProfile* p = [profiles objectAtIndex:row];
+            return [p address];
+        } else {
+            return nil;
+        }
     }
+    if (tableView == _cusProfileTable) {
+        if ([cusProfiles count] > 0) {
+            return cusProfiles[row];
+        } else {
+            return nil;
+        }
+    }
+    return nil;
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
-    if ([profiles count] > 0) {
-        [self setSelectedServerIndex:[_profileTable selectedRow]];
-        [self setSelectedProfile:profiles[_selectedServerIndex]];
+    if ([notification object] == _profileTable) {
+        if ([profiles count] > 0) {
+            [self setSelectedServerIndex:[_profileTable selectedRow]];
+            [self setSelectedProfile:profiles[_selectedServerIndex]];
+        }
     }
+    if ([notification object] == _cusProfileTable) {
+        if ([cusProfiles count] > 0) {
+            [self setSelectedCusServerIndex:[_cusProfileTable selectedRow]];
+        }
+    }
+    
 }
 
 - (IBAction)chooseNetwork:(NSPopUpButton *)sender {
@@ -126,6 +158,59 @@
     
     [[self window] close];
 }
+
+- (IBAction)addRemoveCusProfile:(NSSegmentedControl *)sender {
+    if ([sender selectedSegment] == 0) {
+        [cusProfiles addObject:@"/path/to/your/config.json"];
+        [_cusProfileTable reloadData];
+        [_cusProfileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[cusProfiles count] -1] byExtendingSelection:NO];
+        //[_cusProfileTable setFocusedColumn:[cusProfiles count] - 1];
+        //[[_cusProfileTable viewAtColumn:0 row:[cusProfiles count]-1 makeIfNecessary:NO] becomeFirstResponder];
+        NSLog(@"%@", [_cusProfileTable viewAtColumn:0 row:0 makeIfNecessary:NO]);
+    } else if ([sender selectedSegment] == 1 && [cusProfiles count] > 0) {
+        NSInteger originalSelected = [_cusProfileTable selectedRow];
+        [cusProfiles removeObjectAtIndex:originalSelected];
+        if ([cusProfiles count] > 0) {
+            if (originalSelected == [cusProfiles count]) {
+                [self setSelectedCusServerIndex:[cusProfiles count] - 1];
+            }
+            [_cusProfileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedCusServerIndex] byExtendingSelection:NO];
+        } else {
+            [self setSelectedCusServerIndex:-1];
+        }
+        [_cusProfileTable reloadData];
+    }
+}
+
+
+- (IBAction)showCusConfigWindow:(NSButton *)sender {
+    if (_cusConfigWindow == nil) {
+        [[NSBundle mainBundle] loadNibNamed:@"customizedConfigWindow" owner:self topLevelObjects:nil];
+    }
+    //show sheet
+    [[self window] beginSheet:_cusConfigWindow completionHandler:^(NSModalResponse returnCode) {
+    }];
+}
+- (IBAction)cFinish:(NSButton *)sender {
+    NSString* v2rayBinPath = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
+    for (NSString* filePath in cusProfiles) {
+        NSLog(@"%@, %@", v2rayBinPath, filePath);
+        
+        int returnCode = runCommandLine(v2rayBinPath, @[@"-test", filePath]);
+        returnCode = 0;
+        if (returnCode != 0) {
+            NSAlert *alert = [[NSAlert alloc] init];
+            [alert setMessageText:[NSString stringWithFormat:@"%@ is not a valid v2ray config file", filePath]];
+            [alert beginSheetModalForWindow:_cusConfigWindow completionHandler:^(NSModalResponse returnCode) {
+                return;
+            }];
+            return;
+        }
+    }
+    [[self window] endSheet:_cusConfigWindow];
+}
+
+
 
 - (IBAction)showTransportSettings:(id)sender {
     if (_transportWindow == nil) {

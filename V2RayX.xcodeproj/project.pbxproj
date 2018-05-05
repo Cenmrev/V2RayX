@@ -34,6 +34,7 @@
 		9577E1BE1C6B065E00093BD3 /* GCDWebServerStreamedResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1B11C6B065E00093BD3 /* GCDWebServerStreamedResponse.m */; };
 		95A143CC1C87FCDC008756B9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A143CA1C87FC6E008756B9 /* Cocoa.framework */; };
 		95E524CB1C674CC80008BB12 /* simple.pac in Resources */ = {isa = PBXBuildFile; fileRef = 95E524CA1C674CC80008BB12 /* simple.pac */; };
+		9D3CEE6F209E070F0077CCFE /* customizedConfigWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D3CEE6E209E070F0077CCFE /* customizedConfigWindow.xib */; };
 		9D5EAC151FDCD70300C14B46 /* geoip.dat in Resources */ = {isa = PBXBuildFile; fileRef = 9D5EAC101FDCD54700C14B46 /* geoip.dat */; };
 		9D5EAC161FDCD70300C14B46 /* geosite.dat in Resources */ = {isa = PBXBuildFile; fileRef = 9D5EAC0F1FDCD54600C14B46 /* geosite.dat */; };
 		9D5EAC171FDCD70300C14B46 /* v2ctl in Resources */ = {isa = PBXBuildFile; fileRef = 9D5EAC0E1FDCD54600C14B46 /* v2ctl */; };
@@ -125,6 +126,7 @@
 		95862BD41DB2862E00F4A9CA /* compilefromsource.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = compilefromsource.sh; sourceTree = "<group>"; };
 		95A143CA1C87FC6E008756B9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		95E524CA1C674CC80008BB12 /* simple.pac */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple.pac; sourceTree = "<group>"; };
+		9D3CEE6E209E070F0077CCFE /* customizedConfigWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = customizedConfigWindow.xib; sourceTree = "<group>"; };
 		9D5EAC0E1FDCD54600C14B46 /* v2ctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = v2ctl; path = "v2ray-core-bin/v2ctl"; sourceTree = SOURCE_ROOT; };
 		9D5EAC0F1FDCD54600C14B46 /* geosite.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = geosite.dat; path = "v2ray-core-bin/geosite.dat"; sourceTree = SOURCE_ROOT; };
 		9D5EAC101FDCD54700C14B46 /* geoip.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = geoip.dat; path = "v2ray-core-bin/geoip.dat"; sourceTree = SOURCE_ROOT; };
@@ -192,6 +194,7 @@
 				9504C0811C662C3000352520 /* Assets.xcassets */,
 				9504C0831C662C3000352520 /* MainMenu.xib */,
 				9504C08C1C662C9100352520 /* ConfigWindow.xib */,
+				9D3CEE6E209E070F0077CCFE /* customizedConfigWindow.xib */,
 				9565E28A1DB25C010082658C /* transportWindow.xib */,
 				9504C08E1C662CBF00352520 /* ConfigWindowController.h */,
 				9504C08F1C662CBF00352520 /* ConfigWindowController.m */,
@@ -419,6 +422,7 @@
 			files = (
 				9D5EAC151FDCD70300C14B46 /* geoip.dat in Resources */,
 				9D5EAC161FDCD70300C14B46 /* geosite.dat in Resources */,
+				9D3CEE6F209E070F0077CCFE /* customizedConfigWindow.xib in Resources */,
 				9D5EAC171FDCD70300C14B46 /* v2ctl in Resources */,
 				9D5EAC181FDCD70300C14B46 /* v2ray in Resources */,
 				9DB4FE951F205BEB00CCEE5F /* config-sample.plist in Resources */,

@@ -26,6 +26,8 @@
 @property (weak) IBOutlet NSPopUpButton *logLevelButton;
 
 @property (weak) IBOutlet NSWindow* transportWindow;
+@property (weak) IBOutlet NSWindow* cusConfigWindow;
+
 //kcp fields
 @property (weak) IBOutlet NSTextField *kcpMtuField;
 @property (weak) IBOutlet NSTextField *kcpTtiField;
@@ -59,8 +61,13 @@
 @property (weak) IBOutlet NSTextField *proxyAddressField;
 @property (weak) IBOutlet NSTextField *proxyPortField;
 
+//cus config file fields
+@property (weak) IBOutlet NSTableView *cusProfileTable;
+
+
 @property (nonatomic) ServerProfile* selectedProfile;
 @property (nonatomic) NSInteger selectedServerIndex;
+@property (nonatomic) NSInteger selectedCusServerIndex;
 
 @property AppDelegate* appDelegate;
 

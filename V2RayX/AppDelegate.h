@@ -5,7 +5,9 @@
 //  Copyright © 2016年 Cenmrev. All rights reserved.
 //
 
+
 #import <Cocoa/Cocoa.h>
+
 
 #define kV2RayXHelper @"/Library/Application Support/V2RayX/v2rayx_sysconf"
 #define kSysconfVersion @"v2rayx_sysconf 1.1.0"
@@ -20,6 +22,8 @@ typedef enum ProxyMode : NSInteger{
 } ProxyMode;
 
 
+int runCommandLine(NSString* launchPath, NSArray* arguments);
+
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     BOOL proxyState;
     ProxyMode proxyMode;
@@ -27,9 +31,12 @@ typedef enum ProxyMode : NSInteger{
     NSInteger httpPort;
     BOOL udpSupport;
     BOOL shareOverLan;
+    BOOL useCusProfile;
     NSInteger selectedServerIndex;
+    NSInteger selectedCusServerIndex;
     NSString* dnsString;
     NSMutableArray *profiles;
+    NSMutableArray *cusProfiles;
     NSString* logLevel;
     
     
@@ -46,9 +53,12 @@ typedef enum ProxyMode : NSInteger{
 @property NSInteger httpPort;
 @property BOOL udpSupport;
 @property BOOL shareOverLan;
+@property BOOL useCusProfile;
 @property NSInteger selectedServerIndex;
+@property NSInteger selectedCusServerIndex;
 @property NSString* dnsString;
 @property NSMutableArray *profiles;
+@property NSMutableArray *cusProfiles;
 @property NSString* logLevel;
 
 
