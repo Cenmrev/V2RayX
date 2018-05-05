@@ -28,7 +28,6 @@
                 <outlet property="tlsSnField" destination="nw2-5m-34B" id="8nF-Yj-QgG"/>
                 <outlet property="tlsUseButton" destination="n0X-Fy-rS1" id="8sl-p5-7bG"/>
                 <outlet property="transportWindow" destination="QvC-M9-y7g" id="EGp-nT-Eil"/>
-                <outlet property="wsCrButton" destination="fln-bY-kje" id="h5k-Fz-q6g"/>
                 <outlet property="wsPathField" destination="Z6z-dK-Tz0" id="DDO-Vc-U49"/>
             </connections>
         </customObject>
@@ -215,7 +214,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="TCP" identifier="2" id="OFA-OY-bP4">
-                                <view key="view" ambiguous="YES" id="5gP-w8-1Fn">
+                                <view key="view" id="5gP-w8-1Fn">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -266,18 +265,10 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="WebSocket" identifier="" id="wRJ-HD-bnc">
-                                <view key="view" id="qhV-ER-N37">
+                                <view key="view" ambiguous="YES" id="qhV-ER-N37">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fln-bY-kje">
-                                            <rect key="frame" x="15" y="80" width="127" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="connection reuse" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Avz-OQ-3he">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WiM-Aj-a1T">
                                             <rect key="frame" x="15" y="45" width="36" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>

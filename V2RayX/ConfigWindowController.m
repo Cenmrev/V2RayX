@@ -169,7 +169,6 @@
          [[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:transportSettings[@"tcpSettings"][@"header"] options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding]];
     }
     //websocket
-    [_wsCrButton setState:[transportSettings[@"wsSettings"][@"connectionReuse"] boolValue]];
     NSString *savedWsPath = transportSettings[@"wsSettings"][@"path"];
     [_wsPathField setStringValue: savedWsPath != nil ? savedWsPath : @""];
     //http/2
@@ -214,7 +213,6 @@
     //tcp fields
     [_tcpHeaderCusButton setState:0];
     //ws fields
-    [_wsCrButton setState:1];
     [_wsPathField setStringValue:@""];
     //http/2 fields
     [_httpHostsField setStringValue:@""];
@@ -274,7 +272,6 @@
                     },
               @"tcpSettings":@{@"header": tcpHttpHeader},
               @"wsSettings": @{
-                      @"connectionReuse": [NSNumber numberWithBool:[self->_wsCrButton state]==1],
                       @"path": nilCoalescing([self->_wsPathField stringValue], @"")
                   },
               @"security": [self->_tlsUseButton state] ? @"tls" : @"none",

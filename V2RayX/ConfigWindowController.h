@@ -40,7 +40,6 @@
 @property (unsafe_unretained) IBOutlet NSTextView *tcpHdField;
 
 //ws fields
-@property (weak) IBOutlet NSButton *wsCrButton;
 @property (weak) IBOutlet NSTextField *wsPathField;
 //https fields
 @property (weak) IBOutlet NSTextField *httpHostsField;
