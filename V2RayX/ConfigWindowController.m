@@ -171,6 +171,11 @@
     //websocket
     NSString *savedWsPath = transportSettings[@"wsSettings"][@"path"];
     [_wsPathField setStringValue: savedWsPath != nil ? savedWsPath : @""];
+    if (transportSettings[@"wsSettings"][@"headers"] != nil) {
+        [_wsHeaderField setString:[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:transportSettings[@"wsSettings"][@"headers"] options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding]];
+    } else {
+        [_wsHeaderField setString:@"{}"];
+    }
     //http/2
     [_httpPathField setStringValue:nilCoalescing(transportSettings[@"httpSettings"][@"path"], @"")];
     NSArray* hostArray = transportSettings[@"httpSettings"][@"host"];
@@ -214,6 +219,7 @@
     [_tcpHeaderCusButton setState:0];
     //ws fields
     [_wsPathField setStringValue:@""];
+    [_wsHeaderField setString:@"{}"];
     //http/2 fields
     [_httpHostsField setStringValue:@""];
     [_httpPathField setStringValue:@""];
@@ -234,14 +240,28 @@
     }
     NSError* httpHeaderParseError;
     NSDictionary* tcpHttpHeader = [NSJSONSerialization JSONObjectWithData:[tcpHttpHeaderString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&httpHeaderParseError];
-    NSLog(@"%@", tcpHttpHeader);
     if (httpHeaderParseError) {
         NSAlert* parseAlert = [[NSAlert alloc] init];
-        [parseAlert setMessageText:@"Error in parsing customized http header!"];
+        [parseAlert setMessageText:@"Error in parsing customized tcp http header!"];
         [parseAlert beginSheetModalForWindow:_transportWindow completionHandler:^(NSModalResponse returnCode) {
             return;
         }];
         return;
+    }
+    
+    NSString* wsHeaderString = [nilCoalescing([self->_wsHeaderField string], @"") stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSDictionary* wsHeader;
+    if ([wsHeaderString length]) {
+        NSError* wsHeaderParseError;
+        wsHeader = [NSJSONSerialization JSONObjectWithData:[wsHeaderString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&wsHeaderParseError];
+        if(wsHeaderParseError) {
+            NSAlert* parseAlert = [[NSAlert alloc] init];
+            [parseAlert setMessageText:@"Error in parsing customized WebSocket headers!"];
+            [parseAlert beginSheetModalForWindow:_transportWindow completionHandler:^(NSModalResponse returnCode) {
+                return;
+            }];
+            return;
+        }
     }
     
     NSAlert* settingAlert = [[NSAlert alloc] init];
@@ -272,7 +292,8 @@
                     },
               @"tcpSettings":@{@"header": tcpHttpHeader},
               @"wsSettings": @{
-                      @"path": nilCoalescing([self->_wsPathField stringValue], @"")
+                      @"path": nilCoalescing([self->_wsPathField stringValue], @""),
+                      @"headers": nilCoalescing(wsHeader, @{})
                   },
               @"security": [self->_tlsUseButton state] ? @"tls" : @"none",
               @"tlsSettings": @{

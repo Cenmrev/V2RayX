@@ -41,6 +41,7 @@
 
 //ws fields
 @property (weak) IBOutlet NSTextField *wsPathField;
+@property (unsafe_unretained) IBOutlet NSTextView *wsHeaderField;
 //https fields
 @property (weak) IBOutlet NSTextField *httpHostsField;
 @property (weak) IBOutlet NSTextField *httpPathField;
