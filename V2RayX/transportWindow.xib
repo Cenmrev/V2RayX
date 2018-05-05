@@ -22,7 +22,6 @@
                 <outlet property="muxEnableButton" destination="cS2-9s-JTH" id="zmh-db-Sgu"/>
                 <outlet property="proxyAddressField" destination="O9C-Ow-rio" id="W8c-lb-f49"/>
                 <outlet property="proxyPortField" destination="7sh-11-ZmT" id="O4B-WI-qQB"/>
-                <outlet property="tcpCrButton" destination="Gzt-Qt-jT8" id="vFQ-Ca-pH1"/>
                 <outlet property="tcpHeaderTypeButton" destination="6Hk-Q4-cbb" id="6aw-lM-kYs"/>
                 <outlet property="tlsAiButton" destination="l3Z-uk-KBr" id="FUU-TQ-bqK"/>
                 <outlet property="tlsSnField" destination="nw2-5m-34B" id="8nF-Yj-QgG"/>
@@ -215,20 +214,12 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="TCP" identifier="2" id="OFA-OY-bP4">
-                                <view key="view" id="5gP-w8-1Fn">
+                                <view key="view" ambiguous="YES" id="5gP-w8-1Fn">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gzt-Qt-jT8">
-                                            <rect key="frame" x="15" y="80" width="127" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="connection reuse" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="SQb-fD-h4M">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GYB-j9-oqW">
-                                            <rect key="frame" x="15" y="45" width="77" height="17"/>
+                                            <rect key="frame" x="15" y="78" width="77" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="header type" id="FeA-gA-LfS">
                                                 <font key="font" metaFont="system"/>
@@ -237,7 +228,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Hk-Q4-cbb">
-                                            <rect key="frame" x="96" y="40" width="81" height="26"/>
+                                            <rect key="frame" x="96" y="73" width="81" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" title="none" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="89s-xD-KsZ" id="gYY-Cb-DhF">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -323,7 +314,7 @@
                                             <rect key="frame" x="81" y="66" width="323" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Multiple hosts should be seperated by comma(,). No spaces." id="0jK-Zu-IjJ">
-                                                <font key="font" metaFont="system" size="11"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
@@ -341,7 +332,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="TLS" identifier="" id="sCQ-Dt-YCG">
-                                <view key="view" ambiguous="YES" id="yce-Q2-W28">
+                                <view key="view" id="yce-Q2-W28">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>

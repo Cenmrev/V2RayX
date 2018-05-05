@@ -163,7 +163,6 @@
         }
     }
     //tcp
-    [_tcpCrButton setState:[transportSettings[@"tcpSettings"][@"connectionReuse"] boolValue]];
     [_tcpHeaderTypeButton selectItemAtIndex:[transportSettings[@"tcpSettings"][@"header"][@"type"] isEqualToString:@"http"] ? 1 : 0];
     //websocket
     [_wsCrButton setState:[transportSettings[@"wsSettings"][@"connectionReuse"] boolValue]];
@@ -209,7 +208,6 @@
     [_kcpCongestionButton selectItemAtIndex:0];
     [_kcpHeaderTypeButton selectItemAtIndex:0];
     //tcp fields
-    [_tcpCrButton setState:1];
     [_tcpHeaderTypeButton selectItemAtIndex:0];
     //ws fields
     [_wsCrButton setState:1];
@@ -253,7 +251,7 @@
                     @"header":@{@"type":[[_kcpHeaderTypeButton selectedItem] title]}
                     },
               @"tcpSettings":
-                  @{@"connectionReuse": [NSNumber numberWithBool:[_tcpCrButton state]==1],
+                  @{
                     @"header":@{@"type":[[_tcpHeaderTypeButton selectedItem] title]}
                     },
               @"wsSettings": @{
