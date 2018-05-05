@@ -60,6 +60,7 @@ typedef enum ProxyMode : NSInteger{
 - (IBAction)chooseManualMode:(id)sender;
 - (IBAction)showConfigWindow:(id)sender;
 - (IBAction)editPac:(id)sender;
+- (IBAction)resetPac:(id)sender;
 - (IBAction)viewLog:(id)sender;
 
 - (void)configurationDidChange;

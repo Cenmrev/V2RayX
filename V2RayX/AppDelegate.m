@@ -205,6 +205,18 @@ static AppDelegate *appDelegate;
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[[NSURL fileURLWithPath:pacPath]]];
 }
 
+- (IBAction)resetPac:(id)sender {
+    NSString* simplePac = [[NSBundle mainBundle] pathForResource:@"simple" ofType:@"pac"];
+    pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/pac.js",NSHomeDirectory()];
+    if ([[NSFileManager defaultManager] isWritableFileAtPath:pacPath]) {
+        [[NSData dataWithContentsOfFile:simplePac] writeToFile:pacPath atomically:YES];
+    } else {
+        NSAlert* writePacAlert = [[NSAlert alloc] init];
+        [writePacAlert setMessageText:[NSString stringWithFormat:@"%@ is not writable!", pacPath]];
+        [writePacAlert runModal];
+    }
+}
+
 - (IBAction)viewLog:(id)sender {
     [[NSWorkspace sharedWorkspace] openFile:logDirPath];
 }
