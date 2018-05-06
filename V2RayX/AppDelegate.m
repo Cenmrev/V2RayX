@@ -307,7 +307,7 @@ static AppDelegate *appDelegate;
             if (useMultipleServer){
                 newItem.state = 0;
             } else {
-                newItem.state = (!useCusProfile && i == selectedServerIndex)? 1 : 0;
+                newItem.state = (useCusProfile && i - [profiles count] == selectedCusServerIndex)? 1 : 0;
             }
             [_serverListMenu addItem:newItem];
             i+=1;
@@ -317,6 +317,7 @@ static AppDelegate *appDelegate;
 }
 
 - (void)switchServer:(id)sender {
+    NSLog(@"%ld", [sender tag]);
     if ([sender tag] >= 0 && [sender tag] < [profiles count]) {
         [self setUseMultipleServer:NO];
         [self setUseCusProfile:NO];
@@ -546,6 +547,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
                             }
                         }
                     }
+                    NSLog(@"%ld %ld", cusSocksPort, cusHttpPort);
                     arguments = @[@"global", [NSString stringWithFormat:@"%ld", cusSocksPort], [NSString stringWithFormat:@"%ld", cusHttpPort]];
                 }
             }
@@ -643,7 +645,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
     NSString *str;
     str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
-    if (![str isEqualToString:kSysconfVersion]) {
+    if (![str isEqualToString:VERSION]) {
         return NO;
     }
     return YES;

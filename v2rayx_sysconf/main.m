@@ -7,8 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
-
-#define VERSION @"v2rayx_sysconf 1.1.0"
+#import "sysconf_version.h"
 
 #define INFO "v2rayx_sysconf\n the helper tool for V2RayX, modified from clowwindy's shadowsocks_sysconf.\nusage: v2rayx_sysconf [options]\noff\t turn off proxy\nauto\t auto proxy change\nglobal port \t global proxy at the specified port number\n"
 
@@ -79,6 +78,7 @@ int main(int argc, const char * argv[])
                             printf ("error - not a valid port number");
                             return 1;
                         }
+                        NSLog(@"in helper %d %d", localPort, httpPort);
                         if (localPort > 0) {
                             [proxies setObject:@"127.0.0.1" forKey:(NSString *)
                              kCFNetworkProxiesSOCKSProxy];

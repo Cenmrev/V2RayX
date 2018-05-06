@@ -133,6 +133,7 @@
 		9D7109601E0F43BD008A6362 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		9D7DFE511EBEC947001FECBD /* jsonplist */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = jsonplist; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D7DFE531EBEC947001FECBD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9DA398B5209ECED400784947 /* sysconf_version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sysconf_version.h; sourceTree = "<group>"; };
 		9DB4FE941F205BEB00CCEE5F /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -224,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				9504C0C81C662DB500352520 /* main.m */,
+				9DA398B5209ECED400784947 /* sysconf_version.h */,
 			);
 			path = v2rayx_sysconf;
 			sourceTree = "<group>";
