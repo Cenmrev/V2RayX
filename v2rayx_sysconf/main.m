@@ -7,8 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
-
-#define VERSION @"v2rayx_sysconf 1.1.0"
+#import "sysconf_version.h"
 
 #define INFO "v2rayx_sysconf\n the helper tool for V2RayX, modified from clowwindy's shadowsocks_sysconf.\nusage: v2rayx_sysconf [options]\noff\t turn off proxy\nauto\t auto proxy change\nglobal port \t global proxy at the specified port number\n"
 
@@ -69,8 +68,8 @@ int main(int argc, const char * argv[])
                         [proxies setObject:[NSNumber numberWithInt:1] forKey:(NSString *)kCFNetworkProxiesProxyAutoConfigEnable];
                         
                     } else if ([mode isEqualToString:@"global"]) {
-                        int localPort = 1080;
-                        int httpPort = 1081;
+                        int localPort = 0;
+                        int httpPort = 0;
                         if (sscanf (argv[2], "%i", &localPort)!=1 || localPort > 65535 || localPort < 0) {
                             printf ("error - not a valid port number");
                             return 1;
@@ -79,24 +78,29 @@ int main(int argc, const char * argv[])
                             printf ("error - not a valid port number");
                             return 1;
                         }
-                        [proxies setObject:@"127.0.0.1" forKey:(NSString *)
-                         kCFNetworkProxiesSOCKSProxy];
-                        [proxies setObject:@"127.0.0.1" forKey:(NSString *)
-                         kCFNetworkProxiesHTTPProxy];
-                        [proxies setObject:@"127.0.0.1" forKey:(NSString *)
-                         kCFNetworkProxiesHTTPSProxy];
-                        [proxies setObject:[NSNumber numberWithInt:localPort] forKey:(NSString*)
-                         kCFNetworkProxiesSOCKSPort];
-                        [proxies setObject:[NSNumber numberWithInt:httpPort] forKey:(NSString*)
-                         kCFNetworkProxiesHTTPPort];
-                        [proxies setObject:[NSNumber numberWithInt:httpPort] forKey:(NSString*)
-                         kCFNetworkProxiesHTTPSPort];
-                        [proxies setObject:[NSNumber numberWithInt:1] forKey:(NSString*)
-                         kCFNetworkProxiesSOCKSEnable];
-                        [proxies setObject:[NSNumber numberWithInt:1] forKey:(NSString*)
-                         kCFNetworkProxiesHTTPEnable];
-                        [proxies setObject:[NSNumber numberWithInt:1] forKey:(NSString*)
-                         kCFNetworkProxiesHTTPSEnable];
+                        NSLog(@"in helper %d %d", localPort, httpPort);
+                        if (localPort > 0) {
+                            [proxies setObject:@"127.0.0.1" forKey:(NSString *)
+                             kCFNetworkProxiesSOCKSProxy];
+                            [proxies setObject:[NSNumber numberWithInt:localPort] forKey:(NSString*)
+                             kCFNetworkProxiesSOCKSPort];
+                            [proxies setObject:[NSNumber numberWithInt:1] forKey:(NSString*)
+                             kCFNetworkProxiesSOCKSEnable];
+                        }
+                        if (httpPort > 0) {
+                            [proxies setObject:@"127.0.0.1" forKey:(NSString *)
+                             kCFNetworkProxiesHTTPProxy];
+                            [proxies setObject:@"127.0.0.1" forKey:(NSString *)
+                             kCFNetworkProxiesHTTPSProxy];
+                            [proxies setObject:[NSNumber numberWithInt:httpPort] forKey:(NSString*)
+                             kCFNetworkProxiesHTTPPort];
+                            [proxies setObject:[NSNumber numberWithInt:httpPort] forKey:(NSString*)
+                             kCFNetworkProxiesHTTPSPort];
+                            [proxies setObject:[NSNumber numberWithInt:1] forKey:(NSString*)
+                             kCFNetworkProxiesHTTPEnable];
+                            [proxies setObject:[NSNumber numberWithInt:1] forKey:(NSString*)
+                             kCFNetworkProxiesHTTPSEnable];
+                        }
                     }
                     
                     SCPreferencesPathSetValue(prefRef, (__bridge CFStringRef)[NSString stringWithFormat:@"/%@/%@/%@", kSCPrefNetworkServices, key, kSCEntNetProxies], (__bridge CFDictionaryRef)proxies);
