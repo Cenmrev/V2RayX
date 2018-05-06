@@ -524,7 +524,30 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
             if (proxyMode == 3) { // manual mode
                 arguments = [self currentProxySetByMe] ? @[@"off"] : @[@"-v"];
             } else { // global mode and rule mode
-                arguments = @[@"global", [NSString stringWithFormat:@"%ld", localPort], [NSString stringWithFormat:@"%ld", httpPort]];
+                if(useMultipleServer || !useCusProfile) {
+                    arguments = @[@"global", [NSString stringWithFormat:@"%ld", localPort], [NSString stringWithFormat:@"%ld", httpPort]];
+                } else {
+                    NSInteger cusHttpPort = 0;
+                    NSInteger cusSocksPort = 0;
+                    NSDictionary* cusJson = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:cusProfiles[selectedCusServerIndex]] options:0 error:nil];
+                    if ([cusJson[@"inbound"][@"protocol"] isEqualToString:@"http"]) {
+                        cusHttpPort = [cusJson[@"inbound"][@"port"] integerValue];
+                    }
+                    if ([cusJson[@"inbound"][@"protocol"] isEqualToString:@"socks"]) {
+                        cusSocksPort = [cusJson[@"inbound"][@"port"] integerValue];
+                    }
+                    if (cusJson[@"inboundDetour"] != nil && [cusJson[@"inboundDetour"] isKindOfClass:[NSArray class]]) {
+                        for (NSDictionary *oDetour in cusJson[@"outboundDetour"]) {
+                            if ([oDetour[@"protocol"] isEqualToString:@"http"]) {
+                                cusHttpPort = [oDetour[@"port"] integerValue];
+                            }
+                            if ([cusJson[@"inbound"][@"protocol"] isEqualToString:@"socks"]) {
+                                cusSocksPort = [oDetour[@"port"] integerValue];
+                            }
+                        }
+                    }
+                    arguments = @[@"global", [NSString stringWithFormat:@"%ld", cusSocksPort], [NSString stringWithFormat:@"%ld", cusHttpPort]];
+                }
             }
         }
     } else {
