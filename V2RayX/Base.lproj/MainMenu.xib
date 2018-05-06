@@ -729,12 +729,6 @@
                         <action selector="editPac:" target="Voe-Tx-rLC" id="4jX-Hv-SpU"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Reset pac file" id="oGZ-uP-dny">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="resetPac:" target="Voe-Tx-rLC" id="WUw-A2-aU5"/>
-                    </connections>
-                </menuItem>
                 <menuItem title="View log" id="5Vg-qU-2V2">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
@@ -746,6 +740,12 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="copyExportCmd:" target="Voe-Tx-rLC" id="OMz-Lv-Wmr"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Reset pac file" id="oGZ-uP-dny">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="resetPac:" target="Voe-Tx-rLC" id="WUw-A2-aU5"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="YAD-DW-T91"/>

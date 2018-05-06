@@ -212,14 +212,21 @@ static AppDelegate *appDelegate;
 }
 
 - (IBAction)resetPac:(id)sender {
-    NSString* simplePac = [[NSBundle mainBundle] pathForResource:@"simple" ofType:@"pac"];
-    pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/pac.js",NSHomeDirectory()];
-    if ([[NSFileManager defaultManager] isWritableFileAtPath:pacPath]) {
-        [[NSData dataWithContentsOfFile:simplePac] writeToFile:pacPath atomically:YES];
-    } else {
-        NSAlert* writePacAlert = [[NSAlert alloc] init];
-        [writePacAlert setMessageText:[NSString stringWithFormat:@"%@ is not writable!", pacPath]];
-        [writePacAlert runModal];
+    NSAlert *resetAlert = [[NSAlert alloc] init];
+    [resetAlert setMessageText:@"The pac file will be reset to the original one coming with V2RayX. Are you sure to proceed?"];
+    [resetAlert addButtonWithTitle:@"Yes"];
+    [resetAlert addButtonWithTitle:@"Cancel"];
+    NSModalResponse response = [resetAlert runModal];
+    if(response == NSAlertFirstButtonReturn) {
+        NSString* simplePac = [[NSBundle mainBundle] pathForResource:@"simple" ofType:@"pac"];
+        pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/pac.js",NSHomeDirectory()];
+        if ([[NSFileManager defaultManager] isWritableFileAtPath:pacPath]) {
+            [[NSData dataWithContentsOfFile:simplePac] writeToFile:pacPath atomically:YES];
+        } else {
+            NSAlert* writePacAlert = [[NSAlert alloc] init];
+            [writePacAlert setMessageText:[NSString stringWithFormat:@"%@ is not writable!", pacPath]];
+            [writePacAlert runModal];
+        }
     }
 }
 
