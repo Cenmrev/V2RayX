@@ -257,6 +257,8 @@
     if ([_tcpHeaderCusButton state]) {
         [_tcpHdField setString:
          [[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:transportSettings[@"tcpSettings"][@"header"] options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding]];
+    } else {
+        [_tcpHdField setString:@"{\"type\": \"none\"}"];
     }
     //websocket
     NSString *savedWsPath = transportSettings[@"wsSettings"][@"path"];
@@ -310,14 +312,19 @@
     //ws fields
     [_wsPathField setStringValue:@""];
     [_wsHeaderField setString:@"{}"];
+    //tls fields
+    [_tlsUseButton setState:0];
+    [_tlsAiButton setState:0];
+    [_tlsSnField setStringValue:@"server.cc"];
     //http/2 fields
     [_httpHostsField setStringValue:@""];
     [_httpPathField setStringValue:@""];
     //mux fields
     [_muxEnableButton setState:0];
     [_muxEnableButton setIntegerValue:8];
-    
-    
+    //outbound proxy
+    [_proxyPortField setIntegerValue:0];
+    [_proxyAddressField setStringValue:@""];
 }
 - (IBAction)tCancel:(id)sender {
     [[self window] endSheet:_transportWindow];

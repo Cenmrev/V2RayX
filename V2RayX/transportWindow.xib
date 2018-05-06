@@ -254,11 +254,11 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </clipView>
                                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="NFh-p3-b3u">
-                                                <rect key="frame" x="1" y="84" width="441" height="16"/>
+                                                <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="pjr-0b-EH7">
-                                                <rect key="frame" x="426" y="1" width="16" height="99"/>
+                                                <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
@@ -266,7 +266,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="WebSocket" identifier="" id="wRJ-HD-bnc">
-                                <view key="view" ambiguous="YES" id="qhV-ER-N37">
+                                <view key="view" id="qhV-ER-N37">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -324,11 +324,11 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </clipView>
                                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="qvr-My-otE">
-                                                <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                                <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Ekv-gJ-IED">
-                                                <rect key="frame" x="426" y="1" width="16" height="66"/>
+                                                <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
@@ -468,7 +468,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Outbound Proxy" identifier="" id="5DZ-L5-J0p">
-                                <view key="view" id="cPu-Oz-q0e">
+                                <view key="view" ambiguous="YES" id="cPu-Oz-q0e">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
