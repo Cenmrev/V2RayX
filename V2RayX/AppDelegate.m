@@ -12,6 +12,8 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "ServerProfile.h"
 
+#define kUseAllServer -10
+
 @interface AppDelegate () {
     GCDWebServer *webServer;
     ConfigWindowController *configWindowController;
@@ -114,6 +116,7 @@ static AppDelegate *appDelegate;
       @"selectedCusServerIndex": [NSNumber numberWithInteger:-1],
       @"useCusProfile": @NO,
       @"cusProfiles": @[],
+      @"useMultipleServer": @NO
       };
     for (NSString* key in [defaultSettings allKeys]) {
         [[NSUserDefaults standardUserDefaults] setObject:defaultSettings[key] forKey:key];
@@ -142,7 +145,8 @@ static AppDelegate *appDelegate;
       @"profiles":profilesArray,
       @"cusProfiles": cusProfiles,
       @"selectedCusServerIndex": @(selectedCusServerIndex),
-      @"useCusProfile": @(useCusProfile)
+      @"useCusProfile": @(useCusProfile),
+      @"useMultipleServer": @(useMultipleServer)
       };
     for (NSString* key in [settings allKeys]) {
         [[NSUserDefaults standardUserDefaults] setObject:settings[key] forKey:key];
@@ -281,16 +285,30 @@ static AppDelegate *appDelegate;
             }
             NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(switchServer:) keyEquivalent:@""];
             [newItem setTag:i];
-            newItem.state = (!useCusProfile && i == selectedServerIndex)? 1 : 0;
+            if (useMultipleServer){
+                newItem.state = 0;
+            } else {
+                newItem.state = (!useCusProfile && i == selectedServerIndex)? 1 : 0;
+            }
             [_serverListMenu addItem:newItem];
             i++;
+        }
+        if([profiles count] > 1) {
+            NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:@"Use All" action:@selector(switchServer:) keyEquivalent:@""];
+            [newItem setTag:kUseAllServer];
+            newItem.state = useMultipleServer;
+            [_serverListMenu addItem:newItem];
         }
         [_serverListMenu addItem:[NSMenuItem separatorItem]];
         for (NSString* cusProfilePath in cusProfiles) {
             NSString *itemTitle = [[cusProfilePath componentsSeparatedByString:@"/"] lastObject];
             NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(switchServer:) keyEquivalent:@""];
             [newItem setTag:i];
-            newItem.state = (useCusProfile && selectedCusServerIndex == (i - [profiles count])) ? 1 : 0;
+            if (useMultipleServer){
+                newItem.state = 0;
+            } else {
+                newItem.state = (!useCusProfile && i == selectedServerIndex)? 1 : 0;
+            }
             [_serverListMenu addItem:newItem];
             i+=1;
         }
@@ -300,11 +318,15 @@ static AppDelegate *appDelegate;
 
 - (void)switchServer:(id)sender {
     if ([sender tag] >= 0 && [sender tag] < [profiles count]) {
+        [self setUseMultipleServer:NO];
         [self setUseCusProfile:NO];
         [self setSelectedServerIndex:[sender tag]];
     } else if ([sender tag] >= [profiles count] && [sender tag] < [profiles count] + [cusProfiles count]) {
+        [self setUseMultipleServer:NO];
         [self setUseCusProfile:YES];
         [self setSelectedCusServerIndex:[sender tag] - [profiles count]];
+    } else if ([sender tag] == kUseAllServer) {
+        [self setUseMultipleServer:YES];
     }
     NSLog(@"use cus pro:%hhd, select %ld, select cus %ld", useCusProfile, (long)selectedServerIndex, selectedCusServerIndex);
     [self configurationDidChange];
@@ -340,6 +362,16 @@ static AppDelegate *appDelegate;
         }
     } else {
         selectedServerIndex = -1;
+    }
+    if ([profiles count] > 1) {
+        id dUseMultipleServer = [defaults objectForKey:@"useMultipleServer"];
+        if ([dUseMultipleServer isKindOfClass:[NSNumber class]]) {
+            useMultipleServer = [dUseMultipleServer boolValue];
+        } else {
+            useMultipleServer = NO;
+        }
+    } else {
+        useMultipleServer = NO;
     }
     [cusProfiles removeAllObjects];
     if ([[defaults objectForKey:@"cusProfiles"] isKindOfClass:[NSArray class]] && [[defaults objectForKey:@"cusProfiles"] count] > 0) {
@@ -384,7 +416,17 @@ static AppDelegate *appDelegate;
     fullConfig[@"inboundDetour"][0][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
     fullConfig[@"inboundDetour"][0][@"port"] = @(httpPort);
     fullConfig[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udpSupport];
-    fullConfig[@"outbound"] = [selectedProfile outboundProfile];
+    if (!useMultipleServer) {
+        fullConfig[@"outbound"] = [selectedProfile outboundProfile];
+    } else {
+        fullConfig[@"outbound"] = [selectedProfile outboundProfile];
+        NSMutableArray* vPoints = [[NSMutableArray alloc] init];
+        for (ServerProfile* aProfile in profiles) {
+            NSDictionary* onePoint = [aProfile outboundProfile];
+            [vPoints addObject:onePoint[@"settings"][@"vnext"][0]];
+        }
+        fullConfig[@"outbound"][@"settings"][@"vnext"] = vPoints;
+    }
     if ([selectedProfile.proxySettings[@"address"] isKindOfClass:[NSString class]] && [selectedProfile.proxySettings[@"address"] length] > 0) {
         [fullConfig[@"outboundDetour"] addObject:fullConfig[@"outbound"][@"proxySettings"][@"outbound-proxy-config"]];
         [fullConfig[@"outbound"][@"proxySettings"] removeObjectForKey:@"outbound-proxy-config"];
@@ -414,11 +456,11 @@ static AppDelegate *appDelegate;
 -(BOOL)loadV2ray {
     NSString *configPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/config.json",NSHomeDirectory()];
     NSData* v2rayJSONconfig;
-    if (!useCusProfile) {
-        NSDictionary *fullConfig = [self generateFullConfigFrom:profiles[selectedServerIndex]];
-        v2rayJSONconfig = [NSJSONSerialization dataWithJSONObject:fullConfig options:NSJSONWritingPrettyPrinted error:nil];
-    } else {
+    if (!useMultipleServer && useCusProfile) {
         v2rayJSONconfig = [NSData dataWithContentsOfFile:cusProfiles[selectedCusServerIndex]];
+    } else {
+        NSDictionary *fullConfig = [self generateFullConfigFrom:profiles[useMultipleServer ? 0 : selectedServerIndex]];
+        v2rayJSONconfig = [NSJSONSerialization dataWithJSONObject:fullConfig options:NSJSONWritingPrettyPrinted error:nil];
     }
     [v2rayJSONconfig writeToFile:configPath atomically:NO];
     [self generateLaunchdPlist:plistPath];
@@ -634,4 +676,5 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
 @synthesize cusProfiles;
 @synthesize useCusProfile;
 @synthesize selectedCusServerIndex;
+@synthesize useMultipleServer;
 @end

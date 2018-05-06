@@ -32,6 +32,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
     BOOL udpSupport;
     BOOL shareOverLan;
     BOOL useCusProfile;
+    BOOL useMultipleServer;
     NSInteger selectedServerIndex;
     NSInteger selectedCusServerIndex;
     NSString* dnsString;
@@ -60,6 +61,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property NSMutableArray *profiles;
 @property NSMutableArray *cusProfiles;
 @property NSString* logLevel;
+@property BOOL useMultipleServer;
 
 
 - (IBAction)showHelp:(id)sender;

@@ -103,7 +103,7 @@
     @{
       @"sendThrough": sendThrough,
       @"protocol": @"vmess",
-      @"settings": @{
+      @"settings": [@{
               @"vnext": @[
                       @{
                           @"remark": nilCoalescing(remark, @""),
@@ -119,7 +119,7 @@
                                   ]
                           }
                       ]
-              },
+              } mutableCopy],
       @"streamSettings": fullStreamSettings,
       @"proxySettings": [@{
               @"tag": @"transit",
