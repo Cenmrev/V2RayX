@@ -164,9 +164,8 @@
         [cusProfiles addObject:@"/path/to/your/config.json"];
         [_cusProfileTable reloadData];
         [_cusProfileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[cusProfiles count] -1] byExtendingSelection:NO];
-        //[_cusProfileTable setFocusedColumn:[cusProfiles count] - 1];
+        [_cusProfileTable setFocusedColumn:[cusProfiles count] - 1];
         //[[_cusProfileTable viewAtColumn:0 row:[cusProfiles count]-1 makeIfNecessary:NO] becomeFirstResponder];
-        NSLog(@"%@", [_cusProfileTable viewAtColumn:0 row:0 makeIfNecessary:NO]);
     } else if ([sender selectedSegment] == 1 && [cusProfiles count] > 0) {
         NSInteger originalSelected = [_cusProfileTable selectedRow];
         [cusProfiles removeObjectAtIndex:originalSelected];
@@ -193,11 +192,17 @@
 }
 - (IBAction)cFinish:(NSButton *)sender {
     NSString* v2rayBinPath = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
+    NSString *configPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/config.json",NSHomeDirectory()];
     for (NSString* filePath in cusProfiles) {
-        NSLog(@"%@, %@", v2rayBinPath, filePath);
-        
-        int returnCode = runCommandLine(v2rayBinPath, @[@"-test", filePath]);
-        returnCode = 0;
+        if ([filePath isEqualToString:configPath]) {
+            NSAlert *alert = [[NSAlert alloc] init];
+            [alert setMessageText:[NSString stringWithFormat:@"%@ is controlled by V2RayX. Do not directly modify it. Copy it to somewhere else.", filePath]];
+            [alert beginSheetModalForWindow:_cusConfigWindow completionHandler:^(NSModalResponse returnCode) {
+                return;
+            }];
+            return;
+        }
+        int returnCode = runCommandLine(v2rayBinPath, @[@"-test", @"-config", filePath]);
         if (returnCode != 0) {
             NSAlert *alert = [[NSAlert alloc] init];
             [alert setMessageText:[NSString stringWithFormat:@"%@ is not a valid v2ray config file", filePath]];
