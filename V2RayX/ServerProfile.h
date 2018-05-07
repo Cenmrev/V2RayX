@@ -12,7 +12,8 @@ typedef enum SecurityType : NSUInteger {
     aes_128_cfb,
     aes_128_gcm,
     chacha20_poly130,
-    auto_
+    auto_,
+    none
 } SecurityType;
 
 typedef enum NetWorkType : NSUInteger {

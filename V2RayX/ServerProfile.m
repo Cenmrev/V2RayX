@@ -70,9 +70,8 @@
 }
 
 + (ServerProfile*)readFromAnOutboundDic:(NSDictionary*)outDict {
-    NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2, @"http":@3 };
-    NSDictionary *securityDict = @{@"aes-128-cfb":@0, @"aes-128-gcm":@1, @"chacha20-poly1305":@2, @"auto":@3};
-    
+    NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2 };
+    NSDictionary *securityDict = @{@"aes-128-cfb":@0, @"aes-128-gcm":@1, @"chacha20-poly1305":@2, @"auto":@3, @"none":@4};    
     ServerProfile* profile = [[ServerProfile alloc] init];
     profile.sendThrough = nilCoalescing(outDict[@"sendThrough"], @"0.0.0.0");
     profile.address = nilCoalescing(outDict[@"settings"][@"vnext"][0][@"address"], @"127.0.0.1");
@@ -113,7 +112,7 @@
                                   @{
                                       @"id": userId != nil ? [userId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]: @"",
                                       @"alterId": [NSNumber numberWithUnsignedInteger:alterId],
-                                      @"security": @[@"aes-128-cfb", @"aes-128-gcm", @"chacha20-poly1305", @"auto"][security],
+                                      @"security": @[@"aes-128-cfb", @"aes-128-gcm", @"chacha20-poly1305", @"auto", @"none"][security],
                                       @"level": [NSNumber numberWithUnsignedInteger:level]
                                       }
                                   ]
