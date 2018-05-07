@@ -70,7 +70,7 @@
 }
 
 + (ServerProfile*)readFromAnOutboundDic:(NSDictionary*)outDict {
-    NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2 };
+    NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2, @"http":@3 };
     NSDictionary *securityDict = @{@"aes-128-cfb":@0, @"aes-128-gcm":@1, @"chacha20-poly1305":@2, @"auto":@3, @"none":@4};    
     ServerProfile* profile = [[ServerProfile alloc] init];
     profile.sendThrough = nilCoalescing(outDict[@"sendThrough"], @"0.0.0.0");
