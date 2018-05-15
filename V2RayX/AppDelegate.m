@@ -538,16 +538,16 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
                         cusSocksPort = [cusJson[@"inbound"][@"port"] integerValue];
                     }
                     if (cusJson[@"inboundDetour"] != nil && [cusJson[@"inboundDetour"] isKindOfClass:[NSArray class]]) {
-                        for (NSDictionary *oDetour in cusJson[@"outboundDetour"]) {
-                            if ([oDetour[@"protocol"] isEqualToString:@"http"]) {
-                                cusHttpPort = [oDetour[@"port"] integerValue];
+                        for (NSDictionary *inboundDetour in cusJson[@"inboundDetour"]) {
+                            if ([inboundDetour[@"protocol"] isEqualToString:@"http"]) {
+                                cusHttpPort = [inboundDetour[@"port"] integerValue];
                             }
-                            if ([cusJson[@"inbound"][@"protocol"] isEqualToString:@"socks"]) {
-                                cusSocksPort = [oDetour[@"port"] integerValue];
+                            if ([inboundDetour[@"protocol"] isEqualToString:@"socks"]) {
+                                cusSocksPort = [inboundDetour[@"port"] integerValue];
                             }
                         }
                     }
-                    NSLog(@"%ld %ld", cusSocksPort, cusHttpPort);
+                    NSLog(@"socks: %ld, http: %ld", cusSocksPort, cusHttpPort);
                     arguments = @[@"global", [NSString stringWithFormat:@"%ld", cusSocksPort], [NSString stringWithFormat:@"%ld", cusHttpPort]];
                 }
             }
