@@ -1,4 +1,4 @@
-VERSION="v3.21"
+VERSION="v3.22"
 
 
 cd "$SRCROOT"
