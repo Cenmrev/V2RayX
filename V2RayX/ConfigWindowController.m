@@ -192,16 +192,7 @@
 }
 - (IBAction)cFinish:(NSButton *)sender {
     NSString* v2rayBinPath = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
-    NSString *configPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/config.json",NSHomeDirectory()];
     for (NSString* filePath in cusProfiles) {
-        if ([filePath isEqualToString:configPath]) {
-            NSAlert *alert = [[NSAlert alloc] init];
-            [alert setMessageText:[NSString stringWithFormat:@"%@ is controlled by V2RayX. Do not directly modify it. Copy it to somewhere else.", filePath]];
-            [alert beginSheetModalForWindow:_cusConfigWindow completionHandler:^(NSModalResponse returnCode) {
-                return;
-            }];
-            return;
-        }
         int returnCode = runCommandLine(v2rayBinPath, @[@"-test", @"-config", filePath]);
         if (returnCode != 0) {
             NSAlert *alert = [[NSAlert alloc] init];

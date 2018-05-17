@@ -735,6 +735,12 @@
                         <action selector="viewLog:" target="Voe-Tx-rLC" id="6j0-df-F3G"/>
                     </connections>
                 </menuItem>
+                <menuItem title="View current config.json" id="C53-wG-wMg">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="viewConfigJson:" target="Voe-Tx-rLC" id="8EX-Wb-G5H"/>
+                    </connections>
+                </menuItem>
                 <menuItem isSeparatorItem="YES" id="1ve-pA-4fu"/>
                 <menuItem title="Copy HTTP Proxy Shell Export Line" id="2fK-AZ-akH">
                     <modifierMask key="keyEquivalentModifierMask"/>

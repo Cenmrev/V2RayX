@@ -21,6 +21,8 @@
     dispatch_queue_t taskQueue;
     dispatch_source_t dispatchPacSource;
     FSEventStreamRef fsEventStream;
+    
+    NSData* v2rayJSONconfig;
 }
 
 @end
@@ -28,6 +30,10 @@
 @implementation AppDelegate
 
 static AppDelegate *appDelegate;
+
+- (NSData*)v2rayJSONconfig {
+    return v2rayJSONconfig;
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // create a serial queue used for NSTask operations
@@ -72,6 +78,9 @@ static AppDelegate *appDelegate;
     webServer = [[GCDWebServer alloc] init];
     [webServer addHandlerForMethod:@"GET" path:@"/proxy.pac" requestClass:[GCDWebServerRequest class] processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
         return [GCDWebServerDataResponse responseWithData:[weakSelf pacData] contentType:@"application/x-ns-proxy-autoconfig"];
+    }];
+    [webServer addHandlerForMethod:@"GET" path:@"/config.json" requestClass:[GCDWebServerRequest class] processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        return [GCDWebServerDataResponse responseWithData:[weakSelf v2rayJSONconfig] contentType:@"application/json"];
     }];
     NSNumber* setingVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"setingVersion"];
     if(setingVersion == nil || [setingVersion integerValue] != kV2RayXSettingVersion) {
@@ -455,15 +464,15 @@ static AppDelegate *appDelegate;
 }
 
 -(BOOL)loadV2ray {
-    NSString *configPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/config.json",NSHomeDirectory()];
-    NSData* v2rayJSONconfig;
+    if (![webServer isRunning]) {
+        [webServer startWithPort:webServerPort bonjourName:nil];
+    }
     if (!useMultipleServer && useCusProfile) {
         v2rayJSONconfig = [NSData dataWithContentsOfFile:cusProfiles[selectedCusServerIndex]];
     } else {
         NSDictionary *fullConfig = [self generateFullConfigFrom:profiles[useMultipleServer ? 0 : selectedServerIndex]];
         v2rayJSONconfig = [NSJSONSerialization dataWithJSONObject:fullConfig options:NSJSONWritingPrettyPrinted error:nil];
     }
-    [v2rayJSONconfig writeToFile:configPath atomically:NO];
     [self generateLaunchdPlist:plistPath];
     dispatch_async(taskQueue, ^{
         runCommandLine(@"/bin/launchctl",  @[@"load", self->plistPath]);
@@ -473,7 +482,7 @@ static AppDelegate *appDelegate;
 
 -(void)generateLaunchdPlist:(NSString*)path {
     NSString* v2rayPath = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
-    NSString *configPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/config.json",NSHomeDirectory()];
+    NSString *configPath = [NSString stringWithFormat:@"http://127.0.0.1:%d/config.json", webServerPort];
     NSDictionary *runPlistDic = [[NSDictionary alloc] initWithObjects:@[@"v2rayproject.v2rayx.v2ray-core", @[v2rayPath, @"-config", configPath], [NSNumber numberWithBool:YES]] forKeys:@[@"Label", @"ProgramArguments", @"RunAtLoad"]];
     [runPlistDic writeToFile:path atomically:NO];
 }
@@ -512,7 +521,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
         if (proxyMode == 1) { // pac mode
             // close system proxy first to refresh pac file
             if (![webServer isRunning]) {
-                [webServer startWithPort:8070 bonjourName:nil];
+                [webServer startWithPort:webServerPort bonjourName:nil];
             }
             dispatch_async(taskQueue, ^{
                 runCommandLine(kV2RayXHelper, @[@"off"]);
@@ -679,6 +688,9 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
     }
 }
 
+- (IBAction)viewConfigJson:(NSMenuItem *)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://127.0.0.1:%d/config.json", webServerPort]]];
+}
 
 @synthesize logDirPath;
 
