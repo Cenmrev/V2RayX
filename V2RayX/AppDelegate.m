@@ -519,9 +519,6 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
             });
             arguments = @[@"auto"];
         } else {
-            if ([webServer isRunning]) {
-                [webServer stop];
-            }
             if (proxyMode == 3) { // manual mode
                 arguments = [self currentProxySetByMe] ? @[@"off"] : @[@"-v"];
             } else { // global mode and rule mode
@@ -554,9 +551,6 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
         }
     } else {
         arguments = [NSArray arrayWithObjects:@"off", nil];
-        if ([webServer isRunning]) {
-            [webServer stop];
-        }
     }
     dispatch_async(taskQueue, ^{
         runCommandLine(kV2RayXHelper,arguments);
