@@ -171,7 +171,9 @@ static AppDelegate *appDelegate;
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     //stop monitor pac
-    dispatch_source_cancel(dispatchPacSource);
+    if (dispatchPacSource) {
+        dispatch_source_cancel(dispatchPacSource);
+    }
     //unload v2ray
     runCommandLine(@"/bin/launchctl", @[@"unload", plistPath]);
     NSLog(@"V2RayX quiting, V2Ray core unloaded.");
