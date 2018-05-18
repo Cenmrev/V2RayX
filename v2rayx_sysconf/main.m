@@ -20,7 +20,7 @@ int main(int argc, const char * argv[])
     @autoreleasepool {
         NSString *mode = [NSString stringWithUTF8String:argv[1]];
         
-        NSSet *support_args = [NSSet setWithObjects:@"off", @"auto", @"global", @"-v", nil];
+        NSSet *support_args = [NSSet setWithObjects:@"off", @"auto", @"global", @"save", @"restore", @"-v", nil];
         if (![support_args containsObject:mode]) {
             printf(INFO);
             return 1;
@@ -56,12 +56,26 @@ int main(int argc, const char * argv[])
             [proxies setObject:[NSNumber numberWithInt:0] forKey:(NSString *)kCFNetworkProxiesProxyAutoConfigEnable];
             [proxies setObject:[NSNumber numberWithInt:0] forKey:(NSString *)kCFNetworkProxiesSOCKSEnable];
             
+            
+            NSDictionary* originalSets;
+            if ([mode isEqualToString:@"save"]) {
+                [sets writeToURL:[NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/system_proxy_backup.plist",NSHomeDirectory()]] atomically:NO];
+                return 0;
+            }
             // 遍历系统中的网络设备列表，设置 AirPort 和 Ethernet 的代理
+            if([mode isEqualToString:@"restore"]) {
+                originalSets = [NSDictionary dictionaryWithContentsOfURL:[NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/system_proxy_backup.plist",NSHomeDirectory()]]];
+            }
             for (NSString *key in [sets allKeys]) {
                 NSMutableDictionary *dict = [sets objectForKey:key];
                 NSString *hardware = [dict valueForKeyPath:@"Interface.Hardware"];
                 //        NSLog(@"%@", hardware);
                 if ([hardware isEqualToString:@"AirPort"] || [hardware isEqualToString:@"Wi-Fi"] || [hardware isEqualToString:@"Ethernet"]) {
+                    if ([mode isEqualToString:@"restore"]) {
+                        if ([originalSets objectForKey:key]){
+                            proxies = originalSets[key][@"Proxies"];
+                        }
+                    }
                     if ([mode isEqualToString:@"auto"]) {
                         
                         [proxies setObject:@"http://127.0.0.1:8070/proxy.pac" forKey:(NSString *)kCFNetworkProxiesProxyAutoConfigURLString];

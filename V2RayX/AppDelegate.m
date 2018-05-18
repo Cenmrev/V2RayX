@@ -36,6 +36,8 @@ static AppDelegate *appDelegate;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    v2rayJSONconfig = [[NSData alloc] init];
+    
     // create a serial queue used for NSTask operations
     taskQueue = dispatch_queue_create("cenmrev.v2rayx.nstask", DISPATCH_QUEUE_SERIAL);
     
@@ -92,6 +94,10 @@ static AppDelegate *appDelegate;
     profiles = [[NSMutableArray alloc] init];
     cusProfiles = [[NSMutableArray alloc] init];
     [self readDefaults];
+    // back up proxy settings
+    if (proxyState == true && proxyMode != manual) {
+        [self backupSystemProxy];
+    }
     [self configurationDidChange];
     
     //https://randexdev.com/2012/03/how-to-detect-directory-changes-using-gcd/
@@ -174,9 +180,8 @@ static AppDelegate *appDelegate;
     //save settings
     [self saveConfig];
     //turn off proxy
-    if (proxyState && proxyMode != 3) {
-        proxyState = NO;
-        [self updateSystemProxy];//close system proxy
+    if (proxyState && proxyMode != manual) {
+        [self restoreSystemProxy];//restore system proxy
     }
 }
 
@@ -185,26 +190,44 @@ static AppDelegate *appDelegate;
 }
 
 - (IBAction)enableProxy:(id)sender {
+    if(proxyState == false && proxyMode != manual) {
+        [self backupSystemProxy];
+    }
+    if(proxyState == true && proxyMode != manual) {
+        [self restoreSystemProxy];
+    }
     proxyState = !proxyState;
     [self configurationDidChange];
 }
 
 - (IBAction)chooseV2rayRules:(id)sender {
+    if(proxyState == true && proxyMode == manual) {
+        [self backupSystemProxy];
+    }
     proxyMode = rules;
     [self configurationDidChange];
 }
 
 - (IBAction)choosePacMode:(id)sender {
+    if(proxyState == true && proxyMode == manual) {
+    [self backupSystemProxy];
+}
     proxyMode = pac;
     [self configurationDidChange];
 }
 
 - (IBAction)chooseGlobalMode:(id)sender {
+    if(proxyState == true && proxyMode == manual) {
+        [self backupSystemProxy];
+    }
     proxyMode = global;
     [self configurationDidChange];
 }
 
 - (IBAction)chooseManualMode:(id)sender {
+    if(proxyState == true && proxyMode != manual) {
+        [self restoreSystemProxy];
+    }
     proxyMode = manual;
     [self configurationDidChange];
 }
@@ -255,14 +278,14 @@ static AppDelegate *appDelegate;
 
 - (void)updateMenus {
     if (proxyState) {
-        [_v2rayStatusItem setTitle:@"V2Ray: On"];
-        [_enabelV2rayItem setTitle:@"Stop V2Ray"];
+        [_v2rayStatusItem setTitle:@"v2ray-core: loaded"];
+        [_enabelV2rayItem setTitle:@"Unload core"];
         NSImage *icon = [NSImage imageNamed:@"statusBarIcon"];
         [icon setTemplate:YES];
         [_statusBarItem setImage:icon];
     } else {
-        [_v2rayStatusItem setTitle:@"V2Ray: Off"];
-        [_enabelV2rayItem setTitle:@"Start V2Ray"];
+        [_v2rayStatusItem setTitle:@"v2ray-core: unloaded"];
+        [_enabelV2rayItem setTitle:@"Load core"];
         [_statusBarItem setImage:[NSImage imageNamed:@"statusBarIcon_disabled"]];
         NSLog(@"icon updated");
     }
@@ -529,7 +552,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
             arguments = @[@"auto"];
         } else {
             if (proxyMode == 3) { // manual mode
-                arguments = [self currentProxySetByMe] ? @[@"off"] : @[@"-v"];
+                arguments = @[@"-v"]; // do nothing
             } else { // global mode and rule mode
                 if(useMultipleServer || !useCusProfile) {
                     arguments = @[@"global", [NSString stringWithFormat:@"%ld", localPort], [NSString stringWithFormat:@"%ld", httpPort]];
@@ -558,15 +581,28 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
                 }
             }
         }
+        dispatch_async(taskQueue, ^{
+            runCommandLine(kV2RayXHelper,arguments);
+        });
     } else {
-        arguments = [NSArray arrayWithObjects:@"off", nil];
+        ; // do nothing
     }
-    dispatch_async(taskQueue, ^{
-        runCommandLine(kV2RayXHelper,arguments);
-    });
     NSLog(@"system proxy state:%@,%ld",proxyState?@"on":@"off", (long)proxyMode);
 }
 
+-(void)backupSystemProxy {
+    SCPreferencesRef prefRef = SCPreferencesCreate(nil, CFSTR("V2RayX"), nil);
+    NSDictionary* sets = (__bridge NSDictionary *)SCPreferencesGetValue(prefRef, kSCPrefNetworkServices);
+    [sets writeToURL:[NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/system_proxy_backup.plist",NSHomeDirectory()]] atomically:NO];
+}
+
+-(void)restoreSystemProxy {
+    dispatch_async(taskQueue, ^{
+        runCommandLine(kV2RayXHelper,@[@"restore"]);
+    });
+}
+
+/*
 -(BOOL)currentProxySetByMe {
     SCPreferencesRef prefRef = SCPreferencesCreate(nil, CFSTR("V2RayX"), nil);
     NSDictionary* sets = (__bridge NSDictionary *)SCPreferencesGetValue(prefRef, kSCPrefNetworkServices);
@@ -590,7 +626,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
         }
     }
     return YES;
-}
+}*/
 
 - (BOOL)installHelper {
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -664,6 +700,9 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
             [self loadV2ray];
         } else {
             proxyState = NO;
+            if (proxyMode != manual) {
+                [self restoreSystemProxy];
+            }
             //[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO] forKey:@"proxyState"];
             NSAlert *noServerAlert = [[NSAlert alloc] init];
             [noServerAlert setMessageText:@"No available Server Profiles!"];
