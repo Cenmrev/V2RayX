@@ -36,6 +36,9 @@ static AppDelegate *appDelegate;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    profiles = [[NSMutableArray alloc] init];
+    cusProfiles = [[NSMutableArray alloc] init];
+    [self readDefaults];
     v2rayJSONconfig = [[NSData alloc] init];
     
     // create a serial queue used for NSTask operations
@@ -50,7 +53,8 @@ static AppDelegate *appDelegate;
     [_statusBarItem setHighlightMode:YES];
     
     plistPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/cenmrev.v2rayx.v2ray-core.plist",NSHomeDirectory()];
-    pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/pac.js",NSHomeDirectory()];
+    //pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/pac.js",NSHomeDirectory()];
+    pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/%@",NSHomeDirectory(), selectedPacPath];
     
     NSFileManager* fileManager = [NSFileManager defaultManager];
     NSString *pacDir = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac", NSHomeDirectory()];
@@ -91,9 +95,9 @@ static AppDelegate *appDelegate;
         [noServerAlert runModal];
         [self writeDefaultSettings]; //explicitly write default settings to user defaults file
     }
-    profiles = [[NSMutableArray alloc] init];
-    cusProfiles = [[NSMutableArray alloc] init];
-    [self readDefaults];
+//    profiles = [[NSMutableArray alloc] init];
+//    cusProfiles = [[NSMutableArray alloc] init];
+//    [self readDefaults];
     // back up proxy settings
     if (proxyState == true && proxyMode != manual) {
         [self backupSystemProxy];
@@ -161,7 +165,9 @@ static AppDelegate *appDelegate;
       @"cusProfiles": cusProfiles,
       @"selectedCusServerIndex": @(selectedCusServerIndex),
       @"useCusProfile": @(useCusProfile),
-      @"useMultipleServer": @(useMultipleServer)
+      @"useMultipleServer": @(useMultipleServer),
+      @"selectedPacIndex": @(selectedPacIndex),
+      @"selectedPacPath": selectedPacPath
       };
     for (NSString* key in [settings allKeys]) {
         [[NSUserDefaults standardUserDefaults] setObject:settings[key] forKey:key];
@@ -304,6 +310,38 @@ static AppDelegate *appDelegate;
     
 }
 
+- (void)updatePacMenuList {
+    NSLog(@"updatePacMenuList");
+    [_pacListMenu removeAllItems];
+    NSString *pacDir = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac", NSHomeDirectory()];
+    NSLog(@"updatePacMenuList%@", pacDir);
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSArray *allPath =[manager subpathsAtPath:pacDir];
+    int i = 0;
+    for (NSString *subPath in allPath) {
+        NSString *extString = [subPath pathExtension];
+        if (![extString  isEqual: @"js"]){
+            continue;
+        }
+        NSLog(@"updatePacMenuList: %@", subPath);
+        NSString *itemTitle = subPath;
+        NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(switchPac:) keyEquivalent:@""];
+        newItem.state = (i == selectedPacIndex)? 1 : 0;;
+        [newItem setTag:i];
+        //[newItem setTag:i];
+//        if (useMultipleServer){
+//            newItem.state = 0;
+//        } else {
+//            newItem.state = (useCusProfile && i - [profiles count] == selectedCusServerIndex)? 1 : 0;
+//        }
+        [_pacListMenu addItem:newItem];
+        i++;
+    }
+    [_pacListMenu addItem:_stupidSepy];
+    [_pacListMenu addItem:_editPacMenu];
+    [_pacsItem setSubmenu:_pacListMenu];
+}
+
 - (void)updateServerMenuList {
     [_serverListMenu removeAllItems];
     if ([profiles count] == 0 && [cusProfiles count] == 0) {
@@ -350,6 +388,22 @@ static AppDelegate *appDelegate;
     [_serversItem setSubmenu:_serverListMenu];
 }
 
+- (void)switchPac:(id)sender {
+    NSLog(@"%ld", [sender tag]);
+    [self setSelectedPacIndex:[sender tag]];
+    [self setSelectedPacPath:[sender title]];
+    NSLog(@"use pac:select %ld", (long)selectedPacIndex);
+    pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/%@",NSHomeDirectory(), selectedPacPath];
+    int fildes = open([pacPath cStringUsingEncoding:NSUTF8StringEncoding], O_RDONLY);
+    dispatchPacSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE, fildes, DISPATCH_VNODE_WRITE | DISPATCH_VNODE_EXTEND, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+    dispatch_source_set_event_handler(dispatchPacSource, ^{
+        NSLog(@"pac changed");
+        [appDelegate updateSystemProxy];
+    });
+    dispatch_resume(dispatchPacSource);
+    [self configurationDidChange];
+}
+
 - (void)switchServer:(id)sender {
     NSLog(@"%ld", [sender tag]);
     if ([sender tag] >= 0 && [sender tag] < [profiles count]) {
@@ -378,7 +432,16 @@ static AppDelegate *appDelegate;
     dnsString = nilCoalescing([defaults objectForKey:@"dnsString"], @"localhost");
     logLevel = nilCoalescing([defaults objectForKey:@"logLevel"], @"none");
     useCusProfile = [nilCoalescing([defaults objectForKey:@"useCusProfile"], [NSNumber numberWithBool:NO]) boolValue];
+    selectedPacPath = nilCoalescing([defaults objectForKey:@"selectedPacPath"], @"pac.js");
+    id dSelectedPacIndex = [defaults objectForKey:@"selectedPacIndex"];
+    if ([dSelectedPacIndex isKindOfClass:[NSNumber class]]) {
+        selectedPacIndex = [dSelectedPacIndex integerValue];
+    } else {
+        selectedPacIndex = 0;
+    }
+    
     [profiles removeAllObjects];
+    
     if ([[defaults objectForKey:@"profiles"] isKindOfClass:[NSArray class]] && [[defaults objectForKey:@"profiles"] count] > 0) {
         for (NSDictionary* aProfile in [defaults objectForKey:@"profiles"]) {
             ServerProfile *newProfile =  [ServerProfile readFromAnOutboundDic:aProfile];
@@ -715,6 +778,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
     [self updateSystemProxy];
     [self updateMenus];
     [self updateServerMenuList];
+    [self updatePacMenuList];
 }
 
 - (IBAction)copyExportCmd:(id)sender {
@@ -742,6 +806,8 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
 @synthesize udpSupport;
 @synthesize shareOverLan;
 @synthesize selectedServerIndex;
+@synthesize selectedPacIndex;
+@synthesize selectedPacPath;
 @synthesize dnsString;
 @synthesize profiles;
 @synthesize logLevel;
