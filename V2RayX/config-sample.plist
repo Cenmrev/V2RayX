@@ -159,18 +159,12 @@
 					<array>
 						<string>geoip:private</string>
 					</array>
-					<key>outboundTag</key>
-					<string>direct</string>
-					<key>type</key>
-					<string>field</string>
-				</dict>
-				<dict>
-					<key>outboundTag</key>
-					<string>direct</string>
 					<key>domain</key>
 					<array>
 						<string>localhost</string>
 					</array>
+					<key>outboundTag</key>
+					<string>direct</string>
 					<key>type</key>
 					<string>field</string>
 				</dict>
