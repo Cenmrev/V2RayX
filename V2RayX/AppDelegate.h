@@ -35,6 +35,8 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
     BOOL useMultipleServer;
     NSInteger selectedServerIndex;
     NSInteger selectedCusServerIndex;
+    NSInteger selectedPacIndex;
+    NSString* selectedPacPath;
     NSString* dnsString;
     NSMutableArray *profiles;
     NSMutableArray *cusProfiles;
@@ -62,6 +64,8 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property NSMutableArray *cusProfiles;
 @property NSString* logLevel;
 @property BOOL useMultipleServer;
+@property NSInteger selectedPacIndex;
+@property NSString* selectedPacPath;
 
 
 - (IBAction)showHelp:(id)sender;
@@ -87,7 +91,12 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property (weak, nonatomic) IBOutlet NSMenuItem *globalModeItem;
 @property (weak) IBOutlet NSMenuItem *manualModeItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *serversItem;
+@property (weak, nonatomic) IBOutlet NSMenuItem *pacsItem;
 @property (weak, nonatomic) IBOutlet NSMenu *serverListMenu;
+@property (weak, nonatomic) IBOutlet NSMenu *pacListMenu;
+@property (weak) IBOutlet NSMenuItem *editPacMenu;
+@property (weak) IBOutlet NSMenuItem *stupidSepy;
+
 
 @end
 
