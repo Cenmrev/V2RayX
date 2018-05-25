@@ -1,4 +1,4 @@
-VERSION="v3.22"
+VERSION="v3.23"
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 BOLD='\033[1m'
