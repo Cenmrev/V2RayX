@@ -155,13 +155,13 @@
 			<key>rules</key>
 			<array>
 				<dict>
-					<key>ip</key>
-					<array>
-						<string>geoip:private</string>
-					</array>
 					<key>domain</key>
 					<array>
 						<string>localhost</string>
+					</array>
+					<key>ip</key>
+					<array>
+						<string>geoip:private</string>
 					</array>
 					<key>outboundTag</key>
 					<string>direct</string>
