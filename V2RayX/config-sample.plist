@@ -155,24 +155,24 @@
 			<key>rules</key>
 			<array>
 				<dict>
-					<key>ip</key>
-					<array>
-						<string>geoip:private</string>
-					</array>
-					<key>outboundTag</key>
-					<string>direct</string>
 					<key>type</key>
 					<string>field</string>
-				</dict>
-				<dict>
 					<key>outboundTag</key>
 					<string>direct</string>
 					<key>domain</key>
 					<array>
 						<string>localhost</string>
 					</array>
+				</dict>
+				<dict>
 					<key>type</key>
 					<string>field</string>
+					<key>outboundTag</key>
+					<string>direct</string>
+					<key>ip</key>
+					<array>
+						<string>geoip:private</string>
+					</array>
 				</dict>
 			</array>
 		</dict>
