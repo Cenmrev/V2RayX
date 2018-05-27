@@ -1,0 +1,20 @@
+os: osx
+language: objective-c
+sudo: false
+install: true
+script: xcodebuild -project V2RayX.xcodeproj -target V2RayX -configuration Release
+
+before_deploy:
+- cd build/Release/
+- zip -r V2Rayx.app.zip V2RayX.app
+- cd ../..
+
+deploy:
+  provider: releases
+  api_key:
+    secure: awd/QhGvPwmeSr7/Mz3jlS0e4AnOizx0MLyibymlLdraSdltvL3IWe02lW6478g7GSsGgOyePdQdl2JJ+FAPZJHYY+kPlJ4lgjqpnrEkb50Mzm29Kn1lFCBelhqWGoEXEMvOnRs4ADXjoLmYk0HRrT42xQ1iIXdKun3jhwFxJwgKNRBXuolFva1wPLpbUkn8Xhm5ryJNgHYP6x/PAgVYJaRythgox3/pRolUNBjOkHe6/2kJpmlgcquoJwNKTkEng0W02pgDHL5tt2XTKOQeMwxDe6Oilj6kaZjrcDY+Jt2rZksIFVwktR6vPkqPdHV+Qs6tqE3GP2mMmDSHeRbUyvaxbenPbm0CzKczbXMzMs5S83CgMmS5YKWdo3dpDsSR348qcC+HY6SZz5+Oidt1WjvDHFA7Phco/+Pr1XyZiWybaxZS1xbMeV4B34s7uZUIsvIHod78X7+KWaNFTIdETwaq1h7DrXmvi7ceeh6UQkHf+WNMZaBZ6mgKqCMsHmK9d6Yww5N/m9cQ6pw9oNVg59ojH/F2e3vFR8rQ3cvgLyYeSAvCnqDgpnZJUze3y1+JfGVfTzIwxQ8038KSSWjJ1mbHnp2v+S91CfmAPMSh9cWqyu+t4qdyuFbU47b+3C6X76w2Db3scj7qLyqkndT0Pa8DRGENePbHstjUF5ZlxLo=
+  file: build/Release/V2RayX.app.zip
+  skip_cleanup: true
+  on:
+    repo: Cenmrev/V2RayX
+    tags: true
