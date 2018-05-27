@@ -12,7 +12,7 @@ fi
 existingVersion=${output:6:${#VERSION}}
 if [ "$VERSION" != "$existingVersion" ]; then
     getCore=0
-    mkdir v2ray-core-bin
+    mkdir -p v2ray-core-bin
     cd v2ray-core-bin
     curl -s -L -o v2ray-macos.zip https://github.com/v2ray/v2ray-core/releases/download/${VERSION}/v2ray-macos.zip
     if [[ $? == 0 ]]; then

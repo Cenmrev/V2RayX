@@ -1,19 +1,16 @@
-![V2RayX](https://raw.githubusercontent.com/Cenmrev/V2RayX/master/V2RayX/Assets.xcassets/AppIcon.appiconset/vx128.png)
-
 # V2RayX: A simple GUI for V2Ray on macOS
+
+[![Build Status](https://travis-ci.org/Cenmrev/V2RayX.svg?branch=master)](https://travis-ci.org/Cenmrev/V2RayX)
 
 ## What is V2Ray?
 
-![V2Ray logo](https://raw.githubusercontent.com/v2ray/manual/master/resources/favicon-152.png)
-
-[Project V2Ray](http://www.v2ray.com).
+__READ THIS__: [Project V2Ray](http://www.v2ray.com).
 
 __YOU SHOULD READ V2RAY'S OFFICIAL INSTRUCTION BEFORE USING V2RAYX!__
 
 ## Download V2RayX
 
-~~Download from [Releases](https://github.com/Cenmrev/V2RayX/releases).~~ 
- __Precompiled binary version will no longer be provided in the release page.__
+Download from [Releases](https://github.com/Cenmrev/V2RayX/releases). (compiled by [travis-ci.org](https://travis-ci.org/Cenmrev/V2RayX)).
 
 By [Homebrew-Cask](https://caskroom.github.io/).
 
