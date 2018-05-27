@@ -44,7 +44,7 @@ static AppDelegate *appDelegate;
     // create a serial queue used for NSTask operations
     taskQueue = dispatch_queue_create("cenmrev.v2rayx.nstask", DISPATCH_QUEUE_SERIAL);
     
-    if (![self installHelper]) {
+    if (![self installHelper:false]) {
         [[NSApplication sharedApplication] terminate:nil];// installation failed or stopped by user,
     };
     
@@ -689,35 +689,38 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
     return YES;
 }*/
 
-- (BOOL)installHelper {
+- (IBAction)authorizeV2sys:(id)sender {
+    [self installHelper:true];
+}
+
+- (BOOL)installHelper:(BOOL)force {
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    if (![fileManager fileExistsAtPath:kV2RayXHelper] || ![self isSysconfVersionOK]) {
-        NSAlert *installAlert = [[NSAlert alloc] init];
-        [installAlert addButtonWithTitle:@"Install"];
-        [installAlert addButtonWithTitle:@"Quit"];
-        [installAlert setMessageText:@"V2RayX needs to install a small tool to /Library/Application Support/V2RayX/ with administrator privileges to set system proxy quickly.\nOtherwise you need to type in the administrator password every time you change system proxy through V2RayX."];
-        if ([installAlert runModal] == NSAlertFirstButtonReturn) {
-            NSLog(@"start install");
-            NSString *helperPath = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"install_helper.sh"];
-            NSLog(@"run install script: %@", helperPath);
-            NSDictionary *error;
-            NSString *script = [NSString stringWithFormat:@"do shell script \"bash %@\" with administrator privileges", helperPath];
-            NSAppleScript *appleScript = [[NSAppleScript new] initWithSource:script];
-            if ([appleScript executeAndReturnError:&error]) {
-                NSLog(@"installation success");
-                return YES;
-            } else {
-                NSLog(@"installation failure");
-                //unknown failure
-                return NO;
-            }
+    if (!force && [fileManager fileExistsAtPath:kV2RayXHelper] && [self isSysconfVersionOK]) {
+        // helper already installed
+        return YES;
+    }
+    NSAlert *installAlert = [[NSAlert alloc] init];
+    [installAlert addButtonWithTitle:@"Install"];
+    [installAlert addButtonWithTitle:@"Quit"];
+    [installAlert setMessageText:@"V2RayX needs to install a small tool to /Library/Application Support/V2RayX/ with administrator privileges to set system proxy quickly.\nOtherwise you need to type in the administrator password every time you change system proxy through V2RayX."];
+    if ([installAlert runModal] == NSAlertFirstButtonReturn) {
+        NSLog(@"start install");
+        NSString *helperPath = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"install_helper.sh"];
+        NSLog(@"run install script: %@", helperPath);
+        NSDictionary *error;
+        NSString *script = [NSString stringWithFormat:@"do shell script \"bash %@\" with administrator privileges", helperPath];
+        NSAppleScript *appleScript = [[NSAppleScript new] initWithSource:script];
+        if ([appleScript executeAndReturnError:&error]) {
+            NSLog(@"installation success");
+            return YES;
         } else {
-            // stopped by user
+            NSLog(@"installation failure");
+            //unknown failure
             return NO;
         }
     } else {
-        // helper already installed
-        return YES;
+        // stopped by user
+        return NO;
     }
 }
 

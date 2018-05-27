@@ -756,6 +756,12 @@
                         <action selector="resetPac:" target="Voe-Tx-rLC" id="WUw-A2-aU5"/>
                     </connections>
                 </menuItem>
+                <menuItem title="Authorize v2rayx_sysconf..." id="mOc-zi-Beb">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="authorizeV2sys:" target="Voe-Tx-rLC" id="ycW-j1-Sv7"/>
+                    </connections>
+                </menuItem>
                 <menuItem isSeparatorItem="YES" id="YAD-DW-T91"/>
                 <menuItem title="Help" id="Yq1-i5-ecF">
                     <modifierMask key="keyEquivalentModifierMask"/>
