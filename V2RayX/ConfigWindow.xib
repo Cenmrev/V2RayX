@@ -440,20 +440,14 @@
                         </view>
                     </box>
                     <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pgq-bB-pvc">
-                        <rect key="frame" x="20" y="98" width="140" height="23"/>
+                        <rect key="frame" x="21" y="98" width="140" height="23"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="smallSquare" trackingMode="momentary" id="TAd-3w-qoq">
                             <font key="font" metaFont="system"/>
                             <segments>
-                                <segment image="NSAddTemplate">
-                                    <nil key="label"/>
-                                </segment>
-                                <segment image="NSRemoveTemplate" tag="1">
-                                    <nil key="label"/>
-                                </segment>
-                                <segment width="82" enabled="NO">
-                                    <nil key="label"/>
-                                </segment>
+                                <segment image="NSAddTemplate"/>
+                                <segment image="NSRemoveTemplate" tag="1"/>
+                                <segment width="82" enabled="NO"/>
                             </segments>
                         </segmentedCell>
                         <connections>
