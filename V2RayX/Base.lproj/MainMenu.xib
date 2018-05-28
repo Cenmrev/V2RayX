@@ -19,8 +19,8 @@
                 <outlet property="globalModeItem" destination="12u-76-Ytb" id="RA8-m2-Iv6"/>
                 <outlet property="manualModeItem" destination="P4q-kj-6fs" id="5XH-9p-w3e"/>
                 <outlet property="pacListMenu" destination="25R-TF-TBx" id="xGh-bJ-AGG"/>
-                <outlet property="pacModeItem" destination="Cm9-3e-L2z" id="TlL-GV-776"/>
-                <outlet property="pacsItem" destination="PnH-bh-qnf" id="AQr-LV-TvQ"/>
+                <outlet property="pacModeItem" destination="Cm9-3e-L2z" id="IvE-nJ-dW0"/>
+                <outlet property="pacsItem" destination="Cm9-3e-L2z" id="RVg-X8-RBp"/>
                 <outlet property="serverListMenu" destination="pPD-dn-4h0" id="6sH-L6-Uzx"/>
                 <outlet property="serversItem" destination="3wi-Co-2Kd" id="kKi-8l-dDJ"/>
                 <outlet property="statusBarMenu" destination="yZm-2L-r3v" id="3iW-vb-TOn"/>
@@ -700,6 +700,7 @@
                 </menuItem>
                 <menuItem title="PAC Mode" id="Cm9-3e-L2z">
                     <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="pac file" id="yno-KX-HOj"/>
                     <connections>
                         <action selector="choosePacMode:" target="Voe-Tx-rLC" id="0yC-jW-pRH"/>
                     </connections>
@@ -726,10 +727,6 @@
                     <connections>
                         <action selector="showConfigWindow:" target="Voe-Tx-rLC" id="jVU-tA-mPz"/>
                     </connections>
-                </menuItem>
-                <menuItem title="pac file" id="PnH-bh-qnf" userLabel="pac file">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="pac file" id="yno-KX-HOj"/>
                 </menuItem>
                 <menuItem title="View log" id="5Vg-qU-2V2">
                     <modifierMask key="keyEquivalentModifierMask"/>
