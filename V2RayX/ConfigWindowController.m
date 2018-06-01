@@ -280,9 +280,10 @@
     [_muxEnableButton setState:[nilCoalescing(muxSettings[@"enabled"], @NO) boolValue]];
     [_muxConcurrencyField setIntegerValue:[nilCoalescing(muxSettings[@"concurrency"], @8) integerValue]];
     // proxy
+    /*
     NSDictionary *proxySettings = [selectedProfile proxySettings];
     [_proxyAddressField setStringValue:nilCoalescing(proxySettings[@"address"], @"")];
-    [_proxyPortField setIntegerValue:[nilCoalescing(proxySettings[@"port"], @0) integerValue]];
+    [_proxyPortField setIntegerValue:[nilCoalescing(proxySettings[@"port"], @0) integerValue]];*/
     //show sheet
     [[self window] beginSheet:_transportWindow completionHandler:^(NSModalResponse returnCode) {
     }];
@@ -397,10 +398,10 @@
                                           @"enabled":[NSNumber numberWithBool:[self->_muxEnableButton state]==1],
                                           @"concurrency":[NSNumber numberWithInteger:[self->_muxConcurrencyField integerValue]]
                                           };
-            NSDictionary* proxySettings = @{@"address": nilCoalescing([self->_proxyAddressField stringValue], @""), @"port": @([self->_proxyPortField integerValue])};
+            //NSDictionary* proxySettings = @{@"address": nilCoalescing([self->_proxyAddressField stringValue], @""), @"port": @([self->_proxyPortField integerValue])};
             self.selectedProfile.muxSettings = muxSettings;
             self.selectedProfile.streamSettings = streamSettings;
-            self.selectedProfile.proxySettings = proxySettings;
+            //self.selectedProfile.proxySettings = proxySettings;
             //close sheet
             [[self window] endSheet:self->_transportWindow];
         }

@@ -19,7 +19,8 @@ typedef enum SecurityType : NSUInteger {
 typedef enum NetWorkType : NSUInteger {
     tcp,
     kcp,
-    ws
+    ws,
+    http,
 } NetWorkType;
 
 @interface ServerProfile : NSObject

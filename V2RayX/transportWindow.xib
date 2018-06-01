@@ -20,8 +20,6 @@
                 <outlet property="kcpWbField" destination="jAB-DD-QBA" id="OIV-IX-VzS"/>
                 <outlet property="muxConcurrencyField" destination="L11-Bf-Eib" id="Znq-j6-NrB"/>
                 <outlet property="muxEnableButton" destination="cS2-9s-JTH" id="zmh-db-Sgu"/>
-                <outlet property="proxyAddressField" destination="O9C-Ow-rio" id="W8c-lb-f49"/>
-                <outlet property="proxyPortField" destination="7sh-11-ZmT" id="O4B-WI-qQB"/>
                 <outlet property="tcpHdField" destination="dcF-wv-cmU" id="7ud-vF-2St"/>
                 <outlet property="tcpHeaderCusButton" destination="vXV-c6-ZJ3" id="0mg-Po-v3S"/>
                 <outlet property="tlsAiButton" destination="l3Z-uk-KBr" id="FUU-TQ-bqK"/>
@@ -49,7 +47,7 @@
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="KCP" identifier="1" id="jR2-p0-bjc">
-                                <view key="view" id="GiR-b0-lvV">
+                                <view key="view" ambiguous="YES" id="GiR-b0-lvV">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -232,7 +230,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" id="74S-96-NuK">
                                                 <rect key="frame" x="1" y="1" width="441" height="99"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsUndo="YES" allowsNonContiguousLayout="YES" textCompletion="NO" id="dcF-wv-cmU">
                                                         <rect key="frame" x="0.0" y="0.0" width="441" height="99"/>
@@ -313,7 +311,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" id="Ijl-Ha-SNR">
                                                 <rect key="frame" x="1" y="1" width="311" height="55"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsUndo="YES" allowsNonContiguousLayout="YES" textCompletion="NO" spellingCorrection="YES" id="5WV-Rv-Aia">
                                                         <rect key="frame" x="0.0" y="0.0" width="311" height="55"/>
@@ -335,11 +333,11 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </clipView>
                                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="qvr-My-otE">
-                                                <rect key="frame" x="1" y="40" width="305" height="16"/>
+                                                <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Ekv-gJ-IED">
-                                                <rect key="frame" x="213" y="1" width="16" height="55"/>
+                                                <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
@@ -491,66 +489,6 @@
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
-                                    </subviews>
-                                </view>
-                            </tabViewItem>
-                            <tabViewItem label="Outbound Proxy" identifier="" id="5DZ-L5-J0p">
-                                <view key="view" ambiguous="YES" id="cPu-Oz-q0e">
-                                    <rect key="frame" x="10" y="33" width="477" height="135"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rrm-xk-HjW">
-                                            <rect key="frame" x="15" y="87" width="292" height="17"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="Send outbound traffic through a socks5 proxy" id="h9O-Z6-S0G">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="er3-JE-yhn">
-                                            <rect key="frame" x="15" y="49" width="58" height="17"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Address:" id="KaA-Ca-Zew">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
-                                        <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O9C-Ow-rio">
-                                            <rect key="frame" x="79" y="46" width="177" height="22"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="UPk-5u-ikj">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                <allowedInputSourceLocales>
-                                                    <string>NSAllRomanInputSourcesLocaleIdentifier</string>
-                                                </allowedInputSourceLocales>
-                                            </textFieldCell>
-                                        </textField>
-                                        <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7sh-11-ZmT">
-                                            <rect key="frame" x="276" y="46" width="56" height="22"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="hwf-JT-xPi">
-                                                <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="kNN-pX-9WG"/>
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                <allowedInputSourceLocales>
-                                                    <string>NSAllRomanInputSourcesLocaleIdentifier</string>
-                                                </allowedInputSourceLocales>
-                                            </textFieldCell>
-                                        </textField>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D63-md-WGX">
-                                            <rect key="frame" x="262" y="49" width="8" height="17"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title=":" id="azV-Ax-SnL">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                     </subviews>
