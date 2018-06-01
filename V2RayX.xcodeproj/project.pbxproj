@@ -41,6 +41,7 @@
 		9D5EAC181FDCD70300C14B46 /* v2ray in Resources */ = {isa = PBXBuildFile; fileRef = 953B60571DB3F6B700D40654 /* v2ray */; };
 		9D7109611E0F43BD008A6362 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9D7109601E0F43BD008A6362 /* Credits.rtf */; };
 		9D7DFE541EBEC947001FECBD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7DFE531EBEC947001FECBD /* main.m */; };
+		9DA4A84120C14178000FF35D /* tcp_http_header_example.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9DA4A84020C14178000FF35D /* tcp_http_header_example.txt */; };
 		9DB4FE951F205BEB00CCEE5F /* config-sample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DB4FE941F205BEB00CCEE5F /* config-sample.plist */; };
 /* End PBXBuildFile section */
 
@@ -134,6 +135,7 @@
 		9D7DFE511EBEC947001FECBD /* jsonplist */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = jsonplist; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D7DFE531EBEC947001FECBD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9DA398B5209ECED400784947 /* sysconf_version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sysconf_version.h; sourceTree = "<group>"; };
+		9DA4A84020C14178000FF35D /* tcp_http_header_example.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tcp_http_header_example.txt; sourceTree = "<group>"; };
 		9DB4FE941F205BEB00CCEE5F /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -211,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				9DB4FE941F205BEB00CCEE5F /* config-sample.plist */,
+				9DA4A84020C14178000FF35D /* tcp_http_header_example.txt */,
 				95E524CA1C674CC80008BB12 /* simple.pac */,
 				9504C0D01C662E0800352520 /* install_helper.sh */,
 				953B60551DB3F65A00D40654 /* dlcore.sh */,
@@ -431,6 +434,7 @@
 				95E524CB1C674CC80008BB12 /* simple.pac in Resources */,
 				9504C0D11C66373400352520 /* install_helper.sh in Resources */,
 				9504C0CF1C662DE300352520 /* v2rayx_sysconf in Resources */,
+				9DA4A84120C14178000FF35D /* tcp_http_header_example.txt in Resources */,
 				9504C0821C662C3000352520 /* Assets.xcassets in Resources */,
 				9D7109611E0F43BD008A6362 /* Credits.rtf in Resources */,
 				9504C0851C662C3000352520 /* MainMenu.xib in Resources */,

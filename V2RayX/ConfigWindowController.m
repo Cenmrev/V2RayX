@@ -406,6 +406,9 @@
         }
     }];
 }
+- (IBAction)showKcpHeaderExample:(id)sender {
+    runCommandLine(@"/usr/bin/open", @[[[NSBundle mainBundle] pathForResource:@"tcp_http_header_example" ofType:@"txt"], @"-a", @"/Applications/TextEdit.app"]);
+}
 
 - (IBAction)useTLS:(id)sender {
     [_tlsAiButton setEnabled:[_tlsUseButton state]];
