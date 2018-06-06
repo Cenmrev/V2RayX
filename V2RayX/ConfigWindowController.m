@@ -241,6 +241,8 @@
             [_kcpHeaderTypeButton selectItemAtIndex:2];
         } else if ([headerType isEqualToString:@"wechat-video"]) {
             [_kcpHeaderTypeButton selectItemAtIndex:3];
+        } else if ([headerType isEqualToString:@"dtls"]) {
+            [_kcpHeaderTypeButton selectItemAtIndex:4];
         }
     }
     //tcp
