@@ -193,11 +193,14 @@
     [[self window] beginSheet:_cusConfigWindow completionHandler:^(NSModalResponse returnCode) {
     }];
 }
+
 - (IBAction)cFinish:(NSButton *)sender {
+    [_checkLabel setHidden:NO];
     NSString* v2rayBinPath = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
     for (NSString* filePath in cusProfiles) {
         int returnCode = runCommandLine(v2rayBinPath, @[@"-test", @"-config", filePath]);
         if (returnCode != 0) {
+            [_checkLabel setHidden:YES];
             NSAlert *alert = [[NSAlert alloc] init];
             [alert setMessageText:[NSString stringWithFormat:@"%@ is not a valid v2ray config file", filePath]];
             [alert beginSheetModalForWindow:_cusConfigWindow completionHandler:^(NSModalResponse returnCode) {

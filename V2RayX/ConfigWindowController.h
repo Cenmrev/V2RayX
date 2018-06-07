@@ -64,6 +64,7 @@
 
 //cus config file fields
 @property (weak) IBOutlet NSTableView *cusProfileTable;
+@property (weak) IBOutlet NSTextField *checkLabel;
 
 
 @property (nonatomic) ServerProfile* selectedProfile;
