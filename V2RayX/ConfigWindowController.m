@@ -8,10 +8,7 @@
 #import "ConfigWindowController.h"
 #import "AppDelegate.h"
 
-@interface ConfigWindowController () {
-    NSMutableArray *profiles;
-    NSMutableArray *cusProfiles;
-}
+@interface ConfigWindowController () 
 
 @end
 
@@ -26,12 +23,26 @@
     [_alterIdField setFormatter:formatter];
     [_localPortField setFormatter:formatter];
     [_httpPortField setFormatter:formatter];
-    profiles = [appDelegate profiles];
-    cusProfiles = [appDelegate cusProfiles];
+    [_addRemoveButton setMenu:_importFromJsonMenu forSegment:2];
+    
+    // copy data
+    _profiles = [[NSMutableArray alloc] init];
+    for (ServerProfile *p in appDelegate.profiles) {
+        [_profiles addObject:[p deepCopy]];
+    }
+    _cusProfiles = [[NSMutableArray alloc] init];
+    for (NSString* p in appDelegate.cusProfiles) {
+        [_cusProfiles addObject:[NSString stringWithString:p]];
+    }
+    //
     [_profileTable reloadData];
     [self setSelectedServerIndex:appDelegate.selectedServerIndex];// must be put after reloadData!
-    [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedServerIndex] byExtendingSelection:NO];
-    NSLog(@"%ld", (long)[_profileTable selectedRow]);
+    self.selectedCusServerIndex = appDelegate.selectedCusServerIndex;
+    self.httpPort = appDelegate.httpPort;
+    self.localPort = appDelegate.localPort;
+    self.udpSupport = appDelegate.udpSupport;
+    self.shareOverLan = appDelegate.shareOverLan;
+    self.dnsString = appDelegate.dnsString;
     NSDictionary *logLevelDic = @{
                                @"debug": @4,
                                @"info": @3,
@@ -39,39 +50,41 @@
                                @"error":@1,
                                @"none":@0
                                };
-    [_logLevelButton selectItemAtIndex:[logLevelDic[[appDelegate logLevel]] integerValue]];
-    [_addRemoveButton setMenu:_importFromJsonMenu forSegment:2];
+    self.logLevel = [logLevelDic[appDelegate.logLevel] integerValue];
+    
+    [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:self.selectedServerIndex] byExtendingSelection:NO];
+    [[self window] makeFirstResponder:_profileTable];
 }
 
 // set controller as profilesTable and cusProfileTable's datasource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     if (tableView == _profileTable) {
-        return [profiles count];
+        return [_profiles count];
     }
     if (tableView == _cusProfileTable) {
-        return [cusProfiles count];
+        return [_cusProfiles count];
     }
     return 0;
 }
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     if (tableView == _cusProfileTable) {
-        [cusProfiles setObject:object atIndexedSubscript:row];
+        [_cusProfiles setObject:object atIndexedSubscript:row];
     }
 }
 
 - (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     if (tableView == _profileTable) {
-        if ([profiles count] > 0) {
-            ServerProfile* p = [profiles objectAtIndex:row];
+        if ([_profiles count] > 0) {
+            ServerProfile* p = [_profiles objectAtIndex:row];
             return [[p remark] length] > 0 ? [p remark] : [NSString stringWithFormat:@"%@:%ld", [p address], [p port]];
         } else {
             return nil;
         }
     }
     if (tableView == _cusProfileTable) {
-        if ([cusProfiles count] > 0) {
-            return cusProfiles[row];
+        if ([_cusProfiles count] > 0) {
+            return _cusProfiles[row];
         } else {
             return nil;
         }
@@ -81,13 +94,13 @@
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
     if ([notification object] == _profileTable) {
-        if ([profiles count] > 0) {
+        if ([_profiles count] > 0) {
             [self setSelectedServerIndex:[_profileTable selectedRow]];
-            [self setSelectedProfile:profiles[_selectedServerIndex]];
+            [self setSelectedProfile:_profiles[_selectedServerIndex]];
         }
     }
     if ([notification object] == _cusProfileTable) {
-        if ([cusProfiles count] > 0) {
+        if ([_cusProfiles count] > 0) {
             [self setSelectedCusServerIndex:[_cusProfileTable selectedRow]];
         }
     }
@@ -100,7 +113,7 @@
 
 - (BOOL)checkTLSforHttp2 {
     if ([_networkButton indexOfSelectedItem] == 3) { // selected http/2
-        BOOL tlsEnabled = [selectedProfile.streamSettings[@"security"] isEqual: @"tls"];
+        BOOL tlsEnabled = [self.selectedProfile.streamSettings[@"security"] isEqual: @"tls"];
         if (!tlsEnabled) {
             NSAlert *httpTlsAlerm = [[NSAlert alloc] init];
             [httpTlsAlerm addButtonWithTitle:@"Close"];
@@ -119,19 +132,19 @@
 - (IBAction)addRemoveServer:(id)sender {
     if ([sender selectedSegment] == 0) {
         ServerProfile* newProfile = [[ServerProfile alloc] init];
-        [profiles addObject:newProfile];
+        [_profiles addObject:newProfile];
         [_profileTable reloadData];
-        [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:([profiles count] - 1)] byExtendingSelection:NO];
-    } else if ([sender selectedSegment] == 1 && [profiles count] > 0) {
+        [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:([_profiles count] - 1)] byExtendingSelection:NO];
+    } else if ([sender selectedSegment] == 1 && [_profiles count] > 0) {
         NSInteger originalSelectedServerIndex = [_profileTable selectedRow];
-        [profiles removeObjectAtIndex:originalSelectedServerIndex];
-        if ([profiles count] > 0) {
-            if (originalSelectedServerIndex == [profiles count]) {//deleted the last server
+        [_profiles removeObjectAtIndex:originalSelectedServerIndex];
+        if ([_profiles count] > 0) {
+            if (originalSelectedServerIndex == [_profiles count]) {//deleted the last server
                 //select the last server of the remains
-                [self setSelectedServerIndex:[profiles count] - 1];
+                [self setSelectedServerIndex:[_profiles count] - 1];
             }
             [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedServerIndex] byExtendingSelection:NO];
-            [self setSelectedProfile:profiles[_selectedServerIndex]];
+            [self setSelectedProfile:_profiles[_selectedServerIndex]];
         } else { // all the profiles are deleted;
             [self setSelectedServerIndex:-1];
             [self setSelectedProfile:nil];
@@ -154,27 +167,34 @@
     if ([dnsStr length] == 0) {
         dnsStr = @"localhost";
     }
-    appDelegate.dnsString = dnsStr;
     appDelegate.logLevel = _logLevelButton.selectedItem.title;
-    appDelegate.selectedServerIndex = _selectedServerIndex;
-    [appDelegate configurationDidChange];
+    appDelegate.selectedServerIndex = self.selectedServerIndex;
+    appDelegate.selectedCusServerIndex = self.selectedCusServerIndex;
+    appDelegate.localPort = [_localPortField integerValue];
+    appDelegate.httpPort = [_httpPortField integerValue];
+    appDelegate.udpSupport = self.udpSupport;
+    appDelegate.shareOverLan = self.shareOverLan;
+    appDelegate.dnsString = dnsStr;
+    appDelegate.profiles = self.profiles;
+    appDelegate.cusProfiles = self.cusProfiles;
     
+    [appDelegate configurationDidChange];
     [[self window] close];
 }
 
 - (IBAction)addRemoveCusProfile:(NSSegmentedControl *)sender {
     if ([sender selectedSegment] == 0) {
-        [cusProfiles addObject:@"/path/to/your/config.json"];
+        [_cusProfiles addObject:@"/path/to/your/config.json"];
         [_cusProfileTable reloadData];
-        [_cusProfileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[cusProfiles count] -1] byExtendingSelection:NO];
-        [_cusProfileTable setFocusedColumn:[cusProfiles count] - 1];
-        //[[_cusProfileTable viewAtColumn:0 row:[cusProfiles count]-1 makeIfNecessary:NO] becomeFirstResponder];
-    } else if ([sender selectedSegment] == 1 && [cusProfiles count] > 0) {
+        [_cusProfileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[_cusProfiles count] -1] byExtendingSelection:NO];
+        [_cusProfileTable setFocusedColumn:[_cusProfiles count] - 1];
+        //[[_cusProfileTable viewAtColumn:0 row:_cusProfiles count]-1 makeIfNecessary:NO] becomeFirstResponder];
+    } else if ([sender selectedSegment] == 1 && [_cusProfiles count] > 0) {
         NSInteger originalSelected = [_cusProfileTable selectedRow];
-        [cusProfiles removeObjectAtIndex:originalSelected];
-        if ([cusProfiles count] > 0) {
-            if (originalSelected == [cusProfiles count]) {
-                [self setSelectedCusServerIndex:[cusProfiles count] - 1];
+        [_cusProfiles removeObjectAtIndex:originalSelected];
+        if ([_cusProfiles count] > 0) {
+            if (originalSelected == [_cusProfiles count]) {
+                [self setSelectedCusServerIndex:[_cusProfiles count] - 1];
             }
             [_cusProfileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedCusServerIndex] byExtendingSelection:NO];
         } else {
@@ -197,7 +217,7 @@
 - (IBAction)cFinish:(NSButton *)sender {
     [_checkLabel setHidden:NO];
     NSString* v2rayBinPath = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
-    for (NSString* filePath in cusProfiles) {
+    for (NSString* filePath in _cusProfiles) {
         int returnCode = runCommandLine(v2rayBinPath, @[@"-test", @"-config", filePath]);
         if (returnCode != 0) {
             [_checkLabel setHidden:YES];
@@ -230,7 +250,7 @@
     [_muxConcurrencyField setFormatter:formatter];
     [_proxyPortField setFormatter:formatter];
     //read settings
-    NSDictionary *transportSettings = [selectedProfile streamSettings];
+    NSDictionary *transportSettings = [self.selectedProfile streamSettings];
     //kcp
     [_kcpMtuField setIntegerValue:[transportSettings[@"kcpSettings"][@"mtu"] integerValue]];
     [_kcpTtiField setIntegerValue:[transportSettings[@"kcpSettings"][@"tti"] integerValue]];
@@ -284,7 +304,7 @@
     }
     [self useTLS:nil];
     // mux
-    NSDictionary *muxSettings = [selectedProfile muxSettings];
+    NSDictionary *muxSettings = [self.selectedProfile muxSettings];
     [_muxEnableButton setState:[nilCoalescing(muxSettings[@"enabled"], @NO) boolValue]];
     [_muxConcurrencyField setIntegerValue:[nilCoalescing(muxSettings[@"concurrency"], @8) integerValue]];
     // proxy
@@ -447,7 +467,7 @@
                 for (ServerProfile* s in servers) {
                     [s setRemark:[NSString stringWithFormat:@"imported %@", s.remark]];
                 }
-                [self->profiles addObjectsFromArray:servers];
+                [self->_profiles addObjectsFromArray:servers];
             }
         }
         [self->_profileTable reloadData];
@@ -467,6 +487,6 @@
     [appDelegate viewLog:sender];
 }
 
-@synthesize selectedProfile;
 @synthesize appDelegate;
+
 @end

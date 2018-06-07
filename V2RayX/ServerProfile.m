@@ -114,6 +114,22 @@
     }
 }
 
+-(ServerProfile*)deepCopy {
+    ServerProfile* aCopy = [[ServerProfile alloc] init];
+    aCopy.address = [NSString stringWithString:self.address];
+    aCopy.port = self.port;
+    aCopy.userId = [NSString stringWithString:self.userId];
+    aCopy.alterId = self.alterId;
+    aCopy.level = self.level;
+    aCopy.remark = [NSString stringWithString:self.remark];
+    aCopy.security = self.security;
+    aCopy.network = self.network;
+    aCopy.sendThrough = [NSString stringWithString:self.sendThrough];
+    aCopy.streamSettings = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.streamSettings]];
+    aCopy.muxSettings = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.muxSettings]];
+    return aCopy;
+}
+
 - (NSMutableDictionary*)outboundProfile {
     NSMutableDictionary* fullStreamSettings = [NSMutableDictionary dictionaryWithDictionary:streamSettings];
     fullStreamSettings[@"network"] = @[@"tcp",@"kcp", @"ws", @"http"][network];

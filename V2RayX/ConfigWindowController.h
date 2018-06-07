@@ -67,10 +67,18 @@
 @property (weak) IBOutlet NSTextField *checkLabel;
 
 
+@property AppDelegate* appDelegate;
 @property (nonatomic) ServerProfile* selectedProfile;
+@property (nonatomic) NSInteger logLevel;
 @property (nonatomic) NSInteger selectedServerIndex;
 @property (nonatomic) NSInteger selectedCusServerIndex;
+@property (nonatomic) NSInteger localPort;
+@property (nonatomic) NSInteger httpPort;
+@property (nonatomic) BOOL udpSupport;
+@property (nonatomic) BOOL shareOverLan;
+@property (nonatomic) NSString* dnsString;
+@property (nonatomic) NSMutableArray *profiles;
+@property (nonatomic) NSMutableArray *cusProfiles;
 
-@property AppDelegate* appDelegate;
 
 @end

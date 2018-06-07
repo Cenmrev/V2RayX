@@ -53,7 +53,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="-2" name="value" keyPath="self.appDelegate.localPort" id="Qy6-eZ-dnd">
+                            <binding destination="-2" name="value" keyPath="self.localPort" id="ywZ-oA-aHA">
                                 <dictionary key="options">
                                     <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                     <bool key="NSValidatesImmediately" value="YES"/>
@@ -71,7 +71,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="-2" name="value" keyPath="self.appDelegate.httpPort" id="MP8-et-l3C">
+                            <binding destination="-2" name="value" keyPath="self.httpPort" id="axL-oS-ub4">
                                 <dictionary key="options">
                                     <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                     <bool key="NSValidatesImmediately" value="YES"/>
@@ -87,7 +87,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <binding destination="-2" name="value" keyPath="self.appDelegate.udpSupport" id="2C0-Jq-CWl"/>
+                            <binding destination="-2" name="value" keyPath="self.udpSupport" id="FMo-rg-Qyh"/>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="749" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="reb-n0-jKg">
@@ -117,7 +117,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="-2" name="value" keyPath="self.appDelegate.dnsString" id="xHX-QN-6DE"/>
+                            <binding destination="-2" name="value" keyPath="self.dnsString" id="VQy-DX-fDA"/>
                         </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="749" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ecy-ho-llN">
@@ -448,7 +448,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <binding destination="-2" name="value" keyPath="self.appDelegate.shareOverLan" id="bIN-YN-4rS"/>
+                            <binding destination="-2" name="value" keyPath="self.shareOverLan" id="rkH-wq-0DJ"/>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jbe-gs-AvT">
@@ -480,6 +480,9 @@
                                 </items>
                             </menu>
                         </popUpButtonCell>
+                        <connections>
+                            <binding destination="-2" name="selectedIndex" keyPath="self.logLevel" id="W2U-Kc-adG"/>
+                        </connections>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FaF-dM-uPs">
                         <rect key="frame" x="18" y="20" width="62" height="17"/>
@@ -560,7 +563,7 @@ Gw
                     </segmentedControl>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="162.5" y="319.5"/>
+            <point key="canvasLocation" x="175" y="182"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="I7n-bF-Cph"/>
         <menuItem title="Item" id="tLs-gB-gFx">
