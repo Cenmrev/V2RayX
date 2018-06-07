@@ -56,7 +56,6 @@
                                             @"path": @""
                                         }
                                   }];
-        [self setProxySettings:@{@"address": @"", @"port": @0}];
         [self setMuxSettings:@{
                                @"enabled": [NSNumber numberWithBool:NO],
                                @"concurrency": @8
@@ -69,30 +68,46 @@
     return [[self outboundProfile] description];
 }
 
-+ (ServerProfile*)readFromAnOutboundDic:(NSDictionary*)outDict {
++ (NSArray*)profilesFromJson:(NSDictionary*)outboundJson {
+    NSMutableArray* profiles = [[NSMutableArray alloc] init];
     NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2, @"http":@3 };
-    NSDictionary *securityDict = @{@"aes-128-cfb":@0, @"aes-128-gcm":@1, @"chacha20-poly1305":@2, @"auto":@3, @"none":@4};    
-    ServerProfile* profile = [[ServerProfile alloc] init];
-    profile.sendThrough = nilCoalescing(outDict[@"sendThrough"], @"0.0.0.0");
-    profile.address = nilCoalescing(outDict[@"settings"][@"vnext"][0][@"address"], @"127.0.0.1");
-    profile.remark = nilCoalescing(outDict[@"settings"][@"vnext"][0][@"remark"], @"");
-    profile.port = [outDict[@"settings"][@"vnext"][0][@"port"] unsignedIntegerValue];
-    profile.userId = nilCoalescing(outDict[@"settings"][@"vnext"][0][@"users"][0][@"id"], @"23ad6b10-8d1a-40f7-8ad0-e3e35cd38287");
-    
-    profile.alterId = [outDict[@"settings"][@"vnext"][0][@"users"][0][@"alterId"] unsignedIntegerValue];
-    profile.level = [outDict[@"settings"][@"vnext"][0][@"users"][0][@"level"] unsignedIntegerValue];
-    profile.security = [securityDict[outDict[@"settings"][@"vnext"][0][@"users"][0][@"security"]] unsignedIntegerValue];
-    profile.network = [netWorkDict[outDict[@"streamSettings"][@"network"]] unsignedIntegerValue];
-    if (outDict[@"streamSettings"] != nil) {
-        profile.streamSettings = outDict[@"streamSettings"];
+    NSDictionary *securityDict = @{@"aes-128-cfb":@0, @"aes-128-gcm":@1, @"chacha20-poly1305":@2, @"auto":@3, @"none":@4};
+    NSString* sendThrough = nilCoalescing(outboundJson[@"sendThrough"], @"0.0.0.0");
+    if (![[outboundJson valueForKeyPath:@"settings.vnext"] isKindOfClass:[NSArray class]]) {
+        return @[];
     }
-    if (outDict[@"proxySettings"][@"outbound-proxy-config"][@"settings"][@"servers"][0] != nil) {
-        profile.proxySettings = outDict[@"proxySettings"][@"outbound-proxy-config"][@"settings"][@"servers"][0];
+    for (NSDictionary* vnext in [outboundJson valueForKeyPath:@"settings.vnext"]) {
+        ServerProfile* profile = [[ServerProfile alloc] init];
+        profile.address = nilCoalescing(vnext[@"address"], @"127.0.0.1");
+        profile.remark = nilCoalescing(vnext[@"remark"], @"");
+        profile.port = [vnext[@"port"] unsignedIntegerValue];
+        if (![vnext[@"users"] isKindOfClass:[NSArray class]] || [vnext[@"users"] count] == 0) {
+            continue;
+        }
+        profile.userId = nilCoalescing(vnext[@"users"][0][@"id"], @"23ad6b10-8d1a-40f7-8ad0-e3e35cd38287");
+        profile.alterId = [vnext[@"users"][0][@"alterId"] unsignedIntegerValue];
+        profile.level = [vnext[@"users"][0][@"level"] unsignedIntegerValue];
+        profile.security = [securityDict[vnext[@"users"][0][@"security"]] unsignedIntegerValue];
+        if (outboundJson[@"streamSettings"] != nil) {
+            profile.streamSettings = outboundJson[@"streamSettings"];
+            profile.network = [netWorkDict[outboundJson[@"streamSettings"][@"network"]] unsignedIntegerValue];
+        }
+        if (outboundJson[@"mux"] != nil) {
+            profile.muxSettings = outboundJson[@"mux"];
+        }
+        profile.sendThrough = sendThrough;
+        [profiles addObject:profile];
     }
-    if (outDict[@"mux"] != nil) {
-        profile.muxSettings = outDict[@"mux"];
+    return profiles;
+}
+
++ (ServerProfile* _Nullable )readFromAnOutboundDic:(NSDictionary*)outDict {
+    NSArray *allProfiles = [self profilesFromJson:outDict];
+    if ([allProfiles count] > 0) {
+        return allProfiles[0];
+    } else {
+        return NULL;
     }
-    return profile;
 }
 
 - (NSMutableDictionary*)outboundProfile {
@@ -120,19 +135,6 @@
                       ]
               } mutableCopy],
       @"streamSettings": fullStreamSettings,
-      @"proxySettings": [@{
-              @"tag": @"transit",
-              @"outbound-proxy-config": @{
-                      @"protocol": @"socks",
-                      @"settings": @{
-                              @"servers": @[@{
-                                                @"address": nilCoalescing(proxySettings[@"address"], @"") ,
-                                                @"port": nilCoalescing(proxySettings[@"port"], @0),
-                                                }]
-                              },
-                      @"tag": @"transit"
-                      }
-              } mutableCopy],
       @"mux": muxSettings,
       };
     return [result mutableCopy];
@@ -149,5 +151,4 @@
 @synthesize sendThrough;
 @synthesize muxSettings;
 @synthesize streamSettings;
-@synthesize proxySettings;
 @end

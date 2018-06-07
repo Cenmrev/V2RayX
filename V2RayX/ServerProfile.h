@@ -25,7 +25,7 @@ typedef enum NetWorkType : NSUInteger {
 
 @interface ServerProfile : NSObject
 - (NSMutableDictionary*)outboundProfile;
-+ (ServerProfile*)readFromAnOutboundDic:(NSDictionary*)outDict;
++ (ServerProfile* _Nullable )readFromAnOutboundDic:(NSDictionary*)outDict;
 @property (nonatomic) NSString* address;
 @property (nonatomic) NSUInteger port;
 @property (nonatomic) NSString* userId;
@@ -35,7 +35,6 @@ typedef enum NetWorkType : NSUInteger {
 @property (nonatomic) SecurityType security;
 @property (nonatomic) NetWorkType network;
 @property (nonatomic) NSString* sendThrough;
-@property (nonatomic) NSDictionary* streamSettings; // exclude network type.
-@property (nonatomic) NSDictionary* proxySettings;
+@property (nonatomic) NSDictionary* streamSettings; // except network type.
 @property (nonatomic) NSDictionary* muxSettings;
 @end

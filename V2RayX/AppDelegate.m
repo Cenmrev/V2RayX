@@ -445,7 +445,9 @@ static AppDelegate *appDelegate;
     if ([[defaults objectForKey:@"profiles"] isKindOfClass:[NSArray class]] && [[defaults objectForKey:@"profiles"] count] > 0) {
         for (NSDictionary* aProfile in [defaults objectForKey:@"profiles"]) {
             ServerProfile *newProfile =  [ServerProfile readFromAnOutboundDic:aProfile];
-            [profiles addObject:newProfile];
+            if (newProfile) {
+                [profiles addObject:newProfile];
+            }
         }
     }
     if ([profiles count] > 0) {
@@ -524,12 +526,6 @@ static AppDelegate *appDelegate;
             [vPoints addObject:onePoint[@"settings"][@"vnext"][0]];
         }
         fullConfig[@"outbound"][@"settings"][@"vnext"] = vPoints;
-    }
-    if ([selectedProfile.proxySettings[@"address"] isKindOfClass:[NSString class]] && [selectedProfile.proxySettings[@"address"] length] > 0) {
-        [fullConfig[@"outboundDetour"] addObject:fullConfig[@"outbound"][@"proxySettings"][@"outbound-proxy-config"]];
-        [fullConfig[@"outbound"][@"proxySettings"] removeObjectForKey:@"outbound-proxy-config"];
-    } else {
-        [fullConfig[@"outbound"] removeObjectForKey:@"proxySettings"];
     }
     NSArray* dnsArray = [dnsString componentsSeparatedByString:@","];
     if ([dnsArray count] > 0) {
