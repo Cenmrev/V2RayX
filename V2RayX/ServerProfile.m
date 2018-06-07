@@ -69,6 +69,10 @@
 }
 
 + (NSArray*)profilesFromJson:(NSDictionary*)outboundJson {
+    if (![outboundJson[@"protocol"] isKindOfClass:[NSString class]]
+        || ![outboundJson[@"protocol"] isEqualToString:@"vmess"] ) {
+        return @[];
+    }
     NSMutableArray* profiles = [[NSMutableArray alloc] init];
     NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2, @"http":@3 };
     NSDictionary *securityDict = @{@"aes-128-cfb":@0, @"aes-128-gcm":@1, @"chacha20-poly1305":@2, @"auto":@3, @"none":@4};

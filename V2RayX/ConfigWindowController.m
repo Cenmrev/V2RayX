@@ -40,6 +40,7 @@
                                @"none":@0
                                };
     [_logLevelButton selectItemAtIndex:[logLevelDic[[appDelegate logLevel]] integerValue]];
+    [_addRemoveButton setMenu:_importFromJsonMenu forSegment:2];
 }
 
 // set controller as profilesTable and cusProfileTable's datasource
@@ -63,7 +64,7 @@
     if (tableView == _profileTable) {
         if ([profiles count] > 0) {
             ServerProfile* p = [profiles objectAtIndex:row];
-            return [p address];
+            return [[p remark] length] > 0 ? [p remark] : [NSString stringWithFormat:@"%@:%ld", [p address], [p port]];
         } else {
             return nil;
         }
@@ -136,6 +137,8 @@
             [self setSelectedProfile:nil];
         }
         [_profileTable reloadData];
+    } else if ([sender selectedSegment] == 2) {
+        [NSMenu popUpContextMenu:[sender menuForSegment:2] withEvent:[NSApp currentEvent] forView:sender];
     }
 }
 
@@ -411,6 +414,41 @@
 }
 - (IBAction)showKcpHeaderExample:(id)sender {
     runCommandLine(@"/usr/bin/open", @[[[NSBundle mainBundle] pathForResource:@"tcp_http_header_example" ofType:@"txt"], @"-a", @"/Applications/TextEdit.app"]);
+}
+
+- (IBAction)importFromConfigJson:(id)sender {
+    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+    [openPanel setCanChooseFiles:YES];
+    [openPanel setAllowsMultipleSelection:YES];
+    [openPanel setAllowedFileTypes:@[@"json"]];
+    [openPanel setDirectoryURL:[[NSFileManager defaultManager] homeDirectoryForCurrentUser]];
+    [openPanel beginSheetModalForWindow:[self window]  completionHandler:^(NSModalResponse result) {
+        if (result != NSOKButton) {
+            return;
+        }
+        for (NSURL* file in [openPanel URLs]) {
+            NSError* error;
+            id jsonObject = [NSJSONSerialization JSONObjectWithData:
+                             [NSData dataWithContentsOfURL:file] options:0 error:&error];
+            if (error) continue;
+            if (![jsonObject isKindOfClass:[NSDictionary class]]) continue;
+            NSMutableArray* jsons = [[NSMutableArray alloc] init];
+            if ([[jsonObject objectForKey:@"outbound"] isKindOfClass:[NSDictionary class]]) {
+                [jsons addObject:jsonObject[@"outbound"]];
+            }
+            if ([[jsonObject objectForKey:@"outboundDetour"] isKindOfClass:[NSArray class]]) {
+                [jsons addObjectsFromArray:jsonObject[@"outboundDetour"]];
+            }
+            for (NSDictionary* json in jsons) {
+                NSArray* servers = [ServerProfile profilesFromJson:json];
+                for (ServerProfile* s in servers) {
+                    [s setRemark:[NSString stringWithFormat:@"imported %@", s.remark]];
+                }
+                [self->profiles addObjectsFromArray:servers];
+            }
+        }
+        [self->_profileTable reloadData];
+    }];
 }
 
 - (IBAction)useTLS:(id)sender {

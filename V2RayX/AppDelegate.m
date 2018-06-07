@@ -350,7 +350,7 @@ static AppDelegate *appDelegate;
         int i = 0;
         for (ServerProfile *p in profiles) {
             NSString *itemTitle;
-            if (![[p remark]isEqualToString:@""]) {
+            if ([[p remark] length] > 0) {
                 itemTitle = [p remark];
             } else {
                 itemTitle = [NSString stringWithFormat:@"%@:%lu",[p address], (unsigned long)[p port]];

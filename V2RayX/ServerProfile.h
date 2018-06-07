@@ -26,6 +26,7 @@ typedef enum NetWorkType : NSUInteger {
 @interface ServerProfile : NSObject
 - (NSMutableDictionary*)outboundProfile;
 + (ServerProfile* _Nullable )readFromAnOutboundDic:(NSDictionary*)outDict;
++ (NSArray*)profilesFromJson:(NSDictionary*)outboundJson;
 @property (nonatomic) NSString* address;
 @property (nonatomic) NSUInteger port;
 @property (nonatomic) NSString* userId;

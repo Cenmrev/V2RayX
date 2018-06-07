@@ -24,6 +24,7 @@
 @property (weak) IBOutlet NSTextField *dnsField;
 @property (weak) IBOutlet NSButton *globalTransportButton;
 @property (weak) IBOutlet NSPopUpButton *logLevelButton;
+@property (weak) IBOutlet NSMenu *importFromJsonMenu;
 
 @property (weak) IBOutlet NSWindow* transportWindow;
 @property (weak) IBOutlet NSWindow* cusConfigWindow;
