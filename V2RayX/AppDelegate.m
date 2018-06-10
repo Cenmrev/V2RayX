@@ -401,6 +401,7 @@ static AppDelegate *appDelegate;
         [appDelegate updateSystemProxy];
     });
     dispatch_resume(dispatchPacSource);
+    proxyMode = pac;
     [self configurationDidChange];
 }
 
