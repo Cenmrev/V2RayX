@@ -19,7 +19,7 @@
         [self setAlterId:64];
         [self setLevel:0];
         [self setRemark:@"test server"];
-        [self setSecurity:aes_128_cfb];
+        [self setSecurity:auto_];
         [self setNetwork:tcp];
         [self setSendThrough:@"0.0.0.0"];
         [self setStreamSettings:@{
