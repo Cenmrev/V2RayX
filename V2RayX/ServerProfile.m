@@ -116,15 +116,15 @@
 
 -(ServerProfile*)deepCopy {
     ServerProfile* aCopy = [[ServerProfile alloc] init];
-    aCopy.address = [NSString stringWithString:self.address];
+    aCopy.address = [NSString stringWithString:nilCoalescing(self.address, @"")];
     aCopy.port = self.port;
-    aCopy.userId = [NSString stringWithString:self.userId];
+    aCopy.userId = [NSString stringWithString:nilCoalescing(self.userId, @"")];
     aCopy.alterId = self.alterId;
     aCopy.level = self.level;
-    aCopy.remark = [NSString stringWithString:self.remark];
+    aCopy.remark = [NSString stringWithString:nilCoalescing(self.remark, @"")];
     aCopy.security = self.security;
     aCopy.network = self.network;
-    aCopy.sendThrough = [NSString stringWithString:self.sendThrough];
+    aCopy.sendThrough = [NSString stringWithString:nilCoalescing(self.sendThrough, @"")];
     aCopy.streamSettings = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.streamSettings]];
     aCopy.muxSettings = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.muxSettings]];
     return aCopy;
