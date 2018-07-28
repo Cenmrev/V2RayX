@@ -328,9 +328,6 @@
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        <allowedInputSourceLocales>
-                                            <string>NSAllRomanInputSourcesLocaleIdentifier</string>
-                                        </allowedInputSourceLocales>
                                     </textFieldCell>
                                     <connections>
                                         <binding destination="-2" name="value" keyPath="self.selectedProfile.remark" id="eWs-Wp-kjN">
