@@ -114,6 +114,9 @@ static AppDelegate *appDelegate;
     dispatch_resume(dispatchPacSource);
     
     appDelegate = self;
+    
+    // resume the service when mac wakes up
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(configurationDidChange) name:NSWorkspaceDidWakeNotification object:NULL];
 }
 
 - (void) writeDefaultSettings {
