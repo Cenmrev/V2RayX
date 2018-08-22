@@ -548,8 +548,7 @@ Gw
                             <segments>
                                 <segment image="NSAddTemplate"/>
                                 <segment image="NSRemoveTemplate" tag="1"/>
-                                <segment image="NSActionTemplate" tag="2"/>
-                                <segment width="51" enabled="NO">
+                                <segment imageScaling="axesIndependently" width="82" enabled="NO" tag="2">
                                     <nil key="label"/>
                                 </segment>
                             </segments>
@@ -560,7 +559,7 @@ Gw
                     </segmentedControl>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="175" y="182"/>
+            <point key="canvasLocation" x="174.5" y="181.5"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="I7n-bF-Cph"/>
         <menuItem title="Item" id="tLs-gB-gFx">
@@ -579,7 +578,6 @@ Gw
         </menu>
     </objects>
     <resources>
-        <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
     </resources>
