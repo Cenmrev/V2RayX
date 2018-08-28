@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		631B81132134EFC100ED6268 /* MASShortcut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 631B81122134EFC100ED6268 /* MASShortcut.framework */; };
+		631B81142134F0FC00ED6268 /* MASShortcut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 631B81122134EFC100ED6268 /* MASShortcut.framework */; };
+		631B81152134F0FC00ED6268 /* MASShortcut.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 631B81122134EFC100ED6268 /* MASShortcut.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		631B811A2134F40700ED6268 /* ShortcutsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631B81192134F40700ED6268 /* ShortcutsController.m */; };
+		631B811E21351CED00ED6268 /* ToastWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631B811C21351CED00ED6268 /* ToastWindowController.m */; };
+		631B811F21351CED00ED6268 /* ToastWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 631B811D21351CED00ED6268 /* ToastWindowController.xib */; };
 		9504C07D1C662C3000352520 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C07C1C662C3000352520 /* AppDelegate.m */; };
 		9504C0801C662C3000352520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C07F1C662C3000352520 /* main.m */; };
 		9504C0821C662C3000352520 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0811C662C3000352520 /* Assets.xcassets */; };
@@ -56,6 +62,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		631B81162134F0FC00ED6268 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				631B81152134F0FC00ED6268 /* MASShortcut.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9504C0C41C662DB400352520 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -77,6 +94,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		631B81122134EFC100ED6268 /* MASShortcut.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MASShortcut.framework; sourceTree = "<group>"; };
+		631B81182134F40700ED6268 /* ShortcutsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShortcutsController.h; sourceTree = "<group>"; };
+		631B81192134F40700ED6268 /* ShortcutsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShortcutsController.m; sourceTree = "<group>"; };
+		631B811B21351CED00ED6268 /* ToastWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToastWindowController.h; sourceTree = "<group>"; };
+		631B811C21351CED00ED6268 /* ToastWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToastWindowController.m; sourceTree = "<group>"; };
+		631B811D21351CED00ED6268 /* ToastWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToastWindowController.xib; sourceTree = "<group>"; };
 		9504C0781C662C3000352520 /* V2RayX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = V2RayX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9504C07B1C662C3000352520 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9504C07C1C662C3000352520 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -144,7 +167,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				631B81132134EFC100ED6268 /* MASShortcut.framework in Frameworks */,
 				95A143CC1C87FCDC008756B9 /* Cocoa.framework in Frameworks */,
+				631B81142134F0FC00ED6268 /* MASShortcut.framework in Frameworks */,
 				9504C0C11C662D9400352520 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -204,6 +229,11 @@
 				9504C0D21C66511B00352520 /* ServerProfile.h */,
 				9504C0D31C66511B00352520 /* ServerProfile.m */,
 				9504C0861C662C3000352520 /* Info.plist */,
+				631B81182134F40700ED6268 /* ShortcutsController.h */,
+				631B81192134F40700ED6268 /* ShortcutsController.m */,
+				631B811B21351CED00ED6268 /* ToastWindowController.h */,
+				631B811C21351CED00ED6268 /* ToastWindowController.m */,
+				631B811D21351CED00ED6268 /* ToastWindowController.xib */,
 				9504C07E1C662C3000352520 /* Supporting Files */,
 			);
 			path = V2RayX;
@@ -296,6 +326,7 @@
 		95FCB2451C688BB20081B6FD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				631B81122134EFC100ED6268 /* MASShortcut.framework */,
 				95A143CA1C87FC6E008756B9 /* Cocoa.framework */,
 				9504C0C01C662D9400352520 /* libz.tbd */,
 			);
@@ -334,6 +365,7 @@
 				9DB94D77209D273A0001E9DD /* Run Script */,
 				953B60541DB3E31D00D40654 /* Run Script */,
 				9504C0761C662C3000352520 /* Resources */,
+				631B81162134F0FC00ED6268 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -426,6 +458,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D5EAC151FDCD70300C14B46 /* geoip.dat in Resources */,
+				631B811F21351CED00ED6268 /* ToastWindowController.xib in Resources */,
 				9D5EAC161FDCD70300C14B46 /* geosite.dat in Resources */,
 				9D3CEE6F209E070F0077CCFE /* customizedConfigWindow.xib in Resources */,
 				9D5EAC171FDCD70300C14B46 /* v2ctl in Resources */,
@@ -486,6 +519,7 @@
 				9577E1BE1C6B065E00093BD3 /* GCDWebServerStreamedResponse.m in Sources */,
 				9504C0801C662C3000352520 /* main.m in Sources */,
 				9577E1BB1C6B065E00093BD3 /* GCDWebServerDataResponse.m in Sources */,
+				631B811A2134F40700ED6268 /* ShortcutsController.m in Sources */,
 				9577E1BA1C6B065E00093BD3 /* GCDWebServerURLEncodedFormRequest.m in Sources */,
 				9577E1B71C6B065E00093BD3 /* GCDWebServerDataRequest.m in Sources */,
 				9577E1BC1C6B065E00093BD3 /* GCDWebServerErrorResponse.m in Sources */,
@@ -497,6 +531,7 @@
 				9577E1B61C6B065E00093BD3 /* GCDWebServerResponse.m in Sources */,
 				9577E1B21C6B065E00093BD3 /* GCDWebServer.m in Sources */,
 				9504C0D41C66511B00352520 /* ServerProfile.m in Sources */,
+				631B811E21351CED00ED6268 /* ToastWindowController.m in Sources */,
 				9577E1B41C6B065E00093BD3 /* GCDWebServerFunctions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -643,6 +678,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/V2RayX",
+					"$(PROJECT_DIR)/V2RayX/Dependencies",
+				);
 				INFOPLIST_FILE = V2RayX/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cenmrev.V2RayX;
@@ -655,6 +695,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/V2RayX",
+					"$(PROJECT_DIR)/V2RayX/Dependencies",
+				);
 				INFOPLIST_FILE = V2RayX/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cenmrev.V2RayX;

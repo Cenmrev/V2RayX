@@ -27,6 +27,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     BOOL proxyState;
     ProxyMode proxyMode;
+    ProxyMode lastProxyMode;
     NSInteger localPort;
     NSInteger httpPort;
     BOOL udpSupport;

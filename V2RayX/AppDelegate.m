@@ -11,6 +11,8 @@
 #import "ConfigWindowController.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "ServerProfile.h"
+#import "ShortcutsController.h"
+#import "ToastWindowController.h"
 
 #define kUseAllServer -10
 
@@ -23,6 +25,7 @@
     FSEventStreamRef fsEventStream;
     
     NSData* v2rayJSONconfig;
+    ToastWindowController *tosat;
 }
 
 @end
@@ -117,6 +120,10 @@ static AppDelegate *appDelegate;
     
     // resume the service when mac wakes up
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(configurationDidChange) name:NSWorkspaceDidWakeNotification object:NULL];
+    
+    // Register global hotkey
+    [ShortcutsController bindShortcuts];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(hotkeyChangeProxyMode) name:@"NOTIFY_SWITCH_PROXY_MODE_SHORTCUT" object:nil];
 }
 
 - (void) writeDefaultSettings {
@@ -216,6 +223,7 @@ static AppDelegate *appDelegate;
         [self backupSystemProxy];
     }
     proxyMode = rules;
+    lastProxyMode = proxyMode;
     [self configurationDidChange];
 }
 
@@ -224,6 +232,7 @@ static AppDelegate *appDelegate;
     [self backupSystemProxy];
 }
     proxyMode = pac;
+    lastProxyMode = proxyMode;
     [self configurationDidChange];
 }
 
@@ -231,6 +240,7 @@ static AppDelegate *appDelegate;
     if(proxyState == true && proxyMode == manual) {
         [self backupSystemProxy];
     }
+    lastProxyMode = proxyMode;
     proxyMode = global;
     [self configurationDidChange];
 }
@@ -240,7 +250,43 @@ static AppDelegate *appDelegate;
         [self restoreSystemProxy];
     }
     proxyMode = manual;
+    lastProxyMode = proxyMode;
     [self configurationDidChange];
+}
+
+- (void)hotkeyChangeProxyMode {
+    if (proxyMode == global) {
+        switch (lastProxyMode) {
+            case rules:
+                [self chooseV2rayRules:nil];
+                [self makeToast:@"V2rayRules Mode"];
+                break;
+            case pac:
+                [self choosePacMode:nil];
+                [self makeToast:@"Pac Mode"];
+                break;
+            case manual:
+                [self chooseManualMode:nil];
+                [self makeToast:@"Manual Mode"];
+                break;
+            default:
+                break;
+        }
+    } else {
+        [self chooseGlobalMode:nil];
+        [self makeToast:@"Global Mode"];
+    }
+}
+
+- (void)makeToast:(NSString *)message {
+    if (tosat) {
+        [tosat close];
+    }
+    tosat = [[ToastWindowController alloc] initWithWindowNibName:@"ToastWindowController"];
+    tosat.message = message;
+    [tosat showWindow:self];
+    [tosat fadeInHud];
+    
 }
 
 - (IBAction)showConfigWindow:(id)sender {
