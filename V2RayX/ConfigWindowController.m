@@ -386,7 +386,7 @@
     [settingAlert addButtonWithTitle:@"Yes, save!"];
     [settingAlert addButtonWithTitle:@"Do not save."];
     NSArray* httpHosts;
-    if ([_httpHostsField stringValue] == nil) {
+    if ([_httpHostsField stringValue] == nil || [[[_httpHostsField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] == 0) {
         httpHosts = @[];
     } else {
         NSString* hostsString = [[_httpHostsField stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -395,7 +395,14 @@
     [settingAlert beginSheetModalForWindow:_transportWindow completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSAlertFirstButtonReturn) {
             //save settings
-            
+            NSDictionary *httpSettings;
+            if ([httpHosts count] > 0) {
+                httpSettings = @{ @"host": httpHosts,
+                                  @"path": nilCoalescing([self->_httpPathField stringValue], @"")
+                                  };
+            } else {
+                httpSettings = @{ @"path": nilCoalescing([self->_httpPathField stringValue], @"") };
+            }
             NSDictionary *streamSettings =
             @{@"kcpSettings":
                   @{@"mtu":[NSNumber numberWithInteger:[self->_kcpMtuField integerValue]],
@@ -417,10 +424,7 @@
                       @"serverName": nilCoalescing([self->_tlsSnField stringValue], @""),
                       @"allowInsecure": [NSNumber numberWithBool:[self->_tlsAiButton state]==1],
               },
-              @"httpSettings": @{
-                      @"host": httpHosts,
-                      @"path": nilCoalescing([self->_httpPathField stringValue], @"")
-                      }
+              @"httpSettings": httpSettings
               };
             NSDictionary* muxSettings = @{
                                           @"enabled":[NSNumber numberWithBool:[self->_muxEnableButton state]==1],
