@@ -149,6 +149,9 @@
                                                         <menuItem title="dtls" id="kLf-oG-EuI">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
+                                                        <menuItem title="wireguard" id="rRN-ud-40V">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
