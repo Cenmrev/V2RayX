@@ -269,6 +269,8 @@
             [_kcpHeaderTypeButton selectItemAtIndex:3];
         } else if ([headerType isEqualToString:@"dtls"]) {
             [_kcpHeaderTypeButton selectItemAtIndex:4];
+        } else if ([headerType isEqualToString:@"wireguard"]) {
+            [_kcpHeaderTypeButton selectItemAtIndex:5];
         }
     }
     //tcp
