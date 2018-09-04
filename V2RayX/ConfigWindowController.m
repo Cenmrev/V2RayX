@@ -291,10 +291,12 @@
     }
     //http/2
     [_httpPathField setStringValue:nilCoalescing(transportSettings[@"httpSettings"][@"path"], @"")];
-    NSArray* hostArray = transportSettings[@"httpSettings"][@"host"];
     NSString* hostString = @"";
-    if([hostArray count] > 0) {
-        hostString = [hostArray componentsJoinedByString:@","];
+    if ([transportSettings[@"httpSettings"] objectForKey:@"host"]) {
+        NSArray* hostArray = transportSettings[@"httpSettings"][@"host"];
+        if([hostArray count] > 0) {
+            hostString = [hostArray componentsJoinedByString:@","];
+        }
     }
     [_httpHostsField setStringValue:hostString];
     //tls

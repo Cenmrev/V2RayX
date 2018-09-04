@@ -52,7 +52,7 @@
                                                   }
                                           },
                                   @"httpSettings": @{
-                                            @"host": @[@""],
+                                            @"host": @[@"server.cc"],
                                             @"path": @""
                                         }
                                   }];
