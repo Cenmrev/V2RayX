@@ -481,6 +481,9 @@
 - (IBAction)importFromQRCodeV2rayNV2:(id)sender {
     /* https://github.com/2dust/v2rayN/wiki/分享链接格式说明(ver-2) */
     NSString* inputStr = [[self input:@"Please input the server info. Format: vmess://" defaultValue:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([inputStr length] == 0) {
+        return;
+    }
     if ([inputStr length] < 9 || ![[[inputStr substringToIndex:8] lowercaseString] isEqualToString:@"vmess://"]) {
         [self showAlert:@"Not a vmess:// link!"];
         return;
