@@ -574,8 +574,14 @@ Gw
                         <action selector="importFromConfigJson:" target="-2" id="i3S-fA-KNX"/>
                     </connections>
                 </menuItem>
+                <menuItem title="Import from QR code of v2rayN (v2)..." id="ILa-K1-TxB">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="importFromQRCodeV2rayNV2:" target="-2" id="5XW-cK-y8W"/>
+                    </connections>
+                </menuItem>
             </items>
-            <point key="canvasLocation" x="-5" y="635"/>
+            <point key="canvasLocation" x="-11" y="507"/>
         </menu>
     </objects>
     <resources>
