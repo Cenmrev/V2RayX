@@ -7,6 +7,7 @@
 
 #import "ConfigWindowController.h"
 #import "AppDelegate.h"
+#import "MutableDeepCopying.h"
 
 @interface ConfigWindowController () 
 
@@ -445,6 +446,112 @@
 }
 - (IBAction)showKcpHeaderExample:(id)sender {
     runCommandLine(@"/usr/bin/open", @[[[NSBundle mainBundle] pathForResource:@"tcp_http_header_example" ofType:@"txt"], @"-a", @"/Applications/TextEdit.app"]);
+}
+
+
+// https://stackoverflow.com/questions/7387341/how-to-create-and-get-return-value-from-cocoa-dialog/7387395#7387395
+- (NSString *)input: (NSString *)prompt defaultValue: (NSString *)defaultValue {
+    NSAlert *alert = [NSAlert alertWithMessageText: prompt
+                                     defaultButton:@"OK"
+                                   alternateButton:@"Cancel"
+                                       otherButton:nil
+                         informativeTextWithFormat:@""];
+    
+    NSTextField *input = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 400, 24)];
+    [input setStringValue:defaultValue];
+    [alert setAccessoryView:input];
+    NSInteger button = [alert runModal];
+    if (button == NSAlertDefaultReturn) {
+        [input validateEditing];
+        return [input stringValue];
+    } else if (button == NSAlertAlternateReturn) {
+        return nil;
+    } else {
+        NSAssert1(NO, @"Invalid input dialog button %ld", button);
+        return nil;
+    }
+}
+
+- (void)showAlert:(NSString*)text {
+    NSAlert* alert = [[NSAlert alloc] init];
+    [alert setInformativeText:text];
+    [alert runModal];
+}
+
+- (IBAction)importFromQRCodeV2rayNV2:(id)sender {
+    /* https://github.com/2dust/v2rayN/wiki/分享链接格式说明(ver-2) */
+    NSString* inputStr = [[self input:@"Please input the server info. Format: vmess://" defaultValue:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([inputStr length] < 9 || ![[[inputStr substringToIndex:8] lowercaseString] isEqualToString:@"vmess://"]) {
+        [self showAlert:@"Not a vmess:// link!"];
+        return;
+    }
+    // https://stackoverflow.com/questions/19088231/base64-decoding-in-ios-7
+    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:[inputStr substringFromIndex:8] options:0];
+    NSError* jsonParseError;
+    NSDictionary *sharedServer = [NSJSONSerialization JSONObjectWithData:decodedData options:0 error:&jsonParseError];
+    if (jsonParseError) {
+        [self showAlert:@"Not va valid link!"];
+        return;
+    }
+    if (![sharedServer objectForKey:@"v"] || [sharedServer[@"v"] isNotEqualTo:@"2"]) {
+        [self showAlert:@"Unknown format or Unknown link version!"];
+        return;
+    }
+    ServerProfile* newProfile = [[ServerProfile alloc] init];
+    newProfile.remark = nilCoalescing([sharedServer objectForKey:@"ps"], @"imported From QR");
+    newProfile.address = nilCoalescing([sharedServer objectForKey:@"add"], @"");
+    newProfile.port = [nilCoalescing([sharedServer objectForKey:@"port"], @0) intValue];
+    newProfile.userId = nilCoalescing([sharedServer objectForKey:@"id"], newProfile.userId);
+    newProfile.alterId = [nilCoalescing([sharedServer objectForKey:@"aid"], @0) intValue];
+    NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2, @"h2":@3 };
+    if ([sharedServer objectForKey:@"net"] && [netWorkDict objectForKey:[sharedServer objectForKey:@"net"]]) {
+        newProfile.network = [netWorkDict[sharedServer[@"net"]] intValue];
+    }
+    NSMutableDictionary* streamSettings = [newProfile.streamSettings mutableDeepCopy];
+    switch (newProfile.network) {
+        case tcp:
+            if (![sharedServer objectForKey:@"type"] || !([sharedServer[@"type"] isEqualToString:@"none"] || [sharedServer[@"type"] isEqualToString:@"http"])) {
+                break;
+            }
+            streamSettings[@"tcpSettings"][@"header"][@"type"] = sharedServer[@"type"];
+            if ([streamSettings[@"tcpSettings"][@"header"][@"type"] isEqualToString:@"http"]) {
+                if ([sharedServer objectForKey:@"host"]) {
+                    streamSettings[@"tcpSettings"][@"header"][@"host"] = [sharedServer[@"host"] componentsSeparatedByString:@","];
+                }
+            }
+            break;
+        case kcp:
+            if (![sharedServer objectForKey:@"type"]) {
+                break;
+            }
+            if (![@{@"none": @0, @"srtp": @1, @"utp": @2, @"wechat-video":@3, @"dtls":@4, @"wireguard":@5} objectForKey:sharedServer[@"type"]]) {
+                break;
+            }
+            streamSettings[@"kcpSettings"][@"header"][@"type"] = sharedServer[@"type"];
+            break;
+        case ws:
+            streamSettings[@"wsSettings"][@"path"] = nilCoalescing([sharedServer objectForKey:@"path"], @"");
+            streamSettings[@"wsSettings"][@"headers"][@"Host"] = nilCoalescing([sharedServer objectForKey:@"host"], @"");
+            break;
+        case http:
+            streamSettings[@"httpSettings"][@"path"] = nilCoalescing([sharedServer objectForKey:@"path"], @"");
+            if (![sharedServer objectForKey:@"host"]) {
+                break;
+            };
+            if ([[sharedServer objectForKey:@"host"] length] > 0) {
+                streamSettings[@"httpSettings"][@"host"] = [[sharedServer objectForKey:@"host"] componentsSeparatedByString:@","];
+            }
+            break;
+        default:
+            break;
+    }
+    if ([sharedServer objectForKey:@"tls"]||[sharedServer[@"tls"] isEqualToString:@"tls"] ) {
+        streamSettings[@"security"] = @"tls";
+    }
+    newProfile.streamSettings = streamSettings;
+    [_profiles addObject:newProfile];
+    [_profileTable reloadData];
+    [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:([_profiles count] - 1)] byExtendingSelection:NO];
 }
 
 - (IBAction)importFromConfigJson:(id)sender {

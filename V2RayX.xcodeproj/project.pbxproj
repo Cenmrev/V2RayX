@@ -137,6 +137,7 @@
 		9DA398B5209ECED400784947 /* sysconf_version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sysconf_version.h; sourceTree = "<group>"; };
 		9DA4A84020C14178000FF35D /* tcp_http_header_example.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tcp_http_header_example.txt; sourceTree = "<group>"; };
 		9DB4FE941F205BEB00CCEE5F /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
+		9DBF3AA3213E1921008C7249 /* MutableDeepCopying.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MutableDeepCopying.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +202,7 @@
 				9565E28A1DB25C010082658C /* transportWindow.xib */,
 				9504C08E1C662CBF00352520 /* ConfigWindowController.h */,
 				9504C08F1C662CBF00352520 /* ConfigWindowController.m */,
+				9DBF3AA3213E1921008C7249 /* MutableDeepCopying.h */,
 				9504C0D21C66511B00352520 /* ServerProfile.h */,
 				9504C0D31C66511B00352520 /* ServerProfile.m */,
 				9504C0861C662C3000352520 /* Info.plist */,
