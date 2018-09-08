@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -15,7 +15,7 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
                 <outlet property="editPacMenu" destination="3NY-51-bgh" id="dgA-Xq-mKn"/>
-                <outlet property="enabelV2rayItem" destination="I9I-uu-xak" id="b3P-ct-RqE"/>
+                <outlet property="enabelV2rayItem" destination="I9I-uu-xak" id="bE8-fd-2OL"/>
                 <outlet property="globalModeItem" destination="12u-76-Ytb" id="RA8-m2-Iv6"/>
                 <outlet property="manualModeItem" destination="P4q-kj-6fs" id="5XH-9p-w3e"/>
                 <outlet property="pacListMenu" destination="25R-TF-TBx" id="xGh-bJ-AGG"/>
@@ -25,7 +25,8 @@
                 <outlet property="serversItem" destination="3wi-Co-2Kd" id="kKi-8l-dDJ"/>
                 <outlet property="statusBarMenu" destination="yZm-2L-r3v" id="3iW-vb-TOn"/>
                 <outlet property="stupidSepy" destination="lQU-65-XjU" id="hMg-f2-sa1"/>
-                <outlet property="v2rayRulesItem" destination="bUi-AV-IfA" id="p4V-ny-gh7"/>
+                <outlet property="v2rayBackRulesItem" destination="biS-ge-LLz" id="3vV-Aj-qlm"/>
+                <outlet property="v2rayRulesItem" destination="bUi-AV-IfA" id="DrU-ZO-KNE"/>
                 <outlet property="v2rayStatusItem" destination="EFa-yl-fQC" id="z3V-zp-jw7"/>
             </connections>
         </customObject>
@@ -685,14 +686,14 @@
                 <menuItem title="Item 1" enabled="NO" id="EFa-yl-fQC">
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
-                <menuItem title="Item 2" id="I9I-uu-xak">
+                <menuItem title="Item 2" id="I9I-uu-xak" userLabel="Enable V2ray Item">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="enableProxy:" target="Voe-Tx-rLC" id="04r-lh-Ats"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="Zce-eo-WsH"/>
-                <menuItem title="V2Ray Rules" id="bUi-AV-IfA">
+                <menuItem title="V2Ray Rules" id="bUi-AV-IfA" userLabel="V2ray Rules Item">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="chooseV2rayRules:" target="Voe-Tx-rLC" id="D4f-2N-1Dq"/>
@@ -715,6 +716,12 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="chooseManualMode:" target="Voe-Tx-rLC" id="ELM-Qb-zRn"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="V2Ray CN Rules" id="biS-ge-LLz" userLabel="V2ray Back Rules Item">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="chooseV2rayBackRules:" target="Voe-Tx-rLC" id="lwS-94-3tA"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="A8t-NG-v92"/>

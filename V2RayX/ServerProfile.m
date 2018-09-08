@@ -7,12 +7,12 @@
 
 #import "ServerProfile.h"
 
-
 @implementation ServerProfile
 
 - (ServerProfile*)init {
     self = [super init];
     if (self) {
+        [self setOutBoundTag:@"proxy"];
         [self setAddress:@"server.cc"];
         [self setPort:10086];
         [self setUserId:@"00000000-0000-0000-0000-000000000000"];
@@ -77,6 +77,7 @@
     NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2, @"http":@3 };
     NSDictionary *securityDict = @{@"aes-128-cfb":@0, @"aes-128-gcm":@1, @"chacha20-poly1305":@2, @"auto":@3, @"none":@4};
     NSString* sendThrough = nilCoalescing(outboundJson[@"sendThrough"], @"0.0.0.0");
+    NSString* outBoundTag = nilCoalescing(outboundJson[@"tag"], @"proxy");
     if (![[outboundJson valueForKeyPath:@"settings.vnext"] isKindOfClass:[NSArray class]]) {
         return @[];
     }
@@ -99,6 +100,7 @@
         if (outboundJson[@"mux"] != nil) {
             profile.muxSettings = outboundJson[@"mux"];
         }
+        profile.outBoundTag = outBoundTag;
         profile.sendThrough = sendThrough;
         [profiles addObject:profile];
     }
@@ -116,6 +118,7 @@
 
 -(ServerProfile*)deepCopy {
     ServerProfile* aCopy = [[ServerProfile alloc] init];
+    aCopy.outBoundTag = [NSString stringWithString:nilCoalescing(self.outBoundTag, @"")];
     aCopy.address = [NSString stringWithString:nilCoalescing(self.address, @"")];
     aCopy.port = self.port;
     aCopy.userId = [NSString stringWithString:nilCoalescing(self.userId, @"")];
@@ -135,6 +138,7 @@
     fullStreamSettings[@"network"] = @[@"tcp",@"kcp", @"ws", @"http"][network];
     NSDictionary* result =
     @{
+      @"tag": _outBoundTag,
       @"sendThrough": sendThrough,
       @"protocol": @"vmess",
       @"settings": [@{

@@ -43,6 +43,7 @@
 		9D7DFE541EBEC947001FECBD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7DFE531EBEC947001FECBD /* main.m */; };
 		9DA4A84120C14178000FF35D /* tcp_http_header_example.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9DA4A84020C14178000FF35D /* tcp_http_header_example.txt */; };
 		9DB4FE951F205BEB00CCEE5F /* config-sample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DB4FE941F205BEB00CCEE5F /* config-sample.plist */; };
+		CB981EF8214357B000F15DFA /* config-backcn-sample.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB981EF7214357B000F15DFA /* config-backcn-sample.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +139,7 @@
 		9DA4A84020C14178000FF35D /* tcp_http_header_example.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tcp_http_header_example.txt; sourceTree = "<group>"; };
 		9DB4FE941F205BEB00CCEE5F /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
 		9DBF3AA3213E1921008C7249 /* MutableDeepCopying.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MutableDeepCopying.h; sourceTree = "<group>"; };
+		CB981EF7214357B000F15DFA /* config-backcn-sample.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "config-backcn-sample.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,8 +216,9 @@
 		9504C07E1C662C3000352520 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				9DB4FE941F205BEB00CCEE5F /* config-sample.plist */,
+				CB981EF7214357B000F15DFA /* config-backcn-sample.plist */,
 				9DA4A84020C14178000FF35D /* tcp_http_header_example.txt */,
+				9DB4FE941F205BEB00CCEE5F /* config-sample.plist */,
 				95E524CA1C674CC80008BB12 /* simple.pac */,
 				9504C0D01C662E0800352520 /* install_helper.sh */,
 				953B60551DB3F65A00D40654 /* dlcore.sh */,
@@ -432,6 +435,7 @@
 				9D3CEE6F209E070F0077CCFE /* customizedConfigWindow.xib in Resources */,
 				9D5EAC171FDCD70300C14B46 /* v2ctl in Resources */,
 				9D5EAC181FDCD70300C14B46 /* v2ray in Resources */,
+				CB981EF8214357B000F15DFA /* config-backcn-sample.plist in Resources */,
 				9DB4FE951F205BEB00CCEE5F /* config-sample.plist in Resources */,
 				95E524CB1C674CC80008BB12 /* simple.pac in Resources */,
 				9504C0D11C66373400352520 /* install_helper.sh in Resources */,
