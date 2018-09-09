@@ -55,17 +55,39 @@ static AppDelegate *appDelegate;
     plistPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/cenmrev.v2rayx.v2ray-core.plist",NSHomeDirectory()];
     //pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/pac.js",NSHomeDirectory()];
     pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/%@",NSHomeDirectory(), selectedPacPath];
+    routingProxyListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/proxy.txt", NSHomeDirectory()];
+    routingDirectListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/direct.txt", NSHomeDirectory()];
+    routingBlockListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/block.txt", NSHomeDirectory()];
     
     NSFileManager* fileManager = [NSFileManager defaultManager];
     NSString *pacDir = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac", NSHomeDirectory()];
+    NSString *routingListDir = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist", NSHomeDirectory()];
+    
     //create application support directory and pac directory
     if (![fileManager fileExistsAtPath:pacDir]) {
         [fileManager createDirectoryAtPath:pacDir withIntermediateDirectories:YES attributes:nil error:nil];
     }
+    
+    //create routinglist directory
+    if (![fileManager fileExistsAtPath:routingListDir]) {
+        [fileManager createDirectoryAtPath:routingListDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
     //check if pac file exist
     if (![fileManager fileExistsAtPath:pacPath]) {
         NSString* simplePac = [[NSBundle mainBundle] pathForResource:@"simple" ofType:@"pac"];
         [fileManager copyItemAtPath:simplePac toPath:pacPath error:nil];
+    }
+    
+    //check if routing file exist
+    if (![fileManager fileExistsAtPath:routingProxyListPath]) {
+        [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/proxy.txt", routingListDir] contents:nil attributes:nil];
+    }
+    if (![fileManager fileExistsAtPath:routingDirectListPath]) {
+        [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/direct.txt", routingListDir] contents:nil attributes:nil];
+    }
+    if (![fileManager fileExistsAtPath:routingBlockListPath]) {
+        [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/block.txt", routingListDir] contents:nil attributes:nil];
     }
     
     // Create Log Dir
@@ -145,6 +167,7 @@ static AppDelegate *appDelegate;
     }
 }
 
+
 - (NSData*) pacData {
     return [NSData dataWithContentsOfFile:pacPath];
 }
@@ -216,6 +239,14 @@ static AppDelegate *appDelegate;
         [self backupSystemProxy];
     }
     proxyMode = rules;
+    [self configurationDidChange];
+}
+
+- (IBAction)chooseV2rayBackRules:(id)sender {
+    if(proxyState == true && proxyMode == manual) {
+        [self backupSystemProxy];
+    }
+    proxyMode = backrules;
     [self configurationDidChange];
 }
 
@@ -304,10 +335,11 @@ static AppDelegate *appDelegate;
     [_manualModeItem setState:proxyMode == manual];
     if (!useCusProfile) {
         [_v2rayRulesItem setState:proxyMode == rules];
+        [_v2rayBackRulesItem setState:proxyMode == backrules];
         [_globalModeItem setState:proxyMode == global];
         [_v2rayRulesItem setHidden:false];
     } else {
-        [_globalModeItem setState:proxyMode == global || proxyMode == rules];
+        [_globalModeItem setState:proxyMode == global || proxyMode == rules || proxyMode == backrules];
         [_v2rayRulesItem setHidden:YES];
     }
     
@@ -509,42 +541,122 @@ static AppDelegate *appDelegate;
 }
 
 - (NSDictionary*)generateFullConfigFrom:(ServerProfile*)selectedProfile {
-    NSMutableDictionary* fullConfig = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config-sample" ofType:@"plist"]];
-    fullConfig[@"log"] = @{
-                           @"access": [NSString stringWithFormat:@"%@/access.log", logDirPath],
-                           @"error": [NSString stringWithFormat:@"%@/error.log", logDirPath],
-                           @"loglevel": logLevel
-                           };
-    fullConfig[@"inbound"][@"port"] = @(localPort);
-    fullConfig[@"inbound"][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
-    fullConfig[@"inboundDetour"][0][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
-    fullConfig[@"inboundDetour"][0][@"port"] = @(httpPort);
-    fullConfig[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udpSupport];
-    if (!useMultipleServer) {
-        fullConfig[@"outbound"] = [selectedProfile outboundProfile];
-    } else {
-        fullConfig[@"outbound"] = [selectedProfile outboundProfile];
-        NSMutableArray* vPoints = [[NSMutableArray alloc] init];
-        for (ServerProfile* aProfile in profiles) {
-            NSDictionary* onePoint = [aProfile outboundProfile];
-            [vPoints addObject:onePoint[@"settings"][@"vnext"][0]];
+    if (proxyMode == rules || proxyMode == pac || proxyMode == global || proxyMode == manual) {
+        NSMutableDictionary* fullConfig = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config-sample" ofType:@"plist"]];
+        
+        /* read routing list from file start*/
+        routingProxyListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/proxy.txt", NSHomeDirectory()];
+        routingDirectListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/direct.txt", NSHomeDirectory()];
+        routingBlockListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/block.txt", NSHomeDirectory()];
+        NSString* proxylist = [NSString stringWithContentsOfFile:routingProxyListPath
+                                                         encoding:NSUTF8StringEncoding
+                                                            error:NULL];
+        NSArray* proxylist_array = [proxylist componentsSeparatedByString:@","];
+        
+        NSString* directlist = [NSString stringWithContentsOfFile:routingDirectListPath
+                                                         encoding:NSUTF8StringEncoding
+                                                            error:NULL];
+        NSArray* directlist_array = [directlist componentsSeparatedByString:@","];
+        
+        NSString* blocklist = [NSString stringWithContentsOfFile:routingBlockListPath
+                                                         encoding:NSUTF8StringEncoding
+                                                            error:NULL];
+        NSArray* blocklist_array = [blocklist componentsSeparatedByString:@","];
+        /* read routing list from file end*/
+        
+        fullConfig[@"log"] = @{
+                               @"access": [NSString stringWithFormat:@"%@/access.log", logDirPath],
+                               @"error": [NSString stringWithFormat:@"%@/error.log", logDirPath],
+                               @"loglevel": logLevel
+                               };
+        fullConfig[@"inbound"][@"port"] = @(localPort);
+        fullConfig[@"inbound"][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
+        fullConfig[@"inboundDetour"][0][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
+        fullConfig[@"inboundDetour"][0][@"port"] = @(httpPort);
+        fullConfig[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udpSupport];
+        if (!useMultipleServer) {
+            fullConfig[@"outbound"] = [selectedProfile outboundProfile];
+        } else {
+            fullConfig[@"outbound"] = [selectedProfile outboundProfile];
+            NSMutableArray* vPoints = [[NSMutableArray alloc] init];
+            for (ServerProfile* aProfile in profiles) {
+                NSDictionary* onePoint = [aProfile outboundProfile];
+                [vPoints addObject:onePoint[@"settings"][@"vnext"][0]];
+            }
+            fullConfig[@"outbound"][@"settings"][@"vnext"] = vPoints;
         }
-        fullConfig[@"outbound"][@"settings"][@"vnext"] = vPoints;
+        NSArray* dnsArray = [dnsString componentsSeparatedByString:@","];
+        if ([dnsArray count] > 0) {
+            fullConfig[@"dns"][@"servers"] = dnsArray;
+        } else {
+            fullConfig[@"dns"][@"servers"] = @[@"localhost"];
+        }
+        
+        /* add routing list to config start*/
+        if (directlist_array.count > 1) {
+            fullConfig[@"routing"][@"settings"][@"rules"][0][@"domain"] = directlist_array;
+        }
+        if (proxylist_array.count > 1) {
+            fullConfig[@"routing"][@"settings"][@"rules"][2] =
+            @{
+              @"domain":proxylist_array,
+              @"type": @"field",
+              @"outboundTag": @"proxy",
+              };
+        }
+        if (blocklist_array.count > 1) {
+            fullConfig[@"routing"][@"settings"][@"rules"][3] =
+            @{
+              @"domain":blocklist_array,
+              @"type": @"field",
+              @"outboundTag": @"blockout",
+              };
+        }
+        /* add routing list to config end*/
+        
+        if (proxyMode == rules) {
+            [fullConfig[@"routing"][@"settings"][@"rules"][0][@"domain"] addObject:@"geosite:cn"];
+            [fullConfig[@"routing"][@"settings"][@"rules"][1][@"ip"] addObject:@"geoip:cn"];
+        } else if (proxyMode == manual) {
+            fullConfig[@"routing"][@"settings"][@"rules"] = @[];
+        }
+        return fullConfig;
+    } else { // proxyMode == backrules
+        NSMutableDictionary* fullConfig = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config-backcn-sample" ofType:@"plist"]];
+        fullConfig[@"log"] = @{
+                               @"access": [NSString stringWithFormat:@"%@/access.log", logDirPath],
+                               @"error": [NSString stringWithFormat:@"%@/error.log", logDirPath],
+                               @"loglevel": logLevel
+                               };
+        fullConfig[@"inbound"][@"port"] = @(localPort);
+        fullConfig[@"inbound"][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
+        fullConfig[@"inboundDetour"][0][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
+        fullConfig[@"inboundDetour"][0][@"port"] = @(httpPort);
+        fullConfig[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udpSupport];
+        if (!useMultipleServer) {
+            fullConfig[@"outboundDetour"][0] = [selectedProfile outboundProfile];
+        } else {
+            fullConfig[@"outboundDetour"][0] = [selectedProfile outboundProfile];
+            NSMutableArray* vPoints = [[NSMutableArray alloc] init];
+            for (ServerProfile* aProfile in profiles) {
+                NSDictionary* onePoint = [aProfile outboundProfile];
+                [vPoints addObject:onePoint[@"settings"][@"vnext"][0]];
+            }
+            fullConfig[@"outboundDetour"][0][@"settings"][@"vnext"] = vPoints;
+        }
+        NSArray* dnsArray = [dnsString componentsSeparatedByString:@","];
+        if ([dnsArray count] > 0) {
+            fullConfig[@"dns"][@"servers"] = dnsArray;
+        } else {
+            fullConfig[@"dns"][@"servers"] = @[@"localhost"];
+        }
+        fullConfig[@"routing"][@"settings"][@"rules"][0][@"outboundTag"] = @"proxy";
+        fullConfig[@"routing"][@"settings"][@"rules"][0][@"domain"][0] = @"geosite:cn";
+        fullConfig[@"routing"][@"settings"][@"rules"][1][@"outboundTag"] = @"proxy";
+        //[fullConfig[@"routing"][@"settings"][@"rules"][1][@"ip"] addObject:@"geoip:cn"];
+        fullConfig[@"routing"][@"settings"][@"rules"][1][@"ip"][0] = @"geoip:cn";
+        return fullConfig;
     }
-    NSArray* dnsArray = [dnsString componentsSeparatedByString:@","];
-    if ([dnsArray count] > 0) {
-        fullConfig[@"dns"][@"servers"] = dnsArray;
-    } else {
-        fullConfig[@"dns"][@"servers"] = @[@"localhost"];
-    }
-    if (proxyMode == rules) {
-        [fullConfig[@"routing"][@"settings"][@"rules"][0][@"domain"] addObject:@"geosite:cn"];
-        [fullConfig[@"routing"][@"settings"][@"rules"][1][@"ip"] addObject:@"geoip:cn"];
-    } else if (proxyMode == manual) {
-        fullConfig[@"routing"][@"settings"][@"rules"] = @[];
-    }
-    
-    return fullConfig;
 }
 
 -(BOOL)loadV2ray {
@@ -602,7 +714,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
 -(void)updateSystemProxy {
     NSArray *arguments;
     if (proxyState) {
-        if (proxyMode == 1) { // pac mode
+        if (proxyMode == 2) { // pac mode
             // close system proxy first to refresh pac file
             if (![webServer isRunning]) {
                 [webServer startWithPort:webServerPort bonjourName:nil];
@@ -612,9 +724,9 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
             });
             arguments = @[@"auto"];
         } else {
-            if (proxyMode == 3) { // manual mode
+            if (proxyMode == 4) { // manual mode
                 arguments = @[@"-v"]; // do nothing
-            } else { // global mode and rule mode
+            } else { // global mode & rule mode & back rule mode
                 if(useMultipleServer || !useCusProfile) {
                     arguments = @[@"global", [NSString stringWithFormat:@"%ld", localPort], [NSString stringWithFormat:@"%ld", httpPort]];
                 } else {

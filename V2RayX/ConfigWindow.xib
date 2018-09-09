@@ -12,6 +12,7 @@
                 <outlet property="addRemoveButton" destination="Pgq-bB-pvc" id="m1r-QX-zw6"/>
                 <outlet property="alterIdField" destination="0MA-zS-uMD" id="Fgh-F0-USD"/>
                 <outlet property="dnsField" destination="mXE-pr-Ddc" id="Eap-sE-WYI"/>
+                <outlet property="globalRoutingButton" destination="MTm-MI-30M" id="yIN-2w-ZUT"/>
                 <outlet property="globalTransportButton" destination="L0C-0n-d5i" id="GRx-qD-mvf"/>
                 <outlet property="httpPortField" destination="aVm-xn-0cZ" id="9lo-hP-jbp"/>
                 <outlet property="importFromJsonMenu" destination="R79-z8-mxK" id="Crb-5l-C1R"/>
@@ -174,11 +175,11 @@
                             </subviews>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="8nv-2V-qEa">
-                            <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
+                            <rect key="frame" x="-7" y="-14" width="0.0" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="wk1-qk-5lt">
-                            <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
+                            <rect key="frame" x="-14" y="-7" width="15" height="0.0"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
@@ -404,9 +405,9 @@
                                     </connections>
                                 </popUpButton>
                                 <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L0C-0n-d5i">
-                                    <rect key="frame" x="7" y="8" width="160" height="32"/>
+                                    <rect key="frame" x="7" y="8" width="85" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="push" title="transport settings..." bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="az9-1y-OFB">
+                                    <buttonCell key="cell" type="push" title="transport" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="az9-1y-OFB">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
@@ -434,6 +435,17 @@
                                         </binding>
                                     </connections>
                                 </textField>
+                                <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MTm-MI-30M">
+                                    <rect key="frame" x="92" y="8" width="83" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="push" title="routing" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GGF-Lq-doC">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="showRoutingConfigWindow:" target="-2" id="woX-ow-Uqj"/>
+                                    </connections>
+                                </button>
                             </subviews>
                         </view>
                     </box>

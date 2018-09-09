@@ -74,78 +74,63 @@
 	</dict>
 	<key>outbound</key>
 	<dict>
-		<key>mux</key>
-		<dict>
-			<key>enabled</key>
-			<true/>
-		</dict>
 		<key>protocol</key>
-		<string>vmess</string>
+		<string>freedom</string>
 		<key>settings</key>
-		<dict>
-			<key>vnext</key>
-			<array>
-				<dict>
-					<key>address</key>
-					<string>192.168.1.9</string>
-					<key>port</key>
-					<integer>10086</integer>
-					<key>users</key>
-					<array>
-						<dict>
-							<key>alterId</key>
-							<integer>64</integer>
-							<key>id</key>
-							<string>23ad6b10-8d1a-40f7-8ad0-e3e35cd38297</string>
-							<key>security</key>
-							<string>auto</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>streamSettings</key>
-		<dict>
-			<key>network</key>
-			<string>tcp</string>
-			<key>security</key>
-			<string>none</string>
-			<key>tlsSettings</key>
-			<dict>
-				<key>allowInsecure</key>
-				<true/>
-				<key>serverName</key>
-				<string>v2ray.cool</string>
-			</dict>
-			<key>wsSettings</key>
-			<dict>
-				<key>path</key>
-				<string>/v2ray.cool/</string>
-			</dict>
-		</dict>
+		<dict/>
 	</dict>
 	<key>outboundDetour</key>
 	<array>
 		<dict>
+			<key>mux</key>
+			<dict>
+				<key>enabled</key>
+				<true/>
+			</dict>
 			<key>protocol</key>
-			<string>freedom</string>
-			<key>settings</key>
-			<dict/>
-			<key>tag</key>
-			<string>direct</string>
-		</dict>
-		<dict>
-			<key>protocol</key>
-			<string>blackhole</string>
-			<key>type</key>
-			<string></string>
+			<string>vmess</string>
 			<key>settings</key>
 			<dict>
-				<key>type</key>
-				<string>http</string>
+				<key>vnext</key>
+				<array>
+					<dict>
+						<key>address</key>
+						<string>192.168.1.9</string>
+						<key>port</key>
+						<integer>10086</integer>
+						<key>users</key>
+						<array>
+							<dict>
+								<key>alterId</key>
+								<integer>64</integer>
+								<key>id</key>
+								<string>23ad6b10-8d1a-40f7-8ad0-e3e35cd38297</string>
+								<key>security</key>
+								<string>auto</string>
+							</dict>
+						</array>
+					</dict>
+				</array>
 			</dict>
-			<key>tag</key>
-			<string>blockout</string>
+			<key>streamSettings</key>
+			<dict>
+				<key>network</key>
+				<string>tcp</string>
+				<key>security</key>
+				<string>none</string>
+				<key>tlsSettings</key>
+				<dict>
+					<key>allowInsecure</key>
+					<true/>
+					<key>serverName</key>
+					<string>v2ray.cool</string>
+				</dict>
+				<key>wsSettings</key>
+				<dict>
+					<key>path</key>
+					<string>/v2ray.cool/</string>
+				</dict>
+			</dict>
 		</dict>
 	</array>
 	<key>policy</key>

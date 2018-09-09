@@ -1,4 +1,4 @@
-VERSION="v3.38"
+VERSION=$(wget -qO- -t1 -T2 "https://api.github.com/repos/v2ray/v2ray-core/releases/latest" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g')
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 BOLD='\033[1m'

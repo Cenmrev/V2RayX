@@ -16,6 +16,7 @@
 
 typedef enum ProxyMode : NSInteger{
     rules,
+    backrules,
     pac,
     global,
     manual
@@ -46,6 +47,12 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
     NSString* plistPath;
     NSString* pacPath;
     NSString* logDirPath;
+    NSString* proxylist;
+    NSString* directlist;
+    NSString* blocklist;
+    NSString* routingProxyListPath;
+    NSString* routingDirectListPath;
+    NSString* routingBlockListPath;
 }
 
 @property NSString* logDirPath;
@@ -72,6 +79,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 - (IBAction)enableProxy:(id)sender;
 - (IBAction)choosePacMode:(id)sender;
 - (IBAction)chooseV2rayRules:(id)sender;
+- (IBAction)chooseV2rayBackRules:(id)sender;
 - (IBAction)chooseGlobalMode:(id)sender;
 - (IBAction)chooseManualMode:(id)sender;
 - (IBAction)showConfigWindow:(id)sender;
@@ -88,6 +96,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property (weak, nonatomic) IBOutlet NSMenuItem *enabelV2rayItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *pacModeItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *v2rayRulesItem;
+@property (weak, nonatomic) IBOutlet NSMenuItem *v2rayBackRulesItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *globalModeItem;
 @property (weak) IBOutlet NSMenuItem *manualModeItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *serversItem;
@@ -96,7 +105,6 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property (weak, nonatomic) IBOutlet NSMenu *pacListMenu;
 @property (weak) IBOutlet NSMenuItem *editPacMenu;
 @property (weak) IBOutlet NSMenuItem *stupidSepy;
-
 
 @end
 
