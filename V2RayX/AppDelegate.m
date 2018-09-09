@@ -55,17 +55,39 @@ static AppDelegate *appDelegate;
     plistPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/cenmrev.v2rayx.v2ray-core.plist",NSHomeDirectory()];
     //pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/pac.js",NSHomeDirectory()];
     pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/%@",NSHomeDirectory(), selectedPacPath];
+    routingProxyListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/proxy.txt", NSHomeDirectory()];
+    routingDirectListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/direct.txt", NSHomeDirectory()];
+    routingBlockListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/block.txt", NSHomeDirectory()];
     
     NSFileManager* fileManager = [NSFileManager defaultManager];
     NSString *pacDir = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac", NSHomeDirectory()];
+    NSString *routingListDir = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist", NSHomeDirectory()];
+    
     //create application support directory and pac directory
     if (![fileManager fileExistsAtPath:pacDir]) {
         [fileManager createDirectoryAtPath:pacDir withIntermediateDirectories:YES attributes:nil error:nil];
     }
+    
+    //create routinglist directory
+    if (![fileManager fileExistsAtPath:routingListDir]) {
+        [fileManager createDirectoryAtPath:routingListDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
     //check if pac file exist
     if (![fileManager fileExistsAtPath:pacPath]) {
         NSString* simplePac = [[NSBundle mainBundle] pathForResource:@"simple" ofType:@"pac"];
         [fileManager copyItemAtPath:simplePac toPath:pacPath error:nil];
+    }
+    
+    //check if routing file exist
+    if (![fileManager fileExistsAtPath:routingProxyListPath]) {
+        [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/proxy.txt", routingListDir] contents:nil attributes:nil];
+    }
+    if (![fileManager fileExistsAtPath:routingDirectListPath]) {
+        [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/direct.txt", routingListDir] contents:nil attributes:nil];
+    }
+    if (![fileManager fileExistsAtPath:routingBlockListPath]) {
+        [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/block.txt", routingListDir] contents:nil attributes:nil];
     }
     
     // Create Log Dir
@@ -144,6 +166,7 @@ static AppDelegate *appDelegate;
         [[NSUserDefaults standardUserDefaults] setObject:defaultSettings[key] forKey:key];
     }
 }
+
 
 - (NSData*) pacData {
     return [NSData dataWithContentsOfFile:pacPath];
@@ -520,6 +543,27 @@ static AppDelegate *appDelegate;
 - (NSDictionary*)generateFullConfigFrom:(ServerProfile*)selectedProfile {
     if (proxyMode == rules || proxyMode == pac || proxyMode == global || proxyMode == manual) {
         NSMutableDictionary* fullConfig = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config-sample" ofType:@"plist"]];
+        
+        /* read routing list from file start*/
+        routingProxyListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/proxy.txt", NSHomeDirectory()];
+        routingDirectListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/direct.txt", NSHomeDirectory()];
+        routingBlockListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/block.txt", NSHomeDirectory()];
+        NSString* proxylist = [NSString stringWithContentsOfFile:routingProxyListPath
+                                                         encoding:NSUTF8StringEncoding
+                                                            error:NULL];
+        NSArray* proxylist_array = [proxylist componentsSeparatedByString:@","];
+        
+        NSString* directlist = [NSString stringWithContentsOfFile:routingDirectListPath
+                                                         encoding:NSUTF8StringEncoding
+                                                            error:NULL];
+        NSArray* directlist_array = [directlist componentsSeparatedByString:@","];
+        
+        NSString* blocklist = [NSString stringWithContentsOfFile:routingBlockListPath
+                                                         encoding:NSUTF8StringEncoding
+                                                            error:NULL];
+        NSArray* blocklist_array = [blocklist componentsSeparatedByString:@","];
+        /* read routing list from file end*/
+        
         fullConfig[@"log"] = @{
                                @"access": [NSString stringWithFormat:@"%@/access.log", logDirPath],
                                @"error": [NSString stringWithFormat:@"%@/error.log", logDirPath],
@@ -547,6 +591,29 @@ static AppDelegate *appDelegate;
         } else {
             fullConfig[@"dns"][@"servers"] = @[@"localhost"];
         }
+        
+        /* add routing list to config start*/
+        if (directlist_array.count > 1) {
+            fullConfig[@"routing"][@"settings"][@"rules"][0][@"domain"] = directlist_array;
+        }
+        if (proxylist_array.count > 1) {
+            fullConfig[@"routing"][@"settings"][@"rules"][2] =
+            @{
+              @"domain":proxylist_array,
+              @"type": @"field",
+              @"outboundTag": @"proxy",
+              };
+        }
+        if (blocklist_array.count > 1) {
+            fullConfig[@"routing"][@"settings"][@"rules"][3] =
+            @{
+              @"domain":blocklist_array,
+              @"type": @"field",
+              @"outboundTag": @"blockout",
+              };
+        }
+        /* add routing list to config end*/
+        
         if (proxyMode == rules) {
             [fullConfig[@"routing"][@"settings"][@"rules"][0][@"domain"] addObject:@"geosite:cn"];
             [fullConfig[@"routing"][@"settings"][@"rules"][1][@"ip"] addObject:@"geoip:cn"];

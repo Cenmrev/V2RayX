@@ -134,6 +134,19 @@
 			<key>tag</key>
 			<string>direct</string>
 		</dict>
+		<dict>
+			<key>protocol</key>
+			<string>blackhole</string>
+			<key>type</key>
+			<string></string>
+			<key>settings</key>
+			<dict>
+				<key>type</key>
+				<string>http</string>
+			</dict>
+			<key>tag</key>
+			<string>blockout</string>
+		</dict>
 	</array>
 	<key>policy</key>
 	<dict>
