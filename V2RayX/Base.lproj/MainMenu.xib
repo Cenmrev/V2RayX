@@ -722,7 +722,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Servers" id="eqU-gH-G4L"/>
                 </menuItem>
-                <menuItem title="Configure..." id="0hJ-Jo-rS2">
+                <menuItem title="Configure" id="0hJ-Jo-rS2">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="showConfigWindow:" target="Voe-Tx-rLC" id="jVU-tA-mPz"/>

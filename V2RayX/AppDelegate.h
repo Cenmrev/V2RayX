@@ -46,6 +46,12 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
     NSString* plistPath;
     NSString* pacPath;
     NSString* logDirPath;
+    NSString* proxylist;
+    NSString* directlist;
+    NSString* blocklist;
+    NSString* routingProxyListPath;
+    NSString* routingDirectListPath;
+    NSString* routingBlockListPath;
 }
 
 @property NSString* logDirPath;
@@ -96,7 +102,6 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property (weak, nonatomic) IBOutlet NSMenu *pacListMenu;
 @property (weak) IBOutlet NSMenuItem *editPacMenu;
 @property (weak) IBOutlet NSMenuItem *stupidSepy;
-
 
 @end
 

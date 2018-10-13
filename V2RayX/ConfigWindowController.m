@@ -8,6 +8,7 @@
 #import "ConfigWindowController.h"
 #import "AppDelegate.h"
 #import "MutableDeepCopying.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 
 @interface ConfigWindowController () 
 
@@ -182,6 +183,71 @@
     [appDelegate configurationDidChange];
     [[self window] close];
 }
+
+/* Routing Config Window Start */
+// https://stackoverflow.com/questions/8192601/how-to-treat-the-textview-in-mac-os-x
+- (void)ReadRoutingListFromFile {
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    _routingProxyListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/proxy.txt", NSHomeDirectory()];
+    _routingDirectListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/direct.txt", NSHomeDirectory()];
+    _routingBlockListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/block.txt", NSHomeDirectory()];
+    if ([fileManager fileExistsAtPath:_routingProxyListPath]) {
+    NSString *proxylist = [NSString stringWithContentsOfFile:_routingProxyListPath
+                                                 encoding:NSUTF8StringEncoding
+                                                    error:NULL];
+    _routingProxyField.stringValue = proxylist;
+    }
+    if ([fileManager fileExistsAtPath:_routingDirectListPath]) {
+        NSString *directlist = [NSString stringWithContentsOfFile:_routingDirectListPath
+                                                     encoding:NSUTF8StringEncoding
+                                                        error:NULL];
+        _routingDirectField.stringValue = directlist;
+    }
+    if ([fileManager fileExistsAtPath:_routingBlockListPath]) {
+        NSString *blocklist = [NSString stringWithContentsOfFile:_routingBlockListPath
+                                                     encoding:NSUTF8StringEncoding
+                                                        error:NULL];
+        _routingBlockField.stringValue = blocklist;
+    }
+}
+
+- (IBAction)showRoutingConfigWindow:(NSButton *)sender {
+    if (_routingConfigWindow == nil) {
+        [[NSBundle mainBundle] loadNibNamed:@"routingConfigWindow" owner:self topLevelObjects:nil];
+    }
+    //load routinglist
+    [self ReadRoutingListFromFile];
+    //show sheet
+    [[self window] beginSheet:_routingConfigWindow completionHandler:^(NSModalResponse returnCode) {
+    }];
+}
+
+- (IBAction)okRoutingConfig:(id)sender {
+    _routingProxyListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/proxy.txt", NSHomeDirectory()];
+    _routingDirectListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/direct.txt", NSHomeDirectory()];
+    _routingBlockListPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/routinglist/block.txt", NSHomeDirectory()];
+    NSString *proxylist = _routingProxyField.stringValue;
+    [proxylist writeToFile:_routingProxyListPath
+                atomically:YES
+                  encoding:NSUTF8StringEncoding
+                     error:NULL];
+    NSString *directlist = _routingDirectField.stringValue;
+    [directlist writeToFile:_routingDirectListPath
+                atomically:YES
+                  encoding:NSUTF8StringEncoding
+                     error:NULL];
+    NSString *blocklist = _routingBlockField.stringValue;
+    [blocklist writeToFile:_routingBlockListPath
+                atomically:YES
+                  encoding:NSUTF8StringEncoding
+                     error:NULL];
+    [[self window] endSheet:_routingConfigWindow];
+}
+
+- (IBAction)cancelRoutingConfig:(id)sender {
+    [[self window] endSheet:_routingConfigWindow];
+}
+/* Routing Config Window End */
 
 - (IBAction)addRemoveCusProfile:(NSSegmentedControl *)sender {
     if ([sender selectedSegment] == 0) {
@@ -548,7 +614,7 @@
         default:
             break;
     }
-    if ([sharedServer objectForKey:@"tls"]||[sharedServer[@"tls"] isEqualToString:@"tls"] ) {
+    if ([sharedServer objectForKey:@"tls"] && [sharedServer[@"tls"] isEqualToString:@"tls"] ) {
         streamSettings[@"security"] = @"tls";
     }
     newProfile.streamSettings = streamSettings;
