@@ -548,7 +548,7 @@
         default:
             break;
     }
-    if ([sharedServer objectForKey:@"tls"]||[sharedServer[@"tls"] isEqualToString:@"tls"] ) {
+    if ([sharedServer objectForKey:@"tls"] && [sharedServer[@"tls"] isEqualToString:@"tls"]) {
         streamSettings[@"security"] = @"tls";
     }
     newProfile.streamSettings = streamSettings;
