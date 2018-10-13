@@ -23,9 +23,10 @@
 @property (weak) IBOutlet NSTextField *alterIdField;
 @property (weak) IBOutlet NSTextField *dnsField;
 @property (weak) IBOutlet NSButton *globalTransportButton;
+@property (weak) IBOutlet NSWindow* routingConfigWindow;
 @property (weak) IBOutlet NSPopUpButton *logLevelButton;
 @property (weak) IBOutlet NSMenu *importFromJsonMenu;
-
+@property (weak) IBOutlet NSButton *globalRoutingButton;
 @property (weak) IBOutlet NSWindow* transportWindow;
 @property (weak) IBOutlet NSWindow* cusConfigWindow;
 
@@ -38,6 +39,7 @@
 @property (weak) IBOutlet NSTextField *kcpWbField;
 @property (weak) IBOutlet NSPopUpButton *kcpCongestionButton;
 @property (weak) IBOutlet NSPopUpButton *kcpHeaderTypeButton;
+
 //tcp fields
 @property (weak) IBOutlet NSButton *tcpHeaderCusButton;
 @property (unsafe_unretained) IBOutlet NSTextView *tcpHdField;
@@ -45,6 +47,7 @@
 //ws fields
 @property (weak) IBOutlet NSTextField *wsPathField;
 @property (unsafe_unretained) IBOutlet NSTextView *wsHeaderField;
+
 //https fields
 @property (weak) IBOutlet NSTextField *httpHostsField;
 @property (weak) IBOutlet NSTextField *httpPathField;
@@ -65,6 +68,14 @@
 //cus config file fields
 @property (weak) IBOutlet NSTableView *cusProfileTable;
 @property (weak) IBOutlet NSTextField *checkLabel;
+
+//routing config field
+@property (weak) IBOutlet NSTextField *routingProxyField;
+@property (weak) IBOutlet NSTextField *routingDirectField;
+@property (weak) IBOutlet NSTextField *routingBlockField;
+@property NSString* routingProxyListPath;
+@property NSString* routingDirectListPath;
+@property NSString* routingBlockListPath;
 
 
 @property AppDelegate* appDelegate;
