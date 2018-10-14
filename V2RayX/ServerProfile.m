@@ -52,8 +52,8 @@
                                                   }
                                           },
                                   @"httpSettings": @{
-                                            @"host": @[@"server.cc"],
-                                            @"path": @""
+                                          @"host": @[@"server.cc"],
+                                          @"path": @""
                                         }
                                   }];
         [self setMuxSettings:@{
