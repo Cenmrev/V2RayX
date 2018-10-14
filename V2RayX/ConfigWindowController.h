@@ -58,6 +58,9 @@
 @property (weak) IBOutlet NSButton *muxEnableButton;
 @property (weak) IBOutlet NSTextField *muxConcurrencyField;
 
+//tcp fast open
+@property (weak) IBOutlet NSButton *tfoEnableButton;
+
 //proxy fields
 @property (weak) IBOutlet NSTextField *proxyAddressField;
 @property (weak) IBOutlet NSTextField *proxyPortField;

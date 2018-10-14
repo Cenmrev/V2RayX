@@ -312,6 +312,9 @@
     NSDictionary *muxSettings = [self.selectedProfile muxSettings];
     [_muxEnableButton setState:[nilCoalescing(muxSettings[@"enabled"], @NO) boolValue]];
     [_muxConcurrencyField setIntegerValue:[nilCoalescing(muxSettings[@"concurrency"], @8) integerValue]];
+    // tcp fast open
+    NSDictionary* tfoSettings = [transportSettings objectForKey:@"sockopt"];
+    [_tfoEnableButton setState:[tfoSettings[@"tcpFastOpen"] boolValue]];
     // proxy
     /*
     NSDictionary *proxySettings = [selectedProfile proxySettings];
@@ -347,6 +350,8 @@
     //mux fields
     [_muxEnableButton setState:0];
     [_muxEnableButton setIntegerValue:8];
+    //tcp fast open
+    [_tfoEnableButton setState:0];
     //outbound proxy
     [_proxyPortField setIntegerValue:0];
     [_proxyAddressField setStringValue:@""];
@@ -408,6 +413,14 @@
             } else {
                 httpSettings = @{ @"path": nilCoalescing([self->_httpPathField stringValue], @"") };
             }
+            NSDictionary *sockopt;
+            if ([self->_tfoEnableButton state]) {
+                sockopt = @{
+                           @"tcpFastOpen": [NSNumber numberWithBool:[self->_tfoEnableButton state] == 1]
+                           };
+            } else {
+                sockopt = @{};
+            }
             NSDictionary *streamSettings =
             @{@"kcpSettings":
                   @{@"mtu":[NSNumber numberWithInteger:[self->_kcpMtuField integerValue]],
@@ -427,9 +440,10 @@
               @"security": [self->_tlsUseButton state] ? @"tls" : @"none",
               @"tlsSettings": @{
                       @"serverName": nilCoalescing([self->_tlsSnField stringValue], @""),
-                      @"allowInsecure": [NSNumber numberWithBool:[self->_tlsAiButton state]==1],
+                      @"allowInsecure": [NSNumber numberWithBool:[self->_tlsAiButton state]==1]
               },
-              @"httpSettings": httpSettings
+              @"httpSettings": httpSettings,
+              @"sockopt": sockopt
               };
             NSDictionary* muxSettings = @{
                                           @"enabled":[NSNumber numberWithBool:[self->_muxEnableButton state]==1],
