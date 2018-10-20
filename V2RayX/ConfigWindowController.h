@@ -52,7 +52,8 @@
 //tls fields
 @property (weak) IBOutlet NSButton *tlsUseButton;
 @property (weak) IBOutlet NSButton *tlsAiButton;
-@property (weak) IBOutlet NSTextField *tlsSnField;
+@property (weak) IBOutlet NSButton *tlsAllowInsecureCiphersButton;
+@property (weak) IBOutlet NSTextField *tlsAlpnField;
 
 //mux fields
 @property (weak) IBOutlet NSButton *muxEnableButton;

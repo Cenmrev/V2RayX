@@ -304,9 +304,16 @@
     [_tlsUseButton setState:[[transportSettings objectForKey:@"security"] boolValue]];
     NSDictionary* tlsSettings = [transportSettings objectForKey:@"tlsSettings"];
     [_tlsAiButton setState:[tlsSettings[@"allowInsecure"] boolValue]];
+    [_tlsAllowInsecureCiphersButton setState:[tlsSettings[@"allowInsecureCiphers"] boolValue]];
+    NSArray* alpnArray = transportSettings[@"tlsSettings"][@"alpn"];
+    NSString* alpnString = @"";
+    alpnString = [alpnArray componentsJoinedByString:@","];
+    [_tlsAlpnField setStringValue:nilCoalescing(alpnString, @"http/1.1")];
+    /*
     if (tlsSettings[@"serverName"]) {
-        [_tlsSnField setStringValue:tlsSettings[@"serverName"]];
+        [_tlsSnField setStringValue:self.selectedProfile.address];
     }
+    */
     [self useTLS:nil];
     // mux
     NSDictionary *muxSettings = [self.selectedProfile muxSettings];
@@ -343,7 +350,8 @@
     //tls fields
     [_tlsUseButton setState:0];
     [_tlsAiButton setState:0];
-    [_tlsSnField setStringValue:@"server.cc"];
+    [_tlsAllowInsecureCiphersButton setState:0];
+    [_tlsAlpnField setStringValue:@"http/1.1"];
     //http/2 fields
     [_httpHostsField setStringValue:@""];
     [_httpPathField setStringValue:@""];
@@ -402,6 +410,8 @@
         NSString* hostsString = [[_httpHostsField stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""];
         httpHosts = [hostsString componentsSeparatedByString:@","];
     }
+    NSArray* tlsAlpn;
+    tlsAlpn = [[_tlsAlpnField stringValue] componentsSeparatedByString:@","];
     [settingAlert beginSheetModalForWindow:_transportWindow completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSAlertFirstButtonReturn) {
             //save settings
@@ -439,8 +449,10 @@
                   },
               @"security": [self->_tlsUseButton state] ? @"tls" : @"none",
               @"tlsSettings": @{
-                      @"serverName": nilCoalescing([self->_tlsSnField stringValue], @""),
-                      @"allowInsecure": [NSNumber numberWithBool:[self->_tlsAiButton state]==1]
+                      @"serverName": nilCoalescing(self.selectedProfile.address, @""),
+                      @"allowInsecure": [NSNumber numberWithBool:[self->_tlsAiButton state]==1],
+                      @"allowInsecureCiphers": [NSNumber numberWithBool:[self->_tlsAllowInsecureCiphersButton state]==1],
+                      @"alpn": tlsAlpn
               },
               @"httpSettings": httpSettings,
               @"sockopt": sockopt
@@ -608,7 +620,6 @@
 
 - (IBAction)useTLS:(id)sender {
     [_tlsAiButton setEnabled:[_tlsUseButton state]];
-    [_tlsSnField setEnabled:[_tlsUseButton state]];
 }
 
 - (IBAction)transportHelp:(id)sender {
