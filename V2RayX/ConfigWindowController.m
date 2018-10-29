@@ -423,6 +423,8 @@
             } else {
                 httpSettings = @{ @"path": nilCoalescing([self->_httpPathField stringValue], @"") };
             }
+            // old sockopt config
+            /*
             NSDictionary *sockopt;
             if ([self->_tfoEnableButton state]) {
                 sockopt = @{
@@ -431,7 +433,11 @@
             } else {
                 sockopt = @{};
             }
-            NSDictionary *streamSettings =
+             */
+            NSDictionary *sockopt = @{
+                                      @"tcpFastOpen": [NSNumber numberWithBool:[self->_tfoEnableButton state] == 1]
+                                      };
+            NSDictionary *streamSettingsImmutable =
             @{@"kcpSettings":
                   @{@"mtu":[NSNumber numberWithInteger:[self->_kcpMtuField integerValue]],
                     @"tti":[NSNumber numberWithInteger:[self->_kcpTtiField integerValue]],
@@ -455,8 +461,11 @@
                       @"alpn": tlsAlpn
               },
               @"httpSettings": httpSettings,
-              @"sockopt": sockopt
               };
+            NSMutableDictionary *streamSettings = [streamSettingsImmutable mutableCopy];
+            if ([self->_tfoEnableButton state]) {
+                [streamSettings setObject:sockopt forKey:@"sockopt"];
+            }
             NSDictionary* muxSettings = @{
                                           @"enabled":[NSNumber numberWithBool:[self->_muxEnableButton state]==1],
                                           @"concurrency":[NSNumber numberWithInteger:[self->_muxConcurrencyField integerValue]]

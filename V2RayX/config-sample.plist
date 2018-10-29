@@ -162,11 +162,8 @@
 					<key>domain</key>
 					<array>
 						<string>localhost</string>
-						<string>domain:mzstatic.com</string>
 						<string>domain:me.com</string>
 						<string>domain:lookup-api.apple.com</string>
-						<string>domain:itunes.com</string>
-						<string>domain:itunes.apple.com</string>
 						<string>domain:icloud-content.com</string>
 						<string>domain:icloud.com</string>
 						<string>domain:cdn-apple.com</string>
