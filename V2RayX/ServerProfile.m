@@ -10,6 +10,9 @@
 
 @implementation ServerProfile
 
+NSString * address;
+
+
 - (ServerProfile*)init {
     self = [super init];
     if (self) {
@@ -26,7 +29,9 @@
                                   @"security": @"none",
                                   @"tlsSettings": @{
                                           @"serverName": @"server.cc",
-                                          @"allowInsecure": [NSNumber numberWithBool:NO]
+                                          @"alpn": @[@"http/1.1"],
+                                          @"allowInsecure": [NSNumber numberWithBool:NO],
+                                          @"allowInsecureCiphers": [NSNumber numberWithBool:NO]
                                           },
                                   @"tcpSettings": @{
                                           @"header": @{

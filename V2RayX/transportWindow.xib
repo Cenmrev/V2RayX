@@ -24,7 +24,8 @@
                 <outlet property="tcpHeaderCusButton" destination="vXV-c6-ZJ3" id="0mg-Po-v3S"/>
                 <outlet property="tfoEnableButton" destination="Y7H-QP-cdh" id="0GO-ib-yPH"/>
                 <outlet property="tlsAiButton" destination="l3Z-uk-KBr" id="FUU-TQ-bqK"/>
-                <outlet property="tlsSnField" destination="nw2-5m-34B" id="8nF-Yj-QgG"/>
+                <outlet property="tlsAllowInsecureCiphersButton" destination="L3V-ES-nEc" id="GcW-j6-49f"/>
+                <outlet property="tlsAlpnField" destination="ueg-ns-8xA" id="Oh0-O8-IOk"/>
                 <outlet property="tlsUseButton" destination="n0X-Fy-rS1" id="8sl-p5-7bG"/>
                 <outlet property="transportWindow" destination="QvC-M9-y7g" id="EGp-nT-Eil"/>
                 <outlet property="wsHeaderField" destination="5WV-Rv-Aia" id="rVD-9N-x89"/>
@@ -425,20 +426,37 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="TLS" identifier="" id="sCQ-Dt-YCG">
-                                <view key="view" id="yce-Q2-W28">
+                                <view key="view" ambiguous="YES" id="yce-Q2-W28">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l3Z-uk-KBr">
-                                            <rect key="frame" x="15" y="63" width="110" height="18"/>
+                                            <rect key="frame" x="15" y="50" width="132" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Allow insecure" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Rxl-Fh-p8u">
+                                            <buttonCell key="cell" type="check" title="TLS allowInsecure" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Rxl-Fh-p8u">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                         </button>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L3V-ES-nEc">
+                                            <rect key="frame" x="238" y="85" width="179" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="TLS allowInsecureCiphers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tGs-7I-7qD">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ueg-ns-8xA">
+                                            <rect key="frame" x="286" y="47" width="96" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="VDm-Wv-O7F">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n0X-Fy-rS1">
-                                            <rect key="frame" x="15" y="98" width="73" height="18"/>
+                                            <rect key="frame" x="15" y="85" width="73" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Use TLS" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="cY9-cQ-T9f">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -449,28 +467,19 @@
                                             </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nhc-Gl-Mct">
-                                            <rect key="frame" x="15" y="27" width="87" height="17"/>
+                                            <rect key="frame" x="238" y="50" width="34" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Server Name:" id="eb7-WI-WKe">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="alpn:" id="eb7-WI-WKe">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
-                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nw2-5m-34B">
-                                            <rect key="frame" x="108" y="25" width="213" height="22"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="573-7w-T3E">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                     </subviews>
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Other" identifier="" id="QwI-cq-3dE">
-                                <view key="view" ambiguous="YES" id="qEg-0O-lVX">
+                                <view key="view" id="qEg-0O-lVX">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>

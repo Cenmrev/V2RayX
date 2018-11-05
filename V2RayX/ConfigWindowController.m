@@ -304,9 +304,16 @@
     [_tlsUseButton setState:[[transportSettings objectForKey:@"security"] boolValue]];
     NSDictionary* tlsSettings = [transportSettings objectForKey:@"tlsSettings"];
     [_tlsAiButton setState:[tlsSettings[@"allowInsecure"] boolValue]];
+    [_tlsAllowInsecureCiphersButton setState:[tlsSettings[@"allowInsecureCiphers"] boolValue]];
+    NSArray* alpnArray = transportSettings[@"tlsSettings"][@"alpn"];
+    NSString* alpnString = @"";
+    alpnString = [alpnArray componentsJoinedByString:@","];
+    [_tlsAlpnField setStringValue:nilCoalescing(alpnString, @"http/1.1")];
+    /*
     if (tlsSettings[@"serverName"]) {
-        [_tlsSnField setStringValue:tlsSettings[@"serverName"]];
+        [_tlsSnField setStringValue:self.selectedProfile.address];
     }
+    */
     [self useTLS:nil];
     // mux
     NSDictionary *muxSettings = [self.selectedProfile muxSettings];
@@ -343,7 +350,8 @@
     //tls fields
     [_tlsUseButton setState:0];
     [_tlsAiButton setState:0];
-    [_tlsSnField setStringValue:@"server.cc"];
+    [_tlsAllowInsecureCiphersButton setState:0];
+    [_tlsAlpnField setStringValue:@"http/1.1"];
     //http/2 fields
     [_httpHostsField setStringValue:@""];
     [_httpPathField setStringValue:@""];
@@ -402,6 +410,8 @@
         NSString* hostsString = [[_httpHostsField stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""];
         httpHosts = [hostsString componentsSeparatedByString:@","];
     }
+    NSArray* tlsAlpn;
+    tlsAlpn = [[_tlsAlpnField stringValue] componentsSeparatedByString:@","];
     [settingAlert beginSheetModalForWindow:_transportWindow completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSAlertFirstButtonReturn) {
             //save settings
@@ -413,6 +423,8 @@
             } else {
                 httpSettings = @{ @"path": nilCoalescing([self->_httpPathField stringValue], @"") };
             }
+            // old sockopt config
+            /*
             NSDictionary *sockopt;
             if ([self->_tfoEnableButton state]) {
                 sockopt = @{
@@ -421,7 +433,11 @@
             } else {
                 sockopt = @{};
             }
-            NSDictionary *streamSettings =
+             */
+            NSDictionary *sockopt = @{
+                                      @"tcpFastOpen": [NSNumber numberWithBool:[self->_tfoEnableButton state] == 1]
+                                      };
+            NSDictionary *streamSettingsImmutable =
             @{@"kcpSettings":
                   @{@"mtu":[NSNumber numberWithInteger:[self->_kcpMtuField integerValue]],
                     @"tti":[NSNumber numberWithInteger:[self->_kcpTtiField integerValue]],
@@ -439,12 +455,17 @@
                   },
               @"security": [self->_tlsUseButton state] ? @"tls" : @"none",
               @"tlsSettings": @{
-                      @"serverName": nilCoalescing([self->_tlsSnField stringValue], @""),
-                      @"allowInsecure": [NSNumber numberWithBool:[self->_tlsAiButton state]==1]
+                      @"serverName": nilCoalescing(self.selectedProfile.address, @""),
+                      @"allowInsecure": [NSNumber numberWithBool:[self->_tlsAiButton state]==1],
+                      @"allowInsecureCiphers": [NSNumber numberWithBool:[self->_tlsAllowInsecureCiphersButton state]==1],
+                      @"alpn": tlsAlpn
               },
               @"httpSettings": httpSettings,
-              @"sockopt": sockopt
               };
+            NSMutableDictionary *streamSettings = [streamSettingsImmutable mutableCopy];
+            if ([self->_tfoEnableButton state]) {
+                [streamSettings setObject:sockopt forKey:@"sockopt"];
+            }
             NSDictionary* muxSettings = @{
                                           @"enabled":[NSNumber numberWithBool:[self->_muxEnableButton state]==1],
                                           @"concurrency":[NSNumber numberWithInteger:[self->_muxConcurrencyField integerValue]]
@@ -608,7 +629,6 @@
 
 - (IBAction)useTLS:(id)sender {
     [_tlsAiButton setEnabled:[_tlsUseButton state]];
-    [_tlsSnField setEnabled:[_tlsUseButton state]];
 }
 
 - (IBAction)transportHelp:(id)sender {
