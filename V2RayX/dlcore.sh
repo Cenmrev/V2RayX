@@ -14,21 +14,27 @@ if [ "$VERSION" != "$existingVersion" ]; then
     getCore=0
     mkdir -p v2ray-core-bin
     cd v2ray-core-bin
+    mkdir -p v2ray-macos
     curl -s -L -o v2ray-macos.zip https://github.com/v2ray/v2ray-core/releases/download/${VERSION}/v2ray-macos.zip
     if [[ $? == 0 ]]; then
-        unzip -o v2ray-macos.zip
+        unzip -o -d v2ray-macos v2ray-macos.zip
         getCore=1
     else
-        unzip -o ~/Downloads/v2ray-macos.zip
+        unzip -o -d v2ray-macos ~/Downloads/v2ray-macos.zip
         if [[ $? != 0 ]]; then
             getCore=0
         else
-            chmod +x v2ray-${VERSION}-macos/v2ray
-            output=$(v2ray-${VERSION}-macos/v2ray --version)
-            existingVersion=${output:6:${#VERSION}}
+            chmod +x v2ray-macos/v2ray
+            output=$(v2ray-macos/v2ray --version)
+            existingVersion=${output:6:${#VERSION}-1}
+            echo $output
+            echo $existingVersion
+            if [ "${existingVersion:0:1}" != "v" ]; then
+                existingVersion="v"${existingVersion}
+            fi
             if [ "$VERSION" != "$existingVersion" ]; then
                 echo "${RED}v2ray-macos.zip in the Downloads folder does not contain version ${VERSION}."
-                echo "下载文件夹里的v2ray-macos.zip不是${VERSION}版本。${NORMAL}"
+                echo "下载文件夹里的v2ray-macos.zip是${existingVersion}版本，而不是${VERSION}版本。${NORMAL}"
                 getCore=0
             else
                 getCore=1
@@ -42,10 +48,10 @@ if [ "$VERSION" != "$existingVersion" ]; then
         echo "用你能想到任何办法，从 v2ray.com 下载好${VERSION}版本的 v2ray-macos.zip，放在“下载”文件夹里面，然后再次运行这个脚本。${NORMAL}"
         exit 1
     fi
-    mv v2ray-${VERSION}-macos/v2ray v2ray
-    mv v2ray-${VERSION}-macos/v2ctl v2ctl
-    mv v2ray-${VERSION}-macos/geoip.dat geoip.dat
-    mv v2ray-${VERSION}-macos/geosite.dat geosite.dat
+    mv v2ray-macos/v2ray v2ray
+    mv v2ray-macos/v2ctl v2ctl
+    mv v2ray-macos/geoip.dat geoip.dat
+    mv v2ray-macos/geosite.dat geosite.dat
     chmod +x ./v2ray
     chmod +x ./v2ctl
     rm -r v2ray-*
