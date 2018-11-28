@@ -238,7 +238,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="74S-96-NuK">
                                                 <rect key="frame" x="1" y="1" width="441" height="99"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsUndo="YES" allowsNonContiguousLayout="YES" textCompletion="NO" id="dcF-wv-cmU">
                                                         <rect key="frame" x="0.0" y="0.0" width="441" height="99"/>
@@ -320,7 +320,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="Ijl-Ha-SNR">
                                                 <rect key="frame" x="1" y="1" width="311" height="55"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsUndo="YES" allowsNonContiguousLayout="YES" textCompletion="NO" spellingCorrection="YES" id="5WV-Rv-Aia">
                                                         <rect key="frame" x="0.0" y="0.0" width="311" height="55"/>
@@ -372,8 +372,8 @@
                                     </subviews>
                                 </view>
                             </tabViewItem>
-                            <tabViewItem label="http/2" identifier="" id="3a5-FH-jdA">
-                                <view key="view" id="Kim-Ta-kSs">
+                            <tabViewItem label="HTTP/2" identifier="" id="3a5-FH-jdA">
+                                <view key="view" ambiguous="YES" id="Kim-Ta-kSs">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -426,7 +426,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="TLS" identifier="" id="sCQ-Dt-YCG">
-                                <view key="view" ambiguous="YES" id="yce-Q2-W28">
+                                <view key="view" id="yce-Q2-W28">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -478,7 +478,7 @@
                                     </subviews>
                                 </view>
                             </tabViewItem>
-                            <tabViewItem label="Other" identifier="" id="QwI-cq-3dE">
+                            <tabViewItem label="···" identifier="" id="QwI-cq-3dE">
                                 <view key="view" id="qEg-0O-lVX">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

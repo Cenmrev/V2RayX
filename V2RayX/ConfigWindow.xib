@@ -381,12 +381,11 @@
                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dbo-ml-2p8">
                                     <rect key="frame" x="73" y="71" width="214" height="26"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <popUpButtonCell key="cell" type="push" title="aes-128-cfb" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="max-qR-nJy" id="Jfz-Zt-LZn">
+                                    <popUpButtonCell key="cell" type="push" title="aes-128-gcm" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="92F-Fh-RHW" id="Jfz-Zt-LZn">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="menu"/>
                                         <menu key="menu" id="Ziq-n1-gks">
                                             <items>
-                                                <menuItem title="aes-128-cfb" state="on" id="max-qR-nJy"/>
                                                 <menuItem title="aes-128-gcm" id="92F-Fh-RHW"/>
                                                 <menuItem title="chacha20-poly1305" id="1SH-Qb-KKl"/>
                                                 <menuItem title="auto (suggested)" id="clS-ih-hzy">

@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 
 typedef enum SecurityType : NSUInteger {
-    aes_128_cfb,
     aes_128_gcm,
     chacha20_poly130,
     auto_,
