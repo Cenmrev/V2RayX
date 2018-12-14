@@ -80,7 +80,7 @@ NSString * address;
     }
     NSMutableArray* profiles = [[NSMutableArray alloc] init];
     NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2, @"http":@3 };
-    NSDictionary *securityDict = @{@"aes-128-cfb":@0, @"aes-128-gcm":@1, @"chacha20-poly1305":@2, @"auto":@3, @"none":@4};
+    NSDictionary *securityDict = @{@"aes-128-gcm":@0, @"chacha20-poly1305":@1, @"auto":@2, @"none":@3};
     NSString* sendThrough = nilCoalescing(outboundJson[@"sendThrough"], @"0.0.0.0");
     if (![[outboundJson valueForKeyPath:@"settings.vnext"] isKindOfClass:[NSArray class]]) {
         return @[];
@@ -152,7 +152,7 @@ NSString * address;
                                   @{
                                       @"id": userId != nil ? [userId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]: @"",
                                       @"alterId": [NSNumber numberWithUnsignedInteger:alterId],
-                                      @"security": @[@"aes-128-cfb", @"aes-128-gcm", @"chacha20-poly1305", @"auto", @"none"][security],
+                                      @"security": @[@"aes-128-gcm", @"chacha20-poly1305", @"auto", @"none"][security],
                                       @"level": [NSNumber numberWithUnsignedInteger:level]
                                       }
                                   ]

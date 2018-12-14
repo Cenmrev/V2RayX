@@ -629,6 +629,7 @@
 
 - (IBAction)useTLS:(id)sender {
     [_tlsAiButton setEnabled:[_tlsUseButton state]];
+    [_tlsAllowInsecureCiphersButton setEnabled:[_tlsUseButton state]];
 }
 
 - (IBAction)transportHelp:(id)sender {
