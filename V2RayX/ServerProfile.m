@@ -7,11 +7,19 @@
 
 #import "ServerProfile.h"
 
-
 @implementation ServerProfile
 
 NSString * address;
 
++(NSUInteger)searchString:(NSString*)str inArray:(NSArray*)array {
+    if([str isKindOfClass:[NSString class]]) {
+        NSUInteger index = [array indexOfObject:str];
+        if(index >= 0 && index < [array count]) {
+            return index;
+        }
+    }
+    return 0;
+}
 
 - (ServerProfile*)init {
     self = [super init];
@@ -79,8 +87,23 @@ NSString * address;
         return @[];
     }
     NSMutableArray* profiles = [[NSMutableArray alloc] init];
-    NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2, @"http":@3 };
-    NSDictionary *securityDict = @{@"aes-128-gcm":@0, @"chacha20-poly1305":@1, @"auto":@2, @"none":@3};
+    NSDictionary *netWorkDict = @{
+                                  @"tcp": @(tcp),
+                                  @"kcp": @(kcp),
+                                  @"ws":@(ws),
+                                  @"http":@(http),
+                                  @"quic": @(quic)
+                                  };
+    //    aes_128_gcm,
+//    chacha20_poly130,
+//    auto_,
+//    none
+    NSDictionary *securityDict = @{
+                                   @"aes-128-gcm":@(aes_128_gcm),
+                                   @"chacha20-poly1305":@(chacha20_poly130),
+                                   @"auto":@(auto_),
+                                   @"none":@(none)
+                                   };
     NSString* sendThrough = nilCoalescing(outboundJson[@"sendThrough"], @"0.0.0.0");
     if (![[outboundJson valueForKeyPath:@"settings.vnext"] isKindOfClass:[NSArray class]]) {
         return @[];
@@ -137,7 +160,7 @@ NSString * address;
 
 - (NSMutableDictionary*)outboundProfile {
     NSMutableDictionary* fullStreamSettings = [NSMutableDictionary dictionaryWithDictionary:streamSettings];
-    fullStreamSettings[@"network"] = @[@"tcp",@"kcp", @"ws", @"http"][network];
+    fullStreamSettings[@"network"] = @[@"tcp",@"kcp", @"ws", @"http", @"quic"][network];
     NSDictionary* result =
     @{
       @"sendThrough": sendThrough,

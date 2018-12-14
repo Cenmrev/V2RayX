@@ -260,20 +260,7 @@
     [_kcpRbField setIntegerValue:[transportSettings[@"kcpSettings"][@"readBufferSize"] integerValue]];
     [_kcpWbField setIntegerValue:[transportSettings[@"kcpSettings"][@"writeBufferSize"] integerValue]];
     [_kcpCongestionButton selectItemAtIndex:[transportSettings[@"kcpSettings"][@"congestion"] boolValue] ? 1 : 0];
-    NSString *headerType = transportSettings[@"kcpSettings"][@"header"][@"type"];
-    if ([headerType isKindOfClass:[NSString class]]) {
-        if ([headerType isEqualToString:@"srtp"]) {
-            [_kcpHeaderTypeButton selectItemAtIndex:1];
-        } else if ([headerType isEqualToString:@"utp"]) {
-            [_kcpHeaderTypeButton selectItemAtIndex:2];
-        } else if ([headerType isEqualToString:@"wechat-video"]) {
-            [_kcpHeaderTypeButton selectItemAtIndex:3];
-        } else if ([headerType isEqualToString:@"dtls"]) {
-            [_kcpHeaderTypeButton selectItemAtIndex:4];
-        } else if ([headerType isEqualToString:@"wireguard"]) {
-            [_kcpHeaderTypeButton selectItemAtIndex:5];
-        }
-    }
+    [_kcpHeaderTypeButton selectItemAtIndex:[ServerProfile searchString:transportSettings[@"kcpSettings"][@"header"][@"type"] inArray:OBFU_LIST]];
     //tcp
     [_tcpHeaderCusButton setState:[transportSettings[@"tcpSettings"][@"header"][@"type"] isEqualToString:@"http"] ? 1 : 0];
     if ([_tcpHeaderCusButton state]) {
@@ -300,6 +287,17 @@
         }
     }
     [_httpHostsField setStringValue:hostString];
+    //quic
+    [_quicKeyField setStringValue:nilCoalescing(transportSettings[@"quicSettings"][@"key"], @"")];
+    if ([transportSettings[@"quicSettings"][@"security"] isKindOfClass:[NSString class]]) {
+        if ([transportSettings[@"quicSettings"][@"security"] isEqualToString:@"aes-128-gcm"]) {
+            [_quicSecurityButton selectItemAtIndex:1];
+        } else if ([transportSettings[@"quicSettings"][@"security"] isEqualToString:@"chacha20-poly1305"]) {
+            [_quicSecurityButton selectItemAtIndex:2];
+        }
+    }
+    [_quicHeaderButton selectItemAtIndex:[ServerProfile searchString:transportSettings[@"quicSettings"][@"header"][@"type"] inArray:OBFU_LIST]];
+    
     //tls
     [_tlsUseButton setState:[[transportSettings objectForKey:@"security"] boolValue]];
     NSDictionary* tlsSettings = [transportSettings objectForKey:@"tlsSettings"];
@@ -355,6 +353,10 @@
     //http/2 fields
     [_httpHostsField setStringValue:@""];
     [_httpPathField setStringValue:@""];
+    //quic fields
+    [_quicKeyField setStringValue:@""];
+    [_quicSecurityButton selectItemAtIndex:0];
+    [_quicHeaderButton selectItemAtIndex:0];
     //mux fields
     [_muxEnableButton setState:0];
     [_muxEnableButton setIntegerValue:8];
@@ -453,6 +455,13 @@
                       @"path": nilCoalescing([self->_wsPathField stringValue], @""),
                       @"headers": nilCoalescing(wsHeader, @{})
                   },
+              @"quicSettings": @{
+                  @"security": [[self->_quicSecurityButton selectedItem] title],
+                  @"key": nilCoalescing([self->_quicKeyField stringValue], @""),
+                  @"header": @{
+                      @"type": [[self->_quicHeaderButton selectedItem] title]
+                  }
+              },
               @"security": [self->_tlsUseButton state] ? @"tls" : @"none",
               @"tlsSettings": @{
                       @"serverName": nilCoalescing(self.selectedProfile.address, @""),

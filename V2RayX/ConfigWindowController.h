@@ -49,6 +49,12 @@
 @property (weak) IBOutlet NSTextField *httpHostsField;
 @property (weak) IBOutlet NSTextField *httpPathField;
 
+// quic fields
+@property (weak) IBOutlet NSPopUpButton *quicSecurityButton;
+@property (weak) IBOutlet NSTextField *quicKeyField;
+@property (weak) IBOutlet NSPopUpButton *quicHeaderButton;
+
+
 //tls fields
 @property (weak) IBOutlet NSButton *tlsUseButton;
 @property (weak) IBOutlet NSButton *tlsAiButton;

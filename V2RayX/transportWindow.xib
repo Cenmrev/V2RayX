@@ -20,6 +20,9 @@
                 <outlet property="kcpWbField" destination="jAB-DD-QBA" id="OIV-IX-VzS"/>
                 <outlet property="muxConcurrencyField" destination="L11-Bf-Eib" id="Znq-j6-NrB"/>
                 <outlet property="muxEnableButton" destination="cS2-9s-JTH" id="zmh-db-Sgu"/>
+                <outlet property="quicHeaderButton" destination="b8A-oK-EAg" id="GzI-Rq-9um"/>
+                <outlet property="quicKeyField" destination="Qf8-bK-NW8" id="1MY-TA-6No"/>
+                <outlet property="quicSecurityButton" destination="22G-X8-sRf" id="dl2-jI-XzI"/>
                 <outlet property="tcpHdField" destination="dcF-wv-cmU" id="7ud-vF-2St"/>
                 <outlet property="tcpHeaderCusButton" destination="vXV-c6-ZJ3" id="0mg-Po-v3S"/>
                 <outlet property="tfoEnableButton" destination="Y7H-QP-cdh" id="0GO-ib-yPH"/>
@@ -373,7 +376,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="HTTP/2" identifier="" id="3a5-FH-jdA">
-                                <view key="view" ambiguous="YES" id="Kim-Ta-kSs">
+                                <view key="view" id="Kim-Ta-kSs">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -420,6 +423,99 @@
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="QUIC" identifier="" id="DRH-Zh-vX2">
+                                <view key="view" ambiguous="YES" id="ana-nP-yKk">
+                                    <rect key="frame" x="10" y="33" width="477" height="135"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="etR-SA-yeH">
+                                            <rect key="frame" x="38" y="101" width="57" height="17"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="security:" id="5jf-XH-tbH">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j3S-YO-ihe">
+                                            <rect key="frame" x="66" y="76" width="29" height="17"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="key:" id="pOx-5i-iHo">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yrk-xx-SKP">
+                                            <rect key="frame" x="14" y="51" width="81" height="17"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="header type:" id="AfV-VI-p2V">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22G-X8-sRf">
+                                            <rect key="frame" x="99" y="96" width="150" height="25"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <popUpButtonCell key="cell" type="push" title="none" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="djn-jG-Fmc" id="yHz-wi-Sic">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" id="Bvg-Ok-DnQ">
+                                                    <items>
+                                                        <menuItem title="none" state="on" id="djn-jG-Fmc"/>
+                                                        <menuItem title="aes-128-gcm" id="fVT-8w-dZJ"/>
+                                                        <menuItem title="chacha20-poly1305" id="jfH-zy-IxN"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                        </popUpButton>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qf8-bK-NW8">
+                                            <rect key="frame" x="101" y="74" width="359" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="fii-fv-7Yc">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b8A-oK-EAg">
+                                            <rect key="frame" x="99" y="44" width="110" height="25"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <popUpButtonCell key="cell" type="push" title="none" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="dy9-ku-vBz" id="mPo-nT-j4u">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" id="fXc-My-Va9">
+                                                    <items>
+                                                        <menuItem title="none" state="on" id="dy9-ku-vBz"/>
+                                                        <menuItem title="srtp" id="hpf-Qv-Tqr"/>
+                                                        <menuItem title="utp" id="jYH-tb-m4q"/>
+                                                        <menuItem title="wechat-video" id="ppR-bX-2lI">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="dtls" id="zOM-4I-W01">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="wireguard" id="qfH-Kj-C7y">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                        </popUpButton>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZrD-hV-LQf">
+                                            <rect key="frame" x="14" y="11" width="448" height="28"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" id="vZ8-pU-aE3">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <string key="title">QUIC is now an experiment in V2Ray. It implements IETF specification. As the spec is still being standardized, compatibility can't be guaranteed.</string>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                     </subviews>
@@ -577,5 +673,14 @@ Gw
             <point key="canvasLocation" x="133.5" y="150"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="LgD-MM-gbb"/>
+        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="aux-jX-SyR">
+            <rect key="frame" x="0.0" y="0.0" width="37" height="17"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="IXB-2r-Se6">
+                <font key="font" usesAppearanceFont="YES"/>
+                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+            </textFieldCell>
+        </textField>
     </objects>
 </document>
