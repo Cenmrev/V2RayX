@@ -8,6 +8,8 @@ __READ THIS__: [Project V2Ray](http://www.v2ray.com).
 
 __YOU SHOULD READ V2RAY'S OFFICIAL INSTRUCTION BEFORE USING V2RAYX!__
 
+Other V2Ray clients on macOS: [V2RayU](https://github.com/yanue/v2rayu)
+
 ## Download V2RayX
 
 Download from [Releases](https://github.com/Cenmrev/V2RayX/releases). (compiled by [travis-ci.org](https://travis-ci.org/Cenmrev/V2RayX)).
