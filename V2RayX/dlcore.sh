@@ -1,4 +1,4 @@
-VERSION="v4.8.0"
+VERSION="4.9.0"
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 BOLD='\033[1m'
@@ -14,7 +14,7 @@ if [ "$VERSION" != "$existingVersion" ]; then
     getCore=0
     mkdir -p v2ray-core-bin
     cd v2ray-core-bin
-    curl -s -L -o v2ray-macos.zip https://github.com/v2ray/v2ray-core/releases/download/${VERSION}/v2ray-macos.zip
+    curl -s -L -o v2ray-macos.zip https://github.com/v2ray/v2ray-core/releases/download/v${VERSION}/v2ray-macos.zip
     if [[ $? == 0 ]]; then
         unzip -o v2ray-macos.zip
         getCore=1
@@ -35,17 +35,12 @@ if [ "$VERSION" != "$existingVersion" ]; then
             fi
         fi
     fi
-    echo $getCore
     if [[ $getCore == 0 ]]; then
         echo "${RED}download failed!"
         echo "Use whatever method you can think of, get v2ray-macos.zip of version ${VERSION} from v2ray.com, and put it in the folder 'Downloads' and try this script again."
         echo "用你能想到任何办法，从 v2ray.com 下载好${VERSION}版本的 v2ray-macos.zip，放在“下载”文件夹里面，然后再次运行这个脚本。${NORMAL}"
         exit 1
     fi
-    mv v2ray-${VERSION}-macos/v2ray v2ray
-    mv v2ray-${VERSION}-macos/v2ctl v2ctl
-    mv v2ray-${VERSION}-macos/geoip.dat geoip.dat
-    mv v2ray-${VERSION}-macos/geosite.dat geosite.dat
     chmod +x ./v2ray
     chmod +x ./v2ctl
     rm -r v2ray-*
