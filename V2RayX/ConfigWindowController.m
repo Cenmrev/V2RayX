@@ -18,6 +18,25 @@
 - (void)windowDidLoad {
     [super windowDidLoad];
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString* v2rayPath = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
+        
+        NSTask *task = [[NSTask alloc] init];
+        [task setLaunchPath:v2rayPath];
+        [task setArguments:@[@"-version"]];
+        NSPipe *stdoutpipe = [NSPipe pipe];
+        [task setStandardOutput:stdoutpipe];
+        [task launch];
+        [task waitUntilExit];
+        NSFileHandle *file = [stdoutpipe fileHandleForReading];
+        NSData *data = [file readDataToEndOfFile];
+        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->_versionField setStringValue:[string componentsSeparatedByString:@"\n"][0]];
+             });
+        
+    });
+    
     [_networkButton removeAllItems];
     for(NSString* network in NETWORK_LIST) {
         [_networkButton addItemWithTitle:network];

@@ -91,5 +91,6 @@
 @property (nonatomic) NSMutableArray *profiles;
 @property (nonatomic) NSMutableArray *cusProfiles;
 
+@property (weak) IBOutlet NSTextField *versionField;
 
 @end
