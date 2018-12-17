@@ -8,7 +8,8 @@ __READ THIS__: [Project V2Ray](http://www.v2ray.com).
 
 __YOU SHOULD READ V2RAY'S OFFICIAL INSTRUCTION BEFORE USING V2RAYX!__
 
-Other V2Ray clients on macOS: [V2RayU](https://github.com/yanue/v2rayu)
+Other V2Ray clients on macOS: [V2RayU](https://github.com/yanue/v2rayu).
+(Not related to or endorsed by authors of this repo. USE AT YOUR OWN RISK.)
 
 ## Download V2RayX
 
