@@ -19,6 +19,7 @@
                 <outlet property="networkButton" destination="tMD-b4-w2E" id="MLa-PK-H4t"/>
                 <outlet property="portField" destination="vAX-58-HRK" id="l6R-dx-TNq"/>
                 <outlet property="profileTable" destination="fje-9q-W5F" id="qQT-rE-cPV"/>
+                <outlet property="vmessSecurityButton" destination="Dbo-ml-2p8" id="sSo-w3-Yom"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="DXu-va-1Ry"/>
             </connections>
         </customObject>

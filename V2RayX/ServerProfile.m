@@ -67,7 +67,12 @@ NSString * address;
                                   @"httpSettings": @{
                                           @"host": @[@"server.cc"],
                                           @"path": @""
-                                        }
+                                          },
+                                  @"quicSettings": @{
+                                          @"security": @"none",
+                                          @"key": @"",
+                                          @"header": @{ @"type": @"none" }
+                                          }
                                   }];
         [self setMuxSettings:@{
                                @"enabled": [NSNumber numberWithBool:NO],
@@ -87,23 +92,6 @@ NSString * address;
         return @[];
     }
     NSMutableArray* profiles = [[NSMutableArray alloc] init];
-    NSDictionary *netWorkDict = @{
-                                  @"tcp": @(tcp),
-                                  @"kcp": @(kcp),
-                                  @"ws":@(ws),
-                                  @"http":@(http),
-                                  @"quic": @(quic)
-                                  };
-    //    aes_128_gcm,
-//    chacha20_poly130,
-//    auto_,
-//    none
-    NSDictionary *securityDict = @{
-                                   @"aes-128-gcm":@(aes_128_gcm),
-                                   @"chacha20-poly1305":@(chacha20_poly130),
-                                   @"auto":@(auto_),
-                                   @"none":@(none)
-                                   };
     NSString* sendThrough = nilCoalescing(outboundJson[@"sendThrough"], @"0.0.0.0");
     if (![[outboundJson valueForKeyPath:@"settings.vnext"] isKindOfClass:[NSArray class]]) {
         return @[];
@@ -119,10 +107,10 @@ NSString * address;
         profile.userId = nilCoalescing(vnext[@"users"][0][@"id"], @"23ad6b10-8d1a-40f7-8ad0-e3e35cd38287");
         profile.alterId = [vnext[@"users"][0][@"alterId"] unsignedIntegerValue];
         profile.level = [vnext[@"users"][0][@"level"] unsignedIntegerValue];
-        profile.security = [securityDict[vnext[@"users"][0][@"security"]] unsignedIntegerValue];
+        profile.security = [self searchString:vnext[@"users"][0][@"security"] inArray:VMESS_SECURITY_LIST];
         if (outboundJson[@"streamSettings"] != nil) {
             profile.streamSettings = outboundJson[@"streamSettings"];
-            profile.network = [netWorkDict[outboundJson[@"streamSettings"][@"network"]] unsignedIntegerValue];
+            profile.network = [self searchString:outboundJson[@"streamSettings"][@"network"] inArray:NETWORK_LIST];
         }
         if (outboundJson[@"mux"] != nil) {
             profile.muxSettings = outboundJson[@"mux"];
@@ -160,7 +148,7 @@ NSString * address;
 
 - (NSMutableDictionary*)outboundProfile {
     NSMutableDictionary* fullStreamSettings = [NSMutableDictionary dictionaryWithDictionary:streamSettings];
-    fullStreamSettings[@"network"] = @[@"tcp",@"kcp", @"ws", @"http", @"quic"][network];
+    fullStreamSettings[@"network"] = NETWORK_LIST[network];
     NSDictionary* result =
     @{
       @"sendThrough": sendThrough,
@@ -175,7 +163,7 @@ NSString * address;
                                   @{
                                       @"id": userId != nil ? [userId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]: @"",
                                       @"alterId": [NSNumber numberWithUnsignedInteger:alterId],
-                                      @"security": @[@"aes-128-gcm", @"chacha20-poly1305", @"auto", @"none"][security],
+                                      @"security": VMESS_SECURITY_LIST[security],
                                       @"level": [NSNumber numberWithUnsignedInteger:level]
                                       }
                                   ]

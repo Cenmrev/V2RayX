@@ -9,8 +9,8 @@
 #import "AppDelegate.h"
 
 #define OBFU_LIST (@[@"none", @"srtp", @"utp", @"wechat-video", @"dtls", @"wireguard"])
-#define VMESS_SECURITY_LIST (@[@"aes-128-gcm", @"chacha20-poly1305", @"auto", @"none"])
-#define NETWORK_LIST (@[@"tcp", @"kcp", @"ws", @"http", @"domainsocket", @"quic"])
+#define VMESS_SECURITY_LIST (@[@"auto", @"aes-128-gcm", @"chacha20-poly1305", @"none"])
+#define NETWORK_LIST (@[@"tcp", @"kcp", @"ws", @"http", @"quic"])
 #define QUIC_SECURITY_LIST (@[@"none", @"aes-128-gcm", @"chacha20-poly1305"])
 
 typedef enum SecurityType : NSUInteger {

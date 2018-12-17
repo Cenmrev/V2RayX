@@ -17,6 +17,16 @@
 
 - (void)windowDidLoad {
     [super windowDidLoad];
+    
+    [_networkButton removeAllItems];
+    for(NSString* network in NETWORK_LIST) {
+        [_networkButton addItemWithTitle:network];
+    }
+    [_vmessSecurityButton removeAllItems];
+    for(NSString* security in VMESS_SECURITY_LIST) {
+        [_vmessSecurityButton addItemWithTitle:security];
+    }
+    
     //set textField Display
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterNoStyle];
@@ -239,6 +249,18 @@
     if (_transportWindow == nil) {
         [[NSBundle mainBundle] loadNibNamed:@"transportWindow" owner:self topLevelObjects:nil];
     }
+    //add items
+    [_kcpHeaderTypeButton removeAllItems];
+    [_quicHeaderButton removeAllItems];
+    for (NSString* header in OBFU_LIST) {
+        [_kcpHeaderTypeButton addItemWithTitle:header];
+        [_quicHeaderButton addItemWithTitle:header];
+    }
+    [_quicSecurityButton removeAllItems];
+    for (NSString* security in QUIC_SECURITY_LIST) {
+        [_quicSecurityButton addItemWithTitle:security];
+    }
+    
     //set display
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterNoStyle];
@@ -320,11 +342,6 @@
     // tcp fast open
     NSDictionary* tfoSettings = [transportSettings objectForKey:@"sockopt"];
     [_tfoEnableButton setState:[tfoSettings[@"tcpFastOpen"] boolValue]];
-    // proxy
-    /*
-    NSDictionary *proxySettings = [selectedProfile proxySettings];
-    [_proxyAddressField setStringValue:nilCoalescing(proxySettings[@"address"], @"")];
-    [_proxyPortField setIntegerValue:[nilCoalescing(proxySettings[@"port"], @0) integerValue]];*/
     //show sheet
     [[self window] beginSheet:_transportWindow completionHandler:^(NSModalResponse returnCode) {
     }];
@@ -470,7 +487,10 @@
                       @"alpn": tlsAlpn
               },
               @"httpSettings": httpSettings,
-              };
+              @"dsSettings": @{
+                      @"path": [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/cenmrev.v2rayx.dsfile",NSHomeDirectory()]
+                      }
+        };
             NSMutableDictionary *streamSettings = [streamSettingsImmutable mutableCopy];
             if ([self->_tfoEnableButton state]) {
                 [streamSettings setObject:sockopt forKey:@"sockopt"];
