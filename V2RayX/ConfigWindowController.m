@@ -563,11 +563,11 @@
 
 - (void)importFromVmess:(NSString*)vmessStr {
     if ([vmessStr length] < 9 || ![[[vmessStr substringToIndex:8] lowercaseString] isEqualToString:@"vmess://"]) {
-        [self showAlert:@"Not a vmess:// link!"];
+//        [self showAlert:@"Not a vmess:// link!"];
         return;
     }
-    NSLog(@"%@", vmessStr);
-    NSLog(@"%@", [vmessStr substringFromIndex:8]);
+//    NSLog(@"%@", vmessStr);
+//    NSLog(@"%@", [vmessStr substringFromIndex:8]);
     // https://stackoverflow.com/questions/19088231/base64-decoding-in-ios-7
     NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:[vmessStr substringFromIndex:8] options:0];
     if (!decodedData) {
@@ -676,7 +676,7 @@
         NSArray *decodedDataArray = [decodedDataStr componentsSeparatedByString:@"\n"];
         for (id linkStr in decodedDataArray) {
             if ([linkStr length] != 0) {
-                NSLog(@"%@", linkStr);
+//                NSLog(@"%@", linkStr);
                 [self importFromVmess:linkStr];
             }
         }
