@@ -761,6 +761,12 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
     [self unloadV2ray];
     if (proxyState) {
         if ((selectedServerIndex >= 0 && selectedServerIndex < [profiles count]) || (selectedCusServerIndex >= 0 && selectedCusServerIndex < [cusProfiles count] )) {
+            if([cusProfiles count] == 0) {
+                useCusProfile = false;
+            }
+            if([profiles count] == 0) {
+                useCusProfile = true;
+            }
             [self loadV2ray];
         } else {
             proxyState = NO;
