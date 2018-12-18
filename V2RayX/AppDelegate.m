@@ -621,12 +621,6 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
                     NSInteger cusHttpPort = 0;
                     NSInteger cusSocksPort = 0;
                     NSDictionary* cusJson = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:cusProfiles[selectedCusServerIndex]] options:0 error:nil];
-                    if ([cusJson[@"inbound"][@"protocol"] isEqualToString:@"http"]) {
-                        cusHttpPort = [cusJson[@"inbound"][@"port"] integerValue];
-                    }
-                    if ([cusJson[@"inbound"][@"protocol"] isEqualToString:@"socks"]) {
-                        cusSocksPort = [cusJson[@"inbound"][@"port"] integerValue];
-                    }
                     if (cusJson[@"inboundDetour"] != nil && [cusJson[@"inboundDetour"] isKindOfClass:[NSArray class]]) {
                         for (NSDictionary *inboundDetour in cusJson[@"inboundDetour"]) {
                             if ([inboundDetour[@"protocol"] isEqualToString:@"http"]) {
@@ -636,6 +630,12 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
                                 cusSocksPort = [inboundDetour[@"port"] integerValue];
                             }
                         }
+                    }
+                    if ([cusJson[@"inbound"][@"protocol"] isEqualToString:@"http"]) {
+                        cusHttpPort = [cusJson[@"inbound"][@"port"] integerValue];
+                    }
+                    if ([cusJson[@"inbound"][@"protocol"] isEqualToString:@"socks"]) {
+                        cusSocksPort = [cusJson[@"inbound"][@"port"] integerValue];
                     }
                     NSLog(@"socks: %ld, http: %ld", cusSocksPort, cusHttpPort);
                     arguments = @[@"global", [NSString stringWithFormat:@"%ld", cusSocksPort], [NSString stringWithFormat:@"%ld", cusHttpPort]];
