@@ -561,26 +561,23 @@
     [alert runModal];
 }
 
-- (IBAction)importFromQRCodeV2rayNV2:(id)sender {
-    /* https://github.com/2dust/v2rayN/wiki/分享链接格式说明(ver-2) */
-    NSString* inputStr = [[self input:@"Please input the server info. Format: vmess://" defaultValue:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if ([inputStr length] == 0) {
-        return;
-    }
-    if ([inputStr length] < 9 || ![[[inputStr substringToIndex:8] lowercaseString] isEqualToString:@"vmess://"]) {
+- (void)importFromVmess:(NSString*)vmessStr {
+    if ([vmessStr length] < 9 || ![[[vmessStr substringToIndex:8] lowercaseString] isEqualToString:@"vmess://"]) {
         [self showAlert:@"Not a vmess:// link!"];
         return;
     }
+    NSLog(@"%@", vmessStr);
+    NSLog(@"%@", [vmessStr substringFromIndex:8]);
     // https://stackoverflow.com/questions/19088231/base64-decoding-in-ios-7
-    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:[inputStr substringFromIndex:8] options:0];
+    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:[vmessStr substringFromIndex:8] options:0];
+    if (!decodedData) {
+        [self showAlert:@"Not a valid link!"];
+        return;
+    }
     NSError* jsonParseError;
     NSDictionary *sharedServer = [NSJSONSerialization JSONObjectWithData:decodedData options:0 error:&jsonParseError];
     if (jsonParseError) {
-        [self showAlert:@"Not va valid link!"];
-        return;
-    }
-    if (![sharedServer objectForKey:@"v"] || [sharedServer[@"v"] isNotEqualTo:@"2"]) {
-        [self showAlert:@"Unknown format or Unknown link version!"];
+        [self showAlert:@"Not a valid link!"];
         return;
     }
     ServerProfile* newProfile = [[ServerProfile alloc] init];
@@ -593,6 +590,10 @@
     if ([sharedServer objectForKey:@"net"] && [netWorkDict objectForKey:[sharedServer objectForKey:@"net"]]) {
         newProfile.network = [netWorkDict[sharedServer[@"net"]] intValue];
     }
+//    NSDictionary *securityDict = @{@"aes-128-cfb":@0, @"aes-128-gcm":@1, @"chacha20-poly1305":@2, @"auto":@3, @"none":@4};
+//    if ([sharedServer objectForKey:@"type"] && [securityDict objectForKey:[sharedServer objectForKey:@"type"]]) {
+//        newProfile.security = [securityDict[sharedServer[@"type"]] intValue];
+//    }
     NSMutableDictionary* streamSettings = [newProfile.streamSettings mutableDeepCopy];
     switch (newProfile.network) {
         case tcp:
@@ -616,16 +617,30 @@
             streamSettings[@"kcpSettings"][@"header"][@"type"] = sharedServer[@"type"];
             break;
         case ws:
-            streamSettings[@"wsSettings"][@"path"] = nilCoalescing([sharedServer objectForKey:@"path"], @"");
-            streamSettings[@"wsSettings"][@"headers"][@"Host"] = nilCoalescing([sharedServer objectForKey:@"host"], @"");
+            if ([[sharedServer objectForKey:@"host"] containsString:@";"]) {
+                NSArray *tempPathHostArray = [[sharedServer objectForKey:@"host"] componentsSeparatedByString:@";"];
+                streamSettings[@"wsSettings"][@"path"] = tempPathHostArray[0];
+                streamSettings[@"wsSettings"][@"headers"][@"Host"] = tempPathHostArray[1];
+            }
+            else {
+                streamSettings[@"wsSettings"][@"path"] = nilCoalescing([sharedServer objectForKey:@"path"], @"");
+                streamSettings[@"wsSettings"][@"headers"][@"Host"] = nilCoalescing([sharedServer objectForKey:@"host"], @"");
+            }
             break;
         case http:
-            streamSettings[@"httpSettings"][@"path"] = nilCoalescing([sharedServer objectForKey:@"path"], @"");
-            if (![sharedServer objectForKey:@"host"]) {
-                break;
-            };
-            if ([[sharedServer objectForKey:@"host"] length] > 0) {
-                streamSettings[@"httpSettings"][@"host"] = [[sharedServer objectForKey:@"host"] componentsSeparatedByString:@","];
+            if ([[sharedServer objectForKey:@"host"] containsString:@";"]) {
+                NSArray *tempPathHostArray = [[sharedServer objectForKey:@"host"] componentsSeparatedByString:@";"];
+                streamSettings[@"wsSettings"][@"path"] = tempPathHostArray[0];
+                streamSettings[@"wsSettings"][@"headers"][@"Host"] = [tempPathHostArray[1] componentsSeparatedByString:@","];
+            }
+            else {
+                streamSettings[@"httpSettings"][@"path"] = nilCoalescing([sharedServer objectForKey:@"path"], @"");
+                if (![sharedServer objectForKey:@"host"]) {
+                    break;
+                };
+                if ([[sharedServer objectForKey:@"host"] length] > 0) {
+                    streamSettings[@"httpSettings"][@"host"] = [[sharedServer objectForKey:@"host"] componentsSeparatedByString:@","];
+                }
             }
             break;
         default:
@@ -638,6 +653,49 @@
     [_profiles addObject:newProfile];
     [_profileTable reloadData];
     [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:([_profiles count] - 1)] byExtendingSelection:NO];
+}
+    
+- (IBAction)subscribeV2rayN:(id)sender {
+    /* https://github.com/2dust/v2rayN/wiki/订阅功能说明 */
+    NSString* inputStr = [[self input:@"Please input the server info. " defaultValue:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([inputStr length] == 0) {
+        return;
+    }
+    // https://blog.csdn.net/yi_zz32/article/details/48769487
+    NSURL *url = [NSURL URLWithString:inputStr];
+    NSError *urlError = nil;
+    NSString *urlStr = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&urlError];
+    if (!urlError) {
+        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:urlStr options:0];
+        if (!decodedData) {
+            [self showAlert:@"Not a valid link!"];
+            return;
+        }
+        NSString *decodedDataStr = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+        decodedDataStr = [decodedDataStr stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+        NSArray *decodedDataArray = [decodedDataStr componentsSeparatedByString:@"\n"];
+        for (id linkStr in decodedDataArray) {
+            if ([linkStr length] != 0) {
+                NSLog(@"%@", linkStr);
+                [self importFromVmess:linkStr];
+            }
+        }
+    }
+    else {
+        [self showAlert:@"Open the subscription link failed!"];
+        return;
+    }
+}
+
+- (IBAction)importFromQRCodeV2rayN:(id)sender {
+    /* https://github.com/2dust/v2rayN/wiki/分享链接格式说明(ver-2) */
+    NSString* inputStr = [[self input:@"Please input the server info. Format: vmess://" defaultValue:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([inputStr length] == 0) {
+        return;
+    }
+    else {
+        [self importFromVmess:inputStr];
+    }
 }
 
 - (IBAction)importFromConfigJson:(id)sender {
