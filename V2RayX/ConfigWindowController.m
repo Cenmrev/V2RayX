@@ -291,6 +291,8 @@
     [_kcpWbField setFormatter:formatter];
     [_muxConcurrencyField setFormatter:formatter];
     [_proxyPortField setFormatter:formatter];
+    [_tcpHdField setAutomaticQuoteSubstitutionEnabled:false];
+    [_wsHeaderField setAutomaticQuoteSubstitutionEnabled:false];
     //read settings
     NSDictionary *transportSettings = [self.selectedProfile streamSettings];
     //kcp
@@ -505,10 +507,7 @@
                       @"allowInsecureCiphers": [NSNumber numberWithBool:[self->_tlsAllowInsecureCiphersButton state]==1],
                       @"alpn": tlsAlpn
               },
-              @"httpSettings": httpSettings,
-              @"dsSettings": @{
-                      @"path": [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/cenmrev.v2rayx.dsfile",NSHomeDirectory()]
-                      }
+              @"httpSettings": httpSettings
         };
             NSMutableDictionary *streamSettings = [streamSettingsImmutable mutableCopy];
             if ([self->_tfoEnableButton state]) {
