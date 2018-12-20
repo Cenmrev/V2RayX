@@ -7,11 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AppDelegate.h"
-
-#define OBFU_LIST (@[@"none", @"srtp", @"utp", @"wechat-video", @"dtls", @"wireguard"])
-#define VMESS_SECURITY_LIST (@[@"auto", @"aes-128-gcm", @"chacha20-poly1305", @"none"])
-#define NETWORK_LIST (@[@"tcp", @"kcp", @"ws", @"http", @"quic"])
-#define QUIC_SECURITY_LIST (@[@"none", @"aes-128-gcm", @"chacha20-poly1305"])
+#import "utilities.h"
 
 typedef enum SecurityType : NSUInteger {
     aes_128_gcm,
@@ -32,7 +28,6 @@ typedef enum NetWorkType : NSUInteger {
 - (NSMutableDictionary*)outboundProfile;
 + (ServerProfile* _Nullable )readFromAnOutboundDic:(NSDictionary*)outDict;
 + (NSArray*)profilesFromJson:(NSDictionary*)outboundJson;
-+(NSUInteger)searchString:(NSString*)str inArray:(NSArray*)array;
 -(ServerProfile*)deepCopy;
 
 @property (nonatomic) NSString* address;

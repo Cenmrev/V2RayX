@@ -9,18 +9,6 @@
 
 @implementation ServerProfile
 
-NSString * address;
-
-+(NSUInteger)searchString:(NSString*)str inArray:(NSArray*)array {
-    if([str isKindOfClass:[NSString class]]) {
-        NSUInteger index = [array indexOfObject:str];
-        if(index >= 0 && index < [array count]) {
-            return index;
-        }
-    }
-    return 0;
-}
-
 - (ServerProfile*)init {
     self = [super init];
     if (self) {
@@ -60,19 +48,18 @@ NSString * address;
                                           },
                                   @"wsSettings": @{
                                           @"path": @"",
-                                          @"headers": @{
-                                                  @"Host": @"server.cc"
-                                                  }
+                                          @"headers": @{}
                                           },
                                   @"httpSettings": @{
-                                          @"host": @[@"server.cc"],
+                                          @"host": @[@""],
                                           @"path": @""
                                           },
                                   @"quicSettings": @{
                                           @"security": @"none",
                                           @"key": @"",
                                           @"header": @{ @"type": @"none" }
-                                          }
+                                          },
+                                  @"sockopt": @{}
                                   }];
         [self setMuxSettings:@{
                                @"enabled": [NSNumber numberWithBool:NO],
@@ -107,10 +94,10 @@ NSString * address;
         profile.userId = nilCoalescing(vnext[@"users"][0][@"id"], @"23ad6b10-8d1a-40f7-8ad0-e3e35cd38287");
         profile.alterId = [vnext[@"users"][0][@"alterId"] unsignedIntegerValue];
         profile.level = [vnext[@"users"][0][@"level"] unsignedIntegerValue];
-        profile.security = [self searchString:vnext[@"users"][0][@"security"] inArray:VMESS_SECURITY_LIST];
+        profile.security = searchInArray(vnext[@"users"][0][@"security"], VMESS_SECURITY_LIST);
         if (outboundJson[@"streamSettings"] != nil) {
             profile.streamSettings = outboundJson[@"streamSettings"];
-            profile.network = [self searchString:outboundJson[@"streamSettings"][@"network"] inArray:NETWORK_LIST];
+            profile.network = searchInArray(outboundJson[@"streamSettings"][@"network"], NETWORK_LIST);
         }
         if (outboundJson[@"mux"] != nil) {
             profile.muxSettings = outboundJson[@"mux"];

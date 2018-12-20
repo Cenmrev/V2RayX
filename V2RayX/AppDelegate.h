@@ -8,10 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import "sysconf_version.h"
-
+#import "utilities.h"
 #define kV2RayXHelper @"/Library/Application Support/V2RayX/v2rayx_sysconf"
 #define kV2RayXSettingVersion 3
-#define nilCoalescing(a,b) ( (a != nil) ? (a) : (b) ) // equivalent to ?? operator in Swift
+
 #define webServerPort 8070
 
 typedef enum ProxyMode : NSInteger{

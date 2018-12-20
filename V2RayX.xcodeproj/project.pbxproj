@@ -18,7 +18,7 @@
 		9504C0CF1C662DE300352520 /* v2rayx_sysconf in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0C61C662DB400352520 /* v2rayx_sysconf */; };
 		9504C0D11C66373400352520 /* install_helper.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0D01C662E0800352520 /* install_helper.sh */; };
 		9504C0D41C66511B00352520 /* ServerProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C0D31C66511B00352520 /* ServerProfile.m */; };
-		9565E28B1DB25C010082658C /* transportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9565E28A1DB25C010082658C /* transportWindow.xib */; };
+		9565E28B1DB25C010082658C /* TransportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9565E28A1DB25C010082658C /* TransportWindow.xib */; };
 		9577E1B21C6B065E00093BD3 /* GCDWebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1951C6B065D00093BD3 /* GCDWebServer.m */; };
 		9577E1B31C6B065E00093BD3 /* GCDWebServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1971C6B065D00093BD3 /* GCDWebServerConnection.m */; };
 		9577E1B41C6B065E00093BD3 /* GCDWebServerFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1991C6B065D00093BD3 /* GCDWebServerFunctions.m */; };
@@ -43,6 +43,8 @@
 		9D7DFE541EBEC947001FECBD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7DFE531EBEC947001FECBD /* main.m */; };
 		9DA4A84120C14178000FF35D /* tcp_http_header_example.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9DA4A84020C14178000FF35D /* tcp_http_header_example.txt */; };
 		9DB4FE951F205BEB00CCEE5F /* config-sample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DB4FE941F205BEB00CCEE5F /* config-sample.plist */; };
+		9DDC059121CA8CFF00C6C2D7 /* TransportWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDC059021CA8CFF00C6C2D7 /* TransportWindowController.m */; };
+		9DDC059621CA8EAD00C6C2D7 /* utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDC059521CA8EAD00C6C2D7 /* utilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,7 +97,7 @@
 		9504C0D31C66511B00352520 /* ServerProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerProfile.m; sourceTree = "<group>"; };
 		953B60551DB3F65A00D40654 /* dlcore.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dlcore.sh; sourceTree = "<group>"; };
 		953B60571DB3F6B700D40654 /* v2ray */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = v2ray; path = "../v2ray-core-bin/v2ray"; sourceTree = "<group>"; };
-		9565E28A1DB25C010082658C /* transportWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = transportWindow.xib; sourceTree = "<group>"; };
+		9565E28A1DB25C010082658C /* TransportWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransportWindow.xib; sourceTree = "<group>"; };
 		9577E1941C6B065D00093BD3 /* GCDWebServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDWebServer.h; sourceTree = "<group>"; };
 		9577E1951C6B065D00093BD3 /* GCDWebServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDWebServer.m; sourceTree = "<group>"; };
 		9577E1961C6B065D00093BD3 /* GCDWebServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDWebServerConnection.h; sourceTree = "<group>"; };
@@ -138,6 +140,10 @@
 		9DA4A84020C14178000FF35D /* tcp_http_header_example.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tcp_http_header_example.txt; sourceTree = "<group>"; };
 		9DB4FE941F205BEB00CCEE5F /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
 		9DBF3AA3213E1921008C7249 /* MutableDeepCopying.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MutableDeepCopying.h; sourceTree = "<group>"; };
+		9DDC058F21CA8CFF00C6C2D7 /* TransportWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransportWindowController.h; sourceTree = "<group>"; };
+		9DDC059021CA8CFF00C6C2D7 /* TransportWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransportWindowController.m; sourceTree = "<group>"; };
+		9DDC059421CA8DE900C6C2D7 /* utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utilities.h; sourceTree = "<group>"; };
+		9DDC059521CA8EAD00C6C2D7 /* utilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = utilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,10 +205,11 @@
 				9504C0831C662C3000352520 /* MainMenu.xib */,
 				9504C08C1C662C9100352520 /* ConfigWindow.xib */,
 				9D3CEE6E209E070F0077CCFE /* customizedConfigWindow.xib */,
-				9565E28A1DB25C010082658C /* transportWindow.xib */,
+				9565E28A1DB25C010082658C /* TransportWindow.xib */,
+				9DDC058F21CA8CFF00C6C2D7 /* TransportWindowController.h */,
+				9DDC059021CA8CFF00C6C2D7 /* TransportWindowController.m */,
 				9504C08E1C662CBF00352520 /* ConfigWindowController.h */,
 				9504C08F1C662CBF00352520 /* ConfigWindowController.m */,
-				9DBF3AA3213E1921008C7249 /* MutableDeepCopying.h */,
 				9504C0D21C66511B00352520 /* ServerProfile.h */,
 				9504C0D31C66511B00352520 /* ServerProfile.m */,
 				9504C0861C662C3000352520 /* Info.plist */,
@@ -214,6 +221,9 @@
 		9504C07E1C662C3000352520 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9DDC059421CA8DE900C6C2D7 /* utilities.h */,
+				9DDC059521CA8EAD00C6C2D7 /* utilities.m */,
+				9DBF3AA3213E1921008C7249 /* MutableDeepCopying.h */,
 				9DB4FE941F205BEB00CCEE5F /* config-sample.plist */,
 				9DA4A84020C14178000FF35D /* tcp_http_header_example.txt */,
 				95E524CA1C674CC80008BB12 /* simple.pac */,
@@ -440,7 +450,7 @@
 				9504C0821C662C3000352520 /* Assets.xcassets in Resources */,
 				9D7109611E0F43BD008A6362 /* Credits.rtf in Resources */,
 				9504C0851C662C3000352520 /* MainMenu.xib in Resources */,
-				9565E28B1DB25C010082658C /* transportWindow.xib in Resources */,
+				9565E28B1DB25C010082658C /* TransportWindow.xib in Resources */,
 				9504C08D1C662C9100352520 /* ConfigWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -483,9 +493,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DDC059621CA8EAD00C6C2D7 /* utilities.m in Sources */,
 				9504C0901C662CBF00352520 /* ConfigWindowController.m in Sources */,
 				9577E1B81C6B065E00093BD3 /* GCDWebServerFileRequest.m in Sources */,
 				9577E1BE1C6B065E00093BD3 /* GCDWebServerStreamedResponse.m in Sources */,
+				9DDC059121CA8CFF00C6C2D7 /* TransportWindowController.m in Sources */,
 				9504C0801C662C3000352520 /* main.m in Sources */,
 				9577E1BB1C6B065E00093BD3 /* GCDWebServerDataResponse.m in Sources */,
 				9577E1BA1C6B065E00093BD3 /* GCDWebServerURLEncodedFormRequest.m in Sources */,

@@ -6,39 +6,39 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="ConfigWindowController">
+        <customObject id="-2" userLabel="File's Owner" customClass="TransportWindowController">
             <connections>
-                <outlet property="httpHostsField" destination="Plk-Mg-LyC" id="83p-to-UZg"/>
-                <outlet property="httpPathField" destination="gQZ-V1-coF" id="Uwd-vq-pDX"/>
-                <outlet property="kcpCongestionButton" destination="qto-Yo-ddA" id="isC-Ar-OSD"/>
-                <outlet property="kcpDcField" destination="daz-dm-6LM" id="sch-pR-f9v"/>
-                <outlet property="kcpHeaderTypeButton" destination="Zir-lP-MdA" id="gvE-zA-Kmz"/>
-                <outlet property="kcpMtuField" destination="jck-72-mqP" id="XOH-MD-niC"/>
-                <outlet property="kcpRbField" destination="cMj-Pa-ouZ" id="yla-GN-AJN"/>
-                <outlet property="kcpTtiField" destination="lqc-ek-WFd" id="IE5-G8-4Hm"/>
-                <outlet property="kcpUcField" destination="nST-JV-7LV" id="fnp-qP-lx8"/>
-                <outlet property="kcpWbField" destination="jAB-DD-QBA" id="OIV-IX-VzS"/>
-                <outlet property="muxConcurrencyField" destination="L11-Bf-Eib" id="Znq-j6-NrB"/>
-                <outlet property="muxEnableButton" destination="cS2-9s-JTH" id="zmh-db-Sgu"/>
-                <outlet property="quicHeaderButton" destination="b8A-oK-EAg" id="GzI-Rq-9um"/>
-                <outlet property="quicKeyField" destination="Qf8-bK-NW8" id="1MY-TA-6No"/>
-                <outlet property="quicSecurityButton" destination="22G-X8-sRf" id="dl2-jI-XzI"/>
-                <outlet property="tcpHdField" destination="dcF-wv-cmU" id="7ud-vF-2St"/>
-                <outlet property="tcpHeaderCusButton" destination="vXV-c6-ZJ3" id="0mg-Po-v3S"/>
-                <outlet property="tfoEnableButton" destination="Y7H-QP-cdh" id="0GO-ib-yPH"/>
-                <outlet property="tlsAiButton" destination="l3Z-uk-KBr" id="FUU-TQ-bqK"/>
-                <outlet property="tlsAllowInsecureCiphersButton" destination="L3V-ES-nEc" id="GcW-j6-49f"/>
-                <outlet property="tlsAlpnField" destination="ueg-ns-8xA" id="Oh0-O8-IOk"/>
-                <outlet property="tlsUseButton" destination="n0X-Fy-rS1" id="8sl-p5-7bG"/>
-                <outlet property="transportWindow" destination="QvC-M9-y7g" id="EGp-nT-Eil"/>
-                <outlet property="wsHeaderField" destination="5WV-Rv-Aia" id="rVD-9N-x89"/>
-                <outlet property="wsPathField" destination="Z6z-dK-Tz0" id="DDO-Vc-U49"/>
+                <outlet property="httpHostsField" destination="Plk-Mg-LyC" id="cQM-TX-wT7"/>
+                <outlet property="httpPathField" destination="gQZ-V1-coF" id="HTe-LZ-IuC"/>
+                <outlet property="kcpCongestionButton" destination="qto-Yo-ddA" id="yX1-AC-ezO"/>
+                <outlet property="kcpDcField" destination="daz-dm-6LM" id="AgB-Hg-4JL"/>
+                <outlet property="kcpHeaderTypeButton" destination="Zir-lP-MdA" id="qKW-sN-WaO"/>
+                <outlet property="kcpMtuField" destination="jck-72-mqP" id="cBy-OA-jVO"/>
+                <outlet property="kcpRbField" destination="cMj-Pa-ouZ" id="erp-yA-fr3"/>
+                <outlet property="kcpTtiField" destination="lqc-ek-WFd" id="YgP-hz-8ub"/>
+                <outlet property="kcpUcField" destination="nST-JV-7LV" id="YGL-2t-vwi"/>
+                <outlet property="kcpWbField" destination="jAB-DD-QBA" id="KeR-dU-eCC"/>
+                <outlet property="muxConcurrencyField" destination="L11-Bf-Eib" id="dw8-Un-XXK"/>
+                <outlet property="muxEnableButton" destination="cS2-9s-JTH" id="GBo-yz-SAs"/>
+                <outlet property="quicHeaderButton" destination="b8A-oK-EAg" id="sbK-Rr-Zfj"/>
+                <outlet property="quicKeyField" destination="Qf8-bK-NW8" id="Ofe-mV-WQY"/>
+                <outlet property="quicSecurityButton" destination="22G-X8-sRf" id="KVn-cm-Tqn"/>
+                <outlet property="tcpHeaderCusButton" destination="WPK-rs-FWC" id="Vre-bZ-1eV"/>
+                <outlet property="tcpHeaderField" destination="dcF-wv-cmU" id="tRU-Pf-5Lr"/>
+                <outlet property="tfoEnableButton" destination="Y7H-QP-cdh" id="BoE-Rp-ruq"/>
+                <outlet property="tlsAiButton" destination="l3Z-uk-KBr" id="MYh-qr-nK9"/>
+                <outlet property="tlsAllowInsecureCiphersButton" destination="L3V-ES-nEc" id="MX1-ru-Gh3"/>
+                <outlet property="tlsAlpnField" destination="ueg-ns-8xA" id="IMc-ov-OVs"/>
+                <outlet property="tlsUseButton" destination="n0X-Fy-rS1" id="IyU-l4-N9i"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="7Ko-FQ-AUD"/>
+                <outlet property="wsHeaderField" destination="5WV-Rv-Aia" id="2d2-93-ebM"/>
+                <outlet property="wsPathField" destination="Z6z-dK-Tz0" id="n4l-RN-PRN"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="523" height="246"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
@@ -52,7 +52,7 @@
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="KCP" identifier="1" id="jR2-p0-bjc">
-                                <view key="view" ambiguous="YES" id="GiR-b0-lvV">
+                                <view key="view" id="GiR-b0-lvV">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -214,26 +214,37 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vXV-c6-ZJ3">
-                                            <rect key="frame" x="15" y="116" width="163" height="18"/>
+                                            <rect key="frame" x="15" y="111" width="163" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Customize http-header" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="XK7-pb-uYz">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                         </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WPK-rs-FWC">
+                                            <rect key="frame" x="197" y="110" width="84" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="inline" title="See Example" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="lrs-YU-384">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="smallSystemBold"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="showTcpHeaderExample:" target="-2" id="Mxg-6n-aKg"/>
+                                            </connections>
+                                        </button>
                                         <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Obk-Ta-w7O">
-                                            <rect key="frame" x="17" y="9" width="443" height="101"/>
+                                            <rect key="frame" x="17" y="17" width="443" height="85"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="74S-96-NuK">
-                                                <rect key="frame" x="1" y="1" width="441" height="99"/>
+                                                <rect key="frame" x="1" y="1" width="441" height="83"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsUndo="YES" allowsNonContiguousLayout="YES" textCompletion="NO" id="dcF-wv-cmU">
-                                                        <rect key="frame" x="0.0" y="0.0" width="441" height="99"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="441" height="83"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                        <size key="minSize" width="441" height="99"/>
+                                                        <size key="minSize" width="441" height="83"/>
                                                         <size key="maxSize" width="463" height="10000000"/>
                                                         <attributedString key="textStorage">
                                                             <fragment content="  ">
@@ -253,21 +264,10 @@
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="pjr-0b-EH7">
-                                                <rect key="frame" x="-14" y="1" width="15" height="0.0"/>
+                                                <rect key="frame" x="426" y="1" width="16" height="53"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WPK-rs-FWC">
-                                            <rect key="frame" x="197" y="115" width="84" height="17"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="inline" title="See Example" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="lrs-YU-384">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="smallSystemBold"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="showKcpHeaderExample:" target="-2" id="oXP-NW-lPj"/>
-                                            </connections>
-                                        </button>
                                     </subviews>
                                 </view>
                             </tabViewItem>
@@ -303,42 +303,6 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evX-Qa-bJl">
-                                            <rect key="frame" x="89" y="45" width="313" height="57"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="Ijl-Ha-SNR">
-                                                <rect key="frame" x="1" y="1" width="311" height="55"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <subviews>
-                                                    <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsUndo="YES" allowsNonContiguousLayout="YES" textCompletion="NO" spellingCorrection="YES" id="5WV-Rv-Aia">
-                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="55"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                        <size key="minSize" width="311" height="55"/>
-                                                        <size key="maxSize" width="463" height="10000000"/>
-                                                        <attributedString key="textStorage">
-                                                            <fragment content="  ">
-                                                                <attributes>
-                                                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                    <font key="NSFont" metaFont="fixedUser" size="11"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                        <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                    </textView>
-                                                </subviews>
-                                            </clipView>
-                                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="qvr-My-otE">
-                                                <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                            </scroller>
-                                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Ekv-gJ-IED">
-                                                <rect key="frame" x="-14" y="1" width="15" height="0.0"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                            </scroller>
-                                        </scrollView>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pRh-vR-SHO">
                                             <rect key="frame" x="87" y="17" width="157" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -357,6 +321,42 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
+                                        <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evX-Qa-bJl">
+                                            <rect key="frame" x="89" y="42" width="313" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="Ijl-Ha-SNR">
+                                                <rect key="frame" x="1" y="1" width="311" height="58"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsUndo="YES" allowsNonContiguousLayout="YES" textCompletion="NO" spellingCorrection="YES" id="5WV-Rv-Aia">
+                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="58"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        <size key="minSize" width="311" height="58"/>
+                                                        <size key="maxSize" width="463" height="10000000"/>
+                                                        <attributedString key="textStorage">
+                                                            <fragment content="  ">
+                                                                <attributes>
+                                                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                    <font key="NSFont" metaFont="fixedUser" size="11"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
+                                                        <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                    </textView>
+                                                </subviews>
+                                            </clipView>
+                                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="qvr-My-otE">
+                                                <rect key="frame" x="1" y="43" width="311" height="16"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Ekv-gJ-IED">
+                                                <rect key="frame" x="296" y="1" width="16" height="51"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                        </scrollView>
                                     </subviews>
                                 </view>
                             </tabViewItem>
@@ -414,7 +414,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="QUIC" identifier="" id="DRH-Zh-vX2">
-                                <view key="view" id="ana-nP-yKk">
+                                <view key="view" ambiguous="YES" id="ana-nP-yKk">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -464,7 +464,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b8A-oK-EAg">
-                                            <rect key="frame" x="99" y="44" width="110" height="25"/>
+                                            <rect key="frame" x="99" y="44" width="207" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="mPo-nT-j4u">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -523,7 +523,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="useTLS:" target="-2" id="bwQ-Hn-WsG"/>
+                                                <action selector="useTLS:" target="-2" id="dSk-VH-gdS"/>
                                             </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nhc-Gl-Mct">
@@ -570,9 +570,9 @@
                                             </textFieldCell>
                                         </textField>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y7H-QP-cdh">
-                                            <rect key="frame" x="28" y="51" width="154" height="18"/>
+                                            <rect key="frame" x="28" y="51" width="147" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Enable Tcp Fast Open" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Rjq-TS-APs">
+                                            <buttonCell key="cell" type="check" title="Force Tcp Fast Open" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Rjq-TS-APs">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -590,7 +590,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="transportHelp:" target="-2" id="5i9-w6-880"/>
+                            <action selector="transportHelp:" target="-2" id="BRA-Nd-x83"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ait-b2-HTf">
@@ -604,7 +604,7 @@ DQ
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="tOK:" target="-2" id="cKB-RK-BhK"/>
+                            <action selector="Ok:" target="-2" id="aBG-Ry-Zje"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z4Y-bC-9GF">
@@ -618,7 +618,7 @@ Gw
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="tCancel:" target="-2" id="lsr-SR-4YZ"/>
+                            <action selector="tCancel:" target="-2" id="eGp-gV-v18"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uSe-Ud-fzO">
@@ -629,11 +629,14 @@ Gw
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="tReset:" target="-2" id="lRK-Hz-WNc"/>
+                            <action selector="tReset:" target="-2" id="mZS-vp-KOa"/>
                         </connections>
                     </button>
                 </subviews>
             </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="G4k-U8-KL0"/>
+            </connections>
             <point key="canvasLocation" x="133.5" y="150"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="LgD-MM-gbb"/>
