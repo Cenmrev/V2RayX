@@ -229,7 +229,7 @@
                                                 <font key="font" metaFont="smallSystemBold"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="showTcpHeaderExample:" target="-2" id="Mxg-6n-aKg"/>
+                                                <action selector="showTcpHeaderExample:" target="-2" id="sUP-XU-yQ1"/>
                                             </connections>
                                         </button>
                                         <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Obk-Ta-w7O">
@@ -326,7 +326,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="Ijl-Ha-SNR">
                                                 <rect key="frame" x="1" y="1" width="311" height="58"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsUndo="YES" allowsNonContiguousLayout="YES" textCompletion="NO" spellingCorrection="YES" id="5WV-Rv-Aia">
                                                         <rect key="frame" x="0.0" y="0.0" width="311" height="58"/>
@@ -414,7 +414,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="QUIC" identifier="" id="DRH-Zh-vX2">
-                                <view key="view" ambiguous="YES" id="ana-nP-yKk">
+                                <view key="view" id="ana-nP-yKk">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -486,7 +486,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="TLS" identifier="" id="sCQ-Dt-YCG">
-                                <view key="view" id="yce-Q2-W28">
+                                <view key="view" ambiguous="YES" id="yce-Q2-W28">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -523,7 +523,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="useTLS:" target="-2" id="dSk-VH-gdS"/>
+                                                <action selector="useTLS:" target="-2" id="cHY-jK-D4h"/>
                                             </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nhc-Gl-Mct">
@@ -590,7 +590,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="transportHelp:" target="-2" id="BRA-Nd-x83"/>
+                            <action selector="transportHelp:" target="-2" id="dcZ-so-oFS"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ait-b2-HTf">
@@ -604,7 +604,7 @@ DQ
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="Ok:" target="-2" id="aBG-Ry-Zje"/>
+                            <action selector="ok:" target="-2" id="aBG-Ry-Zje"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z4Y-bC-9GF">
@@ -618,7 +618,7 @@ Gw
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="tCancel:" target="-2" id="eGp-gV-v18"/>
+                            <action selector="tCancel:" target="-2" id="NOS-nk-9FM"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uSe-Ud-fzO">
@@ -629,7 +629,7 @@ Gw
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="tReset:" target="-2" id="mZS-vp-KOa"/>
+                            <action selector="tReset:" target="-2" id="BaQ-HZ-svz"/>
                         </connections>
                     </button>
                 </subviews>

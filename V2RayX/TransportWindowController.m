@@ -134,7 +134,7 @@
     [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseCancel];
 }
 
-- (IBAction)Ok:(id)sender {
+- (IBAction)ok:(id)sender {
     NSLog(@"%@", [_httpPathField stringValue]);
     if ([self checkInputs]) {
         [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];

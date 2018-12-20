@@ -9,10 +9,12 @@
 #import "AppDelegate.h"
 #import "MutableDeepCopying.h"
 #import "TransportWindowController.h"
+#import "AdvancedWindowController.h"
 
 @interface ConfigWindowController ()
 
 @property (strong) TransportWindowController* transportWindowController;
+@property (strong) AdvancedWindowController* advancedWindowController;
 
 @end
 
@@ -22,7 +24,7 @@
     [super windowDidLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString* v2rayPath = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
+        NSString* v2rayPath = [self->appDelegate getV2rayPath];
         
         NSTask *task = [[NSTask alloc] init];
         [task setLaunchPath:v2rayPath];
@@ -239,30 +241,10 @@
 
 
 - (IBAction)showCusConfigWindow:(NSButton *)sender {
-    if (_cusConfigWindow == nil) {
-        [[NSBundle mainBundle] loadNibNamed:@"customizedConfigWindow" owner:self topLevelObjects:nil];
-    }
-    //show sheet
-    [[self window] beginSheet:_cusConfigWindow completionHandler:^(NSModalResponse returnCode) {
+    self.advancedWindowController = [[AdvancedWindowController alloc] initWithWindowNibName:@"AdvancedWindow" ParentController:self];
+    [[self window] beginSheet:self.advancedWindowController.window completionHandler:^(NSModalResponse returnCode) {
+        ;
     }];
-}
-
-- (IBAction)cFinish:(NSButton *)sender {
-    [_checkLabel setHidden:NO];
-    NSString* v2rayBinPath = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
-    for (NSString* filePath in _cusProfiles) {
-        int returnCode = runCommandLine(v2rayBinPath, @[@"-test", @"-config", filePath]);
-        if (returnCode != 0) {
-            [_checkLabel setHidden:YES];
-            NSAlert *alert = [[NSAlert alloc] init];
-            [alert setMessageText:[NSString stringWithFormat:@"%@ is not a valid v2ray config file", filePath]];
-            [alert beginSheetModalForWindow:_cusConfigWindow completionHandler:^(NSModalResponse returnCode) {
-                return;
-            }];
-            return;
-        }
-    }
-    [[self window] endSheet:_cusConfigWindow];
 }
 
 

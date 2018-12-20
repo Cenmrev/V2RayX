@@ -79,6 +79,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 - (IBAction)resetPac:(id)sender;
 - (IBAction)viewLog:(id)sender;
 
+-(NSString*)getV2rayPath;
 - (void)configurationDidChange;
 - (NSString*)logDirPath;
 

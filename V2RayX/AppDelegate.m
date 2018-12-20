@@ -565,10 +565,33 @@ static AppDelegate *appDelegate;
 }
 
 -(void)generateLaunchdPlist:(NSString*)path {
-    NSString* v2rayPath = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
+    NSString* v2rayPath = [self getV2rayPath];
+    NSLog(@"use core: %@", v2rayPath);
     NSString *configPath = [NSString stringWithFormat:@"http://127.0.0.1:%d/config.json", webServerPort];
     NSDictionary *runPlistDic = [[NSDictionary alloc] initWithObjects:@[@"v2rayproject.v2rayx.v2ray-core", @[v2rayPath, @"-config", configPath], [NSNumber numberWithBool:YES]] forKeys:@[@"Label", @"ProgramArguments", @"RunAtLoad"]];
     [runPlistDic writeToFile:path atomically:NO];
+}
+
+-(NSString*)getV2rayPath {
+    NSString* defaultV2ray = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString* cusV2ray = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/v2ray-core/v2ray",NSHomeDirectory()];
+    for (NSString* binary in @[@"v2ray", @"v2ctl"]) {
+        NSString* fullpath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/v2ray-core/%@",NSHomeDirectory(), binary];
+        BOOL isDir = YES;
+        if (![fileManager fileExistsAtPath:fullpath isDirectory:&isDir] || isDir || ![fileManager setAttributes:@{NSFilePosixPermissions: [NSNumber numberWithShort:0777]} ofItemAtPath:fullpath error:nil]) {
+            return defaultV2ray;
+        }
+    }
+    for (NSString* data in @[@"geoip.dat", @"geosite.dat"]) {
+        NSString* fullpath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/v2ray-core/%@",NSHomeDirectory(), data];
+        BOOL isDir = YES;
+        if (![fileManager fileExistsAtPath:fullpath isDirectory:&isDir] || isDir ) {
+            return defaultV2ray;
+        }
+    }
+    return cusV2ray;
+    
 }
 
 int runCommandLine(NSString* launchPath, NSArray* arguments) {
