@@ -5,19 +5,22 @@
 //
 
 #import "AdvancedWindowController.h"
+#import "MutableDeepCopying.h"
 
 @interface AdvancedWindowController () {
     ConfigWindowController* configWindowController;
+    //outbound
    
 }
 
 @property (strong) NSPopover* popover;
+@property NSInteger selectedOutbound;
 
 @end
 
 @implementation AdvancedWindowController
 
-- (instancetype)initWithWindowNibName:(NSNibName)windowNibName ParentController:(ConfigWindowController*)parent {
+- (instancetype)initWithWindowNibName:(NSNibName)windowNibName parentController:(ConfigWindowController*)parent {
     self = [super initWithWindowNibName:windowNibName];
     if (self) {
         configWindowController = parent;
@@ -34,16 +37,120 @@
     self.popover.behavior = NSPopoverBehaviorTransient;
     
     self.corePathField.stringValue = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/v2ray-core/",NSHomeDirectory()];
+//    selectedOutbound = 0;
+    [self addObserver:self forKeyPath:@"selectedOutbound" options:NSKeyValueObservingOptionNew context:nil];
+//    [self addObserver:self forKeyPath:@"outbounds.count" options:NSKeyValueObservingOptionNew context:nil];
+    [self fillData];
 }
+
+- (void)fillData {
+    // outbound
+    self.outbounds = [configWindowController.outbounds mutableCopy];
+    _outboundJsonView.editable = self.outbounds.count > 0;
+    if (self.outbounds.count > 0) {
+        self.selectedOutbound = 0;
+    } else {
+        self.selectedOutbound = -1;
+    }
+    [_outboundTable reloadData];
+}
+
 - (IBAction)ok:(id)sender {
 //    NSLog(@"%@", [_httpPathField stringValue]);
 //    if ([self checkInputs]) {
+    if (![self checkOutbound]) {
+        return;
+    }
     [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];
 //    }
 }
 
 - (IBAction)help:(id)sender {
     // https://www.v2ray.com/chapter_02/01_overview.html#outboundobject
+}
+
+// table data
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    if (tableView == _outboundTable) {
+        return [self.outbounds count];
+    }
+    return 0;
+}
+
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+    if (tableView == _outboundTable) {
+        return self.outbounds[row][@"tag"];
+    }
+    return @"daf";
+}
+
+// table delegate
+- (void)tableViewSelectionDidChange:(NSNotification *)notification {
+    if (notification.object == _outboundTable) {
+        if (_outboundTable.selectedRow != _selectedOutbound) {
+            [self checkOutbound];
+        } else {
+            NSLog(@"do nothing");
+        }
+    }
+}
+
+- (BOOL)checkOutbound {
+    NSError *e;
+    NSDictionary* newOutboud = [NSJSONSerialization JSONObjectWithData:[_outboundJsonView.string dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&e];
+    if (e) {
+        [self showAlert:@"not a valid json"];
+        [_outboundTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedOutbound] byExtendingSelection:NO];
+        return NO;
+    } else {
+        self.outbounds[_selectedOutbound] = newOutboud;
+        self.selectedOutbound = _outboundTable.selectedRow;
+        [_outboundTable reloadData];
+        return YES;
+    }
+}
+
+- (BOOL)checkOutboudAndSave:(NSDictionary**)dict {
+    NSError *e;
+    *dict = [NSJSONSerialization JSONObjectWithData:[_outboundJsonView.string dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&e];
+    return e == nil;
+}
+
+- (void)textDidEndEditing:(NSNotification *)notification {
+    NSLog(@"finished text");
+}
+
+- (IBAction)addRemoveOutbound:(id)sender {
+    if ([sender selectedSegment] == 0) {
+        NSString* tagName = [NSString stringWithFormat:@"tag%lu", self.outbounds.count];
+        [self.outbounds addObject:@{
+                                    @"sendThrough": @"0.0.0.0",
+                                    @"protocol": @"protocol name",
+                                    @"settings": @{},
+                                    @"tag": tagName,
+                                    @"streamSettings": @{},
+                                    @"mux": @{}
+                                    }];
+        if (_selectedOutbound == -1) {
+            _selectedOutbound = 0;
+            self.selectedOutbound = 0;
+//            [_outboundTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedOutbound] byExtendingSelection:NO];
+//            _outboundJsonView.string = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:_outbounds[_selectedOutbound] options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+        }
+    } else {
+        if (_selectedOutbound >= 0 && _selectedOutbound < _outbounds.count) {
+            [_outbounds removeObjectAtIndex:_selectedOutbound];
+            self.selectedOutbound = MIN((NSInteger)_outbounds.count - 1, _selectedOutbound);
+//            if (_selectedOutbound >= 0) {
+//                [_outboundTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedOutbound] byExtendingSelection:NO];
+//                _outboundJsonView.string = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:_outbounds[_selectedOutbound] options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+//            } else {
+//                _outboundJsonView.string = @"";
+//            }
+        }
+    }
+    [_outboundTable reloadData];
+    _outboundJsonView.editable = _outbounds.count > 0;
 }
 
 
@@ -76,5 +183,25 @@
 //    }
 //    [[self window] endSheet:_cusConfigWindow];
 //}
+
+- (void)showAlert:(NSString*)text {
+    NSAlert* alert = [[NSAlert alloc] init];
+    [alert setInformativeText:text];
+    [alert beginSheetModalForWindow:self.window completionHandler:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([@"selectedOutbound" isEqualToString:keyPath]) {
+        if (_selectedOutbound > -1) {
+            [_outboundTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedOutbound] byExtendingSelection:NO];
+            _outboundJsonView.string = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:_outbounds[_selectedOutbound] options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+        } else {
+            _outboundJsonView.string = @"";
+        }
+    }
+//    if ([@"outbounds.count" isEqualToString:keyPath]) {
+//        _outboundJsonView.editable = _outbounds.count > 0;
+//    }
+}
 
 @end

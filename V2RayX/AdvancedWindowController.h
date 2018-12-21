@@ -9,11 +9,23 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AdvancedWindowController : NSWindowController
+@interface AdvancedWindowController : NSWindowController<NSTableViewDelegate, NSTableViewDataSource, NSTextViewDelegate>
 
-- (instancetype)initWithWindowNibName:(NSNibName)windowNibName ParentController:(ConfigWindowController*)parent;
+- (instancetype)initWithWindowNibName:(NSNibName)windowNibName parentController:(ConfigWindowController*)parent;
 
+//outbounds
+@property (weak) IBOutlet NSTableView *outboundTable;
+@property (unsafe_unretained) IBOutlet NSTextView *outboundJsonView;
+@property (weak) IBOutlet NSSegmentedControl *outboundAddControl;
+@property NSMutableArray* outbounds;
+
+
+//rules
 @property (strong) IBOutlet NSTextField *dipInfoField;
+
+//config
+@property (weak) IBOutlet NSTableView *configTable;
+@property (weak) IBOutlet NSSegmentedControl *configAddControl;
 
 // v2ray core
 @property (weak) IBOutlet NSTextField *corePathField;

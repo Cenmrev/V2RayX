@@ -8,9 +8,14 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AdvancedWindowController">
             <connections>
+                <outlet property="configAddControl" destination="aFK-VU-U5u" id="01n-0m-N3B"/>
+                <outlet property="configTable" destination="sAX-Hf-7on" id="YHW-T4-U6Z"/>
                 <outlet property="coreFileListField" destination="SbL-wp-TzE" id="O9n-fQ-Coz"/>
                 <outlet property="corePathField" destination="8Y7-Ux-q6J" id="Tnh-t0-6EK"/>
                 <outlet property="dipInfoField" destination="HBi-GK-CdD" id="t4V-Qf-vep"/>
+                <outlet property="outboundAddControl" destination="hhh-bW-Kml" id="Pbg-mP-fcq"/>
+                <outlet property="outboundJsonView" destination="u9b-6e-BFb" id="g90-n8-BI0"/>
+                <outlet property="outboundTable" destination="XPi-HC-KJg" id="CkG-5u-rpo"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="1sc-H8-xnH"/>
             </connections>
         </customObject>
@@ -54,7 +59,7 @@ Gw
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="Outbounds" identifier="" id="ubo-eB-GSJ">
-                                <view key="view" id="Cry-No-H0h">
+                                <view key="view" ambiguous="YES" id="Cry-No-H0h">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -78,7 +83,7 @@ Gw
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
-                                                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" placeholderString="full path to your config file, do not use ~" usesSingleLineMode="YES" id="dYt-6I-wvZ">
+                                                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" title="Text Cell" placeholderString="tag" usesSingleLineMode="YES" id="dYt-6I-wvZ">
                                                                     <font key="font" metaFont="system"/>
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -86,6 +91,10 @@ Gw
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
                                                         </tableColumns>
+                                                        <connections>
+                                                            <outlet property="dataSource" destination="-2" id="axi-MF-eoh"/>
+                                                            <outlet property="delegate" destination="-2" id="O0u-tV-z5A"/>
+                                                        </connections>
                                                     </tableView>
                                                 </subviews>
                                             </clipView>
@@ -115,6 +124,9 @@ Gw
                                                     </segment>
                                                 </segments>
                                             </segmentedCell>
+                                            <connections>
+                                                <action selector="addRemoveOutbound:" target="-2" id="mtF-Ce-Ege"/>
+                                            </connections>
                                         </segmentedControl>
                                         <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDx-Pc-Wrt">
                                             <rect key="frame" x="145" y="17" width="332" height="290"/>
@@ -131,6 +143,9 @@ Gw
                                                         <size key="minSize" width="332" height="290"/>
                                                         <size key="maxSize" width="332" height="10000000"/>
                                                         <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="-2" id="KD0-9D-iC3"/>
+                                                        </connections>
                                                     </textView>
                                                 </subviews>
                                             </clipView>
@@ -185,6 +200,10 @@ Gw
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
                                                         </tableColumns>
+                                                        <connections>
+                                                            <outlet property="dataSource" destination="-2" id="aog-e6-WNE"/>
+                                                            <outlet property="delegate" destination="-2" id="QEE-RK-S9u"/>
+                                                        </connections>
                                                     </tableView>
                                                 </subviews>
                                             </clipView>
@@ -332,6 +351,10 @@ Gw
                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         </tableColumn>
                                                                     </tableColumns>
+                                                                    <connections>
+                                                                        <outlet property="dataSource" destination="-2" id="wj3-GI-kav"/>
+                                                                        <outlet property="delegate" destination="-2" id="zuF-D4-w5H"/>
+                                                                    </connections>
                                                                 </tableView>
                                                             </subviews>
                                                         </clipView>
@@ -441,6 +464,10 @@ Gw
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
                                                         </tableColumns>
+                                                        <connections>
+                                                            <outlet property="dataSource" destination="-2" id="xk1-pi-de8"/>
+                                                            <outlet property="delegate" destination="-2" id="hgF-z7-R0u"/>
+                                                        </connections>
                                                     </tableView>
                                                 </subviews>
                                             </clipView>
@@ -484,7 +511,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="V2Ray Core" identifier="" id="67G-Pu-y5A">
-                                <view key="view" ambiguous="YES" id="Jjh-Q6-tKG">
+                                <view key="view" id="Jjh-Q6-tKG">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
