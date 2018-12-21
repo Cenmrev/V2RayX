@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AdvancedWindowController">
             <connections>
+                <outlet property="checkLabel" destination="nN6-wl-YxO" id="LhM-ek-MwD"/>
                 <outlet property="configAddControl" destination="aFK-VU-U5u" id="01n-0m-N3B"/>
                 <outlet property="configTable" destination="sAX-Hf-7on" id="YHW-T4-U6Z"/>
                 <outlet property="coreFileListField" destination="SbL-wp-TzE" id="O9n-fQ-Coz"/>
@@ -59,7 +60,7 @@ Gw
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="Outbounds" identifier="" id="ubo-eB-GSJ">
-                                <view key="view" ambiguous="YES" id="Cry-No-H0h">
+                                <view key="view" id="Cry-No-H0h">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -128,7 +129,7 @@ Gw
                                                 <action selector="addRemoveOutbound:" target="-2" id="mtF-Ce-Ege"/>
                                             </connections>
                                         </segmentedControl>
-                                        <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDx-Pc-Wrt">
+                                        <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" translatesAutoresizingMaskIntoConstraints="NO" id="eDx-Pc-Wrt">
                                             <rect key="frame" x="145" y="17" width="332" height="290"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="nNS-kZ-Fe2">
@@ -177,7 +178,7 @@ Gw
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="R4k-Ta-qWH">
                                                 <rect key="frame" x="1" y="1" width="112" height="296"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="wbH-CA-T9F">
                                                         <rect key="frame" x="0.0" y="0.0" width="112" height="296"/>
@@ -328,7 +329,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <clipView key="contentView" ambiguous="YES" id="svV-1v-pv5">
                                                             <rect key="frame" x="1" y="1" width="85" height="200"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="VlQ-mV-pLn">
                                                                     <rect key="frame" x="0.0" y="0.0" width="85" height="200"/>
@@ -432,7 +433,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Configs" identifier="" id="kZw-NT-AZ4">
-                                <view key="view" id="QPL-oN-1TZ">
+                                <view key="view" ambiguous="YES" id="QPL-oN-1TZ">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -443,7 +444,7 @@ Gw
                                                 <rect key="frame" x="1" y="1" width="458" height="266"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="sAX-Hf-7on">
+                                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" id="sAX-Hf-7on">
                                                         <rect key="frame" x="0.0" y="0.0" width="458" height="266"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
@@ -490,7 +491,7 @@ Gw
                                             </textFieldCell>
                                         </textField>
                                         <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aFK-VU-U5u">
-                                            <rect key="frame" x="17" y="16" width="460" height="23"/>
+                                            <rect key="frame" x="17" y="18" width="460" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <segmentedCell key="cell" borderStyle="border" alignment="left" style="smallSquare" trackingMode="momentary" id="xK5-Kp-yhj">
                                                 <font key="font" metaFont="system"/>
@@ -506,6 +507,9 @@ Gw
                                                     </segment>
                                                 </segments>
                                             </segmentedCell>
+                                            <connections>
+                                                <action selector="addRemoveConfig:" target="-2" id="3Ew-PA-GZc"/>
+                                            </connections>
                                         </segmentedControl>
                                     </subviews>
                                 </view>

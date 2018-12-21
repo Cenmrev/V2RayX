@@ -89,6 +89,7 @@
 @property (nonatomic) BOOL shareOverLan;
 @property (nonatomic) NSString* dnsString;
 @property (nonatomic) NSMutableArray *profiles;
+@property (nonatomic) NSMutableArray *outbounds; // except than vmess
 @property (nonatomic) NSMutableArray *cusProfiles;
 
 @property (weak) IBOutlet NSTextField *versionField;

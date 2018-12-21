@@ -62,8 +62,13 @@
     
     // copy data
     _profiles = [[NSMutableArray alloc] init];
-    for (ServerProfile *p in appDelegate.profiles) {
-        [_profiles addObject:[p deepCopy]];
+    _outbounds = [[NSMutableArray alloc] init];
+    for (NSDictionary *p in appDelegate.profiles) {
+        if ([@"vmess" isEqualToString:p[@"protocol"]] && [p[@"settings"][@"vnext"] count] == 1) {
+            [_profiles addObject:[ServerProfile profilesFromJson:p][0]];
+        } else {
+            [_outbounds addObject:p];
+        }
     }
     _cusProfiles = [[NSMutableArray alloc] init];
     for (NSString* p in appDelegate.cusProfiles) {
@@ -71,8 +76,8 @@
     }
     //
     [_profileTable reloadData];
-    [self setSelectedServerIndex:appDelegate.selectedServerIndex];// must be put after reloadData!
-    self.selectedCusServerIndex = appDelegate.selectedCusServerIndex;
+    self.selectedServerIndex = 0;
+    self.selectedCusServerIndex = 0;
     self.httpPort = appDelegate.httpPort;
     self.localPort = appDelegate.localPort;
     self.udpSupport = appDelegate.udpSupport;
@@ -112,7 +117,7 @@
     if (tableView == _profileTable) {
         if ([_profiles count] > 0) {
             ServerProfile* p = [_profiles objectAtIndex:row];
-            return [[p remark] length] > 0 ? [p remark] : [NSString stringWithFormat:@"%@:%ld", [p address], [p port]];
+            return [[p outboundTag] length] > 0 ? [p outboundTag] : [NSString stringWithFormat:@"%@:%ld", [p address], [p port]];
         } else {
             return nil;
         }
@@ -131,6 +136,7 @@
     if ([notification object] == _profileTable) {
         if ([_profiles count] > 0) {
             [self setSelectedServerIndex:[_profileTable selectedRow]];
+//            NSLog(@"selectef p =  %@", _profiles[_selectedServerIndex]);
             [self setSelectedProfile:_profiles[_selectedServerIndex]];
         }
     }
@@ -203,14 +209,19 @@
         dnsStr = @"localhost";
     }
     appDelegate.logLevel = _logLevelButton.selectedItem.title;
-    appDelegate.selectedServerIndex = self.selectedServerIndex;
-    appDelegate.selectedCusServerIndex = self.selectedCusServerIndex;
     appDelegate.localPort = [_localPortField integerValue];
     appDelegate.httpPort = [_httpPortField integerValue];
     appDelegate.udpSupport = self.udpSupport;
     appDelegate.shareOverLan = self.shareOverLan;
     appDelegate.dnsString = dnsStr;
-    appDelegate.profiles = self.profiles;
+    NSMutableArray *allOutbounds = [[NSMutableArray alloc] init];
+    for (ServerProfile* p in _profiles) {
+        [allOutbounds addObject:[p outboundProfile]];
+    }
+    for (NSDictionary* p in _outbounds) {
+        [allOutbounds addObject:p];
+    }
+    appDelegate.profiles = allOutbounds;
     appDelegate.cusProfiles = self.cusProfiles;
     
     [appDelegate configurationDidChange];
@@ -244,6 +255,7 @@
     [[self window] beginSheet:self.advancedWindowController.window completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSModalResponseOK) {
             self.outbounds = self.advancedWindowController.outbounds;
+            self.cusProfiles = self.advancedWindowController.configs;
         }
         self.advancedWindowController = nil;
     }];
@@ -311,7 +323,7 @@
         return;
     }
     ServerProfile* newProfile = [[ServerProfile alloc] init];
-    newProfile.remark = nilCoalescing([sharedServer objectForKey:@"ps"], @"imported From QR");
+    newProfile.outboundTag = nilCoalescing([sharedServer objectForKey:@"ps"], @"imported From QR");
     newProfile.address = nilCoalescing([sharedServer objectForKey:@"add"], @"");
     newProfile.port = [nilCoalescing([sharedServer objectForKey:@"port"], @0) intValue];
     newProfile.userId = nilCoalescing([sharedServer objectForKey:@"id"], newProfile.userId);
@@ -454,7 +466,7 @@
             for (NSDictionary* json in jsons) {
                 NSArray* servers = [ServerProfile profilesFromJson:json];
                 for (ServerProfile* s in servers) {
-                    [s setRemark:[NSString stringWithFormat:@"imported %@", s.remark]];
+                    [s setOutboundTag:[NSString stringWithFormat:@"imported %@", s.outboundTag]];
                 }
                 [self->_profiles addObjectsFromArray:servers];
             }

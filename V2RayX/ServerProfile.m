@@ -17,7 +17,7 @@
         [self setUserId:@"00000000-0000-0000-0000-000000000000"];
         [self setAlterId:64];
         [self setLevel:0];
-        [self setRemark:@"test server"];
+        [self setOutboundTag:@"test server"];
         [self setSecurity:auto_];
         [self setNetwork:tcp];
         [self setSendThrough:@"0.0.0.0"];
@@ -86,7 +86,7 @@
     for (NSDictionary* vnext in [outboundJson valueForKeyPath:@"settings.vnext"]) {
         ServerProfile* profile = [[ServerProfile alloc] init];
         profile.address = nilCoalescing(vnext[@"address"], @"127.0.0.1");
-        profile.remark = nilCoalescing(vnext[@"remark"], @"");
+        profile.outboundTag = nilCoalescing(outboundJson[@"tag"], @"");
         profile.port = [vnext[@"port"] unsignedIntegerValue];
         if (![vnext[@"users"] isKindOfClass:[NSArray class]] || [vnext[@"users"] count] == 0) {
             continue;
@@ -124,7 +124,7 @@
     aCopy.userId = [NSString stringWithString:nilCoalescing(self.userId, @"")];
     aCopy.alterId = self.alterId;
     aCopy.level = self.level;
-    aCopy.remark = [NSString stringWithString:nilCoalescing(self.remark, @"")];
+    aCopy.outboundTag = [NSString stringWithString:nilCoalescing(self.outboundTag, @"")];
     aCopy.security = self.security;
     aCopy.network = self.network;
     aCopy.sendThrough = [NSString stringWithString:nilCoalescing(self.sendThrough, @"")];
@@ -139,11 +139,11 @@
     NSDictionary* result =
     @{
       @"sendThrough": sendThrough,
+      @"tag": nilCoalescing(outboundTag, @""),
       @"protocol": @"vmess",
       @"settings": [@{
               @"vnext": @[
                       @{
-                          @"remark": nilCoalescing(remark, @""),
                           @"address": nilCoalescing([address stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] , @""),
                           @"port": [NSNumber numberWithUnsignedInteger:port],
                           @"users": @[
@@ -168,7 +168,7 @@
 @synthesize userId;
 @synthesize alterId;
 @synthesize level;
-@synthesize remark;
+@synthesize outboundTag;
 @synthesize security;
 @synthesize network;
 @synthesize sendThrough;

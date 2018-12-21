@@ -31,6 +31,9 @@
 - (void)windowDidLoad {
     [super windowDidLoad];
     
+    // bound
+    [_outboundJsonView setFont:[NSFont fontWithName:@"Menlo" size:13]];
+    
     self.popover = [[NSPopover alloc] init];
     self.popover.contentViewController = [[NSViewController alloc] init];
     self.popover.contentViewController.view = self.dipInfoField;
@@ -53,12 +56,18 @@
         self.selectedOutbound = -1;
     }
     [_outboundTable reloadData];
+    // configs
+    self.configs = [configWindowController.cusProfiles mutableDeepCopy];
+    [_configTable reloadData];
 }
 
 - (IBAction)ok:(id)sender {
 //    NSLog(@"%@", [_httpPathField stringValue]);
 //    if ([self checkInputs]) {
     if (![self checkOutbound]) {
+        return;
+    }
+    if (![self checkConfig]) {
         return;
     }
     [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];
@@ -74,12 +83,18 @@
     if (tableView == _outboundTable) {
         return [self.outbounds count];
     }
+    if (tableView == _configTable) {
+        return [self.configs count];
+    }
     return 0;
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     if (tableView == _outboundTable) {
         return self.outbounds[row][@"tag"];
+    }
+    if (tableView == _configTable) {
+        return self.configs[row];
     }
     return @"daf";
 }
@@ -95,7 +110,16 @@
     }
 }
 
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+    if (tableView == _configTable) {
+        self.configs[row] = object;
+    }
+}
+
 - (BOOL)checkOutbound {
+    if (_outbounds.count == 0) {
+        return YES;
+    }
     NSError *e;
     NSDictionary* newOutboud = [NSJSONSerialization JSONObjectWithData:[_outboundJsonView.string dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&e];
     if (e) {
@@ -154,6 +178,38 @@
 }
 
 
+// configs
+
+- (IBAction)addRemoveConfig:(id)sender {
+    if ([sender selectedSegment] == 0) {
+        [_configs addObject:@"/path/to/your/config.json"];
+        [_configTable reloadData];
+//        [_configTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[_configs count] -1] byExtendingSelection:NO];
+//        [_configTable setFocusedColumn:[_configs count] - 1];
+    } else if ([sender selectedSegment] == 1 && [_configs count] > 0) {
+        [_configs removeObjectAtIndex:[_configTable selectedRow]];
+        [_configTable reloadData];
+    }
+}
+
+- (BOOL)checkConfig {
+    [_checkLabel setHidden:NO];
+    NSString* v2rayBinPath = [configWindowController.appDelegate getV2rayPath];
+    for (NSString* filePath in _configs) {
+        int returnCode = runCommandLine(v2rayBinPath, @[@"-test", @"-config", filePath]);
+        if (returnCode != 0) {
+            [_checkLabel setHidden:YES];
+            NSAlert *alert = [[NSAlert alloc] init];
+            [alert setMessageText:[NSString stringWithFormat:@"%@ is not a valid v2ray config file", filePath]];
+            [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+                return;
+            }];
+            return NO;
+        }
+    }
+    return YES;
+}
+
 // core
 - (IBAction)showCorePath:(id)sender {
     if (![[NSFileManager defaultManager] fileExistsAtPath:self.corePathField.stringValue]) {
@@ -165,24 +221,6 @@
 - (IBAction)showInformation:(id)sender {
     [self.popover showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
 }
-
-//- (IBAction)cFinish:(NSButton *)sender {
-//    [_checkLabel setHidden:NO];
-//    NSString* v2rayBinPath = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
-//    for (NSString* filePath in _cusProfiles) {
-//        int returnCode = runCommandLine(v2rayBinPath, @[@"-test", @"-config", filePath]);
-//        if (returnCode != 0) {
-//            [_checkLabel setHidden:YES];
-//            NSAlert *alert = [[NSAlert alloc] init];
-//            [alert setMessageText:[NSString stringWithFormat:@"%@ is not a valid v2ray config file", filePath]];
-//            [alert beginSheetModalForWindow:_cusConfigWindow completionHandler:^(NSModalResponse returnCode) {
-//                return;
-//            }];
-//            return;
-//        }
-//    }
-//    [[self window] endSheet:_cusConfigWindow];
-//}
 
 - (void)showAlert:(NSString*)text {
     NSAlert* alert = [[NSAlert alloc] init];
