@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TransportWindowController : NSWindowController
 
-- (instancetype)initWithWindowNibName:(NSNibName)windowNibName ParentController:(ConfigWindowController*)parent;
+- (instancetype)initWithWindowNibName:(NSNibName)windowNibName parentController:(ConfigWindowController*)parent;
 
 - (BOOL)checkInputs;
 - (NSArray*)generateSettings;

@@ -14,7 +14,7 @@
 
 @implementation TransportWindowController
 
-- (instancetype)initWithWindowNibName:(NSNibName)windowNibName ParentController:(ConfigWindowController*)parent {
+- (instancetype)initWithWindowNibName:(NSNibName)windowNibName parentController:(ConfigWindowController*)parent {
     self = [super initWithWindowNibName:windowNibName];
     if (self) {
         configWindowController = parent;

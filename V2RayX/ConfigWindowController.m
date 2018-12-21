@@ -239,18 +239,19 @@
     }
 }
 
-
 - (IBAction)showCusConfigWindow:(NSButton *)sender {
-    self.advancedWindowController = [[AdvancedWindowController alloc] initWithWindowNibName:@"AdvancedWindow" ParentController:self];
+    self.advancedWindowController = [[AdvancedWindowController alloc] initWithWindowNibName:@"AdvancedWindow" parentController:self];
     [[self window] beginSheet:self.advancedWindowController.window completionHandler:^(NSModalResponse returnCode) {
-        ;
+        if (returnCode == NSModalResponseOK) {
+            self.outbounds = self.advancedWindowController.outbounds;
+        }
+        self.advancedWindowController = nil;
     }];
 }
 
 
-
 - (IBAction)showTransportSettings:(id)sender {
-    self.transportWindowController = [[TransportWindowController alloc] initWithWindowNibName:@"TransportWindow" ParentController:self];
+    self.transportWindowController = [[TransportWindowController alloc] initWithWindowNibName:@"TransportWindow" parentController:self];
     [[self window] beginSheet:self.transportWindowController.window completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSModalResponseOK) {
             NSArray* a = [self->_transportWindowController generateSettings];
