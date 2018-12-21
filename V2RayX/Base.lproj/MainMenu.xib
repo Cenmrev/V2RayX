@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -24,7 +24,6 @@
                 <outlet property="serverListMenu" destination="pPD-dn-4h0" id="6sH-L6-Uzx"/>
                 <outlet property="serversItem" destination="3wi-Co-2Kd" id="kKi-8l-dDJ"/>
                 <outlet property="statusBarMenu" destination="yZm-2L-r3v" id="3iW-vb-TOn"/>
-                <outlet property="stupidSepy" destination="lQU-65-XjU" id="hMg-f2-sa1"/>
                 <outlet property="v2rayRulesItem" destination="bUi-AV-IfA" id="p4V-ny-gh7"/>
                 <outlet property="v2rayStatusItem" destination="EFa-yl-fQC" id="z3V-zp-jw7"/>
             </connections>
@@ -170,8 +169,8 @@
                                     <action selector="paste:" target="-1" id="UvS-8e-Qdg"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Paste and Match Style" keyEquivalent="V" id="WeT-3V-zwk">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                            <menuItem title="Paste and Match Style" keyEquivalent="v" id="WeT-3V-zwk">
+                                <modifierMask key="keyEquivalentModifierMask" shift="YES" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="pasteAsPlainText:" target="-1" id="cEh-KX-wJQ"/>
                                 </connections>
@@ -678,7 +677,7 @@
                     </menu>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="118" y="-2"/>
+            <point key="canvasLocation" x="304" y="-111"/>
         </menu>
         <menu id="yZm-2L-r3v">
             <items>
@@ -780,7 +779,7 @@
                     </connections>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="76" y="221"/>
+            <point key="canvasLocation" x="-89" y="40"/>
         </menu>
         <menu title="ServerList" id="pPD-dn-4h0">
             <point key="canvasLocation" x="445" y="279.5"/>
@@ -791,7 +790,8 @@
                 <action selector="editPac:" target="Voe-Tx-rLC" id="4jX-Hv-SpU"/>
             </connections>
         </menuItem>
-        <menuItem isSeparatorItem="YES" id="lQU-65-XjU"/>
-        <menu id="25R-TF-TBx" userLabel="Pac List Menu"/>
+        <menu id="25R-TF-TBx" userLabel="Pac List Menu">
+            <point key="canvasLocation" x="140" y="256"/>
+        </menu>
     </objects>
 </document>

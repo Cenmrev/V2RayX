@@ -336,7 +336,7 @@ static AppDelegate *appDelegate;
         [_pacListMenu addItem:newItem];
         i++;
     }
-    [_pacListMenu addItem:_stupidSepy];
+    [_pacListMenu addItem:[NSMenuItem separatorItem]];
     [_pacListMenu addItem:_editPacMenu];
     [_pacsItem setSubmenu:_pacListMenu];
 }
