@@ -10,7 +10,7 @@
 #import "sysconf_version.h"
 #import "utilities.h"
 #define kV2RayXHelper @"/Library/Application Support/V2RayX/v2rayx_sysconf"
-#define kV2RayXSettingVersion 3
+#define kV2RayXSettingVersion 4
 
 #define webServerPort 8070
 
@@ -59,9 +59,11 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property BOOL useCusProfile;
 @property NSInteger selectedServerIndex;
 @property NSInteger selectedCusServerIndex;
+@property NSInteger selectedRoutingSet;
 @property NSString* dnsString;
 @property NSMutableArray *profiles;
 @property NSMutableArray *cusProfiles;
+@property NSMutableArray *routingRuleSets;
 @property NSString* logLevel;
 @property BOOL useMultipleServer;
 @property NSInteger selectedPacIndex;
@@ -89,13 +91,14 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property (weak, nonatomic) IBOutlet NSMenuItem *enabelV2rayItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *pacModeItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *v2rayRulesItem;
+@property (weak) IBOutlet NSMenu *ruleSetMenuList;
 @property (weak, nonatomic) IBOutlet NSMenuItem *globalModeItem;
 @property (weak) IBOutlet NSMenuItem *manualModeItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *serversItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *pacsItem;
 @property (weak, nonatomic) IBOutlet NSMenu *serverListMenu;
 @property (weak, nonatomic) IBOutlet NSMenu *pacListMenu;
-@property (weak) IBOutlet NSMenuItem *editPacMenu;
+@property (weak) IBOutlet NSMenuItem *editPacMenuItem;
 
 
 @end

@@ -70,10 +70,9 @@
             [_outbounds addObject:p];
         }
     }
-    _cusProfiles = [[NSMutableArray alloc] init];
-    for (NSString* p in appDelegate.cusProfiles) {
-        [_cusProfiles addObject:[NSString stringWithString:p]];
-    }
+    _cusProfiles = [appDelegate.cusProfiles mutableDeepCopy];
+    
+    _routingRuleSets = [appDelegate.routingRuleSets mutableCopy];
     //
     [_profileTable reloadData];
     self.selectedServerIndex = 0;
@@ -200,10 +199,42 @@
     [[self window] close];
 }
 
+- (NSString*)firstFewLines:(NSDictionary*)dict {
+    NSInteger limit = 13;
+    NSString* str = [dict description];
+    NSArray* lines = [str componentsSeparatedByString:@"\n"];
+    if (lines.count < limit) {
+        return str;
+    } else {
+        NSString* r = [[lines subarrayWithRange:NSMakeRange(0, limit)] componentsJoinedByString:@"\n"];
+        return [NSString stringWithFormat:@"%@\n...", r];
+    }
+}
+
 - (IBAction)okSave:(id)sender {
     if (![self checkTLSforHttp2]) {
         return;
     }
+    NSMutableArray *allOutbounds = [[NSMutableArray alloc] init];
+    for (ServerProfile* p in _profiles) {
+        [allOutbounds addObject:[p outboundProfile]];
+    }
+    for (NSMutableDictionary* p in _outbounds) {
+        [allOutbounds addObject:p];
+    }
+    NSMutableDictionary *allOutboundDict =[[NSMutableDictionary alloc] init];
+    for (NSMutableDictionary* outbound in allOutbounds) {
+        if (!outbound[@"tag"] || ![outbound[@"tag"] isKindOfClass:[NSString class]] || [outbound[@"tag"] length] == 0) {
+            [self showAlert: [NSString stringWithFormat:@"%@\ntag is not valid!", [self firstFewLines:outbound]]];
+            return;
+        }
+        if (allOutboundDict[outbound[@"tag"]]) {
+            [self showAlert: [NSString stringWithFormat:@"The two outbounds share the same tag: %@\n%@\nAND\n%@",outbound[@"tag"], [self firstFewLines:outbound], [self firstFewLines:allOutboundDict[outbound[@"tag"]]]]];
+            return;
+        }
+        allOutboundDict[outbound[@"tag"]] = outbound;
+    }
+    appDelegate.profiles = allOutbounds;
     NSString* dnsStr = [[_dnsField stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""];
     if ([dnsStr length] == 0) {
         dnsStr = @"localhost";
@@ -214,41 +245,34 @@
     appDelegate.udpSupport = self.udpSupport;
     appDelegate.shareOverLan = self.shareOverLan;
     appDelegate.dnsString = dnsStr;
-    NSMutableArray *allOutbounds = [[NSMutableArray alloc] init];
-    for (ServerProfile* p in _profiles) {
-        [allOutbounds addObject:[p outboundProfile]];
-    }
-    for (NSDictionary* p in _outbounds) {
-        [allOutbounds addObject:p];
-    }
-    appDelegate.profiles = allOutbounds;
     appDelegate.cusProfiles = self.cusProfiles;
+    appDelegate.routingRuleSets = self.routingRuleSets;
     
     [appDelegate configurationDidChange];
     [[self window] close];
 }
 
-- (IBAction)addRemoveCusProfile:(NSSegmentedControl *)sender {
-    if ([sender selectedSegment] == 0) {
-        [_cusProfiles addObject:@"/path/to/your/config.json"];
-        [_cusProfileTable reloadData];
-        [_cusProfileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[_cusProfiles count] -1] byExtendingSelection:NO];
-        [_cusProfileTable setFocusedColumn:[_cusProfiles count] - 1];
-        //[[_cusProfileTable viewAtColumn:0 row:_cusProfiles count]-1 makeIfNecessary:NO] becomeFirstResponder];
-    } else if ([sender selectedSegment] == 1 && [_cusProfiles count] > 0) {
-        NSInteger originalSelected = [_cusProfileTable selectedRow];
-        [_cusProfiles removeObjectAtIndex:originalSelected];
-        if ([_cusProfiles count] > 0) {
-            if (originalSelected == [_cusProfiles count]) {
-                [self setSelectedCusServerIndex:[_cusProfiles count] - 1];
-            }
-            [_cusProfileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedCusServerIndex] byExtendingSelection:NO];
-        } else {
-            [self setSelectedCusServerIndex:-1];
-        }
-        [_cusProfileTable reloadData];
-    }
-}
+//- (IBAction)addRemoveCusProfile:(NSSegmentedControl *)sender {
+//    if ([sender selectedSegment] == 0) {
+//        [_cusProfiles addObject:@"/path/to/your/config.json"];
+//        [_cusProfileTable reloadData];
+//        [_cusProfileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[_cusProfiles count] -1] byExtendingSelection:NO];
+//        [_cusProfileTable setFocusedColumn:[_cusProfiles count] - 1];
+//        //[[_cusProfileTable viewAtColumn:0 row:_cusProfiles count]-1 makeIfNecessary:NO] becomeFirstResponder];
+//    } else if ([sender selectedSegment] == 1 && [_cusProfiles count] > 0) {
+//        NSInteger originalSelected = [_cusProfileTable selectedRow];
+//        [_cusProfiles removeObjectAtIndex:originalSelected];
+//        if ([_cusProfiles count] > 0) {
+//            if (originalSelected == [_cusProfiles count]) {
+//                [self setSelectedCusServerIndex:[_cusProfiles count] - 1];
+//            }
+//            [_cusProfileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedCusServerIndex] byExtendingSelection:NO];
+//        } else {
+//            [self setSelectedCusServerIndex:-1];
+//        }
+//        [_cusProfileTable reloadData];
+//    }
+//}
 
 - (IBAction)showCusConfigWindow:(NSButton *)sender {
     self.advancedWindowController = [[AdvancedWindowController alloc] initWithWindowNibName:@"AdvancedWindow" parentController:self];
@@ -256,6 +280,7 @@
         if (returnCode == NSModalResponseOK) {
             self.outbounds = self.advancedWindowController.outbounds;
             self.cusProfiles = self.advancedWindowController.configs;
+            self.routingRuleSets = self.advancedWindowController.routingRuleSets;
         }
         self.advancedWindowController = nil;
     }];
@@ -300,7 +325,9 @@
 - (void)showAlert:(NSString*)text {
     NSAlert* alert = [[NSAlert alloc] init];
     [alert setInformativeText:text];
-    [alert runModal];
+    [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        ;
+    }];
 }
 
 - (void)importFromVmess:(NSString*)vmessStr {

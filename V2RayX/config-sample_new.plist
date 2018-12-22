@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>dns</key>
+	<dict>
+		<key>servers</key>
+		<array>
+			<string>localhost</string>
+		</array>
+	</dict>
+	<key>inbounds</key>
+	<array>
+		<dict>
+			<key>listen</key>
+			<string>127.0.0.1</string>
+			<key>port</key>
+			<integer>1081</integer>
+			<key>protocol</key>
+			<string>socks</string>
+			<key>settings</key>
+			<dict>
+				<key>auth</key>
+				<string>noauth</string>
+				<key>ip</key>
+				<string>127.0.0.1</string>
+				<key>udp</key>
+				<false/>
+			</dict>
+			<key>tag</key>
+			<string>socksinbound</string>
+		</dict>
+		<dict>
+			<key>listen</key>
+			<string>127.0.0.1</string>
+			<key>port</key>
+			<integer>8001</integer>
+			<key>protocol</key>
+			<string>http</string>
+			<key>settings</key>
+			<dict>
+				<key>timeout</key>
+				<integer>0</integer>
+			</dict>
+			<key>tag</key>
+			<string>httpinbound</string>
+		</dict>
+	</array>
+	<key>log</key>
+	<dict/>
+	<key>outbounds</key>
+	<array/>
+	<key>routing</key>
+	<dict/>
+</dict>
+</plist>

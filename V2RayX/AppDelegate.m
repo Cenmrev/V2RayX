@@ -11,6 +11,7 @@
 #import "ConfigWindowController.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "ServerProfile.h"
+#import "MutableDeepCopying.h"
 
 #define kUseAllServer -10
 
@@ -38,6 +39,7 @@ static AppDelegate *appDelegate;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     profiles = [[NSMutableArray alloc] init];
     cusProfiles = [[NSMutableArray alloc] init];
+    _routingRuleSets = [[NSMutableArray alloc] init];
     [self readDefaults];
     v2rayJSONconfig = [[NSData alloc] init];
     
@@ -138,6 +140,8 @@ static AppDelegate *appDelegate;
       @"selectedCusServerIndex": [NSNumber numberWithInteger:-1],
       @"useCusProfile": @NO,
       @"cusProfiles": @[],
+      @"routingRuleSets": @[ROUTING_DIRECT, ROUTING_GLOBAL, ROUTING_BYPASSCN_PRIVATE_APPLE],
+      @"selectedRoutingSet":@0,
       @"useMultipleServer": @NO
       };
     for (NSString* key in [defaultSettings allKeys]) {
@@ -162,6 +166,8 @@ static AppDelegate *appDelegate;
       @"dnsString": dnsString,
       @"profiles":profiles,
       @"cusProfiles": cusProfiles,
+      @"routingRuleSets": _routingRuleSets,
+      @"selectedRoutingSet": @(_selectedRoutingSet),
       @"selectedCusServerIndex": @(selectedCusServerIndex),
       @"useCusProfile": @(useCusProfile),
       @"useMultipleServer": @(useMultipleServer),
@@ -313,7 +319,7 @@ static AppDelegate *appDelegate;
     NSLog(@"updatePacMenuList");
     [_pacListMenu removeAllItems];
     NSString *pacDir = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac", NSHomeDirectory()];
-    NSLog(@"updatePacMenuList%@", pacDir);
+//    NSLog(@"updatePacMenuList%@", pacDir);
     NSFileManager *manager = [NSFileManager defaultManager];
     NSArray *allPath =[manager subpathsAtPath:pacDir];
     int i = 0;
@@ -322,7 +328,7 @@ static AppDelegate *appDelegate;
         if (![extString  isEqual: @"js"]){
             continue;
         }
-        NSLog(@"updatePacMenuList: %@", subPath);
+//        NSLog(@"updatePacMenuList: %@", subPath);
         NSString *itemTitle = subPath;
         NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(switchPac:) keyEquivalent:@""];
         newItem.state = (i == selectedPacIndex)? 1 : 0;;
@@ -337,8 +343,25 @@ static AppDelegate *appDelegate;
         i++;
     }
     [_pacListMenu addItem:[NSMenuItem separatorItem]];
-    [_pacListMenu addItem:_editPacMenu];
+    [_pacListMenu addItem:_editPacMenuItem];
     [_pacsItem setSubmenu:_pacListMenu];
+}
+
+-(IBAction)chooseRuleSet:(id)sender {
+    _selectedRoutingSet = [sender tag];
+    [self configurationDidChange];
+}
+
+- (void)updateRuleSetMenuList {
+    [_ruleSetMenuList removeAllItems];
+    NSInteger i = 0;
+    for (NSDictionary* rule in _routingRuleSets) {
+        NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:rule[@"name"] action:@selector(chooseRuleSet:) keyEquivalent:@""];
+        item.tag = i;
+        item.state = i == _selectedRoutingSet;
+        [_ruleSetMenuList addItem:item];
+        i += 1;
+    }
 }
 
 - (void)updateServerMenuList {
@@ -492,6 +515,18 @@ static AppDelegate *appDelegate;
     } else {
         selectedCusServerIndex = -1;
     }
+    
+    [_routingRuleSets removeAllObjects];
+    if ([[defaults objectForKey:@"routingRuleSets"] isKindOfClass:[NSArray class]] && [[defaults objectForKey:@"routingRuleSets"] count] > 0) {
+        _routingRuleSets = [[defaults objectForKey:@"routingRuleSets"] mutableDeepCopy];
+    } else {
+        _routingRuleSets = [@[ROUTING_GLOBAL, ROUTING_DIRECT, ROUTING_BYPASSCN_PRIVATE_APPLE] mutableDeepCopy];
+    }
+    if ([[defaults objectForKey:@"selectedRoutingSet"] isKindOfClass:[NSNumber class]] && [[defaults objectForKey:@"selectedRoutingSet"] integerValue] < _routingRuleSets.count) {
+        _selectedRoutingSet = [[defaults objectForKey:@"selectedRoutingSet"] integerValue];
+    } else {
+        _selectedRoutingSet = 0;
+    }
 }
 
 
@@ -502,30 +537,19 @@ static AppDelegate *appDelegate;
     });
 }
 
-- (NSDictionary*)generateConfigFrom:(NSDictionary*)outbound {
-    NSMutableDictionary* fullConfig = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config-sample" ofType:@"plist"]];
+- (NSDictionary*)generateConfigFile {
+    NSMutableDictionary* fullConfig = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config-sample_new" ofType:@"plist"]];
     fullConfig[@"log"] = @{
                            @"access": [NSString stringWithFormat:@"%@/access.log", logDirPath],
                            @"error": [NSString stringWithFormat:@"%@/error.log", logDirPath],
                            @"loglevel": logLevel
                            };
-    fullConfig[@"inbound"][@"port"] = @(localPort);
-    fullConfig[@"inbound"][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
-    fullConfig[@"inboundDetour"][0][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
-    fullConfig[@"inboundDetour"][0][@"port"] = @(httpPort);
-    fullConfig[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udpSupport];
-    if (!useMultipleServer) {
-        fullConfig[@"outbound"] = outbound;
-    } else {
-        fullConfig[@"outbound"] = outbound;
-        NSMutableArray* vPoints = [[NSMutableArray alloc] init];
-        for (NSDictionary* aProfile in profiles) {
-            if ([@"vmess" isEqualToString:aProfile[@"protocol"]]) {
-                [vPoints addObject:aProfile[@"settings"][@"vnext"][0]];
-            }
-        }
-        fullConfig[@"outbound"][@"settings"][@"vnext"] = vPoints;
-    }
+    fullConfig[@"inbounds"][0][@"port"] = @(localPort);
+    fullConfig[@"inbounds"][0][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
+    fullConfig[@"inbounds"][0][@"settings"][@"udp"] = [NSNumber numberWithBool:udpSupport];
+    fullConfig[@"inbounds"][1][@"port"] = @(httpPort);
+    fullConfig[@"inbounds"][1][@"listen"] = shareOverLan ? @"0.0.0.0" : @"127.0.0.1";
+    
     NSArray* dnsArray = [dnsString componentsSeparatedByString:@","];
     if ([dnsArray count] > 0) {
         fullConfig[@"dns"][@"servers"] = dnsArray;
@@ -533,15 +557,69 @@ static AppDelegate *appDelegate;
         fullConfig[@"dns"][@"servers"] = @[@"localhost"];
     }
     if (proxyMode == rules) {
-        [fullConfig[@"routing"][@"settings"][@"rules"][0][@"domain"] addObject:@"geosite:cn"];
-        [fullConfig[@"routing"][@"settings"][@"rules"][1][@"ip"] addObject:@"geoip:cn"];
-    } else if (proxyMode == manual) {
-        fullConfig[@"routing"][@"settings"][@"rules"] = @[];
+        fullConfig[@"routing"] = [_routingRuleSets[_selectedRoutingSet] mutableDeepCopy];
+    } else if (proxyMode == pac) {
+        fullConfig[@"routing"] = [ROUTING_BYPASSCN_PRIVATE_APPLE mutableDeepCopy];
+    } else {
+        fullConfig[@"routing"] = [ROUTING_GLOBAL mutableDeepCopy];
+    }
+    if (!useMultipleServer) {
+        // replace tag main with current selected outbound tag
+        NSString* currentMainTag = profiles[selectedServerIndex][@"tag"];
+        for (NSMutableDictionary* aRule in fullConfig[@"routing"][@"rules"]) {
+            if ([@"main" isEqualToString:aRule[@"outboundTag"]]) {
+                aRule[@"outboundTag"] = currentMainTag;
+            }
+        }
+    } else {
+        // replace outbound tag main with balancetag
+        for (NSMutableDictionary* aRule in fullConfig[@"routing"][@"rules"]) {
+            if ([@"main" isEqualToString:aRule[@"outboundTag"]]) {
+                [aRule removeObjectForKey:@"outboundTag"];
+                [aRule setObject:@"balance" forKey:@"balancerTag"];
+            }
+        }
+        
+    }
+    // deal with outbound
+    NSMutableDictionary* configOutboundDict = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* allOutbounds = [[NSMutableDictionary alloc] init]; // make sure tag is unique
+    for (NSDictionary* outbound in profiles) {
+        allOutbounds[outbound[@"tag"]] = [outbound mutableDeepCopy];
+    }
+    NSArray* allProxyTags = allOutbounds.allKeys;
+    allOutbounds[@"direct"] = OUTBOUND_DIRECT;
+    allOutbounds[@"decline"] = OUTBOUND_DECLINE;
+//    NSLog(@"%@", allOutbounds);
+    BOOL usebalance = false;
+    for (NSDictionary* rule in fullConfig[@"routing"][@"rules"]) {
+        if (rule[@"balancerTag"] && !rule[@"outboundTag"]) {
+            // if any rule uses balancer, stop the loop and add a balancer to the routing part
+            usebalance = true;
+            break;
+        } else {
+            // pick up all mentioned outbounds in the routing rule set
+            if (allOutbounds[rule[@"outboundTag"]]) {
+                configOutboundDict[rule[@"outboundTag"]] = allOutbounds[rule[@"outboundTag"]];
+            }
+        }
+    }
+    if (usebalance) {
+        // if balancer is used, add all outbounds into config file, and add all tags to the balancer selector
+        fullConfig[@"routing"][@"balancers"] = @[@{
+                                                     @"tag":@"balance",
+                                                     @"selector": allProxyTags
+                                                     }];
+        fullConfig[@"outbounds"] = allOutbounds.allValues;
+    } else {
+        // otherwise, we convert all collected outbounds into an array
+        fullConfig[@"outbounds"] = configOutboundDict.allValues;
     }
     return fullConfig;
+
 }
 
-//- (NSDictionary*)generateFullConfigFrom:(ServerProfile*)selectedProfile {
+//- (NSDictionary*)generateConfigFrom:(NSDictionary*)outbound {
 //    NSMutableDictionary* fullConfig = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config-sample" ofType:@"plist"]];
 //    fullConfig[@"log"] = @{
 //                           @"access": [NSString stringWithFormat:@"%@/access.log", logDirPath],
@@ -554,13 +632,14 @@ static AppDelegate *appDelegate;
 //    fullConfig[@"inboundDetour"][0][@"port"] = @(httpPort);
 //    fullConfig[@"inbound"][@"settings"][@"udp"] = [NSNumber numberWithBool:udpSupport];
 //    if (!useMultipleServer) {
-//        fullConfig[@"outbound"] = [selectedProfile outboundProfile];
+//        fullConfig[@"outbound"] = outbound;
 //    } else {
-//        fullConfig[@"outbound"] = [selectedProfile outboundProfile];
+//        fullConfig[@"outbound"] = outbound;
 //        NSMutableArray* vPoints = [[NSMutableArray alloc] init];
-//        for (ServerProfile* aProfile in profiles) {
-//            NSDictionary* onePoint = [aProfile outboundProfile];
-//            [vPoints addObject:onePoint[@"settings"][@"vnext"][0]];
+//        for (NSDictionary* aProfile in profiles) {
+//            if ([@"vmess" isEqualToString:aProfile[@"protocol"]]) {
+//                [vPoints addObject:aProfile[@"settings"][@"vnext"][0]];
+//            }
 //        }
 //        fullConfig[@"outbound"][@"settings"][@"vnext"] = vPoints;
 //    }
@@ -576,7 +655,6 @@ static AppDelegate *appDelegate;
 //    } else if (proxyMode == manual) {
 //        fullConfig[@"routing"][@"settings"][@"rules"] = @[];
 //    }
-//
 //    return fullConfig;
 //}
 
@@ -587,7 +665,7 @@ static AppDelegate *appDelegate;
     if (!useMultipleServer && useCusProfile) {
         v2rayJSONconfig = [NSData dataWithContentsOfFile:cusProfiles[selectedCusServerIndex]];
     } else {
-        NSDictionary *fullConfig = [self generateConfigFrom:profiles[useMultipleServer ? 0 : selectedServerIndex]];
+        NSDictionary *fullConfig = [self generateConfigFile];
         v2rayJSONconfig = [NSJSONSerialization dataWithJSONObject:fullConfig options:NSJSONWritingPrettyPrinted error:nil];
     }
     [self generateLaunchdPlist:plistPath];
@@ -836,10 +914,14 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
             NSLog(@"V2Ray core loaded failed: no avalibale servers.");
         }
     }
+    if (_selectedRoutingSet >= _routingRuleSets.count || _selectedRoutingSet < 0) {
+        _selectedRoutingSet = 0;
+    }
     [self updateSystemProxy];
     [self updateMenus];
     [self updateServerMenuList];
     [self updatePacMenuList];
+    [self updateRuleSetMenuList];
 }
 
 - (IBAction)copyExportCmd:(id)sender {

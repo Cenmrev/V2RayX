@@ -14,13 +14,14 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
-                <outlet property="editPacMenu" destination="3NY-51-bgh" id="dgA-Xq-mKn"/>
+                <outlet property="editPacMenuItem" destination="3NY-51-bgh" id="dgA-Xq-mKn"/>
                 <outlet property="enabelV2rayItem" destination="I9I-uu-xak" id="b3P-ct-RqE"/>
                 <outlet property="globalModeItem" destination="12u-76-Ytb" id="RA8-m2-Iv6"/>
                 <outlet property="manualModeItem" destination="P4q-kj-6fs" id="5XH-9p-w3e"/>
                 <outlet property="pacListMenu" destination="25R-TF-TBx" id="xGh-bJ-AGG"/>
                 <outlet property="pacModeItem" destination="Cm9-3e-L2z" id="IvE-nJ-dW0"/>
                 <outlet property="pacsItem" destination="Cm9-3e-L2z" id="RVg-X8-RBp"/>
+                <outlet property="ruleSetMenuList" destination="8Ld-d4-m0U" id="DNS-66-cYT"/>
                 <outlet property="serverListMenu" destination="pPD-dn-4h0" id="6sH-L6-Uzx"/>
                 <outlet property="serversItem" destination="3wi-Co-2Kd" id="kKi-8l-dDJ"/>
                 <outlet property="statusBarMenu" destination="yZm-2L-r3v" id="3iW-vb-TOn"/>
@@ -677,7 +678,7 @@
                     </menu>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="304" y="-111"/>
+            <point key="canvasLocation" x="308" y="-330"/>
         </menu>
         <menu id="yZm-2L-r3v">
             <items>
@@ -693,6 +694,7 @@
                 <menuItem isSeparatorItem="YES" id="Zce-eo-WsH"/>
                 <menuItem title="V2Ray Rules" id="bUi-AV-IfA">
                     <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" id="8Ld-d4-m0U"/>
                     <connections>
                         <action selector="chooseV2rayRules:" target="Voe-Tx-rLC" id="D4f-2N-1Dq"/>
                     </connections>
@@ -779,10 +781,10 @@
                     </connections>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="-89" y="40"/>
+            <point key="canvasLocation" x="-152" y="-193"/>
         </menu>
         <menu title="ServerList" id="pPD-dn-4h0">
-            <point key="canvasLocation" x="445" y="279.5"/>
+            <point key="canvasLocation" x="385" y="-115"/>
         </menu>
         <menuItem title="Edit pac file" id="3NY-51-bgh">
             <modifierMask key="keyEquivalentModifierMask"/>
@@ -791,7 +793,7 @@
             </connections>
         </menuItem>
         <menu id="25R-TF-TBx" userLabel="Pac List Menu">
-            <point key="canvasLocation" x="140" y="256"/>
+            <point key="canvasLocation" x="80" y="-138"/>
         </menu>
     </objects>
 </document>

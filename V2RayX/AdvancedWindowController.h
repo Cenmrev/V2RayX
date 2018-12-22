@@ -23,6 +23,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 //rules
 @property (strong) IBOutlet NSTextField *dipInfoField;
+@property (weak) IBOutlet NSTableView *ruleSetTable;
+@property (weak) IBOutlet NSSegmentedControl *ruleSetAddControl;
+@property (weak) IBOutlet NSTextField *ruleSetNameField;
+@property (weak) IBOutlet NSPopUpButton *domainStrategyButton;
+@property (weak) IBOutlet NSTableView *ruleTable;
+@property (weak) IBOutlet NSSegmentedControl *ruleAddControl;
+@property (weak) IBOutlet NSButton *dipEnableButton;
+@property (weak) IBOutlet NSButton *dipHelpButton;
+@property (unsafe_unretained) IBOutlet NSTextView *domainIpTextView;
+@property (weak) IBOutlet NSTextField *portField;
+@property (weak) IBOutlet NSButton *portEnableButton;
+@property (weak) IBOutlet NSButton *networkEnableButton;
+@property (weak) IBOutlet NSPopUpButton *networkListButton;
+@property (weak) IBOutlet NSTextField *routeToField;
+@property NSMutableArray* routingRuleSets;
 
 //config
 @property (weak) IBOutlet NSTableView *configTable;
