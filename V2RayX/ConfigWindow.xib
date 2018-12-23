@@ -13,7 +13,10 @@
                 <outlet property="dnsField" destination="mXE-pr-Ddc" id="Eap-sE-WYI"/>
                 <outlet property="globalTransportButton" destination="L0C-0n-d5i" id="GRx-qD-mvf"/>
                 <outlet property="httpPortField" destination="aVm-xn-0cZ" id="9lo-hP-jbp"/>
+                <outlet property="importButton" destination="ubu-QM-gwn" id="6cO-zl-OCm"/>
                 <outlet property="importFromJsonMenu" destination="R79-z8-mxK" id="Crb-5l-C1R"/>
+                <outlet property="importMessageField" destination="fLh-mA-BaL" id="lxK-xd-u7p"/>
+                <outlet property="importResultView" destination="jV2-ec-trE" id="EUP-5w-3mr"/>
                 <outlet property="localPortField" destination="2do-qQ-ANK" id="OIL-pR-1TG"/>
                 <outlet property="logLevelButton" destination="WBJ-AN-z5m" id="6KR-S2-AcM"/>
                 <outlet property="networkButton" destination="tMD-b4-w2E" id="MLa-PK-H4t"/>
@@ -462,7 +465,7 @@
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WBJ-AN-z5m">
-                        <rect key="frame" x="84" y="49" width="85" height="26"/>
+                        <rect key="frame" x="84" y="17" width="85" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="none" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="foI-bt-EyF" id="7bE-Sh-fzE">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -486,7 +489,7 @@
                         </connections>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FaF-dM-uPs">
-                        <rect key="frame" x="18" y="54" width="62" height="17"/>
+                        <rect key="frame" x="18" y="22" width="62" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Log level:" id="Vo6-Qu-ybt">
                             <font key="font" metaFont="system"/>
@@ -495,7 +498,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uv6-cA-e87">
-                        <rect key="frame" x="181" y="53" width="62" height="17"/>
+                        <rect key="frame" x="181" y="21" width="62" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="inline" title="show log" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="gkD-dq-Peq">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -506,7 +509,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3p9-Ay-GbW">
-                        <rect key="frame" x="378" y="46" width="112" height="32"/>
+                        <rect key="frame" x="425" y="49" width="112" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Advanced..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="MOG-35-OP1">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -565,7 +568,7 @@ Gw
                         </connections>
                     </segmentedControl>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yx5-HK-GpF">
-                        <rect key="frame" x="18" y="24" width="355" height="14"/>
+                        <rect key="frame" x="18" y="59" width="355" height="14"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Eo2-Yu-0N0">
                             <font key="font" metaFont="smallSystem"/>
@@ -573,6 +576,17 @@ Gw
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ubu-QM-gwn">
+                        <rect key="frame" x="333" y="49" width="92" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Import..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0Vd-cX-tz4">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="importConfigs:" target="-2" id="sCE-z9-1oD"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="150.5" y="234"/>
@@ -583,10 +597,10 @@ Gw
         </menuItem>
         <menu id="R79-z8-mxK">
             <items>
-                <menuItem title="Import from config.json..." hidden="YES" id="eze-Oh-vyD">
+                <menuItem title="Import from JSON file..." id="eze-Oh-vyD">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="importFromConfigJson:" target="-2" id="i3S-fA-KNX"/>
+                        <action selector="importFromJSONFile:" target="-2" id="jT2-F5-BaD"/>
                     </connections>
                 </menuItem>
                 <menuItem title="Subscribe" id="zZ5-SG-bpX">
@@ -604,6 +618,22 @@ Gw
             </items>
             <point key="canvasLocation" x="-11.5" y="527"/>
         </menu>
+        <customView id="jV2-ec-trE">
+            <rect key="frame" x="0.0" y="0.0" width="163" height="96"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fLh-mA-BaL">
+                    <rect key="frame" x="11" y="10" width="140" height="76"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" selectable="YES" title="Multiline Label" id="fni-U3-ufg">
+                        <font key="font" usesAppearanceFont="YES"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <point key="canvasLocation" x="257.5" y="579"/>
+        </customView>
     </objects>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>

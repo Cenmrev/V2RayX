@@ -27,6 +27,8 @@
 #define OUTBOUND_DIRECT (@{@"protocol":@"freedom",@"tag":@"direct",@"settings":@{}})
 #define OUTBOUND_DECLINE (@{@"protocol":@"blackhole",@"tag":@"decline",@"settings": @{}})
 
+#define RESERVED_TAGS (@[@"main", @"direct", @"decline", @"balance"])
+
 NSUInteger searchInArray(NSString* str, NSArray* array);
 
 

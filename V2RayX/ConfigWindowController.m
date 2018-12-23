@@ -15,7 +15,7 @@
 
 @property (strong) TransportWindowController* transportWindowController;
 @property (strong) AdvancedWindowController* advancedWindowController;
-
+@property (strong) NSPopover* popover;
 @end
 
 @implementation ConfigWindowController
@@ -58,7 +58,7 @@
     [_alterIdField setFormatter:formatter];
     [_localPortField setFormatter:formatter];
     [_httpPortField setFormatter:formatter];
-    [_addRemoveButton setMenu:_importFromJsonMenu forSegment:2];
+//    [_addRemoveButton setMenu:_importFromJsonMenu forSegment:2];
     
     // copy data
     _profiles = [[NSMutableArray alloc] init];
@@ -190,9 +190,14 @@
             [self setSelectedProfile:nil];
         }
         [_profileTable reloadData];
-    } else if ([sender selectedSegment] == 2) {
-        [NSMenu popUpContextMenu:[sender menuForSegment:2] withEvent:[NSApp currentEvent] forView:sender];
     }
+//    else if ([sender selectedSegment] == 2) {
+//        [NSMenu popUpContextMenu:[sender menuForSegment:2] withEvent:[NSApp currentEvent] forView:sender];
+//    }
+}
+
+- (IBAction)importConfigs:(id)sender {
+    [NSMenu popUpContextMenu:_importFromJsonMenu withEvent:[NSApp currentEvent] forView:sender];
 }
 
 - (IBAction)cancel:(id)sender {
@@ -467,38 +472,99 @@
     }
 }
 
-- (IBAction)importFromConfigJson:(id)sender {
+- (void)importFromJSONFiles:(NSArray*)files {
+    __block NSInteger vmessCount = 0;
+    __block NSInteger otherCount = 0;
+    __block NSInteger ruleSetCount = 0;
+    for (NSURL* file in files) {
+        NSError* error;
+        id jsonObject = [NSJSONSerialization JSONObjectWithData:
+                         [NSData dataWithContentsOfURL:file] options:0 error:&error];
+        if (error) continue;
+        if (![jsonObject isKindOfClass:[NSDictionary class]]) continue;
+        NSMutableArray* outboundJSONs = [[NSMutableArray alloc] init];
+        NSMutableArray* routingJSONs = [[NSMutableArray alloc] init];
+        if ([[jsonObject objectForKey:@"outbound"] isKindOfClass:[NSDictionary class]]) {
+            [outboundJSONs addObject:jsonObject[@"outbound"]];
+        }
+        if ([[jsonObject objectForKey:@"outboundDetour"] isKindOfClass:[NSArray class]]) {
+            [outboundJSONs addObjectsFromArray:jsonObject[@"outboundDetour"]];
+        }
+        if ([[jsonObject objectForKey:@"outbounds"] isKindOfClass:[NSArray class]]) {
+            [outboundJSONs addObjectsFromArray:jsonObject[@"outbounds"]];
+        }
+        for (NSDictionary* outboundJSON in outboundJSONs) {
+            NSString* protocol = outboundJSON[@"protocol"];
+            if (!protocol) {
+                continue;
+            }
+            if ([@"vmess" isEqualToString:outboundJSON[@"protocol"]]) {
+                [self.profiles addObject:[ServerProfile profilesFromJson:outboundJSON][0]];
+                vmessCount += 1;
+            } else {
+                [self.outbounds addObject:outboundJSON];
+                otherCount += 1;
+            }
+        }
+        if ([[jsonObject objectForKey:@"routing"] isKindOfClass:[NSDictionary class]]) {
+            [routingJSONs addObject:[jsonObject objectForKey:@"routing"]];
+        }
+        if ([[jsonObject objectForKey:@"routings"] isKindOfClass:[NSArray class]]) {
+            [routingJSONs addObjectsFromArray:[jsonObject objectForKey:@"routings"]];
+        }
+        for (NSDictionary* routingSet in routingJSONs) {
+            NSMutableDictionary* set = [routingSet mutableDeepCopy];
+            if (set[@"settings"]) { // compatibal with previous config file format
+                set = set[@"settings"];
+            }
+            if (!set[@"name"]) {
+                set[@"name"] = @"imported rule set";
+            }
+            if (!set[@"rules"] || ![set[@"rules"] isKindOfClass:[NSMutableArray class]] || ![set[@"rules"] count] ) {
+                set[@"rules"] = [[NSMutableArray alloc] init];
+            }
+            if (![@"0-65535" isEqualToString: [set[@"rules"] lastObject][@"port"]]) {
+                NSMutableDictionary *lastRule = [@{
+                                                    @"type" : @"field",
+                                                    @"outboundTag" : @"main",
+                                                    @"port" : @"0-65535"
+                                                    } mutableDeepCopy];
+                [set[@"rules"] addObject:lastRule];
+            }
+            // current does not support source/user/inboundTag/protocol
+            for (NSMutableDictionary* aRule in set[@"rules"]) {
+                for (NSString* notSupport in @[@"source", @"user", @"inboundTag", @"protocol"]) {
+                    [aRule removeObjectForKey:notSupport];
+                }
+            }
+            [self.routingRuleSets addObject:set];
+            ruleSetCount += 1;
+        }
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_profileTable reloadData];
+        self.popover = [[NSPopover alloc] init];
+        self.importMessageField.stringValue = [NSString stringWithFormat:@"imported %lu vmess and %lu other protocol outbounds, %lu routing sets.", vmessCount, otherCount, ruleSetCount];
+        self.popover.contentViewController = [[NSViewController alloc] init];
+        self.popover.contentViewController.view = self.importResultView;
+        self.popover.behavior = NSPopoverBehaviorTransient;
+        [self.popover showRelativeToRect:[self.importButton bounds] ofView:self.importButton preferredEdge:NSMaxYEdge];
+    });
+}
+
+- (IBAction)importFromJSONFile:(id)sender {
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
     [openPanel setCanChooseFiles:YES];
     [openPanel setAllowsMultipleSelection:YES];
     [openPanel setAllowedFileTypes:@[@"json"]];
     [openPanel setDirectoryURL:[[NSFileManager defaultManager] homeDirectoryForCurrentUser]];
+
     [openPanel beginSheetModalForWindow:[self window]  completionHandler:^(NSModalResponse result) {
-        if (result != NSOKButton) {
-            return;
+        if (result == NSOKButton) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                [self importFromJSONFiles:[openPanel URLs]];
+            });
         }
-        for (NSURL* file in [openPanel URLs]) {
-            NSError* error;
-            id jsonObject = [NSJSONSerialization JSONObjectWithData:
-                             [NSData dataWithContentsOfURL:file] options:0 error:&error];
-            if (error) continue;
-            if (![jsonObject isKindOfClass:[NSDictionary class]]) continue;
-            NSMutableArray* jsons = [[NSMutableArray alloc] init];
-            if ([[jsonObject objectForKey:@"outbound"] isKindOfClass:[NSDictionary class]]) {
-                [jsons addObject:jsonObject[@"outbound"]];
-            }
-            if ([[jsonObject objectForKey:@"outboundDetour"] isKindOfClass:[NSArray class]]) {
-                [jsons addObjectsFromArray:jsonObject[@"outboundDetour"]];
-            }
-            for (NSDictionary* json in jsons) {
-                NSArray* servers = [ServerProfile profilesFromJson:json];
-                for (ServerProfile* s in servers) {
-                    [s setOutboundTag:[NSString stringWithFormat:@"imported %@", s.outboundTag]];
-                }
-                [self->_profiles addObjectsFromArray:servers];
-            }
-        }
-        [self->_profileTable reloadData];
     }];
 }
 
