@@ -41,6 +41,13 @@ V2RayX also allows users to change system proxy settings and switch proxy server
 
 As default, V2RayX will open a socks5 proxy at port `1081` as the main inbound, as well as a http proxy at port `8001` as an inboundDetour.
 
+V2RayX provide three modes:
+* Global Mode: V2RayX asks macOS to route all internet traffic to v2ray core if the network traffic obeys operating system's network rules.
+* PAC Mode: macOS will determine the routing based on a pac file and some traffic may be routed to v2ray core.
+* Manual Mode: V2RayX will not modify any macOS network settings, but only start or stop v2ray core.
+
+Options in menu list `Routing Rule` determine how v2ray core deals with incoming traffic. Core routing rules apply to all three modes above.
+
 ### auto-run on login
 
 Open macOS System Preferences -> Users & Group -> Login Items, add V2RayX.app to
