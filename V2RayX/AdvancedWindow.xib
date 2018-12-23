@@ -14,10 +14,11 @@
                 <outlet property="coreFileListField" destination="SbL-wp-TzE" id="O9n-fQ-Coz"/>
                 <outlet property="corePathField" destination="8Y7-Ux-q6J" id="Tnh-t0-6EK"/>
                 <outlet property="dipEnableButton" destination="e2v-9w-e45" id="pQV-5l-eoa"/>
-                <outlet property="dipHelpButton" destination="mR8-QF-6Vz" id="tgx-nb-fhd"/>
-                <outlet property="dipInfoField" destination="HBi-GK-CdD" id="t4V-Qf-vep"/>
+                <outlet property="domainIpHelpButton" destination="mR8-QF-6Vz" id="tgx-nb-fhd"/>
+                <outlet property="domainIpHelpView" destination="o2X-Co-4Uk" id="yJU-k6-UuF"/>
                 <outlet property="domainIpTextView" destination="1mD-il-bEM" id="NFH-22-9XV"/>
                 <outlet property="domainStrategyButton" destination="go4-fU-8VR" id="dbi-6a-wSS"/>
+                <outlet property="mainTabView" destination="QYP-On-JTO" id="wVr-XL-l8W"/>
                 <outlet property="networkEnableButton" destination="5bh-W3-sf1" id="ajt-c9-ENa"/>
                 <outlet property="networkListButton" destination="g4Z-Bg-9h9" id="AGs-ms-Bjs"/>
                 <outlet property="outboundAddControl" destination="hhh-bW-Kml" id="Pbg-mP-fcq"/>
@@ -26,6 +27,8 @@
                 <outlet property="portEnableButton" destination="csz-yQ-hNt" id="pyl-x3-Eld"/>
                 <outlet property="portField" destination="GJe-w6-K5h" id="FC9-1A-JrM"/>
                 <outlet property="routeToField" destination="LPs-go-ETV" id="4jz-Gf-UiU"/>
+                <outlet property="routeToHelpButton" destination="JC4-HP-JE8" id="BZE-EO-mgO"/>
+                <outlet property="routingTagHelpView" destination="QAK-Cz-bFI" id="Irw-HU-E1u"/>
                 <outlet property="ruleAddControl" destination="yoj-Gc-d7Z" id="tzC-N1-yoK"/>
                 <outlet property="ruleSetAddControl" destination="kzb-ey-8xe" id="rpf-Si-YCe"/>
                 <outlet property="ruleSetNameField" destination="7eT-Ie-mUI" id="7yh-jU-7el"/>
@@ -183,7 +186,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Rules" identifier="" id="i0P-1v-Yeh">
-                                <view key="view" id="uJw-Fs-Pqs">
+                                <view key="view" ambiguous="YES" id="uJw-Fs-Pqs">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -389,28 +392,6 @@ Gw
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
-                                                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mR8-QF-6Vz">
-                                                        <rect key="frame" x="274" y="241" width="25" height="25"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aO0-3T-L5Y">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="system"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="showInformation:" target="-2" id="q9C-hd-tXa"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2CQ-w0-29D">
-                                                        <rect key="frame" x="303" y="8" width="25" height="25"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ico-0N-nuc">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="system"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="showInformation:" target="-2" id="rtv-ZY-6zP"/>
-                                                        </connections>
-                                                    </button>
                                                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LPs-go-ETV">
                                                         <rect key="frame" x="169" y="12" width="122" height="22"/>
                                                         <autoresizingMask key="autoresizingMask"/>
@@ -495,6 +476,28 @@ Gw
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
+                                                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mR8-QF-6Vz">
+                                                        <rect key="frame" x="309" y="245" width="25" height="25"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aO0-3T-L5Y">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="showInformation:" target="-2" id="q9C-hd-tXa"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JC4-HP-JE8">
+                                                        <rect key="frame" x="297" y="9" width="25" height="25"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hh1-mH-fhk">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="showInformation:" target="-2" id="EX9-jr-hxO"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                             </view>
                                         </box>
@@ -502,7 +505,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Configs" identifier="" id="kZw-NT-AZ4">
-                                <view key="view" ambiguous="YES" id="QPL-oN-1TZ">
+                                <view key="view" id="QPL-oN-1TZ">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -677,24 +680,74 @@ Gw
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="showHelp:" target="-2" id="1vT-cW-C9o"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="fEg-7w-QRN"/>
             </connections>
-            <point key="canvasLocation" x="273" y="193.5"/>
+            <point key="canvasLocation" x="207" y="236"/>
         </window>
-        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="HBi-GK-CdD">
-            <rect key="frame" x="0.0" y="0.0" width="29" height="17"/>
-            <autoresizingMask key="autoresizingMask"/>
-            <textFieldCell key="cell" lineBreakMode="clipping" title="yes" id="Vc4-fh-ci4">
-                <font key="font" usesAppearanceFont="YES"/>
-                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-            </textFieldCell>
-            <point key="canvasLocation" x="69" y="626"/>
-        </textField>
+        <customView id="QAK-Cz-bFI">
+            <rect key="frame" x="0.0" y="0.0" width="530" height="194"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uei-XJ-a4J">
+                    <rect key="frame" x="18" y="12" width="499" height="170"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" id="GeG-md-J3l">
+                        <font key="font" size="13" name="Courier"/>
+                        <string key="title">When an incoming connection match ALL the criterions (domain/ip/port/network), it will be routed to the provided outbound tag. 
+
+Four preset tags:
+   main: the outbound users choose from the menu list "Server"
+decline: the connection will be closed.
+ direct: incoming traffic will be send to its real destination.
+balance: v2ray will randomly pickup an outbound from all 
+         provided outbounds.</string>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <point key="canvasLocation" x="822" y="348"/>
+        </customView>
+        <customView id="o2X-Co-4Uk">
+            <rect key="frame" x="0.0" y="0.0" width="438" height="380"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ePw-bH-ogO">
+                    <rect key="frame" x="18" y="20" width="402" height="340"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" id="EXS-dL-5V7">
+                        <font key="font" size="13" name="Courier"/>
+                        <string key="title">To provide domain and IP rules, Follow this format:
+    separate domains and ips with a line `---`.
+Examples:
+1.
+    v2ray.com
+    ----
+    10.0.0.0/8
+    geoip:private
+will match traffic with (a destination domain includes "v2ray.com") AND (a destination IP in range of 10.0.0.0/8 OR a private destination IP)
+2.
+    domain:v2ray.com
+    ----
+will match traffic with a destination domain of v2ray.com and *.v2ray.com.
+3.
+    ----
+    geoip:private
+will match all private IPs.</string>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <point key="canvasLocation" x="776" y="-2"/>
+        </customView>
     </objects>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>

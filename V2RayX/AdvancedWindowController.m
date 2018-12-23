@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <unistd.h> // notice this! you need it!
 
+#define RULEINFO (@"When an")
 
 @interface AdvancedWindowController () {
     ConfigWindowController* configWindowController;
@@ -76,11 +77,6 @@
                                                  name:NSControlTextDidChangeNotification
                                                object:_portField];
     
-    self.popover = [[NSPopover alloc] init];
-    self.popover.contentViewController = [[NSViewController alloc] init];
-    self.popover.contentViewController.view = self.dipInfoField;
-    self.popover.behavior = NSPopoverBehaviorTransient;
-    
     // core path
     self.corePathField.stringValue = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/v2ray-core/",NSHomeDirectory()];
 //    selectedOutbound = 0;
@@ -102,53 +98,6 @@
     // rules
     self.selectedRuleSet = 0;
     self.selectedRule = 0;
-//    self.routingRuleSets = [@[@{
-//                                  @"name": @"bypass",
-//                                  @"domainStrategy": @"AsIs",
-//                                  @"rules": @[
-//                                          @{
-//                                              @"type": @"field",
-//                                              @"domain": @[
-//                                                      @"baidu.com",
-//                                                      @"qq.com"
-//                                                      ],
-//                                              @"outboundTag": @"direct"
-//                                              },
-//                                          @{
-//                                              @"type": @"field",
-//                                              @"domain": @[
-//                                                      @"qq.com"
-//                                                      ],
-//                                              @"network": @"tcp",
-//                                              @"outboundTag": @"reject"
-//                                              }
-//                                          ]
-//                                  },
-//                              @{
-//                                  @"name": @"un",
-//                                  @"domainStrategy": @"AsIs",
-//                                  @"rules": @[
-//                                          @{
-//                                              @"type": @"field",
-//                                              @"domain": @[
-//                                                      @"baidu.com"
-//                                                      ],
-//                                              @"outboundTag": @"direct"
-//                                              }
-//                                          ]
-//                                  },
-//                              @{
-//                                  @"name": @"p",
-//                                  @"domainStrategy": @"AsIs",
-//                                  @"rules": @[
-//                                          @{
-//                                              @"type": @"field",
-//                                              @"network": @"tcp",
-//                                              @"outboundTag": @"direct"
-//                                              }
-//                                          ]
-//                                  }
-//                              ] mutableDeepCopy];
     self.routingRuleSets = [configWindowController.routingRuleSets mutableDeepCopy];
     // configs
     self.configs = [configWindowController.cusProfiles mutableDeepCopy];
@@ -156,8 +105,7 @@
 }
 
 - (IBAction)ok:(id)sender {
-//    NSLog(@"%@", [_httpPathField stringValue]);
-//    if ([self checkInputs]) {
+    
     if (![self checkOutbound]) {
         return;
     }
@@ -167,15 +115,9 @@
     [self textDidEndEditing:
      [[NSNotification alloc] initWithName:NSTextDidEndEditingNotification object:_domainIpTextView userInfo:nil]];
     
-//    [self removeObserver:self forKeyPath:@"ruleSetNameField.stringValue"];
-//    [self removeObserver:self forKeyPath:@"self.domainStrategyButton.indexOfSelectedItem"];
     [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];
-//    }
 }
 
-- (IBAction)help:(id)sender {
-    // https://www.v2ray.com/chapter_02/01_overview.html#outboundobject
-}
 - (IBAction)cancel:(id)sender {
     [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseCancel];
 }
@@ -457,8 +399,31 @@
 }
 
 - (IBAction)showInformation:(id)sender {
+    self.popover = [[NSPopover alloc] init];
+    self.popover.behavior = NSPopoverBehaviorTransient;
+    self.popover.contentViewController = [[NSViewController alloc] init];
+    if (sender == _domainIpHelpButton) {
+        self.popover.contentViewController.view = _domainIpHelpView;
+    } else if (sender == _routeToHelpButton) {
+        self.popover.contentViewController.view = _routingTagHelpView;
+    }
     [self.popover showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
 }
+
+- (IBAction)showHelp:(id)sender {
+    NSString* tabTitle = _mainTabView.selectedTabViewItem.label;
+//    NSLog(@"%@", _mainTabView.selectedTabViewItem.label);
+    if ([@"Rules" isEqualToString:tabTitle]) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/03_routing.html"]];
+    } else if ([@"Outbounds" isEqualToString:tabTitle]) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/01_overview.html#outboundobject"]];
+    } else if ([@"Configs" isEqualToString:tabTitle]) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/01_overview.html"]];
+    } else if ([@"V2Ray Core" isEqualToString:tabTitle]) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_00/install.html#download"]];
+    }
+}
+
 
 - (void)showAlert:(NSString*)text {
     NSAlert* alert = [[NSAlert alloc] init];
@@ -499,19 +464,13 @@
         _domainIpTextView.editable = _dipEnableButton.state;
         _domainIpTextView.string = [NSString stringWithFormat:@"%@\n---\n%@", [nilCoalescing(rules[@"domain"], @[]) componentsJoinedByString:@"\n"], [nilCoalescing(rules[@"ip"], @[]) componentsJoinedByString:@"\n"]];
         
-//        for(NSControl* control in @[_networkListButton, _networkEnableButton, _dipEnableButton,_dipHelpButton]) {
-//            [control setEnabled:control.enabled && !selectedLastRule];
-//        }
-//        _dipTextView.editable = _dipEnableButton && !selectedLastRule;
-        
         _networkListButton.enabled = _networkListButton.enabled && !selectedLastRule;
         _networkEnableButton.enabled = !selectedLastRule;
         _dipEnableButton.enabled = !selectedLastRule;
         _domainIpTextView.editable = _domainIpTextView.editable && !selectedLastRule;
         _portField.enabled = _portField.enabled && !selectedLastRule;
         _portEnableButton.enabled = !selectedLastRule;
-        _dipHelpButton.enabled = !selectedLastRule;
-//
+        _domainIpHelpButton.enabled = !selectedLastRule;
         
         _routeToField.stringValue = rules[@"outboundTag"] ? rules[@"outboundTag"] : rules[@"balancerTag"];
     }

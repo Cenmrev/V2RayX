@@ -21,8 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSMutableArray* outbounds;
 
 
+@property (weak) IBOutlet NSTabView *mainTabView;
 //rules
-@property (strong) IBOutlet NSTextField *dipInfoField;
+@property (strong) IBOutlet NSView *routingTagHelpView;
+@property (strong) IBOutlet NSView *domainIpHelpView;
 @property (weak) IBOutlet NSTableView *ruleSetTable;
 @property (weak) IBOutlet NSSegmentedControl *ruleSetAddControl;
 @property (weak) IBOutlet NSTextField *ruleSetNameField;
@@ -30,13 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak) IBOutlet NSTableView *ruleTable;
 @property (weak) IBOutlet NSSegmentedControl *ruleAddControl;
 @property (weak) IBOutlet NSButton *dipEnableButton;
-@property (weak) IBOutlet NSButton *dipHelpButton;
+@property (weak) IBOutlet NSButton *domainIpHelpButton;
 @property (unsafe_unretained) IBOutlet NSTextView *domainIpTextView;
 @property (weak) IBOutlet NSTextField *portField;
 @property (weak) IBOutlet NSButton *portEnableButton;
 @property (weak) IBOutlet NSButton *networkEnableButton;
 @property (weak) IBOutlet NSPopUpButton *networkListButton;
 @property (weak) IBOutlet NSTextField *routeToField;
+@property (weak) IBOutlet NSButton *routeToHelpButton;
 @property NSMutableArray* routingRuleSets;
 
 //config
