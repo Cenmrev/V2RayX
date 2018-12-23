@@ -15,10 +15,9 @@
 #define webServerPort 8070
 
 typedef enum ProxyMode : NSInteger{
-    rules,
-    pac,
-    global,
-    manual
+    pacMode,
+    globalMode,
+    manualMode
 } ProxyMode;
 
 
@@ -35,8 +34,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
     BOOL useMultipleServer;
     NSInteger selectedServerIndex;
     NSInteger selectedCusServerIndex;
-    NSInteger selectedPacIndex;
-    NSString* selectedPacPath;
+    NSString* selectedPacFileName;
     NSString* dnsString;
     NSMutableArray *profiles;
     NSMutableArray *cusProfiles;
@@ -44,7 +42,6 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
     
     
     NSString* plistPath;
-    NSString* pacPath;
     NSString* logDirPath;
 }
 
@@ -66,36 +63,29 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property NSMutableArray *routingRuleSets;
 @property NSString* logLevel;
 @property BOOL useMultipleServer;
-@property NSInteger selectedPacIndex;
-@property NSString* selectedPacPath;
+@property NSString* selectedPacFileName;
 
-
+- (IBAction)didChangeStatus:(id)sender;
 - (IBAction)showHelp:(id)sender;
-- (IBAction)enableProxy:(id)sender;
-- (IBAction)choosePacMode:(id)sender;
-- (IBAction)chooseV2rayRules:(id)sender;
-- (IBAction)chooseGlobalMode:(id)sender;
-- (IBAction)chooseManualMode:(id)sender;
 - (IBAction)showConfigWindow:(id)sender;
 - (IBAction)editPac:(id)sender;
 - (IBAction)resetPac:(id)sender;
 - (IBAction)viewLog:(id)sender;
+- (void)saveConfigInfo;
 
 -(NSString*)getV2rayPath;
-- (void)configurationDidChange;
 - (NSString*)logDirPath;
 
 @property (strong, nonatomic)  NSStatusItem *statusBarItem;
 @property (strong, nonatomic) IBOutlet NSMenu *statusBarMenu;
 @property (weak, nonatomic) IBOutlet NSMenuItem *v2rayStatusItem;
-@property (weak, nonatomic) IBOutlet NSMenuItem *enabelV2rayItem;
+@property (weak, nonatomic) IBOutlet NSMenuItem *enableV2rayItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *pacModeItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *v2rayRulesItem;
 @property (weak) IBOutlet NSMenu *ruleSetMenuList;
 @property (weak, nonatomic) IBOutlet NSMenuItem *globalModeItem;
 @property (weak) IBOutlet NSMenuItem *manualModeItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *serversItem;
-@property (weak, nonatomic) IBOutlet NSMenuItem *pacsItem;
 @property (weak, nonatomic) IBOutlet NSMenu *serverListMenu;
 @property (weak, nonatomic) IBOutlet NSMenu *pacListMenu;
 @property (weak) IBOutlet NSMenuItem *editPacMenuItem;

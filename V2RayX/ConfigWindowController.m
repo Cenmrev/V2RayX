@@ -247,8 +247,8 @@
     appDelegate.dnsString = dnsStr;
     appDelegate.cusProfiles = self.cusProfiles;
     appDelegate.routingRuleSets = self.routingRuleSets;
-    
-    [appDelegate configurationDidChange];
+    [appDelegate saveConfigInfo];
+    [appDelegate didChangeStatus:self];
     [[self window] close];
 }
 
