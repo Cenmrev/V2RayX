@@ -81,7 +81,7 @@
 @property (weak) IBOutlet NSTextField *checkLabel;
 
 
-@property AppDelegate* appDelegate;
+@property (weak) AppDelegate* appDelegate;
 @property (nonatomic) ServerProfile* selectedProfile;
 @property (nonatomic) NSInteger logLevel;
 @property (nonatomic) NSInteger selectedServerIndex;

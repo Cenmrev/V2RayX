@@ -24,7 +24,7 @@
     [super windowDidLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString* v2rayPath = [self->appDelegate getV2rayPath];
+        NSString* v2rayPath = [self.appDelegate getV2rayPath];
         
         NSTask *task = [[NSTask alloc] init];
         [task setLaunchPath:v2rayPath];
@@ -63,25 +63,25 @@
     // copy data
     _profiles = [[NSMutableArray alloc] init];
     _outbounds = [[NSMutableArray alloc] init];
-    for (NSDictionary *p in appDelegate.profiles) {
+    for (NSDictionary *p in _appDelegate.profiles) {
         if ([@"vmess" isEqualToString:p[@"protocol"]] && [p[@"settings"][@"vnext"] count] == 1) {
             [_profiles addObject:[ServerProfile profilesFromJson:p][0]];
         } else {
             [_outbounds addObject:p];
         }
     }
-    _cusProfiles = [appDelegate.cusProfiles mutableDeepCopy];
+    _cusProfiles = [_appDelegate.cusProfiles mutableDeepCopy];
     
-    _routingRuleSets = [appDelegate.routingRuleSets mutableCopy];
+    _routingRuleSets = [_appDelegate.routingRuleSets mutableCopy];
     //
     [_profileTable reloadData];
     self.selectedServerIndex = 0;
     self.selectedCusServerIndex = 0;
-    self.httpPort = appDelegate.httpPort;
-    self.localPort = appDelegate.localPort;
-    self.udpSupport = appDelegate.udpSupport;
-    self.shareOverLan = appDelegate.shareOverLan;
-    self.dnsString = appDelegate.dnsString;
+    self.httpPort = _appDelegate.httpPort;
+    self.localPort = _appDelegate.localPort;
+    self.udpSupport = _appDelegate.udpSupport;
+    self.shareOverLan = _appDelegate.shareOverLan;
+    self.dnsString = _appDelegate.dnsString;
     NSDictionary *logLevelDic = @{
                                @"debug": @4,
                                @"info": @3,
@@ -89,7 +89,7 @@
                                @"error":@1,
                                @"none":@0
                                };
-    self.logLevel = [logLevelDic[appDelegate.logLevel] integerValue];
+    self.logLevel = [logLevelDic[_appDelegate.logLevel] integerValue];
     
     [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:self.selectedServerIndex] byExtendingSelection:NO];
     [[self window] makeFirstResponder:_profileTable];
@@ -216,6 +216,57 @@
     }
 }
 
+- (NSMutableDictionary*)validateRuleSet:(NSMutableDictionary*)set {
+    if (![set isKindOfClass:[NSMutableDictionary class]]) {
+        NSLog(@"not a mutable dictionary class, %@", [set className]);
+        return nil;
+    }
+    if (!set[@"rules"] || ![set[@"rules"] isKindOfClass:[NSMutableArray class]] || ![set count] ) {
+        NSLog(@"no rules");
+        return  nil;
+    }
+    if (![@"0-65535" isEqualToString: [set[@"rules"] lastObject][@"port"]]) {
+        NSMutableDictionary *lastRule = [@{
+                                           @"type" : @"field",
+                                           @"outboundTag" : @"main",
+                                           @"port" : @"0-65535"
+                                           } mutableDeepCopy];
+        [set[@"rules"] addObject:lastRule];
+    }
+    NSMutableArray* ruleToRemove = [[NSMutableArray alloc] init];
+    NSArray* notSupported = @[@"source", @"user", @"inboundTag", @"protocol"];
+    NSArray* supported = @[@"domain", @"ip", @"network", @"port"];
+    // currently, source/user/inboundTag/protocol are not supported
+    for (NSMutableDictionary* aRule in set[@"rules"]) {
+        [aRule removeObjectsForKeys:notSupported];
+        BOOL shouldRemove = true;
+        for (NSString* supportedKey in supported) {
+            if (aRule[supportedKey]) {
+                shouldRemove = false;
+                break;
+            }
+        }
+        if (shouldRemove) {
+            [ruleToRemove addObject:aRule];
+            continue;
+        }
+        aRule[@"type"] = @"field";
+        if (!aRule[@"outboundTag"] && !aRule[@"balancerTag"]) {
+            aRule[@"outboundTag"] = @"main";
+        }
+        if (aRule[@"outboundTag"] && aRule[@"balancerTag"]) {
+            [aRule removeObjectForKey:@"balancerTag"];
+        }
+    }
+    for (NSMutableDictionary* aRule in ruleToRemove) {
+        [set[@"rules"] removeObject:aRule];
+    }
+    if (!set[@"name"]) {
+        set[@"name"] = @"some rule set";
+    }
+    return set;
+}
+
 - (IBAction)okSave:(id)sender {
     if (![self checkTLSforHttp2]) {
         return;
@@ -239,45 +290,32 @@
         }
         allOutboundDict[outbound[@"tag"]] = outbound;
     }
-    appDelegate.profiles = allOutbounds;
+    _appDelegate.profiles = allOutbounds;
     NSString* dnsStr = [[_dnsField stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""];
     if ([dnsStr length] == 0) {
         dnsStr = @"localhost";
     }
-    appDelegate.logLevel = _logLevelButton.selectedItem.title;
-    appDelegate.localPort = [_localPortField integerValue];
-    appDelegate.httpPort = [_httpPortField integerValue];
-    appDelegate.udpSupport = self.udpSupport;
-    appDelegate.shareOverLan = self.shareOverLan;
-    appDelegate.dnsString = dnsStr;
-    appDelegate.cusProfiles = self.cusProfiles;
-    appDelegate.routingRuleSets = self.routingRuleSets;
-    [appDelegate saveConfigInfo];
-    [appDelegate didChangeStatus:self];
+    _appDelegate.logLevel = _logLevelButton.selectedItem.title;
+    _appDelegate.localPort = [_localPortField integerValue];
+    _appDelegate.httpPort = [_httpPortField integerValue];
+    _appDelegate.udpSupport = self.udpSupport;
+    _appDelegate.shareOverLan = self.shareOverLan;
+    _appDelegate.dnsString = dnsStr;
+    _appDelegate.cusProfiles = self.cusProfiles;
+    [_appDelegate.routingRuleSets removeAllObjects];
+    for (NSMutableDictionary* set in self.routingRuleSets) {
+        NSMutableDictionary* validatedSet = [self validateRuleSet:set];
+        if (validatedSet) {
+            [_appDelegate.routingRuleSets addObject:validatedSet];
+        }
+    }
+    if (_appDelegate.routingRuleSets.count == 0) {
+        [_appDelegate.routingRuleSets addObject:[ROUTING_DIRECT mutableDeepCopy]];
+    }
+    [_appDelegate saveConfigInfo];
+    [_appDelegate didChangeStatus:self];
     [[self window] close];
 }
-
-//- (IBAction)addRemoveCusProfile:(NSSegmentedControl *)sender {
-//    if ([sender selectedSegment] == 0) {
-//        [_cusProfiles addObject:@"/path/to/your/config.json"];
-//        [_cusProfileTable reloadData];
-//        [_cusProfileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[_cusProfiles count] -1] byExtendingSelection:NO];
-//        [_cusProfileTable setFocusedColumn:[_cusProfiles count] - 1];
-//        //[[_cusProfileTable viewAtColumn:0 row:_cusProfiles count]-1 makeIfNecessary:NO] becomeFirstResponder];
-//    } else if ([sender selectedSegment] == 1 && [_cusProfiles count] > 0) {
-//        NSInteger originalSelected = [_cusProfileTable selectedRow];
-//        [_cusProfiles removeObjectAtIndex:originalSelected];
-//        if ([_cusProfiles count] > 0) {
-//            if (originalSelected == [_cusProfiles count]) {
-//                [self setSelectedCusServerIndex:[_cusProfiles count] - 1];
-//            }
-//            [_cusProfileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedCusServerIndex] byExtendingSelection:NO];
-//        } else {
-//            [self setSelectedCusServerIndex:-1];
-//        }
-//        [_cusProfileTable reloadData];
-//    }
-//}
 
 - (IBAction)showCusConfigWindow:(NSButton *)sender {
     self.advancedWindowController = [[AdvancedWindowController alloc] initWithWindowNibName:@"AdvancedWindow" parentController:self];
@@ -517,28 +555,11 @@
             if (set[@"settings"]) { // compatibal with previous config file format
                 set = set[@"settings"];
             }
-            if (!set[@"name"]) {
-                set[@"name"] = @"imported rule set";
+            NSMutableDictionary* validatedSet = [self validateRuleSet:set];
+            if (validatedSet) {
+                [self.routingRuleSets addObject:validatedSet];
+                ruleSetCount += 1;
             }
-            if (!set[@"rules"] || ![set[@"rules"] isKindOfClass:[NSMutableArray class]] || ![set[@"rules"] count] ) {
-                set[@"rules"] = [[NSMutableArray alloc] init];
-            }
-            if (![@"0-65535" isEqualToString: [set[@"rules"] lastObject][@"port"]]) {
-                NSMutableDictionary *lastRule = [@{
-                                                    @"type" : @"field",
-                                                    @"outboundTag" : @"main",
-                                                    @"port" : @"0-65535"
-                                                    } mutableDeepCopy];
-                [set[@"rules"] addObject:lastRule];
-            }
-            // current does not support source/user/inboundTag/protocol
-            for (NSMutableDictionary* aRule in set[@"rules"]) {
-                for (NSString* notSupport in @[@"source", @"user", @"inboundTag", @"protocol"]) {
-                    [aRule removeObjectForKey:notSupport];
-                }
-            }
-            [self.routingRuleSets addObject:set];
-            ruleSetCount += 1;
         }
     }
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -569,9 +590,7 @@
 }
 
 - (IBAction)showLog:(id)sender {
-    [appDelegate viewLog:sender];
+    [_appDelegate viewLog:sender];
 }
-
-@synthesize appDelegate;
 
 @end
