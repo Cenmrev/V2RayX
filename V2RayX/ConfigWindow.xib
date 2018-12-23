@@ -134,9 +134,9 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tIh-r8-4RU">
-                        <rect key="frame" x="18" y="304" width="93" height="17"/>
+                        <rect key="frame" x="18" y="304" width="99" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="V2Ray Servers" id="UpZ-NV-drp">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="VMess Servers:" id="UpZ-NV-drp">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -584,12 +584,12 @@ Gw
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="importConfigs:" target="-2" id="sCE-z9-1oD"/>
+                            <action selector="importConfigs:" target="-2" id="etz-5i-H5p"/>
                         </connections>
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="150.5" y="234"/>
+            <point key="canvasLocation" x="74" y="128"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="I7n-bF-Cph"/>
         <menuItem title="Item" id="tLs-gB-gFx">
@@ -597,26 +597,23 @@ Gw
         </menuItem>
         <menu id="R79-z8-mxK">
             <items>
-                <menuItem title="Import from JSON file..." id="eze-Oh-vyD">
+                <menuItem title="Import from standard JSON files..." id="eze-Oh-vyD">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="importFromJSONFile:" target="-2" id="jT2-F5-BaD"/>
+                        <action selector="showPanelToImport:" target="-2" id="LHO-yf-jxh"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Subscribe" id="zZ5-SG-bpX">
+                <menuItem title="Import from standard share links..." id="CTZ-Lq-X8f">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="subscribeV2rayN:" target="-2" id="mrU-Iw-fDA"/>
-                    </connections>
                 </menuItem>
-                <menuItem title="Import from QR code of v2rayN..." id="ILa-K1-TxB">
+                <menuItem title="Import from pastboard..." id="EQb-nS-Lf9">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="importFromQRCodeV2rayN:" target="-2" id="Z84-um-cE5"/>
-                    </connections>
+                </menuItem>
+                <menuItem title="Import from other miscellaneous links..." id="8rA-16-mml">
+                    <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="-11.5" y="527"/>
+            <point key="canvasLocation" x="-56" y="476"/>
         </menu>
         <customView id="jV2-ec-trE">
             <rect key="frame" x="0.0" y="0.0" width="163" height="96"/>

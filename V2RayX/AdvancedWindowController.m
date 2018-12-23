@@ -366,7 +366,7 @@
         [_configTable reloadData];
 //        [_configTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[_configs count] -1] byExtendingSelection:NO];
 //        [_configTable setFocusedColumn:[_configs count] - 1];
-    } else if ([sender selectedSegment] == 1 && [_configs count] > 0) {
+    } else if ([sender selectedSegment] == 1 && [_configTable selectedRow] > 0 && [_configTable selectedRow] < _configs.count) {
         [_configs removeObjectAtIndex:[_configTable selectedRow]];
         [_configTable reloadData];
     }

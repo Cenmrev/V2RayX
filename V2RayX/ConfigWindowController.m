@@ -95,21 +95,12 @@
     [[self window] makeFirstResponder:_profileTable];
 }
 
-// set controller as profilesTable and cusProfileTable's datasource
+// set controller as profilesTable's datasource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     if (tableView == _profileTable) {
         return [_profiles count];
     }
-    if (tableView == _cusProfileTable) {
-        return [_cusProfiles count];
-    }
     return 0;
-}
-
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    if (tableView == _cusProfileTable) {
-        [_cusProfiles setObject:object atIndexedSubscript:row];
-    }
 }
 
 - (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
@@ -117,13 +108,6 @@
         if ([_profiles count] > 0) {
             ServerProfile* p = [_profiles objectAtIndex:row];
             return [[p outboundTag] length] > 0 ? [p outboundTag] : [NSString stringWithFormat:@"%@:%ld", [p address], [p port]];
-        } else {
-            return nil;
-        }
-    }
-    if (tableView == _cusProfileTable) {
-        if ([_cusProfiles count] > 0) {
-            return _cusProfiles[row];
         } else {
             return nil;
         }
@@ -139,12 +123,6 @@
             [self setSelectedProfile:_profiles[_selectedServerIndex]];
         }
     }
-    if ([notification object] == _cusProfileTable) {
-        if ([_cusProfiles count] > 0) {
-            [self setSelectedCusServerIndex:[_cusProfileTable selectedRow]];
-        }
-    }
-    
 }
 
 - (IBAction)chooseNetwork:(NSPopUpButton *)sender {
@@ -561,6 +539,32 @@
                 ruleSetCount += 1;
             }
         }
+        if (jsonObject[@"server"] && jsonObject[@"server_port"] && jsonObject[@"password"] && jsonObject[@"method"] && [SUPPORTED_SS_SECURITY indexOfObject:jsonObject[@"method"]] != NSNotFound) {
+            NSMutableDictionary* ssOutbound = [@{
+                @"sendThrough": @"0.0.0.0",
+                @"protocol": @"shadowsocks",
+                @"settings": @{
+                    @"servers": @[
+                                @{
+                                    @"address": jsonObject[@"server"],
+                                    @"port": jsonObject[@"server_port"],
+                                    @"method": jsonObject[@"method"],
+                                    @"password": jsonObject[@"password"],
+                                }
+                                ]
+                },
+                @"tag": [NSString stringWithFormat:@"%@:%@",jsonObject[@"server"],jsonObject[@"server_port"]],
+                @"streamSettings": @{},
+                @"mux": @{}
+                } mutableDeepCopy];
+            if ([jsonObject[@"fast_open"] isKindOfClass:[NSNumber class]]) {
+                ssOutbound[@"streamSettings"] =[@{ @"sockopt": @{
+                                                      @"tcpFastOpen": jsonObject[@"fast_open"]
+                                                      }} mutableDeepCopy];
+            }
+            [self.outbounds addObject:ssOutbound];
+            otherCount += 1;
+        }
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->_profileTable reloadData];
@@ -573,7 +577,7 @@
     });
 }
 
-- (IBAction)importFromJSONFile:(id)sender {
+- (IBAction)showPanelToImport:(id)sender {
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
     [openPanel setCanChooseFiles:YES];
     [openPanel setAllowsMultipleSelection:YES];
