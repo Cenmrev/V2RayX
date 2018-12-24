@@ -305,8 +305,25 @@
         [_ruleSetTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_routingRuleSets.count - 1] byExtendingSelection:NO]; // toggle
     } else if([sender selectedSegment] == 1 && _selectedRuleSet > 0 && _selectedRuleSet < _routingRuleSets.count){
         [_routingRuleSets removeObjectAtIndex:_selectedRuleSet];
+        NSUInteger originalIndex = _ruleSetTable.selectedRow;
         [_ruleSetTable selectRowIndexes:[NSIndexSet indexSetWithIndex:MIN(_selectedRuleSet, _routingRuleSets.count - 1)] byExtendingSelection:NO]; // toggle
+        if (originalIndex == _ruleSetTable.selectedRow) {
+            [self tableViewSelectionDidChange:[NSNotification notificationWithName:NSTableViewSelectionDidChangeNotification object:_ruleSetTable]];
+        }
         [_ruleSetTable reloadData];
+    } else if ([sender selectedSegment] == 2) {
+        NSAlert* alert = [NSAlert alertWithMessageText:@"Do you want to reset rule sets to original three ones?" defaultButton:@"OK" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@""];
+        [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+            if (returnCode == NSModalResponseOK) {
+                self->_routingRuleSets = [@[ROUTING_DIRECT, ROUTING_GLOBAL, ROUTING_BYPASSCN_PRIVATE_APPLE] mutableDeepCopy];
+                NSUInteger originalIndex = self->_ruleSetTable.selectedRow;
+                [self->_ruleSetTable selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO]; // toggle
+                if (originalIndex == self->_ruleSetTable.selectedRow) {
+                    [self tableViewSelectionDidChange:[NSNotification notificationWithName:NSTableViewSelectionDidChangeNotification object:self->_ruleSetTable]];
+                }
+                [self->_ruleSetTable reloadData];
+            }
+        }];
     }
 }
 

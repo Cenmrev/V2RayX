@@ -187,7 +187,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Rules" identifier="" id="i0P-1v-Yeh">
-                                <view key="view" id="uJw-Fs-Pqs">
+                                <view key="view" ambiguous="YES" id="uJw-Fs-Pqs">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -196,7 +196,7 @@ Gw
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="R4k-Ta-qWH">
                                                 <rect key="frame" x="1" y="1" width="112" height="321"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="wbH-CA-T9F">
                                                         <rect key="frame" x="0.0" y="0.0" width="112" height="321"/>
@@ -235,27 +235,6 @@ Gw
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
-                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kzb-ey-8xe">
-                                            <rect key="frame" x="11" y="14" width="114" height="23"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="smallSquare" trackingMode="momentary" id="N82-tM-ejL">
-                                                <font key="font" metaFont="system"/>
-                                                <segments>
-                                                    <segment image="NSAddTemplate">
-                                                        <nil key="label"/>
-                                                    </segment>
-                                                    <segment image="NSRemoveTemplate" tag="1">
-                                                        <nil key="label"/>
-                                                    </segment>
-                                                    <segment width="56" enabled="NO">
-                                                        <nil key="label"/>
-                                                    </segment>
-                                                </segments>
-                                            </segmentedCell>
-                                            <connections>
-                                                <action selector="addRemoveRuleSet:" target="-2" id="hNP-fr-cqj"/>
-                                            </connections>
-                                        </segmentedControl>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2su-gn-RcM">
                                             <rect key="frame" x="145" y="333" width="97" height="17"/>
                                             <autoresizingMask key="autoresizingMask"/>
@@ -354,7 +333,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <clipView key="contentView" ambiguous="YES" id="svV-1v-pv5">
                                                             <rect key="frame" x="1" y="1" width="85" height="228"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="VlQ-mV-pLn">
                                                                     <rect key="frame" x="0.0" y="0.0" width="85" height="228"/>
@@ -436,7 +415,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="RDn-zh-dIS">
                                                             <rect key="frame" x="0.0" y="0.0" width="217" height="137"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1mD-il-bEM">
                                                                     <rect key="frame" x="0.0" y="0.0" width="217" height="137"/>
@@ -502,6 +481,30 @@ Gw
                                                 </subviews>
                                             </view>
                                         </box>
+                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kzb-ey-8xe">
+                                            <rect key="frame" x="11" y="13" width="114" height="23"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="smallSquare" trackingMode="momentary" id="N82-tM-ejL">
+                                                <font key="font" metaFont="system"/>
+                                                <segments>
+                                                    <segment image="NSAddTemplate">
+                                                        <nil key="label"/>
+                                                    </segment>
+                                                    <segment image="NSRemoveTemplate" tag="1">
+                                                        <nil key="label"/>
+                                                    </segment>
+                                                    <segment image="NSRefreshTemplate">
+                                                        <nil key="label"/>
+                                                    </segment>
+                                                    <segment width="28">
+                                                        <nil key="label"/>
+                                                    </segment>
+                                                </segments>
+                                            </segmentedCell>
+                                            <connections>
+                                                <action selector="addRemoveRuleSet:" target="-2" id="hNP-fr-cqj"/>
+                                            </connections>
+                                        </segmentedControl>
                                     </subviews>
                                 </view>
                             </tabViewItem>
@@ -588,7 +591,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="V2Ray Core" identifier="" id="67G-Pu-y5A">
-                                <view key="view" ambiguous="YES" id="Jjh-Q6-tKG">
+                                <view key="view" id="Jjh-Q6-tKG">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -667,13 +670,13 @@ Compatibility is not guaranteed.</string>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Brv-Oa-rjx">
                                             <rect key="frame" x="15" y="9" width="277" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <popUpButtonCell key="cell" type="push" title="Turn off system proxy" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="pJL-wh-M4Z" id="7tm-cR-ge6">
+                                            <popUpButtonCell key="cell" type="push" title="Turn off system proxy" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="pJL-wh-M4Z" id="7tm-cR-ge6">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" id="ifX-Ah-Gk4">
                                                     <items>
-                                                        <menuItem title="Turn off system proxy" id="pJL-wh-M4Z"/>
-                                                        <menuItem title="Restore system proxy to original states" state="on" id="uYN-nr-DtG"/>
+                                                        <menuItem title="Turn off system proxy" state="on" id="pJL-wh-M4Z"/>
+                                                        <menuItem title="Restore system proxy to original states" id="uYN-nr-DtG"/>
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
@@ -782,6 +785,7 @@ will match all private IPs.</string>
     </objects>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSRefreshTemplate" width="11" height="15"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
     </resources>
 </document>
