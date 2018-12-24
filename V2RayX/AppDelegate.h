@@ -77,6 +77,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 - (NSString*)logDirPath;
 
 @property (strong, nonatomic)  NSStatusItem *statusBarItem;
+@property (weak) IBOutlet NSMenuItem *upgradeMenuItem;
 @property (strong, nonatomic) IBOutlet NSMenu *statusBarMenu;
 @property (weak, nonatomic) IBOutlet NSMenuItem *v2rayStatusItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *enableV2rayItem;

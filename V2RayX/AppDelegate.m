@@ -106,7 +106,7 @@ static AppDelegate *appDelegate;
     
     // resume the service when mac wakes up
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(didChangeStatus:) name:NSWorkspaceDidWakeNotification object:NULL];
-    
+    [self checkUpgrade:self];
 }
 
 - (BOOL)installHelper:(BOOL)force {
@@ -168,6 +168,29 @@ static AppDelegate *appDelegate;
         return NO;
     }
     return YES;
+}
+
+- (IBAction)openReleasePage:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/Cenmrev/V2RayX/releases/latest"]];
+}
+
+- (IBAction)checkUpgrade:(id)sender {
+    NSURL* url =[NSURL URLWithString:@"https://api.github.com/repos/cenmrev/v2rayx/releases/latest"];
+    NSURLSessionDataTask* task = [[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSDictionary* d = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        @try {
+            if (![[d[@"tag_name"] substringFromIndex:1] isEqualToString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]] && [d[@"prerelease"] isEqualToNumber:@NO]) {
+                self.upgradeMenuItem.hidden = false;
+            } else {
+                self.upgradeMenuItem.hidden = true;
+            }
+        } @catch (NSException *exception) {
+            self.upgradeMenuItem.hidden = true;
+        } @finally {
+            ;
+        }
+    }];
+    [task resume];
 }
 
 - (void)readDefaults {

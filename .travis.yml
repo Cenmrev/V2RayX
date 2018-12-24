@@ -4,17 +4,32 @@ sudo: false
 install: true
 script: xcodebuild -project V2RayX.xcodeproj -target V2RayX -configuration Release
 
+after_success:
+- isbeta=$(git describe --abbrev=0 --tags | grep beta)
+
 before_deploy:
 - cd build/Release/
 - zip -r V2RayX.app.zip V2RayX.app
 - cd ../..
 
 deploy:
-  provider: releases
-  api_key:
-    secure: HjwZ8C70qYeozvaEUvKqDX42T26pRYiQBrTvzbqy8Q+BDWJZ7vNZhSwgt+oYGBywgpk0bM/Ao3al6YDlTE86bMiRUEGSFjRWo2Oquo4N5ydp5cmzT6sVigrLiviufAMrCrCljh0OEt/hEN7wf7zJ8SZKFCLOi8AhTkJu8yEuFdx/2Zd/VSOs6AFp0s1uGrfd3UmwxWfGcKatpYb4GcCwZk2PrECc0qkAP9UzGjemU1cYzcICi+cXl/NoMeLRftHSZaGl+zg95bvddSlNvyqvPwH/00hnh6kpjdyKMDQ071eFE+9NIShglm5yS9TcR3+fE6WfWU9SjTOnT2IfggvXfogcJWd7k4/AwFoAkezNiV0IMKXl2163T17pfFxVQo56oy9HtMts3bw5TapL2YiJa1PKzluSc5ijNcGdDh/7GIejne9lyTeHNhnE/Acmlt8Mu9N+gSj04R4sqN/GfTGzmlPC4kXB08RLg5ycHksGyf4YOLYe9wOEBN4UaSqepFsWqrrufj16l4dqTdacLdt2dJtkPsqCCiUu+nfVVZP9uibIMqWjBi+Fp2Rz+RIvaqtoQrMy+b1y/YwcVz9cJ29OMwU5hY6MehN5pqknwMhsDk1vH5m93swpL6wfM6CT7NjambVfPGffX8zYp/1l/CbBelzjaxZ/CbV4GHXkYHJ923s=
-  file: build/Release/V2RayX.app.zip
-  skip_cleanup: true
-  on:
-    repo: Cenmrev/V2RayX
-    tags: true
+  - provider: releases
+    prerelease: true
+    api_key:
+      secure: HjwZ8C70qYeozvaEUvKqDX42T26pRYiQBrTvzbqy8Q+BDWJZ7vNZhSwgt+oYGBywgpk0bM/Ao3al6YDlTE86bMiRUEGSFjRWo2Oquo4N5ydp5cmzT6sVigrLiviufAMrCrCljh0OEt/hEN7wf7zJ8SZKFCLOi8AhTkJu8yEuFdx/2Zd/VSOs6AFp0s1uGrfd3UmwxWfGcKatpYb4GcCwZk2PrECc0qkAP9UzGjemU1cYzcICi+cXl/NoMeLRftHSZaGl+zg95bvddSlNvyqvPwH/00hnh6kpjdyKMDQ071eFE+9NIShglm5yS9TcR3+fE6WfWU9SjTOnT2IfggvXfogcJWd7k4/AwFoAkezNiV0IMKXl2163T17pfFxVQo56oy9HtMts3bw5TapL2YiJa1PKzluSc5ijNcGdDh/7GIejne9lyTeHNhnE/Acmlt8Mu9N+gSj04R4sqN/GfTGzmlPC4kXB08RLg5ycHksGyf4YOLYe9wOEBN4UaSqepFsWqrrufj16l4dqTdacLdt2dJtkPsqCCiUu+nfVVZP9uibIMqWjBi+Fp2Rz+RIvaqtoQrMy+b1y/YwcVz9cJ29OMwU5hY6MehN5pqknwMhsDk1vH5m93swpL6wfM6CT7NjambVfPGffX8zYp/1l/CbBelzjaxZ/CbV4GHXkYHJ923s=
+    file: build/Release/V2RayX.app.zip
+    skip_cleanup: true
+    on:
+      repo: Cenmrev/V2RayX
+      tags: true
+      condition: "\"$isbeta\" != \"\""
+
+  - provider: releases
+    api_key:
+      secure: HjwZ8C70qYeozvaEUvKqDX42T26pRYiQBrTvzbqy8Q+BDWJZ7vNZhSwgt+oYGBywgpk0bM/Ao3al6YDlTE86bMiRUEGSFjRWo2Oquo4N5ydp5cmzT6sVigrLiviufAMrCrCljh0OEt/hEN7wf7zJ8SZKFCLOi8AhTkJu8yEuFdx/2Zd/VSOs6AFp0s1uGrfd3UmwxWfGcKatpYb4GcCwZk2PrECc0qkAP9UzGjemU1cYzcICi+cXl/NoMeLRftHSZaGl+zg95bvddSlNvyqvPwH/00hnh6kpjdyKMDQ071eFE+9NIShglm5yS9TcR3+fE6WfWU9SjTOnT2IfggvXfogcJWd7k4/AwFoAkezNiV0IMKXl2163T17pfFxVQo56oy9HtMts3bw5TapL2YiJa1PKzluSc5ijNcGdDh/7GIejne9lyTeHNhnE/Acmlt8Mu9N+gSj04R4sqN/GfTGzmlPC4kXB08RLg5ycHksGyf4YOLYe9wOEBN4UaSqepFsWqrrufj16l4dqTdacLdt2dJtkPsqCCiUu+nfVVZP9uibIMqWjBi+Fp2Rz+RIvaqtoQrMy+b1y/YwcVz9cJ29OMwU5hY6MehN5pqknwMhsDk1vH5m93swpL6wfM6CT7NjambVfPGffX8zYp/1l/CbBelzjaxZ/CbV4GHXkYHJ923s=
+    file: build/Release/V2RayX.app.zip
+    skip_cleanup: true
+    on:
+      repo: Cenmrev/V2RayX
+      tags: true
+      condition: "\"$isbeta\" = \"\""
