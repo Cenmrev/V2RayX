@@ -214,6 +214,7 @@ static AppDelegate *appDelegate;
     udpSupport = [nilCoalescing([defaults objectForKey:@"udpSupport"], @(NO)) boolValue];// do not support udp as default
     shareOverLan = [nilCoalescing([defaults objectForKey:@"shareOverLan"],@(NO)) boolValue];
     dnsString = nilCoalescing([defaults objectForKey:@"dnsString"], @"localhost");
+    _enableRestore = [nilCoalescing([defaults objectForKey:@"enableRestore"],@(NO)) boolValue];
     
     profiles = [[NSMutableArray alloc] init];
     if ([[defaults objectForKey:@"profiles"] isKindOfClass:[NSArray class]] && [[defaults objectForKey:@"profiles"] count] > 0) {
@@ -261,6 +262,7 @@ static AppDelegate *appDelegate;
               [[[ServerProfile alloc] init] outboundProfile]
               ],
       @"cusProfiles": @[],
+      @"enableRestore": @NO,
       @"routingRuleSets": @[ROUTING_DIRECT, ROUTING_GLOBAL, ROUTING_BYPASSCN_PRIVATE_APPLE],
       };
     for (NSString* key in [defaultSettings allKeys]) {
@@ -299,7 +301,8 @@ static AppDelegate *appDelegate;
           @"dnsString": self.dnsString,
           @"profiles":self.profiles,
           @"cusProfiles": self.cusProfiles,
-          @"routingRuleSets": self.routingRuleSets
+          @"routingRuleSets": self.routingRuleSets,
+          @"enableRestore": @(self.enableRestore)
           };
         for (NSString* key in [settings allKeys]) {
             [[NSUserDefaults standardUserDefaults] setObject:settings[key] forKey:key];
@@ -322,7 +325,7 @@ static AppDelegate *appDelegate;
     [self saveAppStatus];
     //turn off proxy
     if (proxyState && proxyMode != manualMode) {
-        [self restoreSystemProxy];//restore system proxy
+        _enableRestore ? [self restoreSystemProxy] : [self cancelSystemProxy]; //restore system proxy
     }
 }
 
@@ -352,8 +355,17 @@ static AppDelegate *appDelegate;
     });
 }
 
+-(void)cancelSystemProxy {
+    dispatch_async(taskQueue, ^{
+        runCommandLine(kV2RayXHelper,@[@"off"]);
+    });
+}
+
 - (IBAction)didChangeStatus:(id)sender {
     NSInteger previousStatus = proxyState;
+    if (sender == self) {
+        previousStatus = false;
+    }
     // sender can be
     // 1. self, when app is launched
     // 2. menuitem, when a user click on an item
@@ -378,7 +390,7 @@ static AppDelegate *appDelegate;
         if (previousStatus == false && proxyState == true) {
             [self backupSystemProxy];
         } else if (previousStatus == true && proxyState == false ) {
-            [self restoreSystemProxy];
+            _enableRestore ? [self restoreSystemProxy] : [self cancelSystemProxy];
         }
     }
     [self coreConfigDidChange:self];
@@ -397,7 +409,7 @@ static AppDelegate *appDelegate;
         [self backupSystemProxy];
     }
     if (proxyState == true && proxyMode != manualMode && [sender tag] == manualMode) {
-        [self restoreSystemProxy];
+        _enableRestore ? [self restoreSystemProxy] : [self cancelSystemProxy];
     }
     proxyMode = [sender tag];
     [self updateMenus];
@@ -405,7 +417,7 @@ static AppDelegate *appDelegate;
         [self updatePacMenuList];
     }
     if (proxyState == true) {
-        [self updateSystemProxy]; // need rewrite
+        [self updateSystemProxy];
     }
 }
 

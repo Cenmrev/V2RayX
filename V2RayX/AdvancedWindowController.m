@@ -79,7 +79,7 @@
     
     // core path
     self.corePathField.stringValue = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/v2ray-core/",NSHomeDirectory()];
-//    selectedOutbound = 0;
+    self.enableRestore = configWindowController.enableRestore;
     
     [self fillData];
 }
@@ -102,6 +102,8 @@
     // configs
     self.configs = [configWindowController.cusProfiles mutableDeepCopy];
     [_configTable reloadData];
+    // core
+    [_enableRestoreButton selectItemAtIndex:_enableRestore?1:0];
 }
 
 - (IBAction)ok:(id)sender {
@@ -396,6 +398,10 @@
         [[NSFileManager defaultManager] createDirectoryAtPath:self.corePathField.stringValue withIntermediateDirectories:YES attributes:nil error:nil];
     }
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[[NSURL fileURLWithPath:self.corePathField.stringValue]]];
+}
+
+- (IBAction)changeEnableRestore:(NSPopUpButton*)sender {
+    _enableRestore = [sender indexOfSelectedItem];
 }
 
 - (IBAction)showInformation:(id)sender {

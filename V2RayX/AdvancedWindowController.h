@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak) IBOutlet NSSegmentedControl *outboundAddControl;
 @property NSMutableArray* outbounds;
 
-
 @property (weak) IBOutlet NSTabView *mainTabView;
 //rules
 @property (strong) IBOutlet NSView *routingTagHelpView;
@@ -50,6 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 // v2ray core
 @property (weak) IBOutlet NSTextField *corePathField;
 @property (weak) IBOutlet NSTextField *coreFileListField;
+@property (weak) IBOutlet NSPopUpButton *enableRestoreButton;
+@property BOOL enableRestore;
 
 @end
 

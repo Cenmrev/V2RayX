@@ -83,6 +83,7 @@
     self.udpSupport = _appDelegate.udpSupport;
     self.shareOverLan = _appDelegate.shareOverLan;
     self.dnsString = _appDelegate.dnsString;
+    self.enableRestore = _appDelegate.enableRestore;
     NSDictionary *logLevelDic = @{
                                @"debug": @4,
                                @"info": @3,
@@ -230,6 +231,7 @@
     _appDelegate.shareOverLan = self.shareOverLan;
     _appDelegate.dnsString = dnsStr;
     _appDelegate.cusProfiles = self.cusProfiles;
+    _appDelegate.enableRestore = self.enableRestore;
     [_appDelegate.routingRuleSets removeAllObjects];
     for (NSMutableDictionary* set in self.routingRuleSets) {
         NSMutableDictionary* validatedSet = [ConfigImporter validateRuleSet:set];
@@ -252,6 +254,7 @@
             self.outbounds = self.advancedWindowController.outbounds;
             self.cusProfiles = self.advancedWindowController.configs;
             self.routingRuleSets = self.advancedWindowController.routingRuleSets;
+            self.enableRestore = self.advancedWindowController.enableRestore;
         }
         self.advancedWindowController = nil;
     }];

@@ -44,6 +44,7 @@
 @property (nonatomic) NSMutableArray *outbounds; // except than vmess
 @property NSMutableArray* routingRuleSets;
 @property (nonatomic) NSMutableArray *cusProfiles;
+@property BOOL enableRestore;
 
 @property (weak) IBOutlet NSTextField *versionField;
 

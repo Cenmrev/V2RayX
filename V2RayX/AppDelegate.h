@@ -64,6 +64,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property NSString* logLevel;
 @property BOOL useMultipleServer;
 @property NSString* selectedPacFileName;
+@property BOOL enableRestore;
 
 - (IBAction)didChangeStatus:(id)sender;
 - (IBAction)showHelp:(id)sender;

@@ -18,6 +18,7 @@
                 <outlet property="domainIpHelpView" destination="o2X-Co-4Uk" id="yJU-k6-UuF"/>
                 <outlet property="domainIpTextView" destination="1mD-il-bEM" id="NFH-22-9XV"/>
                 <outlet property="domainStrategyButton" destination="go4-fU-8VR" id="dbi-6a-wSS"/>
+                <outlet property="enableRestoreButton" destination="Brv-Oa-rjx" id="JtK-Jh-zAk"/>
                 <outlet property="mainTabView" destination="QYP-On-JTO" id="wVr-XL-l8W"/>
                 <outlet property="networkEnableButton" destination="5bh-W3-sf1" id="ajt-c9-ENa"/>
                 <outlet property="networkListButton" destination="g4Z-Bg-9h9" id="AGs-ms-Bjs"/>
@@ -186,7 +187,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Rules" identifier="" id="i0P-1v-Yeh">
-                                <view key="view" ambiguous="YES" id="uJw-Fs-Pqs">
+                                <view key="view" id="uJw-Fs-Pqs">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -195,7 +196,7 @@ Gw
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="R4k-Ta-qWH">
                                                 <rect key="frame" x="1" y="1" width="112" height="321"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="wbH-CA-T9F">
                                                         <rect key="frame" x="0.0" y="0.0" width="112" height="321"/>
@@ -353,7 +354,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <clipView key="contentView" ambiguous="YES" id="svV-1v-pv5">
                                                             <rect key="frame" x="1" y="1" width="85" height="228"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="VlQ-mV-pLn">
                                                                     <rect key="frame" x="0.0" y="0.0" width="85" height="228"/>
@@ -435,7 +436,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="RDn-zh-dIS">
                                                             <rect key="frame" x="0.0" y="0.0" width="217" height="137"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1mD-il-bEM">
                                                                     <rect key="frame" x="0.0" y="0.0" width="217" height="137"/>
@@ -514,7 +515,7 @@ Gw
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="Jkw-Zi-tMR">
                                                 <rect key="frame" x="1" y="1" width="458" height="266"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" id="sAX-Hf-7on">
                                                         <rect key="frame" x="0.0" y="0.0" width="458" height="266"/>
@@ -587,12 +588,12 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="V2Ray Core" identifier="" id="67G-Pu-y5A">
-                                <view key="view" id="Jjh-Q6-tKG">
+                                <view key="view" ambiguous="YES" id="Jjh-Q6-tKG">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vky-bm-RTr">
-                                            <rect key="frame" x="15" y="271" width="462" height="60"/>
+                                            <rect key="frame" x="15" y="297" width="462" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <textFieldCell key="cell" id="a4D-MW-Gqf">
                                                 <font key="font" metaFont="system"/>
@@ -602,7 +603,7 @@ Gw
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Y7-Ux-q6J">
-                                            <rect key="frame" x="17" y="246" width="462" height="17"/>
+                                            <rect key="frame" x="17" y="272" width="462" height="17"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="/path/to/application support" id="IEx-Ah-Xhi">
                                                 <font key="font" metaFont="system"/>
@@ -611,9 +612,9 @@ Gw
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ean-lF-CNp">
-                                            <rect key="frame" x="408" y="210" width="73" height="32"/>
+                                            <rect key="frame" x="402" y="236" width="85" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="Open" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sPe-U4-330">
+                                            <buttonCell key="cell" type="push" title="Open..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sPe-U4-330">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -622,7 +623,7 @@ Gw
                                             </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tfr-JR-7kn">
-                                            <rect key="frame" x="17" y="163" width="419" height="17"/>
+                                            <rect key="frame" x="17" y="218" width="419" height="17"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <textFieldCell key="cell" title="Make sure the following files are present:" id="1Vl-aE-8sN">
                                                 <font key="font" metaFont="system"/>
@@ -631,7 +632,7 @@ Gw
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SbL-wp-TzE">
-                                            <rect key="frame" x="49" y="81" width="326" height="74"/>
+                                            <rect key="frame" x="49" y="136" width="326" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" id="QCH-HC-h7v">
                                                 <font key="font" metaFont="system"/>
@@ -644,7 +645,7 @@ v2ray-core/geosite.dat</string>
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0qM-00-ZuW">
-                                            <rect key="frame" x="17" y="39" width="361" height="34"/>
+                                            <rect key="frame" x="17" y="94" width="361" height="34"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" id="ldu-SF-fOd">
                                                 <font key="font" metaFont="system"/>
@@ -654,6 +655,36 @@ Compatibility is not guaranteed.</string>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5po-D3-mgl">
+                                            <rect key="frame" x="15" y="41" width="416" height="17"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="When quiting V2RayX, or unloading core, or choosing manual mode:" id="dIM-hU-vOx">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Brv-Oa-rjx">
+                                            <rect key="frame" x="15" y="9" width="277" height="25"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <popUpButtonCell key="cell" type="push" title="Turn off system proxy" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="pJL-wh-M4Z" id="7tm-cR-ge6">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" id="ifX-Ah-Gk4">
+                                                    <items>
+                                                        <menuItem title="Turn off system proxy" id="pJL-wh-M4Z"/>
+                                                        <menuItem title="Restore system proxy to original states" state="on" id="uYN-nr-DtG"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                            <connections>
+                                                <action selector="changeEnableRestore:" target="-2" id="CeA-KN-s0i"/>
+                                            </connections>
+                                        </popUpButton>
+                                        <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="4nM-Ft-D96">
+                                            <rect key="frame" x="9" y="74" width="476" height="5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        </box>
                                     </subviews>
                                 </view>
                             </tabViewItem>
@@ -689,7 +720,7 @@ Gw
             <connections>
                 <outlet property="delegate" destination="-2" id="fEg-7w-QRN"/>
             </connections>
-            <point key="canvasLocation" x="207" y="236"/>
+            <point key="canvasLocation" x="207" y="235.5"/>
         </window>
         <customView id="QAK-Cz-bFI">
             <rect key="frame" x="0.0" y="0.0" width="530" height="194"/>
@@ -700,7 +731,7 @@ Gw
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" id="GeG-md-J3l">
                         <font key="font" size="13" name="Courier"/>
-                        <string key="title">When an incoming connection match ALL the criterions (domain/ip/port/network), it will be routed to the provided outbound tag. 
+                        <string key="title">When an incoming connection matches ALL the criterions (domain/ip/port/network), it will be routed to the provided outbound tag. 
 
 Four preset tags:
    main: the outbound users choose from the menu list "Server"
@@ -724,7 +755,7 @@ balance: v2ray will randomly pickup an outbound from all
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" id="EXS-dL-5V7">
                         <font key="font" size="13" name="Courier"/>
-                        <string key="title">To provide domain and IP rules, Follow this format:
+                        <string key="title">To provide domain and IP rules, follow this format:
     separate domains and ips with a line `---`.
 Examples:
 1.
