@@ -8,6 +8,7 @@
 #define utilities_h
 
 #import <Cocoa/Cocoa.h>
+#import "MutableDeepCopying.h"
 
 #define DOMAIN_STRATEGY_LIST (@[@"AsIs", @"IPIfNonMatch", @"IPOnDemand"])
 #define ROUTING_NETWORK_LIST (@[@"tcp", @"udp", @"tcp,udp"])

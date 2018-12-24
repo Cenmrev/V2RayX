@@ -10,6 +10,7 @@
 #import "MutableDeepCopying.h"
 #import "TransportWindowController.h"
 #import "AdvancedWindowController.h"
+#import "ConfigImporter.h"
 
 @interface ConfigWindowController ()
 
@@ -194,57 +195,6 @@
     }
 }
 
-- (NSMutableDictionary*)validateRuleSet:(NSMutableDictionary*)set {
-    if (![set isKindOfClass:[NSMutableDictionary class]]) {
-        NSLog(@"not a mutable dictionary class, %@", [set className]);
-        return nil;
-    }
-    if (!set[@"rules"] || ![set[@"rules"] isKindOfClass:[NSMutableArray class]] || ![set count] ) {
-        NSLog(@"no rules");
-        return  nil;
-    }
-    if (![@"0-65535" isEqualToString: [set[@"rules"] lastObject][@"port"]]) {
-        NSMutableDictionary *lastRule = [@{
-                                           @"type" : @"field",
-                                           @"outboundTag" : @"main",
-                                           @"port" : @"0-65535"
-                                           } mutableDeepCopy];
-        [set[@"rules"] addObject:lastRule];
-    }
-    NSMutableArray* ruleToRemove = [[NSMutableArray alloc] init];
-    NSArray* notSupported = @[@"source", @"user", @"inboundTag", @"protocol"];
-    NSArray* supported = @[@"domain", @"ip", @"network", @"port"];
-    // currently, source/user/inboundTag/protocol are not supported
-    for (NSMutableDictionary* aRule in set[@"rules"]) {
-        [aRule removeObjectsForKeys:notSupported];
-        BOOL shouldRemove = true;
-        for (NSString* supportedKey in supported) {
-            if (aRule[supportedKey]) {
-                shouldRemove = false;
-                break;
-            }
-        }
-        if (shouldRemove) {
-            [ruleToRemove addObject:aRule];
-            continue;
-        }
-        aRule[@"type"] = @"field";
-        if (!aRule[@"outboundTag"] && !aRule[@"balancerTag"]) {
-            aRule[@"outboundTag"] = @"main";
-        }
-        if (aRule[@"outboundTag"] && aRule[@"balancerTag"]) {
-            [aRule removeObjectForKey:@"balancerTag"];
-        }
-    }
-    for (NSMutableDictionary* aRule in ruleToRemove) {
-        [set[@"rules"] removeObject:aRule];
-    }
-    if (!set[@"name"]) {
-        set[@"name"] = @"some rule set";
-    }
-    return set;
-}
-
 - (IBAction)okSave:(id)sender {
     if (![self checkTLSforHttp2]) {
         return;
@@ -282,7 +232,7 @@
     _appDelegate.cusProfiles = self.cusProfiles;
     [_appDelegate.routingRuleSets removeAllObjects];
     for (NSMutableDictionary* set in self.routingRuleSets) {
-        NSMutableDictionary* validatedSet = [self validateRuleSet:set];
+        NSMutableDictionary* validatedSet = [ConfigImporter validateRuleSet:set];
         if (validatedSet) {
             [_appDelegate.routingRuleSets addObject:validatedSet];
         }
@@ -321,26 +271,19 @@
 }
 
 // https://stackoverflow.com/questions/7387341/how-to-create-and-get-return-value-from-cocoa-dialog/7387395#7387395
-- (NSString *)input: (NSString *)prompt defaultValue: (NSString *)defaultValue {
+- (void)askInputWithPrompt: (NSString*)prompt handler:(void (^ __nullable)(NSString* inputStr))handler {
     NSAlert *alert = [NSAlert alertWithMessageText: prompt
                                      defaultButton:@"OK"
                                    alternateButton:@"Cancel"
                                        otherButton:nil
                          informativeTextWithFormat:@""];
-    
     NSTextField *input = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 400, 24)];
-    [input setStringValue:defaultValue];
     [alert setAccessoryView:input];
-    NSInteger button = [alert runModal];
-    if (button == NSAlertDefaultReturn) {
-        [input validateEditing];
-        return [input stringValue];
-    } else if (button == NSAlertAlternateReturn) {
-        return nil;
-    } else {
-        NSAssert1(NO, @"Invalid input dialog button %ld", button);
-        return nil;
-    }
+    [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSModalResponseOK) {
+            handler([input stringValue]);
+        }
+    }];
 }
 
 - (void)showAlert:(NSString*)text {
@@ -351,221 +294,21 @@
     }];
 }
 
-- (void)importFromVmess:(NSString*)vmessStr {
-    if ([vmessStr length] < 9 || ![[[vmessStr substringToIndex:8] lowercaseString] isEqualToString:@"vmess://"]) {
-//        [self showAlert:@"Not a vmess:// link!"];
-        return;
-    }
-//    NSLog(@"%@", vmessStr);
-//    NSLog(@"%@", [vmessStr substringFromIndex:8]);
-    // https://stackoverflow.com/questions/19088231/base64-decoding-in-ios-7
-    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:[vmessStr substringFromIndex:8] options:0];
-    if (!decodedData) {
-        [self showAlert:@"Not a valid link!"];
-        return;
-    }
-    NSError* jsonParseError;
-    NSDictionary *sharedServer = [NSJSONSerialization JSONObjectWithData:decodedData options:0 error:&jsonParseError];
-    if (jsonParseError) {
-        [self showAlert:@"Not a valid link!"];
-        return;
-    }
-    ServerProfile* newProfile = [[ServerProfile alloc] init];
-    newProfile.outboundTag = nilCoalescing([sharedServer objectForKey:@"ps"], @"imported From QR");
-    newProfile.address = nilCoalescing([sharedServer objectForKey:@"add"], @"");
-    newProfile.port = [nilCoalescing([sharedServer objectForKey:@"port"], @0) intValue];
-    newProfile.userId = nilCoalescing([sharedServer objectForKey:@"id"], newProfile.userId);
-    newProfile.alterId = [nilCoalescing([sharedServer objectForKey:@"aid"], @0) intValue];
-    NSDictionary *netWorkDict = @{@"tcp": @0, @"kcp": @1, @"ws":@2, @"h2":@3 };
-    if ([sharedServer objectForKey:@"net"] && [netWorkDict objectForKey:[sharedServer objectForKey:@"net"]]) {
-        newProfile.network = [netWorkDict[sharedServer[@"net"]] intValue];
-    }
-//    NSDictionary *securityDict = @{@"aes-128-cfb":@0, @"aes-128-gcm":@1, @"chacha20-poly1305":@2, @"auto":@3, @"none":@4};
-//    if ([sharedServer objectForKey:@"type"] && [securityDict objectForKey:[sharedServer objectForKey:@"type"]]) {
-//        newProfile.security = [securityDict[sharedServer[@"type"]] intValue];
-//    }
-    NSMutableDictionary* streamSettings = [newProfile.streamSettings mutableDeepCopy];
-    switch (newProfile.network) {
-        case tcp:
-            if (![sharedServer objectForKey:@"type"] || !([sharedServer[@"type"] isEqualToString:@"none"] || [sharedServer[@"type"] isEqualToString:@"http"])) {
-                break;
-            }
-            streamSettings[@"tcpSettings"][@"header"][@"type"] = sharedServer[@"type"];
-            if ([streamSettings[@"tcpSettings"][@"header"][@"type"] isEqualToString:@"http"]) {
-                if ([sharedServer objectForKey:@"host"]) {
-                    streamSettings[@"tcpSettings"][@"header"][@"host"] = [sharedServer[@"host"] componentsSeparatedByString:@","];
+- (IBAction)importFromStandardLink:(id)sender {
+    [self askInputWithPrompt:@"Please input the server info with standard and official format" handler:^(NSString *inputStr) {
+        if (inputStr.length) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                NSMutableDictionary* ssOutbound = [ConfigImporter ssOutboundFromSSLink:inputStr];
+                if (ssOutbound) {
+                    [self.outbounds addObject:ssOutbound];
                 }
-            }
-            break;
-        case kcp:
-            if (![sharedServer objectForKey:@"type"]) {
-                break;
-            }
-            if (![@{@"none": @0, @"srtp": @1, @"utp": @2, @"wechat-video":@3, @"dtls":@4, @"wireguard":@5} objectForKey:sharedServer[@"type"]]) {
-                break;
-            }
-            streamSettings[@"kcpSettings"][@"header"][@"type"] = sharedServer[@"type"];
-            break;
-        case ws:
-            if ([[sharedServer objectForKey:@"host"] containsString:@";"]) {
-                NSArray *tempPathHostArray = [[sharedServer objectForKey:@"host"] componentsSeparatedByString:@";"];
-                streamSettings[@"wsSettings"][@"path"] = tempPathHostArray[0];
-                streamSettings[@"wsSettings"][@"headers"][@"Host"] = tempPathHostArray[1];
-            }
-            else {
-                streamSettings[@"wsSettings"][@"path"] = nilCoalescing([sharedServer objectForKey:@"path"], @"");
-                streamSettings[@"wsSettings"][@"headers"][@"Host"] = nilCoalescing([sharedServer objectForKey:@"host"], @"");
-            }
-            break;
-        case http:
-            if ([[sharedServer objectForKey:@"host"] containsString:@";"]) {
-                NSArray *tempPathHostArray = [[sharedServer objectForKey:@"host"] componentsSeparatedByString:@";"];
-                streamSettings[@"wsSettings"][@"path"] = tempPathHostArray[0];
-                streamSettings[@"wsSettings"][@"headers"][@"Host"] = [tempPathHostArray[1] componentsSeparatedByString:@","];
-            }
-            else {
-                streamSettings[@"httpSettings"][@"path"] = nilCoalescing([sharedServer objectForKey:@"path"], @"");
-                if (![sharedServer objectForKey:@"host"]) {
-                    break;
-                };
-                if ([[sharedServer objectForKey:@"host"] length] > 0) {
-                    streamSettings[@"httpSettings"][@"host"] = [[sharedServer objectForKey:@"host"] componentsSeparatedByString:@","];
-                }
-            }
-            break;
-        default:
-            break;
-    }
-    if ([sharedServer objectForKey:@"tls"] && [sharedServer[@"tls"] isEqualToString:@"tls"]) {
-        streamSettings[@"security"] = @"tls";
-    }
-    newProfile.streamSettings = streamSettings;
-    [_profiles addObject:newProfile];
-    [_profileTable reloadData];
-    [_profileTable selectRowIndexes:[NSIndexSet indexSetWithIndex:([_profiles count] - 1)] byExtendingSelection:NO];
-}
-    
-- (IBAction)subscribeV2rayN:(id)sender {
-    /* https://github.com/2dust/v2rayN/wiki/订阅功能说明 */
-    NSString* inputStr = [[self input:@"Please input the server info. " defaultValue:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if ([inputStr length] == 0) {
-        return;
-    }
-    // https://blog.csdn.net/yi_zz32/article/details/48769487
-    NSURL *url = [NSURL URLWithString:inputStr];
-    NSError *urlError = nil;
-    NSString *urlStr = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&urlError];
-    if (!urlError) {
-        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:urlStr options:0];
-        if (!decodedData) {
-            [self showAlert:@"Not a valid link!"];
-            return;
+                [self presentImportResultOfVmessCount:0 otherCount:1 ruleSetCount:0];
+            });
         }
-        NSString *decodedDataStr = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
-        decodedDataStr = [decodedDataStr stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-        NSArray *decodedDataArray = [decodedDataStr componentsSeparatedByString:@"\n"];
-        for (id linkStr in decodedDataArray) {
-            if ([linkStr length] != 0) {
-//                NSLog(@"%@", linkStr);
-                [self importFromVmess:linkStr];
-            }
-        }
-    }
-    else {
-        [self showAlert:@"Open the subscription link failed!"];
-        return;
-    }
+    }];
 }
 
-- (IBAction)importFromQRCodeV2rayN:(id)sender {
-    /* https://github.com/2dust/v2rayN/wiki/分享链接格式说明(ver-2) */
-    NSString* inputStr = [[self input:@"Please input the server info. Format: vmess://" defaultValue:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if ([inputStr length] == 0) {
-        return;
-    }
-    else {
-        [self importFromVmess:inputStr];
-    }
-}
-
-- (void)importFromJSONFiles:(NSArray*)files {
-    __block NSInteger vmessCount = 0;
-    __block NSInteger otherCount = 0;
-    __block NSInteger ruleSetCount = 0;
-    for (NSURL* file in files) {
-        NSError* error;
-        id jsonObject = [NSJSONSerialization JSONObjectWithData:
-                         [NSData dataWithContentsOfURL:file] options:0 error:&error];
-        if (error) continue;
-        if (![jsonObject isKindOfClass:[NSDictionary class]]) continue;
-        NSMutableArray* outboundJSONs = [[NSMutableArray alloc] init];
-        NSMutableArray* routingJSONs = [[NSMutableArray alloc] init];
-        if ([[jsonObject objectForKey:@"outbound"] isKindOfClass:[NSDictionary class]]) {
-            [outboundJSONs addObject:jsonObject[@"outbound"]];
-        }
-        if ([[jsonObject objectForKey:@"outboundDetour"] isKindOfClass:[NSArray class]]) {
-            [outboundJSONs addObjectsFromArray:jsonObject[@"outboundDetour"]];
-        }
-        if ([[jsonObject objectForKey:@"outbounds"] isKindOfClass:[NSArray class]]) {
-            [outboundJSONs addObjectsFromArray:jsonObject[@"outbounds"]];
-        }
-        for (NSDictionary* outboundJSON in outboundJSONs) {
-            NSString* protocol = outboundJSON[@"protocol"];
-            if (!protocol) {
-                continue;
-            }
-            if ([@"vmess" isEqualToString:outboundJSON[@"protocol"]]) {
-                [self.profiles addObject:[ServerProfile profilesFromJson:outboundJSON][0]];
-                vmessCount += 1;
-            } else {
-                [self.outbounds addObject:outboundJSON];
-                otherCount += 1;
-            }
-        }
-        if ([[jsonObject objectForKey:@"routing"] isKindOfClass:[NSDictionary class]]) {
-            [routingJSONs addObject:[jsonObject objectForKey:@"routing"]];
-        }
-        if ([[jsonObject objectForKey:@"routings"] isKindOfClass:[NSArray class]]) {
-            [routingJSONs addObjectsFromArray:[jsonObject objectForKey:@"routings"]];
-        }
-        for (NSDictionary* routingSet in routingJSONs) {
-            NSMutableDictionary* set = [routingSet mutableDeepCopy];
-            if (set[@"settings"]) { // compatibal with previous config file format
-                set = set[@"settings"];
-            }
-            NSMutableDictionary* validatedSet = [self validateRuleSet:set];
-            if (validatedSet) {
-                [self.routingRuleSets addObject:validatedSet];
-                ruleSetCount += 1;
-            }
-        }
-        if (jsonObject[@"server"] && jsonObject[@"server_port"] && jsonObject[@"password"] && jsonObject[@"method"] && [SUPPORTED_SS_SECURITY indexOfObject:jsonObject[@"method"]] != NSNotFound) {
-            NSMutableDictionary* ssOutbound = [@{
-                @"sendThrough": @"0.0.0.0",
-                @"protocol": @"shadowsocks",
-                @"settings": @{
-                    @"servers": @[
-                                @{
-                                    @"address": jsonObject[@"server"],
-                                    @"port": jsonObject[@"server_port"],
-                                    @"method": jsonObject[@"method"],
-                                    @"password": jsonObject[@"password"],
-                                }
-                                ]
-                },
-                @"tag": [NSString stringWithFormat:@"%@:%@",jsonObject[@"server"],jsonObject[@"server_port"]],
-                @"streamSettings": @{},
-                @"mux": @{}
-                } mutableDeepCopy];
-            if ([jsonObject[@"fast_open"] isKindOfClass:[NSNumber class]]) {
-                ssOutbound[@"streamSettings"] =[@{ @"sockopt": @{
-                                                      @"tcpFastOpen": jsonObject[@"fast_open"]
-                                                      }} mutableDeepCopy];
-            }
-            [self.outbounds addObject:ssOutbound];
-            otherCount += 1;
-        }
-    }
+- (void)presentImportResultOfVmessCount:(NSInteger)vmessCount otherCount:(NSInteger)otherCount  ruleSetCount:(NSInteger)ruleSetCount {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->_profileTable reloadData];
         self.popover = [[NSPopover alloc] init];
@@ -575,9 +318,35 @@
         self.popover.behavior = NSPopoverBehaviorTransient;
         [self.popover showRelativeToRect:[self.importButton bounds] ofView:self.importButton preferredEdge:NSMaxYEdge];
     });
+
 }
 
-- (IBAction)showPanelToImport:(id)sender {
+- (IBAction)importFromMiscLinks:(id)sender {
+    [self askInputWithPrompt:@"Please input the link" handler:^(NSString *inputStr) {
+        if ([inputStr length] != 0) {
+            ServerProfile* p = [ConfigImporter importFromVmessOfV2RayN:inputStr];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                NSInteger vmessCount = 0;
+                NSInteger otherCount = 0;
+                if (p) {
+                    [self.profiles addObject:p];
+                    vmessCount = 1;
+                } else {
+                    NSMutableDictionary* p2 = [ConfigImporter importFromSubscriptionOfV2RayN:inputStr];
+                    if (p2) {
+                        [self.profiles addObjectsFromArray:p2[@"vmess"]];
+                        [self.outbounds addObjectsFromArray:p2[@"other"]];
+                        vmessCount = [p2[@"vmess"] count];
+                        otherCount = [p2[@"other"] count];
+                    }
+                }
+                [self presentImportResultOfVmessCount:vmessCount otherCount:otherCount ruleSetCount:0];
+            });
+        }
+    }];
+}
+
+- (IBAction)importFromJSONFiles:(id)sender {
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
     [openPanel setCanChooseFiles:YES];
     [openPanel setAllowsMultipleSelection:YES];
@@ -587,7 +356,12 @@
     [openPanel beginSheetModalForWindow:[self window]  completionHandler:^(NSModalResponse result) {
         if (result == NSOKButton) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                [self importFromJSONFiles:[openPanel URLs]];
+                NSArray* files = [openPanel URLs];
+                NSMutableDictionary* result = [ConfigImporter importFromStandardConfigFiles:files];
+                [self.profiles addObjectsFromArray:result[@"vmess"]];
+                [self.outbounds addObjectsFromArray:result[@"other"]];
+                [self.routingRuleSets addObjectsFromArray:result[@"rules"]];
+                [self presentImportResultOfVmessCount:[result[@"vmess"] count] otherCount:[result[@"other"] count] ruleSetCount:[result[@"rules"] count]];
             });
         }
     }];
