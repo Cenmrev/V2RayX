@@ -204,11 +204,6 @@
     }
 }
 
-- (BOOL)checkOutboudAndSave:(NSDictionary**)dict {
-    NSError *e;
-    *dict = [NSJSONSerialization JSONObjectWithData:[_outboundJsonView.string dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&e];
-    return e == nil;
-}
 
 - (IBAction)addRemoveOutbound:(id)sender {
     if ([sender selectedSegment] == 0) {

@@ -213,6 +213,10 @@
             [self showAlert: [NSString stringWithFormat:@"%@\ntag is not valid!", [self firstFewLines:outbound]]];
             return;
         }
+        if ([RESERVED_TAGS indexOfObject:outbound[@"tag"]] != NSNotFound) {
+            [self showAlert: [NSString stringWithFormat:@"tag %@ is reserved, please use another one!", outbound[@"tag"]]];
+            return;
+        }
         if (allOutboundDict[outbound[@"tag"]]) {
             [self showAlert: [NSString stringWithFormat:@"The two outbounds share the same tag: %@\n%@\nAND\n%@",outbound[@"tag"], [self firstFewLines:outbound], [self firstFewLines:allOutboundDict[outbound[@"tag"]]]]];
             return;

@@ -217,9 +217,11 @@ static AppDelegate *appDelegate;
     _enableRestore = [nilCoalescing([defaults objectForKey:@"enableRestore"],@(NO)) boolValue];
     
     profiles = [[NSMutableArray alloc] init];
-    if ([[defaults objectForKey:@"profiles"] isKindOfClass:[NSArray class]] && [[defaults objectForKey:@"profiles"] count] > 0) {
+    if ([[defaults objectForKey:@"profiles"] isKindOfClass:[NSArray class]]) {
         for (NSDictionary* aProfile in [defaults objectForKey:@"profiles"]) {
-            [profiles addObject:aProfile];
+            if ([aProfile isKindOfClass:[NSDictionary class]] && aProfile[@"tag"] && [aProfile[@"tag"] length] && [RESERVED_TAGS indexOfObject:aProfile[@"tag"]] == NSNotFound) {
+                [profiles addObject:aProfile];
+            }
         }
     }
     
