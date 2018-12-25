@@ -46,6 +46,8 @@
     for(NSString* network in ROUTING_NETWORK_LIST) {
         [[self networkListButton] addItemWithTitle:network];
     }
+    _outboundJsonView.automaticQuoteSubstitutionEnabled = false;
+    _domainIpTextView.automaticQuoteSubstitutionEnabled = false;
     
     // outbound
     [_outboundJsonView setFont:[NSFont fontWithName:@"Menlo" size:13]];
