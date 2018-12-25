@@ -179,16 +179,26 @@ static AppDelegate *appDelegate;
     NSURLSessionDataTask* task = [[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary* d = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         @try {
-            if (![[d[@"tag_name"] substringFromIndex:1] isEqualToString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]] && [d[@"prerelease"] isEqualToNumber:@NO]) {
-                self.upgradeMenuItem.hidden = false;
-            } else {
-                self.upgradeMenuItem.hidden = true;
+            if ([d[@"prerelease"] isEqualToNumber:@NO]) {
+                NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
+                f.numberStyle = NSNumberFormatterDecimalStyle;
+                NSArray* newVersion = [[d[@"tag_name"] substringFromIndex:1] componentsSeparatedByString:@"."];
+                NSArray* currentVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] componentsSeparatedByString:@"."];
+                for (int i = 0; i < 3; i += 1) {
+                    NSInteger newv = [[f numberFromString:newVersion[i]] integerValue];
+                    NSInteger currentv = [[f numberFromString:currentVersion[i]] integerValue];
+                    if (newv > currentv) {
+                        self.upgradeMenuItem.hidden = false;
+                        return;
+                    }
+                }
+
             }
         } @catch (NSException *exception) {
-            self.upgradeMenuItem.hidden = true;
         } @finally {
             ;
         }
+        self.upgradeMenuItem.hidden = true;
     }];
     [task resume];
 }
