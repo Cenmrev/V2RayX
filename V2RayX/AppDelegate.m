@@ -572,7 +572,7 @@ static AppDelegate *appDelegate;
     } else {
         int i = 0;
         for (NSDictionary *p in profiles) {
-            NSString *itemTitle = [NSString stringWithFormat:@"%@:%@",p[@"protocol"], p[@"tag"]];
+            NSString *itemTitle = nilCoalescing(p[@"tag"], @"");
             NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(switchServer:) keyEquivalent:@""];
             [newItem setTag:i];
             if (useMultipleServer){

@@ -284,11 +284,13 @@
                                    alternateButton:@"Cancel"
                                        otherButton:nil
                          informativeTextWithFormat:@""];
-    NSTextField *input = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 400, 24)];
-    [alert setAccessoryView:input];
+    NSTextField *inputField = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 400, 24)];
+    inputField.usesSingleLineMode = true;
+    inputField.lineBreakMode = NSLineBreakByTruncatingHead;
+    [alert setAccessoryView:inputField];
     [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSModalResponseOK) {
-            handler([input stringValue]);
+            handler([inputField stringValue]);
         }
     }];
 }
@@ -302,7 +304,7 @@
 }
 
 - (IBAction)importFromStandardLink:(id)sender {
-    [self askInputWithPrompt:@"Please input the server info with standard and official format" handler:^(NSString *inputStr) {
+    [self askInputWithPrompt:@"Support standard ss:// link. Use \"Import from other miscellaneous links...\" to import other links(may cause failure)." handler:^(NSString *inputStr) {
         if (inputStr.length) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 NSMutableDictionary* ssOutbound = [ConfigImporter ssOutboundFromSSLink:inputStr];
@@ -321,7 +323,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->_profileTable reloadData];
         self.popover = [[NSPopover alloc] init];
-        self.importMessageField.stringValue = [NSString stringWithFormat:@"imported %lu vmess and %lu other protocol outbounds, %lu routing sets.", vmessCount, otherCount, ruleSetCount];
+        self.importMessageField.stringValue = [NSString stringWithFormat:@"Imported %lu vmess and %lu other protocol outbounds, %lu routing rule sets.", vmessCount, otherCount, ruleSetCount];
         self.popover.contentViewController = [[NSViewController alloc] init];
         self.popover.contentViewController.view = self.importResultView;
         self.popover.behavior = NSPopoverBehaviorTransient;
@@ -331,7 +333,7 @@
 }
 
 - (IBAction)importFromMiscLinks:(id)sender {
-    [self askInputWithPrompt:@"Please input the link" handler:^(NSString *inputStr) {
+    [self askInputWithPrompt:@"V2RayX will try importing vmess:// and http(s):// links from v2rayN ." handler:^(NSString *inputStr) {
         if ([inputStr length] != 0) {
             ServerProfile* p = [ConfigImporter importFromVmessOfV2RayN:inputStr];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{

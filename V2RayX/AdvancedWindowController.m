@@ -195,7 +195,7 @@
     NSError *e;
     NSDictionary* newOutboud = [NSJSONSerialization JSONObjectWithData:[_outboundJsonView.string dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&e];
     if (e) {
-        [self showAlert:@"not a valid json"];
+        [self showAlert:@"NOT a valid json"];
         [_outboundTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedOutbound] byExtendingSelection:NO];
         return NO;
     } else {

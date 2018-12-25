@@ -147,7 +147,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="0kH-bt-ahk">
                             <rect key="frame" x="1" y="1" width="138" height="181"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="fje-9q-W5F">
                                     <rect key="frame" x="0.0" y="0.0" width="138" height="181"/>
@@ -603,7 +603,7 @@ Gw
                         <action selector="importFromJSONFiles:" target="-2" id="bWI-hd-Wef"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Import from standard SS share links..." id="CTZ-Lq-X8f">
+                <menuItem title="Import from standard share links..." id="CTZ-Lq-X8f">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="importFromStandardLink:" target="-2" id="prN-IG-Awe"/>
@@ -612,6 +612,7 @@ Gw
                 <menuItem title="Import from pastboard..." hidden="YES" id="EQb-nS-Lf9">
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
+                <menuItem isSeparatorItem="YES" id="HUE-ih-p3S"/>
                 <menuItem title="Import from other miscellaneous links..." id="8rA-16-mml">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
