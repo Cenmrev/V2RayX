@@ -177,8 +177,8 @@ static AppDelegate *appDelegate;
 - (IBAction)checkUpgrade:(id)sender {
     NSURL* url =[NSURL URLWithString:@"https://api.github.com/repos/cenmrev/v2rayx/releases/latest"];
     NSURLSessionDataTask* task = [[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary* d = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         @try {
+            NSDictionary* d = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             if ([d[@"prerelease"] isEqualToNumber:@NO]) {
                 NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
                 f.numberStyle = NSNumberFormatterDecimalStyle;
@@ -407,7 +407,6 @@ static AppDelegate *appDelegate;
     }
     [self coreConfigDidChange:self];
     if (proxyState == true) {
-        [self toggleCore];
         [self updateSystemProxy];
     } else {
         [self unloadV2ray];
