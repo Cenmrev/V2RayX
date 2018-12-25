@@ -10,7 +10,12 @@
 @implementation ConfigImporter
 
 + (NSString*)decodeBase64String:(NSString*)encoded {
-    NSData* decodedData = [[NSData alloc] initWithBase64EncodedString:encoded options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    NSMutableString* fixed = [encoded mutableCopy];
+    NSInteger numAdd = encoded.length % 4;
+    for (int i = 0; i < numAdd; i += 1) {
+        [fixed appendString:@"="];
+    }
+    NSData* decodedData = [[NSData alloc] initWithBase64EncodedString:fixed options:NSDataBase64DecodingIgnoreUnknownCharacters];
     return [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
 }
 

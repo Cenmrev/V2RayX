@@ -308,8 +308,10 @@
                 NSMutableDictionary* ssOutbound = [ConfigImporter ssOutboundFromSSLink:inputStr];
                 if (ssOutbound) {
                     [self.outbounds addObject:ssOutbound];
+                    [self presentImportResultOfVmessCount:0 otherCount:1 ruleSetCount:0];
+                } else {
+                    [self presentImportResultOfVmessCount:0 otherCount:0 ruleSetCount:0];
                 }
-                [self presentImportResultOfVmessCount:0 otherCount:1 ruleSetCount:0];
             });
         }
     }];
