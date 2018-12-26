@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSMutableDictionary*)importFromSubscriptionOfV2RayN:(NSString*)httpLink;
 + (NSMutableDictionary*)importFromStandardConfigFiles:(NSArray*)files;
 + (NSMutableDictionary*)validateRuleSet:(NSMutableDictionary*)set;
++ (NSMutableDictionary* _Nonnull)importFromSubscriptionOfSSD: (NSString* _Nonnull)ssdLink;
 @end
 
 NS_ASSUME_NONNULL_END

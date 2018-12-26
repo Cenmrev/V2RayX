@@ -376,5 +376,52 @@
     return newProfile;
 }
 
+// https://github.com/CGDF-Github/SSD-Windows/wiki/订阅链接协定
++ (NSMutableDictionary* _Nonnull)importFromSubscriptionOfSSD: (NSString* _Nonnull)ssdLink {
+    NSMutableDictionary* result = EMPTY_IMPORT_RESULT;
+    @try {
+        NSString* encodedPart;
+        if (![[ssdLink substringToIndex:6] isEqualToString:@"ssd://"]) {
+            return EMPTY_IMPORT_RESULT;
+        }
+        encodedPart = [ssdLink substringFromIndex:6];
+        NSString* decodedJSONStr = [ConfigImporter decodeBase64String:encodedPart];
+        NSDictionary* decodedObject = [NSJSONSerialization JSONObjectWithData:[decodedJSONStr dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+        NSString* airportName = decodedObject[@"airport"];
+        NSNumber* defaultPort = decodedObject[@"port"];
+        NSString* defaultEncryption = decodedObject[@"encryption"];
+        NSString* defaultPassword = decodedObject[@"password"];
+        NSString* defaultPlutgin = decodedObject[@"plugin"];
+        NSInteger count = 0;
+        for (NSDictionary* server in decodedObject[@"servers"]) {
+            NSString* address = server[@"server"];
+            NSNumber* port = nilCoalescing(server[@"port"], defaultPort) ;
+            NSString* method = nilCoalescing(server[@"encryption"], defaultEncryption);
+            NSString* password = nilCoalescing(server[@"password"], defaultPassword);
+            NSString* plugIn = nilCoalescing(server[@"plugin"], defaultPlutgin);
+            if (plugIn && plugIn.length > 0) {
+                continue; // do not support plug-in yet
+            }
+            NSString* defaultServerName = [NSString stringWithFormat:@"%lu", count];
+            NSString* serverName = nilCoalescing(server[@"remarks"], defaultServerName);
+            NSString* tag = [NSString stringWithFormat:@"%@-%@", airportName, serverName];
+            NSMutableDictionary* ssOutbound =
+            [ConfigImporter ssOutboundFromSSConfig:@{ @"server":address,
+                                                      @"server_port":port,
+                                                      @"password":password,
+                                                      @"method":method,
+                                                      @"tag": tag
+             }];
+            if (ssOutbound) {
+                [result[@"other"] addObject:ssOutbound];
+                count += 1;
+            }
+        }
+        NSLog(@"%@", result);
+        return result;
+    } @catch (NSException *exception) {
+        return EMPTY_IMPORT_RESULT;
+    }
+}
 
 @end
