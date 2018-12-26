@@ -639,6 +639,22 @@ static AppDelegate *appDelegate;
     [configWindowController.window makeKeyAndOrderFront:nil];
 }
 
+- (IBAction)backupConfigs:(id)sender {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd-MM-yyyy HH:mm"];
+    NSDate *currentDate = [NSDate date];
+    NSString *dateString = [formatter stringFromDate:currentDate];
+    
+    NSMutableDictionary *backup = [[NSMutableDictionary alloc] init];
+    backup[@"outbounds"] = self.profiles;
+    backup[@"routings"] = self.routingRuleSets;
+    NSData* backupData = [NSJSONSerialization dataWithJSONObject:backup options:NSJSONWritingPrettyPrinted error:nil];
+    NSString* backupPath = [NSString stringWithFormat:@"%@/v2rayx_backup_%@.json", NSHomeDirectory(), dateString];
+    
+    [backupData writeToFile:backupPath atomically:YES];
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[[NSURL fileURLWithPath:backupPath]]];
+}
+
 -(IBAction)switchRoutingSet:(id)sender {
     _selectedRoutingSet = [sender tag];
     [self coreConfigDidChange:self];

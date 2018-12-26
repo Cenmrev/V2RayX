@@ -691,6 +691,18 @@
                         <action selector="didChangeStatus:" target="Voe-Tx-rLC" id="fLo-9H-9XD"/>
                     </connections>
                 </menuItem>
+                <menuItem title="View current config.json..." id="C53-wG-wMg">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="viewConfigJson:" target="Voe-Tx-rLC" id="8EX-Wb-G5H"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="View log" id="5Vg-qU-2V2">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="viewLog:" target="Voe-Tx-rLC" id="6j0-df-F3G"/>
+                    </connections>
+                </menuItem>
                 <menuItem isSeparatorItem="YES" id="Zce-eo-WsH"/>
                 <menuItem title="PAC Mode" id="Cm9-3e-L2z">
                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -726,16 +738,10 @@
                         <action selector="showConfigWindow:" target="Voe-Tx-rLC" id="jVU-tA-mPz"/>
                     </connections>
                 </menuItem>
-                <menuItem title="View log" id="5Vg-qU-2V2">
+                <menuItem title="Backup/Export" id="oZx-KW-OLs">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="viewLog:" target="Voe-Tx-rLC" id="6j0-df-F3G"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="View current config.json" id="C53-wG-wMg">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="viewConfigJson:" target="Voe-Tx-rLC" id="8EX-Wb-G5H"/>
+                        <action selector="backupConfigs:" target="Voe-Tx-rLC" id="gpZ-of-hI0"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="1ve-pA-4fu"/>
