@@ -51,6 +51,19 @@ static AppDelegate *appDelegate;
     _globalModeItem.tag = globalMode;
     _manualModeItem.tag = manualMode;
 
+    // prepare directory
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString *pacDir = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac", NSHomeDirectory()];
+    //create application support directory and pac directory
+    if (![fileManager fileExistsAtPath:pacDir]) {
+        [fileManager createDirectoryAtPath:pacDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    // Create Log Dir
+    NSString* logDirName = @"cenmrev.v2rayx.log";
+    logDirPath = [NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), logDirName];
+    [fileManager createDirectoryAtPath:logDirPath withIntermediateDirectories:YES attributes:nil error:nil];
+    [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/access.log", logDirPath] contents:nil attributes:nil];
+    [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/error.log", logDirPath] contents:nil attributes:nil];
     
     // initialize variables
     NSNumber* setingVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"setingVersion"];
@@ -69,23 +82,6 @@ static AppDelegate *appDelegate;
     taskQueue = dispatch_queue_create("cenmrev.v2rayx.nstask", DISPATCH_QUEUE_SERIAL);
     
     plistPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/cenmrev.v2rayx.v2ray-core.plist",NSHomeDirectory()];
-
-    // prepare directory
-    NSFileManager* fileManager = [NSFileManager defaultManager];
-    NSString *pacDir = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac", NSHomeDirectory()];
-    //create application support directory and pac directory
-    if (![fileManager fileExistsAtPath:pacDir]) {
-        [fileManager createDirectoryAtPath:pacDir withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    // Create Log Dir
-    do {
-        NSString* logDirName = [NSString stringWithFormat:@"cenmrev.v2rayx.log.%@",
-                                [[NSUUID UUID] UUIDString]];
-        logDirPath = [NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), logDirName];
-    } while ([fileManager fileExistsAtPath:logDirPath]);
-    [fileManager createDirectoryAtPath:logDirPath withIntermediateDirectories:YES attributes:nil error:nil];
-    [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/access.log", logDirPath] contents:nil attributes:nil];
-    [fileManager createFileAtPath:[NSString stringWithFormat:@"%@/error.log", logDirPath] contents:nil attributes:nil];
     
     // set up pac server
     __weak typeof(self) weakSelf = self;
