@@ -9,39 +9,62 @@
 
 @implementation ConfigImporter
 
-+ (NSString*)decodeBase64String:(NSString*)encoded {
++ (NSString* _Nonnull)decodeBase64String:(NSString*)encoded {
+    if (!encoded || ![encoded isKindOfClass:[NSString class]] || encoded.length == 0) {
+        return @"";
+    }
     NSMutableString* fixed = [encoded mutableCopy];
     NSInteger numAdd = encoded.length % 4;
     for (int i = 0; i < numAdd; i += 1) {
         [fixed appendString:@"="];
     }
-    NSData* decodedData = [[NSData alloc] initWithBase64EncodedString:fixed options:NSDataBase64DecodingIgnoreUnknownCharacters];
-    return [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+    @try {
+        NSData* decodedData = [[NSData alloc] initWithBase64EncodedString:fixed options:NSDataBase64DecodingIgnoreUnknownCharacters];
+        NSString* decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+        assert(decodedString != nil);
+        return decodedString;
+    } @catch (NSException *exception) {
+        return @"";
+    }
 }
 
 + (NSDictionary*)parseLegacySSLink:(NSString*)link {
     //http://shadowsocks.org/en/config/quick-guide.html
     @try {
         NSString* encoded = [[link stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] substringFromIndex:5];
-        NSString* encodedRemoveTag = [encoded componentsSeparatedByString:@"#"][0];
+        NSArray* hashTagSeperatedParts = [encoded componentsSeparatedByString:@"#"];
+        NSString* encodedRemoveTag = hashTagSeperatedParts[0];
         NSData* decodedData = [[NSData alloc] initWithBase64EncodedString:encodedRemoveTag options:0];
         NSString* decoded = [[NSString alloc] initWithData: decodedData
                                                   encoding:NSUTF8StringEncoding];
         
         NSArray* parts = [decoded componentsSeparatedByString:@"@"];
-        NSArray* server_port = [parts[1] componentsSeparatedByString:@":"];
-        NSMutableArray* method_password = [[parts[0] componentsSeparatedByString:@":"] mutableCopy];
-        NSString* method = method_password[0];
-        [method_password removeObjectAtIndex:0];
-        return @{
-                 @"server":server_port[0],
-                 @"server_port":server_port[1],
-                 @"password": [method_password componentsJoinedByString:@":"],
-                 @"method":method};
+        NSArray* addressAndPort = [parts[1] componentsSeparatedByString:@":"];
+        NSMutableArray* methodAndPassword = [[parts[0] componentsSeparatedByString:@":"] mutableCopy];
+        NSString* method = methodAndPassword[0];
+        [methodAndPassword removeObjectAtIndex:0];
+        
+        NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
+        f.numberStyle = NSNumberFormatterDecimalStyle;
+        NSNumber *port = [f numberFromString:addressAndPort[1]];
+        
+        if (hashTagSeperatedParts.count == 1) {
+            return @{
+                     @"server":addressAndPort[0],
+                     @"server_port":port,
+                     @"password": [methodAndPassword componentsJoinedByString:@":"],
+                     @"method":method};
+        } else {
+            return @{
+                     @"server":addressAndPort[0],
+                     @"server_port":port,
+                     @"password": [methodAndPassword componentsJoinedByString:@":"],
+                     @"method":method,
+                     @"tag":hashTagSeperatedParts[1]
+                     };
+        }
     } @catch (NSException *exception) {
         return nil;
-    } @finally {
-        ;
     }
 }
 
@@ -70,7 +93,6 @@
         if (!port) {
             return nil;
         }
-        
         return @{
                  @"server":hostInfo[0],
                  @"server_port":port,
@@ -80,12 +102,10 @@
                  };
     } @catch (NSException *exception) {
         return nil;
-    } @finally {
-        ;
     }
 }
 
-+ (NSMutableDictionary*)ssOutboundFromSSLink:(NSString*)link {
++ (NSMutableDictionary* )ssOutboundFromSSLink:(NSString*)link {
     NSDictionary* parsed = [ConfigImporter parseStandardSSLink:link];
     if (parsed) {
         return [ConfigImporter ssOutboundFromSSConfig:parsed];
@@ -257,7 +277,7 @@
     return result;
 }
 
-+ (NSMutableDictionary*)importFromSubscriptionOfV2RayN: (NSString*)httpLink {
++ (NSMutableDictionary*)importFromHTTPSubscription: (NSString*)httpLink {
     // https://blog.csdn.net/yi_zz32/article/details/48769487
     NSMutableDictionary* result = [@{@"vmess": @[], @"other": @[]} mutableDeepCopy];
     if (![@"http" isEqualToString:[httpLink substringToIndex:4]]) {
@@ -286,6 +306,8 @@
                     [result[@"other"] addObject:outbound];
                     continue;
                 }
+                NSMutableDictionary* ssdResults = [ConfigImporter importFromSubscriptionOfSSD:linkStr];
+                [result[@"other"] addObjectsFromArray:ssdResults[@"other"]];
             }
         }
         return result;

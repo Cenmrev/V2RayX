@@ -566,7 +566,7 @@ static AppDelegate *appDelegate;
     _subsOutbounds = [[NSMutableArray alloc] init];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         for (NSString* link in self.subscriptions) {
-            NSDictionary* r = [ConfigImporter importFromSubscriptionOfV2RayN:link];
+            NSDictionary* r = [ConfigImporter importFromHTTPSubscription:link];
             if (r) {
                 for (ServerProfile* p in r[@"vmess"]) {
                     [self.subsOutbounds addObject:[p outboundProfile]];
