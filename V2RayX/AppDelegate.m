@@ -12,6 +12,7 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "ServerProfile.h"
 #import "MutableDeepCopying.h"
+#import "ConfigImporter.h"
 
 #define kUseAllServer -10
 
@@ -96,7 +97,7 @@ static AppDelegate *appDelegate;
     [webServer startWithPort:webServerPort bonjourName:nil];
     
     // start proxy
-    [self didChangeStatus:self];
+    [self updateSubscriptions:self]; // also includes [self didChangeStatus:self];
     
     appDelegate = self;
     
@@ -240,6 +241,15 @@ static AppDelegate *appDelegate;
         }
     }
     
+    _subscriptions = [[NSMutableArray alloc] init];
+    if ([[defaults objectForKey:@"subscriptions"] isKindOfClass:[NSArray class]]) {
+        for (NSString* link in [defaults objectForKey:@"subscriptions"]) {
+            if ([link isKindOfClass:[NSString class]]) {
+                [_subscriptions addObject:link];
+            }
+        }
+    }
+    
     _routingRuleSets = [@[ROUTING_GLOBAL, ROUTING_DIRECT, ROUTING_BYPASSCN_PRIVATE_APPLE] mutableDeepCopy];
     if ([[defaults objectForKey:@"routingRuleSets"] isKindOfClass:[NSArray class]] && [[defaults objectForKey:@"routingRuleSets"] count] > 0) {
         _routingRuleSets = [[defaults objectForKey:@"routingRuleSets"] mutableDeepCopy];
@@ -309,6 +319,7 @@ static AppDelegate *appDelegate;
           @"dnsString": self.dnsString,
           @"profiles":self.profiles,
           @"cusProfiles": self.cusProfiles,
+          @"subscriptions": self.subscriptions,
           @"routingRuleSets": self.routingRuleSets,
           @"enableRestore": @(self.enableRestore)
           };
@@ -376,22 +387,22 @@ static AppDelegate *appDelegate;
     }
     // sender can be
     // 1. self, when app is launched
-    // 2. menuitem, when a user click on an item
+    // 2. menuitem, when a user click on a server or a routing or updateSeverMenuItem
     // 3. configwindow controller
     if (sender == _enableV2rayItem) {
         proxyState = !proxyState;
     }
     // make sure current status parameter is valid
-    selectedServerIndex = MIN((NSInteger)profiles.count - 1, selectedServerIndex);
+    selectedServerIndex = MIN((NSInteger)profiles.count + (NSInteger)_subsOutbounds.count - 1, selectedServerIndex);
     selectedCusServerIndex = MIN((NSInteger)cusProfiles.count - 1, selectedCusServerIndex );
     _selectedRoutingSet = MIN((NSInteger)_routingRuleSets.count - 1, _selectedRoutingSet);
     
     NSLog(@"%ld, %ld", selectedServerIndex, selectedCusServerIndex);
-    if (selectedServerIndex == -1 && selectedCusServerIndex == -1) {
+    if ((!useMultipleServer && selectedServerIndex == -1 && selectedCusServerIndex == -1) || (useMultipleServer && profiles.count + _subsOutbounds.count < 1)) {
         proxyState = false;
-    } else if (selectedCusServerIndex == -1) {
+    } else if (!useMultipleServer && selectedCusServerIndex == -1) {
         useCusProfile = false;
-    } else if (selectedServerIndex == -1) {
+    } else if (!useMultipleServer && selectedServerIndex == -1) {
         useCusProfile = true;
     }
     if (proxyMode != manualMode) {
@@ -549,6 +560,27 @@ static AppDelegate *appDelegate;
 
 // core part
 
+- (IBAction)updateSubscriptions:(id)sender {
+    // sender can be self -> called when app is started
+    // or menuItem -> called by user
+    _subsOutbounds = [[NSMutableArray alloc] init];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        for (NSString* link in self.subscriptions) {
+            NSDictionary* r = [ConfigImporter importFromSubscriptionOfV2RayN:link];
+            if (r) {
+                for (ServerProfile* p in r[@"vmess"]) {
+                    [self.subsOutbounds addObject:[p outboundProfile]];
+                }
+                [self.subsOutbounds addObjectsFromArray:r[@"other"]];
+            }
+        }
+        // not safe, need to make sure every tag is unique
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self didChangeStatus:sender];
+        });
+    });
+}
+
 - (void)updateRuleSetMenuList {
     [_ruleSetMenuList removeAllItems];
     NSInteger i = 0;
@@ -563,7 +595,7 @@ static AppDelegate *appDelegate;
 
 - (void)updateServerMenuList {
     [_serverListMenu removeAllItems];
-    if ([profiles count] == 0 && [cusProfiles count] == 0) {
+    if ([profiles count] == 0 && [cusProfiles count] == 0 && [_subsOutbounds count] == 0) {
         [_serverListMenu addItem:[[NSMenuItem alloc] initWithTitle:@"no available servers, please add server profiles through config window." action:nil keyEquivalent:@""]];
     } else {
         int i = 0;
@@ -579,13 +611,31 @@ static AppDelegate *appDelegate;
             [_serverListMenu addItem:newItem];
             i += 1;
         }
-        if([profiles count] > 1) {
+        for (NSDictionary* p in _subsOutbounds) {
+            NSString *itemTitle = nilCoalescing(p[@"tag"], @"from subscription");
+            NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(switchServer:) keyEquivalent:@""];
+            [newItem setTag:i];
+            if (useMultipleServer){
+                newItem.state = 0;
+            } else {
+                newItem.state = (!useCusProfile && i == selectedServerIndex);
+            }
+            [_serverListMenu addItem:newItem];
+            i += 1;
+        }
+        if([profiles count] + [_subsOutbounds count]> 0) {
             NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:@"Use All" action:@selector(switchServer:) keyEquivalent:@""];
             [newItem setTag:kUseAllServer];
             newItem.state = useMultipleServer;
             [_serverListMenu addItem:newItem];
         }
-        [_serverListMenu addItem:[NSMenuItem separatorItem]];
+        if (_subscriptions.count > 0) {
+            [_serverListMenu addItem:[NSMenuItem separatorItem]];
+            [_serverListMenu addItem:_updateServerItem];
+        }
+        if (cusProfiles.count > 0) {
+            [_serverListMenu addItem:[NSMenuItem separatorItem]];
+        }
         for (NSString* cusProfilePath in cusProfiles) {
             NSString *itemTitle = [[cusProfilePath componentsSeparatedByString:@"/"] lastObject];
             NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(switchServer:) keyEquivalent:@""];
@@ -657,11 +707,12 @@ static AppDelegate *appDelegate;
 }
 
 - (void)switchServer:(id)sender {
-    if ([sender tag] >= 0 && [sender tag] < [profiles count]) {
+    NSInteger outboundCount = [profiles count] + [_subsOutbounds count];
+    if ([sender tag] >= 0 && [sender tag] < outboundCount) {
         [self setUseMultipleServer:NO];
         [self setUseCusProfile:NO];
         [self setSelectedServerIndex:[sender tag]];
-    } else if ([sender tag] >= [profiles count] && [sender tag] < [profiles count] + [cusProfiles count]) {
+    } else if ([sender tag] >= outboundCount && [sender tag] < outboundCount + [cusProfiles count]) {
         [self setUseMultipleServer:NO];
         [self setUseCusProfile:YES];
         [self setSelectedCusServerIndex:[sender tag] - [profiles count]];
@@ -698,11 +749,26 @@ static AppDelegate *appDelegate;
     } else {
         fullConfig[@"dns"][@"servers"] = @[@"localhost"];
     }
-//    if (proxyMode == rules) {
+    
+    // deal with outbound
+    NSMutableDictionary* configOutboundDict = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* allUniqueTagOutboundDict = [[NSMutableDictionary alloc] init]; // make sure tag is unique
+    NSMutableArray* allOutbounds = [profiles mutableCopy];
+    [allOutbounds addObjectsFromArray:_subsOutbounds];
+    for (NSDictionary* outbound in profiles) {
+        allUniqueTagOutboundDict[outbound[@"tag"]] = [outbound mutableDeepCopy];
+    }
+    for (NSDictionary* outbound in _subsOutbounds) {
+        allUniqueTagOutboundDict[outbound[@"tag"]] = [outbound mutableDeepCopy];
+    }
+    NSArray* allProxyTags = allUniqueTagOutboundDict.allKeys;
+    allUniqueTagOutboundDict[@"direct"] = OUTBOUND_DIRECT;
+    allUniqueTagOutboundDict[@"decline"] = OUTBOUND_DECLINE;
+    
     fullConfig[@"routing"] = [_routingRuleSets[_selectedRoutingSet] mutableDeepCopy];
     if (!useMultipleServer) {
         // replace tag main with current selected outbound tag
-        NSString* currentMainTag = profiles[selectedServerIndex][@"tag"];
+        NSString* currentMainTag = allOutbounds[selectedServerIndex][@"tag"];
         for (NSMutableDictionary* aRule in fullConfig[@"routing"][@"rules"]) {
             if ([@"main" isEqualToString:aRule[@"outboundTag"]]) {
                 aRule[@"outboundTag"] = currentMainTag;
@@ -718,15 +784,7 @@ static AppDelegate *appDelegate;
         }
         
     }
-    // deal with outbound
-    NSMutableDictionary* configOutboundDict = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* allOutbounds = [[NSMutableDictionary alloc] init]; // make sure tag is unique
-    for (NSDictionary* outbound in profiles) {
-        allOutbounds[outbound[@"tag"]] = [outbound mutableDeepCopy];
-    }
-    NSArray* allProxyTags = allOutbounds.allKeys;
-    allOutbounds[@"direct"] = OUTBOUND_DIRECT;
-    allOutbounds[@"decline"] = OUTBOUND_DECLINE;
+
 //    NSLog(@"%@", allOutbounds);
     BOOL usebalance = false;
     for (NSDictionary* rule in fullConfig[@"routing"][@"rules"]) {
@@ -736,8 +794,8 @@ static AppDelegate *appDelegate;
             break;
         } else {
             // pick up all mentioned outbounds in the routing rule set
-            if (allOutbounds[rule[@"outboundTag"]]) {
-                configOutboundDict[rule[@"outboundTag"]] = allOutbounds[rule[@"outboundTag"]];
+            if (allUniqueTagOutboundDict[rule[@"outboundTag"]]) {
+                configOutboundDict[rule[@"outboundTag"]] = allUniqueTagOutboundDict[rule[@"outboundTag"]];
             }
         }
     }
@@ -747,7 +805,7 @@ static AppDelegate *appDelegate;
                                                      @"tag":@"balance",
                                                      @"selector": allProxyTags
                                                      }];
-        fullConfig[@"outbounds"] = allOutbounds.allValues;
+        fullConfig[@"outbounds"] = allUniqueTagOutboundDict.allValues;
     } else {
         // otherwise, we convert all collected outbounds into an array
         fullConfig[@"outbounds"] = configOutboundDict.allValues;

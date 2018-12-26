@@ -60,13 +60,16 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property NSString* dnsString;
 @property NSMutableArray *profiles;
 @property NSMutableArray *cusProfiles;
+@property (atomic) NSMutableArray *subsOutbounds;
 @property NSMutableArray *routingRuleSets;
 @property NSString* logLevel;
 @property BOOL useMultipleServer;
 @property NSString* selectedPacFileName;
 @property BOOL enableRestore;
+@property NSMutableArray *subscriptions;
 
 - (IBAction)didChangeStatus:(id)sender;
+- (IBAction)updateSubscriptions:(id)sender;
 - (IBAction)showHelp:(id)sender;
 - (IBAction)showConfigWindow:(id)sender;
 - (IBAction)editPac:(id)sender;
@@ -77,6 +80,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 -(NSString*)getV2rayPath;
 - (NSString*)logDirPath;
 
+@property (weak) IBOutlet NSMenuItem *updateServerItem;
 @property (strong, nonatomic)  NSStatusItem *statusBarItem;
 @property (weak) IBOutlet NSMenuItem *upgradeMenuItem;
 @property (strong, nonatomic) IBOutlet NSMenu *statusBarMenu;

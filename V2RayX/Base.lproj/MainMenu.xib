@@ -24,6 +24,7 @@
                 <outlet property="serverListMenu" destination="eqU-gH-G4L" id="unc-2a-DIW"/>
                 <outlet property="serversItem" destination="3wi-Co-2Kd" id="kKi-8l-dDJ"/>
                 <outlet property="statusBarMenu" destination="yZm-2L-r3v" id="3iW-vb-TOn"/>
+                <outlet property="updateServerItem" destination="C3a-eC-bFQ" id="3kY-g6-FNX"/>
                 <outlet property="upgradeMenuItem" destination="29h-Cl-9kt" id="Fk0-Xq-OK0"/>
                 <outlet property="v2rayRulesItem" destination="bUi-AV-IfA" id="p4V-ny-gh7"/>
                 <outlet property="v2rayStatusItem" destination="EFa-yl-fQC" id="z3V-zp-jw7"/>
@@ -796,6 +797,12 @@
             <modifierMask key="keyEquivalentModifierMask"/>
             <connections>
                 <action selector="editPac:" target="Voe-Tx-rLC" id="4jX-Hv-SpU"/>
+            </connections>
+        </menuItem>
+        <menuItem title="Update subscription" id="C3a-eC-bFQ">
+            <modifierMask key="keyEquivalentModifierMask"/>
+            <connections>
+                <action selector="updateSubscriptions:" target="Voe-Tx-rLC" id="V21-6O-1ca"/>
             </connections>
         </menuItem>
     </objects>

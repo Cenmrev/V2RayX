@@ -72,6 +72,7 @@
         }
     }
     _cusProfiles = [_appDelegate.cusProfiles mutableDeepCopy];
+    _subscriptions = [_appDelegate.subscriptions mutableCopy];
     
     _routingRuleSets = [_appDelegate.routingRuleSets mutableCopy];
     //
@@ -235,6 +236,7 @@
     _appDelegate.shareOverLan = self.shareOverLan;
     _appDelegate.dnsString = dnsStr;
     _appDelegate.cusProfiles = self.cusProfiles;
+    _appDelegate.subscriptions = self.subscriptions;
     _appDelegate.enableRestore = self.enableRestore;
     [_appDelegate.routingRuleSets removeAllObjects];
     for (NSMutableDictionary* set in self.routingRuleSets) {
@@ -247,17 +249,18 @@
         [_appDelegate.routingRuleSets addObject:[ROUTING_DIRECT mutableDeepCopy]];
     }
     [_appDelegate saveConfigInfo];
-    [_appDelegate didChangeStatus:self];
+    [_appDelegate updateSubscriptions:self];
     [[self window] close];
 }
 
-- (IBAction)showCusConfigWindow:(NSButton *)sender {
+- (IBAction)showAdvancedWindow:(NSButton *)sender {
     self.advancedWindowController = [[AdvancedWindowController alloc] initWithWindowNibName:@"AdvancedWindow" parentController:self];
     [[self window] beginSheet:self.advancedWindowController.window completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSModalResponseOK) {
             self.outbounds = self.advancedWindowController.outbounds;
             self.cusProfiles = self.advancedWindowController.configs;
             self.routingRuleSets = self.advancedWindowController.routingRuleSets;
+            self.subscriptions = self.advancedWindowController.subscriptions;
             self.enableRestore = self.advancedWindowController.enableRestore;
         }
         self.advancedWindowController = nil;

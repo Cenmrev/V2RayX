@@ -516,7 +516,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="showCusConfigWindow:" target="-2" id="L1e-NC-bCa"/>
+                            <action selector="showAdvancedWindow:" target="-2" id="15k-Xq-IZU"/>
                         </connections>
                     </button>
                     <button toolTip="Restart V2Ray and connected to the selected server above" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fnz-Bw-lGu">

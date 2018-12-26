@@ -14,13 +14,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithWindowNibName:(NSNibName)windowNibName parentController:(ConfigWindowController*)parent;
 @property (weak) IBOutlet NSTextField *checkLabel;
 
+@property (weak) IBOutlet NSTabView *mainTabView;
+
 //outbounds
 @property (weak) IBOutlet NSTableView *outboundTable;
 @property (unsafe_unretained) IBOutlet NSTextView *outboundJsonView;
 @property (weak) IBOutlet NSSegmentedControl *outboundAddControl;
 @property NSMutableArray* outbounds;
 
-@property (weak) IBOutlet NSTabView *mainTabView;
+// subscription
+@property (weak) IBOutlet NSTableView *subscriptionTable;
+@property (weak) IBOutlet NSSegmentedControl *subscriptionAddControl;
+@property NSMutableArray* subscriptions;
+
 //rules
 @property (strong) IBOutlet NSView *routingTagHelpView;
 @property (strong) IBOutlet NSView *domainIpHelpView;

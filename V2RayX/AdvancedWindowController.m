@@ -96,7 +96,9 @@
         self.selectedOutbound = -1;
     }
     [_outboundTable reloadData];
-    
+    // subscriptions
+    self.subscriptions = [configWindowController.subscriptions mutableCopy];
+    [_subscriptionTable reloadData];
     // rules
     self.selectedRuleSet = 0;
     self.selectedRule = 0;
@@ -140,6 +142,9 @@
     if (tableView == _ruleTable) {
         return [self.routingRuleSets[_selectedRuleSet][@"rules"] count];
     }
+    if (tableView == _subscriptionTable) {
+        return [self.subscriptions count];
+    }
     return 0;
 }
 
@@ -158,6 +163,9 @@
         NSDictionary* rule = self.routingRuleSets[_selectedRuleSet][@"rules"][row];
         NSString* routeTo = rule[@"outboundTag"] ? rule[@"outboundTag"] : rule[@"balancerTag"];
         return row + 1 == ruleCount ? [NSString stringWithFormat:@"final:%@", routeTo] : [NSString stringWithFormat:@"%lu:%@", row, routeTo] ;
+    }
+    if (tableView == _subscriptionTable) {
+        return self.subscriptions[row];
     }
     return @"";
 }
@@ -183,6 +191,8 @@
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     if (tableView == _configTable) {
         self.configs[row] = object;
+    } else if (tableView == _subscriptionTable) {
+        self.subscriptions[row] = object;
     }
 }
 
@@ -374,6 +384,20 @@
     }
 }
 
+//
+
+- (IBAction)addRemoveSubscription:(id)sender {
+    NSLog(@"%@", sender);
+    if ([sender selectedSegment] == 0) {
+        [_subscriptions addObject:@"enter your subscription link here"];
+        [_subscriptionTable reloadData];
+    } else if ([sender selectedSegment] == 1 && [_subscriptionTable selectedRow] >= 0 && [_subscriptionTable selectedRow] < _subscriptions.count) {
+        [_subscriptions removeObjectAtIndex:[_subscriptionTable selectedRow]];
+        [_subscriptionTable reloadData];
+    }
+    NSLog(@"%@", _subscriptions);
+}
+
 // configs
 
 - (IBAction)addRemoveConfig:(id)sender {
@@ -382,7 +406,7 @@
         [_configTable reloadData];
 //        [_configTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[_configs count] -1] byExtendingSelection:NO];
 //        [_configTable setFocusedColumn:[_configs count] - 1];
-    } else if ([sender selectedSegment] == 1 && [_configTable selectedRow] > 0 && [_configTable selectedRow] < _configs.count) {
+    } else if ([sender selectedSegment] == 1 && [_configTable selectedRow] >= 0 && [_configTable selectedRow] < _configs.count) {
         [_configs removeObjectAtIndex:[_configTable selectedRow]];
         [_configTable reloadData];
     }

@@ -42,6 +42,7 @@
 @property (nonatomic) NSString* dnsString;
 @property (nonatomic) NSMutableArray *profiles;
 @property (nonatomic) NSMutableArray *outbounds; // except than vmess
+@property (nonatomic) NSMutableArray *subscriptions;
 @property NSMutableArray* routingRuleSets;
 @property (nonatomic) NSMutableArray *cusProfiles;
 @property BOOL enableRestore;

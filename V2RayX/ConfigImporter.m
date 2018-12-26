@@ -269,7 +269,7 @@
     if (!urlError) {
         NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:urlStr options:0];
         if (!decodedData) {
-            return [[NSMutableDictionary alloc] init];
+            return nil;
         }
         NSString *decodedDataStr = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
         decodedDataStr = [decodedDataStr stringByReplacingOccurrencesOfString:@"\r" withString:@""];
@@ -290,7 +290,7 @@
         }
         return result;
     }
-    return [[NSMutableDictionary alloc] init];
+    return nil;
 }
 
 + (ServerProfile*)importFromVmessOfV2RayN:(NSString*)vmessStr {
