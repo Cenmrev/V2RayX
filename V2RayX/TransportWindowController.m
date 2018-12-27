@@ -52,7 +52,7 @@
     [_wsHeaderField setAutomaticQuoteSubstitutionEnabled:false];
     
     //read settings
-    [self fillStream:configWindowController.selectedProfile.streamSettings andMuxSettings:configWindowController.selectedProfile.streamSettings];
+    [self fillStream:configWindowController.selectedProfile.streamSettings andMuxSettings:configWindowController.selectedProfile.muxSettings];
     
 }
 
