@@ -670,6 +670,8 @@ static AppDelegate *appDelegate;
 -(void)toggleCore {
     dispatch_async(taskQueue, ^{
         runCommandLine(@"/bin/launchctl",  @[@"unload", self->plistPath]);
+        runCommandLine(@"/bin/cp", @[@"/dev/null", [NSString stringWithFormat:@"%@/access.log", self->logDirPath]]);
+        runCommandLine(@"/bin/cp", @[@"/dev/null", [NSString stringWithFormat:@"%@/error.log", self->logDirPath]]);
         runCommandLine(@"/bin/launchctl",  @[@"load", self->plistPath]);
     });
 }
