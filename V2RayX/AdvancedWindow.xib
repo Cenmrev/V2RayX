@@ -153,15 +153,15 @@ Gw
                                             <rect key="frame" x="145" y="17" width="332" height="290"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="nNS-kZ-Fe2">
-                                                <rect key="frame" x="0.0" y="0.0" width="332" height="290"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="317" height="275"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="u9b-6e-BFb">
-                                                        <rect key="frame" x="0.0" y="0.0" width="332" height="290"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="317" height="275"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                        <size key="minSize" width="332" height="290"/>
+                                                        <size key="minSize" width="317" height="275"/>
                                                         <size key="maxSize" width="332" height="10000000"/>
                                                         <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         <connections>
@@ -171,7 +171,7 @@ Gw
                                                 </subviews>
                                             </clipView>
                                             <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="WPy-9F-0mh">
-                                                <rect key="frame" x="316" y="0.0" width="16" height="290"/>
+                                                <rect key="frame" x="317" y="0.0" width="15" height="275"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
@@ -189,7 +189,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Subscription" identifier="" id="c9O-2e-b8g">
-                                <view key="view" id="WC0-rc-GkH">
+                                <view key="view" ambiguous="YES" id="WC0-rc-GkH">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -240,7 +240,7 @@ Gw
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22V-dc-UXp">
                                             <rect key="frame" x="17" y="313" width="462" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <textFieldCell key="cell" title="Save your airport subscription link here and refresh outbounds from menebar icon." id="qfa-aV-cmn">
+                                            <textFieldCell key="cell" title="Save your airport subscription link here and refresh config from server list in menubar icon." id="qfa-aV-cmn">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -280,7 +280,7 @@ Gw
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="R4k-Ta-qWH">
                                                 <rect key="frame" x="1" y="1" width="112" height="321"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="wbH-CA-T9F">
                                                         <rect key="frame" x="0.0" y="0.0" width="112" height="321"/>
@@ -417,7 +417,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <clipView key="contentView" ambiguous="YES" id="svV-1v-pv5">
                                                             <rect key="frame" x="1" y="1" width="85" height="228"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="VlQ-mV-pLn">
                                                                     <rect key="frame" x="0.0" y="0.0" width="85" height="228"/>
@@ -498,15 +498,15 @@ Gw
                                                         <rect key="frame" x="109" y="104" width="217" height="137"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="RDn-zh-dIS">
-                                                            <rect key="frame" x="0.0" y="0.0" width="217" height="137"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="202" height="137"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1mD-il-bEM">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="217" height="137"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="202" height="137"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                    <size key="minSize" width="217" height="137"/>
+                                                                    <size key="minSize" width="202" height="137"/>
                                                                     <size key="maxSize" width="240" height="10000000"/>
                                                                     <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                     <connections>
@@ -593,7 +593,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Configs" identifier="" id="kZw-NT-AZ4">
-                                <view key="view" ambiguous="YES" id="QPL-oN-1TZ">
+                                <view key="view" id="QPL-oN-1TZ">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -602,7 +602,7 @@ Gw
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="Jkw-Zi-tMR">
                                                 <rect key="frame" x="1" y="1" width="458" height="266"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" id="sAX-Hf-7on">
                                                         <rect key="frame" x="0.0" y="0.0" width="458" height="266"/>
