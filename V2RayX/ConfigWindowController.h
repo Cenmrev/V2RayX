@@ -29,6 +29,7 @@
 @property (weak) IBOutlet NSButton *globalTransportButton;
 @property (weak) IBOutlet NSPopUpButton *logLevelButton;
 @property (weak) IBOutlet NSMenu *importFromJsonMenu;
+@property (weak) IBOutlet NSButton *transportSettingsButton;
 
 @property (weak) AppDelegate* appDelegate;
 @property (nonatomic) ServerProfile* selectedProfile;

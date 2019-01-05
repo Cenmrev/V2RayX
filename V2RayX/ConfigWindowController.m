@@ -129,7 +129,9 @@
 }
 
 - (IBAction)chooseNetwork:(NSPopUpButton *)sender {
-    [self checkTLSforHttp2];
+    if (_selectedServerIndex >= 0 && _selectedServerIndex < [_profiles count]) {
+        [self checkTLSforHttp2];
+    }
 }
 
 - (BOOL)checkTLSforHttp2 {
@@ -140,9 +142,11 @@
             [httpTlsAlerm addButtonWithTitle:@"Close"];
             [httpTlsAlerm addButtonWithTitle:@"Help"];
             [httpTlsAlerm setMessageText:@"Both client and server must enable TLS to use HTTP/2 network! Enbale TLS in transport settings. Click \"Help\" if you need more information"];
-            if ([httpTlsAlerm runModal] == NSAlertSecondButtonReturn) {
-                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/transport/h2.html#tips"]];
-            }
+            [httpTlsAlerm beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+                if (returnCode == NSAlertSecondButtonReturn) {
+                    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/transport/h2.html#tips"]];
+                }
+            }];
             [_networkButton selectItemAtIndex:0];
             return NO; // does not pass checking
         }
@@ -269,6 +273,9 @@
 
 
 - (IBAction)showTransportSettings:(id)sender {
+    if ([_profiles count] == 0) {
+        return;
+    }
     self.transportWindowController = [[TransportWindowController alloc] initWithWindowNibName:@"TransportWindow" parentController:self];
     [[self window] beginSheet:self.transportWindowController.window completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSModalResponseOK) {
