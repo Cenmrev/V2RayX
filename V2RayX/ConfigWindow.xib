@@ -611,7 +611,7 @@ Gw
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="HUE-ih-p3S"/>
-                <menuItem title="Import from other miscellaneous links..." id="8rA-16-mml">
+                <menuItem title="Import from other links..." id="8rA-16-mml">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="importFromMiscLinks:" target="-2" id="ZeY-9p-gY8"/>

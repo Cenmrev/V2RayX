@@ -318,7 +318,7 @@
 }
 
 - (IBAction)importFromStandardLink:(id)sender {
-    [self askInputWithPrompt:@"Support standard ss:// link. Use \"Import from other miscellaneous links...\" to import other links(may cause failure)." handler:^(NSString *inputStr) {
+    [self askInputWithPrompt:@"Support standard vmess:// and ss:// link. Standard vmess:// link is still under discussion. Use \"Import from other links...\" to import other links, for example, vmess:// invented by v2rayN." handler:^(NSString *inputStr) {
         if (inputStr.length) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 NSMutableDictionary* ssOutbound = [ConfigImporter ssOutboundFromSSLink:inputStr];
@@ -347,7 +347,7 @@
 }
 
 - (IBAction)importFromMiscLinks:(id)sender {
-    [self askInputWithPrompt:@"V2RayX will try importing ssd://, vmess:// and http(s):// links from v2rayN and SSD." handler:^(NSString *inputStr) {
+    [self askInputWithPrompt:@"V2RayX will try importing ssd://, vmess:// and http(s):// links from v2rayN and SSD(may cause failure)." handler:^(NSString *inputStr) {
         inputStr = [inputStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([inputStr length] != 0) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
