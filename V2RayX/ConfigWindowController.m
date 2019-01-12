@@ -28,7 +28,11 @@
         NSString* v2rayPath = [self.appDelegate getV2rayPath];
         
         NSTask *task = [[NSTask alloc] init];
-        [task setLaunchPath:v2rayPath];
+        if (@available(macOS 10.13, *)) {
+            [task setExecutableURL:[NSURL fileURLWithPath:v2rayPath]];
+        } else {
+            [task setLaunchPath:v2rayPath];
+        }
         [task setArguments:@[@"-version"]];
         NSPipe *stdoutpipe = [NSPipe pipe];
         [task setStandardOutput:stdoutpipe];

@@ -140,7 +140,11 @@ static AppDelegate *appDelegate;
 - (BOOL)isSysconfVersionOK {
     NSTask *task;
     task = [[NSTask alloc] init];
-    [task setLaunchPath:kV2RayXHelper];
+    if (@available(macOS 10.13, *)) {
+        [task setExecutableURL:[NSURL fileURLWithPath:kV2RayXHelper]];
+    } else {
+        [task setLaunchPath:kV2RayXHelper];
+    }
     
     NSArray *args;
     args = [NSArray arrayWithObjects:@"-v", nil];
