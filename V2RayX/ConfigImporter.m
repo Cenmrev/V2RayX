@@ -387,6 +387,7 @@
     }
     if ([sharedServer objectForKey:@"tls"] && [sharedServer[@"tls"] isEqualToString:@"tls"]) {
         streamSettings[@"security"] = @"tls";
+        streamSettings[@"tlsSettings"][@"serverName"] = newProfile.address;
     }
     newProfile.streamSettings = streamSettings;
     return newProfile;

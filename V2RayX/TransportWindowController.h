@@ -49,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak) IBOutlet NSButton *tlsAiButton;
 @property (weak) IBOutlet NSButton *tlsAllowInsecureCiphersButton;
 @property (weak) IBOutlet NSTextField *tlsAlpnField;
+@property (weak) IBOutlet NSTextField *tlsServerNameField;
 
 //mux fields
 @property (weak) IBOutlet NSButton *muxEnableButton;

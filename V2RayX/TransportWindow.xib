@@ -29,6 +29,7 @@
                 <outlet property="tlsAiButton" destination="l3Z-uk-KBr" id="MYh-qr-nK9"/>
                 <outlet property="tlsAllowInsecureCiphersButton" destination="L3V-ES-nEc" id="MX1-ru-Gh3"/>
                 <outlet property="tlsAlpnField" destination="ueg-ns-8xA" id="IMc-ov-OVs"/>
+                <outlet property="tlsServerNameField" destination="86t-of-f5p" id="Vz7-wn-aWD"/>
                 <outlet property="tlsUseButton" destination="n0X-Fy-rS1" id="IyU-l4-N9i"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="7Ko-FQ-AUD"/>
                 <outlet property="wsHeaderField" destination="5WV-Rv-Aia" id="2d2-93-ebM"/>
@@ -237,7 +238,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="74S-96-NuK">
                                                 <rect key="frame" x="1" y="1" width="441" height="83"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsUndo="YES" allowsNonContiguousLayout="YES" textCompletion="NO" id="dcF-wv-cmU">
                                                         <rect key="frame" x="0.0" y="0.0" width="441" height="83"/>
@@ -491,7 +492,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l3Z-uk-KBr">
-                                            <rect key="frame" x="15" y="50" width="132" height="18"/>
+                                            <rect key="frame" x="290" y="83" width="132" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="TLS allowInsecure" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Rxl-Fh-p8u">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -499,7 +500,7 @@
                                             </buttonCell>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L3V-ES-nEc">
-                                            <rect key="frame" x="238" y="85" width="179" height="18"/>
+                                            <rect key="frame" x="37" y="83" width="179" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="TLS allowInsecureCiphers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tGs-7I-7qD">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -507,7 +508,7 @@
                                             </buttonCell>
                                         </button>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ueg-ns-8xA">
-                                            <rect key="frame" x="286" y="47" width="96" height="22"/>
+                                            <rect key="frame" x="155" y="16" width="145" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="VDm-Wv-O7F">
                                                 <font key="font" metaFont="system"/>
@@ -516,7 +517,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n0X-Fy-rS1">
-                                            <rect key="frame" x="15" y="85" width="73" height="18"/>
+                                            <rect key="frame" x="15" y="116" width="73" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Use TLS" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="cY9-cQ-T9f">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -526,8 +527,26 @@
                                                 <action selector="useTLS:" target="-2" id="cHY-jK-D4h"/>
                                             </connections>
                                         </button>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="77A-Z2-HDg">
+                                            <rect key="frame" x="38" y="51" width="109" height="17"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="TLS serverName:" id="etO-0e-iiM">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="86t-of-f5p">
+                                            <rect key="frame" x="153" y="48" width="223" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="fG1-3v-Xr7">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nhc-Gl-Mct">
-                                            <rect key="frame" x="238" y="50" width="34" height="17"/>
+                                            <rect key="frame" x="113" y="19" width="34" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="alpn:" id="eb7-WI-WKe">
                                                 <font key="font" metaFont="system"/>
@@ -637,7 +656,7 @@ Gw
             <connections>
                 <outlet property="delegate" destination="-2" id="G4k-U8-KL0"/>
             </connections>
-            <point key="canvasLocation" x="133.5" y="150"/>
+            <point key="canvasLocation" x="140.5" y="151"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="LgD-MM-gbb"/>
     </objects>

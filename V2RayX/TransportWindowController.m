@@ -106,6 +106,7 @@
     NSArray* alpnArray = streamSettings[@"tlsSettings"][@"alpn"];
     NSString* alpnString = [alpnArray componentsJoinedByString:@","];
     [_tlsAlpnField setStringValue:nilCoalescing(alpnString, @"http/1.1")];
+    [_tlsServerNameField setStringValue:streamSettings[@"tlsSettings"][@"serverName"]];
     
     [self useTLS:nil];
     // mux
@@ -221,7 +222,7 @@
               },
       @"security": [self->_tlsUseButton state] ? @"tls" : @"none",
       @"tlsSettings": @{
-              @"serverName": configWindowController.selectedProfile.address,
+              @"serverName": [_tlsServerNameField stringValue],
               @"allowInsecure": [NSNumber numberWithBool:[self->_tlsAiButton state]==1],
               @"allowInsecureCiphers": [NSNumber numberWithBool:[self->_tlsAllowInsecureCiphersButton state]==1],
               @"alpn": [[[_tlsAlpnField stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""] componentsSeparatedByString:@","]
