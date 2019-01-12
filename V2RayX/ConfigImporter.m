@@ -14,7 +14,7 @@
         return @"";
     }
     NSMutableString* fixed = [encoded mutableCopy];
-    NSInteger numAdd = encoded.length % 4;
+    NSInteger numAdd = (4 - encoded.length % 4) % 4;
     for (int i = 0; i < numAdd; i += 1) {
         [fixed appendString:@"="];
     }
@@ -34,10 +34,7 @@
         NSString* encoded = [[link stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] substringFromIndex:5];
         NSArray* hashTagSeperatedParts = [encoded componentsSeparatedByString:@"#"];
         NSString* encodedRemoveTag = hashTagSeperatedParts[0];
-        NSData* decodedData = [[NSData alloc] initWithBase64EncodedString:encodedRemoveTag options:0];
-        NSString* decoded = [[NSString alloc] initWithData: decodedData
-                                                  encoding:NSUTF8StringEncoding];
-        
+        NSString* decoded = [ConfigImporter decodeBase64String:encodedRemoveTag];
         NSArray* parts = [decoded componentsSeparatedByString:@"@"];
         NSArray* addressAndPort = [parts[1] componentsSeparatedByString:@":"];
         NSMutableArray* methodAndPassword = [[parts[0] componentsSeparatedByString:@":"] mutableCopy];
@@ -287,11 +284,10 @@
     NSError *urlError = nil;
     NSString *urlStr = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&urlError];
     if (!urlError) {
-        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:urlStr options:0];
-        if (!decodedData) {
+        NSString *decodedDataStr = [ConfigImporter decodeBase64String:urlStr];
+        if ([decodedDataStr length] == 0) {
             return nil;
         }
-        NSString *decodedDataStr = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
         decodedDataStr = [decodedDataStr stringByReplacingOccurrencesOfString:@"\r" withString:@""];
         NSArray *decodedDataArray = [decodedDataStr componentsSeparatedByString:@"\n"];
         for (id linkStr in decodedDataArray) {
@@ -319,13 +315,11 @@
     if ([vmessStr length] < 9 || ![[[vmessStr substringToIndex:8] lowercaseString] isEqualToString:@"vmess://"]) {
         return nil;
     }
-    // https://stackoverflow.com/questions/19088231/base64-decoding-in-ios-7
-    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:[vmessStr substringFromIndex:8] options:0];
-    if (!decodedData) {
-        return nil;
-    }
+    NSString* decodedJsonString = [[ConfigImporter decodeBase64String:[vmessStr substringFromIndex:8]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSData* decodedData = [decodedJsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSError* jsonParseError;
-    NSDictionary *sharedServer = [NSJSONSerialization JSONObjectWithData:decodedData options:0 error:&jsonParseError];
+    NSDictionary *sharedServer = [NSJSONSerialization JSONObjectWithData:
+                                  decodedData options:0 error:&jsonParseError];
     if (jsonParseError) {
         return nil;
     }
