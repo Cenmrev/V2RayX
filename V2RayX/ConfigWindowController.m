@@ -180,9 +180,15 @@
         }
         [_profileTable reloadData];
     }
-//    else if ([sender selectedSegment] == 2) {
-//        [NSMenu popUpContextMenu:[sender menuForSegment:2] withEvent:[NSApp currentEvent] forView:sender];
-//    }
+    else if ([sender selectedSegment] == 2) {
+        // share server
+    } else if ([sender selectedSegment] == 3) {
+        // duplicate
+        if (_selectedServerIndex >= 0 && _selectedServerIndex < [_profiles count]) {
+            [_profiles addObject:[_profiles[_selectedServerIndex] deepCopy]];
+            [_profileTable reloadData];
+        }
+    }
 }
 
 - (IBAction)importConfigs:(id)sender {

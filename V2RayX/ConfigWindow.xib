@@ -150,7 +150,7 @@
                             <rect key="frame" x="1" y="1" width="138" height="181"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="fje-9q-W5F">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="fje-9q-W5F">
                                     <rect key="frame" x="0.0" y="0.0" width="138" height="181"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -574,11 +574,11 @@ Gw
                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="smallSquare" trackingMode="momentary" id="TAd-3w-qoq">
                             <font key="font" metaFont="system"/>
                             <segments>
-                                <segment image="NSAddTemplate"/>
-                                <segment image="NSRemoveTemplate" tag="1"/>
-                                <segment width="82">
-                                    <nil key="label"/>
-                                </segment>
+                                <segment image="NSAddTemplate" width="30"/>
+                                <segment image="NSRemoveTemplate" width="30" tag="1"/>
+                                <segment image="NSShareTemplate" width="30" enabled="NO"/>
+                                <segment image="config_duplicate" width="30"/>
+                                <segment width="14"/>
                             </segments>
                         </segmentedCell>
                         <connections>
@@ -640,5 +640,7 @@ Gw
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
+        <image name="NSShareTemplate" width="11" height="16"/>
+        <image name="config_duplicate" width="24" height="24"/>
     </resources>
 </document>
