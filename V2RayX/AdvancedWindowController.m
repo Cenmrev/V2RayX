@@ -7,9 +7,6 @@
 #import "AdvancedWindowController.h"
 #import "MutableDeepCopying.h"
 #include <stdio.h>
-#include <unistd.h> // notice this! you need it!
-
-#define RULEINFO (@"When an")
 
 @interface AdvancedWindowController () {
     ConfigWindowController* configWindowController;
@@ -322,7 +319,7 @@
         NSAlert* alert = [NSAlert alertWithMessageText:@"Do you want to reset rule sets to original three ones?" defaultButton:@"OK" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@""];
         [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
             if (returnCode == NSModalResponseOK) {
-                self->_routingRuleSets = [@[ROUTING_DIRECT, ROUTING_GLOBAL, ROUTING_BYPASSCN_PRIVATE_APPLE] mutableDeepCopy];
+                self->_routingRuleSets = [@[ROUTING_GLOBAL, ROUTING_BYPASSCN_PRIVATE_APPLE, ROUTING_DIRECT] mutableDeepCopy];
                 NSUInteger originalIndex = self->_ruleSetTable.selectedRow;
                 [self->_ruleSetTable selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO]; // toggle
                 if (originalIndex == self->_ruleSetTable.selectedRow) {

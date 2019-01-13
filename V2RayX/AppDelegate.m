@@ -254,7 +254,7 @@ static AppDelegate *appDelegate;
         }
     }
     
-    _routingRuleSets = [@[ROUTING_GLOBAL, ROUTING_DIRECT, ROUTING_BYPASSCN_PRIVATE_APPLE] mutableDeepCopy];
+    _routingRuleSets = [@[ROUTING_GLOBAL, ROUTING_BYPASSCN_PRIVATE_APPLE, ROUTING_DIRECT] mutableDeepCopy];
     if ([[defaults objectForKey:@"routingRuleSets"] isKindOfClass:[NSArray class]] && [[defaults objectForKey:@"routingRuleSets"] count] > 0) {
         _routingRuleSets = [[defaults objectForKey:@"routingRuleSets"] mutableDeepCopy];
     }
@@ -285,7 +285,7 @@ static AppDelegate *appDelegate;
               ],
       @"cusProfiles": @[],
       @"enableRestore": @NO,
-      @"routingRuleSets": @[ROUTING_DIRECT, ROUTING_GLOBAL, ROUTING_BYPASSCN_PRIVATE_APPLE],
+      @"routingRuleSets": @[ROUTING_GLOBAL, ROUTING_BYPASSCN_PRIVATE_APPLE, ROUTING_DIRECT],
       };
     for (NSString* key in [defaultSettings allKeys]) {
         [[NSUserDefaults standardUserDefaults] setObject:defaultSettings[key] forKey:key];
