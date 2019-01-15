@@ -35,6 +35,11 @@
     [super windowDidLoad];
     
     // initialize UI
+    [_outboundTable setFocusRingType:NSFocusRingTypeNone];
+    [_ruleTable setFocusRingType:NSFocusRingTypeNone];
+    [_ruleSetTable setFocusRingType:NSFocusRingTypeNone];
+    [_configTable setFocusRingType:NSFocusRingTypeNone];
+    [_subscriptionTable setFocusRingType:NSFocusRingTypeNone];
     [[self domainStrategyButton] removeAllItems];
     for(NSString* strategy in DOMAIN_STRATEGY_LIST) {
         [[self domainStrategyButton] addItemWithTitle:strategy];
@@ -301,6 +306,7 @@
 }
 
 - (IBAction)addRemoveRuleSet:(id)sender {
+    [[self window] makeFirstResponder:_ruleSetTable];
     if ([sender selectedSegment] == 0) {
         NSMutableDictionary* newRuleSet = [ROUTING_DIRECT mutableDeepCopy];
         newRuleSet[@"name"] = @"new_rule_set";
@@ -328,6 +334,10 @@
                 [self->_ruleSetTable reloadData];
             }
         }];
+    } else if ([sender selectedSegment] == 3 && _selectedRuleSet >= 0 && _selectedRuleSet < _routingRuleSets.count) {
+        [_routingRuleSets addObject:[[_routingRuleSets objectAtIndex:_selectedRuleSet] mutableDeepCopy]];
+        [_ruleSetTable reloadData];
+        [_ruleSetTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_routingRuleSets.count - 1] byExtendingSelection:NO]; // toggle
     }
 }
 
@@ -338,6 +348,7 @@
 }
 
 - (IBAction)addRemoveRule:(id)sender {
+    [[self window] makeFirstResponder:_ruleTable];
     NSMutableArray* rules = _routingRuleSets[_selectedRuleSet][@"rules"];
     if ([sender selectedSegment] == 0) {
         [rules insertObject:[@{

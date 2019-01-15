@@ -57,6 +57,7 @@
     }
     
     //set textField Display
+    [_profileTable setFocusRingType:NSFocusRingTypeNone];
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterNoStyle];
     [_portField setFormatter:formatter];
@@ -159,6 +160,7 @@
 }
 
 - (IBAction)addRemoveServer:(id)sender {
+    [[self window] makeFirstResponder:_profileTable];
     if ([sender selectedSegment] == 0) {
         ServerProfile* newProfile = [[ServerProfile alloc] init];
         [_profiles addObject:newProfile];

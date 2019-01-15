@@ -49,7 +49,7 @@
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="540" height="455"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vwe-wN-xLw">
                         <rect key="frame" x="450" y="9" width="76" height="32"/>
@@ -189,7 +189,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Subscription" identifier="" id="c9O-2e-b8g">
-                                <view key="view" ambiguous="YES" id="WC0-rc-GkH">
+                                <view key="view" id="WC0-rc-GkH">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -265,7 +265,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Rules" identifier="" id="i0P-1v-Yeh">
-                                <view key="view" id="uJw-Fs-Pqs">
+                                <view key="view" ambiguous="YES" id="uJw-Fs-Pqs">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -274,7 +274,7 @@ Gw
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="R4k-Ta-qWH">
                                                 <rect key="frame" x="1" y="1" width="112" height="321"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="wbH-CA-T9F">
                                                         <rect key="frame" x="0.0" y="0.0" width="112" height="321"/>
@@ -411,7 +411,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <clipView key="contentView" ambiguous="YES" id="svV-1v-pv5">
                                                             <rect key="frame" x="1" y="1" width="85" height="228"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="VlQ-mV-pLn">
                                                                     <rect key="frame" x="0.0" y="0.0" width="85" height="228"/>
@@ -493,7 +493,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="RDn-zh-dIS">
                                                             <rect key="frame" x="0.0" y="0.0" width="217" height="137"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1mD-il-bEM">
                                                                     <rect key="frame" x="0.0" y="0.0" width="217" height="137"/>
@@ -565,16 +565,16 @@ Gw
                                             <segmentedCell key="cell" borderStyle="border" alignment="left" style="smallSquare" trackingMode="momentary" id="N82-tM-ejL">
                                                 <font key="font" metaFont="system"/>
                                                 <segments>
-                                                    <segment image="NSAddTemplate">
+                                                    <segment image="NSAddTemplate" width="27">
                                                         <nil key="label"/>
                                                     </segment>
-                                                    <segment image="NSRemoveTemplate" tag="1">
+                                                    <segment image="NSRemoveTemplate" width="27" tag="1">
                                                         <nil key="label"/>
                                                     </segment>
-                                                    <segment image="NSRefreshTemplate">
+                                                    <segment image="NSRefreshTemplate" width="27">
                                                         <nil key="label"/>
                                                     </segment>
-                                                    <segment width="28">
+                                                    <segment image="config_duplicate" width="28">
                                                         <nil key="label"/>
                                                     </segment>
                                                 </segments>
@@ -865,5 +865,6 @@ will match all private IPs.</string>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
+        <image name="config_duplicate" width="12" height="12"/>
     </resources>
 </document>
