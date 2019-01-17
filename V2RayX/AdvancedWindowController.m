@@ -31,6 +31,12 @@
     return self;
 }
 
+- (void)removeObservers {
+    [self removeObserver:self forKeyPath:@"selectedOutbound"];
+    [self removeObserver:self forKeyPath:@"selectedRuleSet"];
+    [self removeObserver:self forKeyPath:@"selectedRule"];
+}
+
 - (void)windowDidLoad {
     [super windowDidLoad];
     
@@ -67,7 +73,7 @@
            forKeyPath:@"selectedRule"
               options:NSKeyValueObservingOptionNew
               context:nil];
-//    [self addObserver:self forKeyPath:@"ruleSetNameField.stringValue" options:NSKeyValueObservingOptionNew context:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(textFieldDidChange:)
                                                  name:NSControlTextDidChangeNotification
@@ -122,11 +128,12 @@
     }
     [self textDidEndEditing:
      [[NSNotification alloc] initWithName:NSTextDidEndEditingNotification object:_domainIpTextView userInfo:nil]];
-    
+    [self removeObservers];
     [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];
 }
 
 - (IBAction)cancel:(id)sender {
+    [self removeObservers];
     [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseCancel];
 }
 

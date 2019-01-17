@@ -517,7 +517,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="showAdvancedWindow:" target="-2" id="15k-Xq-IZU"/>
+                            <action selector="showAdvancedWindow:" target="-2" id="1El-Bd-DKf"/>
                         </connections>
                     </button>
                     <button toolTip="Restart V2Ray and connected to the selected server above" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fnz-Bw-lGu">
