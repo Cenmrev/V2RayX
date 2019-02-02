@@ -630,7 +630,7 @@ static AppDelegate *appDelegate;
         if([profiles count] + [_subsOutbounds count]> 0) {
             NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:@"Use All" action:@selector(switchServer:) keyEquivalent:@""];
             [newItem setTag:kUseAllServer];
-            newItem.state = useMultipleServer;
+            newItem.state = useMultipleServer & !useCusProfile;
             [_serverListMenu addItem:newItem];
         }
         if (_subscriptions.count > 0) {
@@ -647,7 +647,7 @@ static AppDelegate *appDelegate;
             if (useMultipleServer){
                 newItem.state = 0;
             } else {
-                newItem.state = (useCusProfile && i - [profiles count] == selectedCusServerIndex)? 1 : 0;
+                newItem.state = (useCusProfile && i - [profiles count] - [_subsOutbounds count] == selectedCusServerIndex)? 1 : 0;
             }
             [_serverListMenu addItem:newItem];
             i += 1;
@@ -721,9 +721,10 @@ static AppDelegate *appDelegate;
     } else if ([sender tag] >= outboundCount && [sender tag] < outboundCount + [cusProfiles count]) {
         [self setUseMultipleServer:NO];
         [self setUseCusProfile:YES];
-        [self setSelectedCusServerIndex:[sender tag] - [profiles count]];
+        [self setSelectedCusServerIndex:[sender tag] - outboundCount];
     } else if ([sender tag] == kUseAllServer) {
         [self setUseMultipleServer:YES];
+        [self setUseCusProfile:NO];
     }
     NSLog(@"use cus pro:%hhd, select %ld, select cus %ld", useCusProfile, (long)selectedServerIndex, selectedCusServerIndex);
     [self coreConfigDidChange:self];
