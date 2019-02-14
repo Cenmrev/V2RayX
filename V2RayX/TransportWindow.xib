@@ -415,7 +415,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="QUIC" identifier="" id="DRH-Zh-vX2">
-                                <view key="view" id="ana-nP-yKk">
+                                <view key="view" ambiguous="YES" id="ana-nP-yKk">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -473,7 +473,7 @@
                                                 <menu key="menu" id="fXc-My-Va9"/>
                                             </popUpButtonCell>
                                         </popUpButton>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZrD-hV-LQf">
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" preferredMaxLayoutWidth="444" translatesAutoresizingMaskIntoConstraints="NO" id="ZrD-hV-LQf">
                                             <rect key="frame" x="14" y="6" width="448" height="33"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <textFieldCell key="cell" id="vZ8-pU-aE3">
@@ -487,7 +487,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="TLS" identifier="" id="sCQ-Dt-YCG">
-                                <view key="view" ambiguous="YES" id="yce-Q2-W28">
+                                <view key="view" id="yce-Q2-W28">
                                     <rect key="frame" x="10" y="33" width="477" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
