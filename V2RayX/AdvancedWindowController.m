@@ -81,11 +81,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(textFieldDidChange:)
                                                  name:NSControlTextDidChangeNotification
-                                               object:_routeToField];
+                                               object:_routeToBox];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(textFieldDidChange:)
                                                  name:NSControlTextDidChangeNotification
                                                object:_portField];
+    [_routeToBox removeAllItems];
+    [_routeToBox addItemsWithObjectValues:RESERVED_TAGS];
     
     // core path
     self.corePathField.stringValue = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/v2ray-core/",NSHomeDirectory()];
@@ -258,15 +260,15 @@
     if (notification.object == _ruleSetNameField) {
         self.routingRuleSets[_selectedRuleSet][@"name"] = _ruleSetNameField.stringValue;
     }
-    if (notification.object == _routeToField) {
+    if (notification.object == _routeToBox) {
 //        NSLog(@"%@", rule);
         NSMutableDictionary* rule =
         self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule];
-        if ([@"balance" isEqualToString:_routeToField.stringValue]) {
+        if ([@"balance" isEqualToString:_routeToBox.stringValue]) {
             rule[@"balancerTag"] = @"balance";
             [rule removeObjectForKey:@"outboundTag"];
         } else {
-            rule[@"outboundTag"] = _routeToField.stringValue;
+            rule[@"outboundTag"] = _routeToBox.stringValue;
             [rule removeObjectForKey:@"balancerTag"];
         }
     }
@@ -531,7 +533,7 @@
         _portEnableButton.enabled = !selectedLastRule;
         _domainIpHelpButton.enabled = !selectedLastRule;
         
-        _routeToField.stringValue = rules[@"outboundTag"] ? rules[@"outboundTag"] : rules[@"balancerTag"];
+        _routeToBox.stringValue = rules[@"outboundTag"] ? rules[@"outboundTag"] : rules[@"balancerTag"];
     }
 }
 

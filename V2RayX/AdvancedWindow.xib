@@ -27,7 +27,7 @@
                 <outlet property="outboundTable" destination="XPi-HC-KJg" id="CkG-5u-rpo"/>
                 <outlet property="portEnableButton" destination="csz-yQ-hNt" id="pyl-x3-Eld"/>
                 <outlet property="portField" destination="GJe-w6-K5h" id="FC9-1A-JrM"/>
-                <outlet property="routeToField" destination="LPs-go-ETV" id="4jz-Gf-UiU"/>
+                <outlet property="routeToBox" destination="P9N-Y8-afr" id="WWN-8K-AWc"/>
                 <outlet property="routeToHelpButton" destination="JC4-HP-JE8" id="BZE-EO-mgO"/>
                 <outlet property="routingTagHelpView" destination="QAK-Cz-bFI" id="Irw-HU-E1u"/>
                 <outlet property="ruleAddControl" destination="yoj-Gc-d7Z" id="tzC-N1-yoK"/>
@@ -52,7 +52,7 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vwe-wN-xLw">
-                        <rect key="frame" x="450" y="9" width="76" height="32"/>
+                        <rect key="frame" x="444" y="9" width="82" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Finish" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Hv6-1n-72W">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -265,7 +265,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Rules" identifier="" id="i0P-1v-Yeh">
-                                <view key="view" ambiguous="YES" id="uJw-Fs-Pqs">
+                                <view key="view" id="uJw-Fs-Pqs">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -450,15 +450,6 @@ Gw
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
-                                                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LPs-go-ETV">
-                                                        <rect key="frame" x="169" y="12" width="122" height="22"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="tXT-Uk-H1q">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5bh-W3-sf1">
                                                         <rect key="frame" x="110" y="47" width="75" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -545,8 +536,22 @@ Gw
                                                             <action selector="showInformation:" target="-2" id="q9C-hd-tXa"/>
                                                         </connections>
                                                     </button>
+                                                    <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P9N-Y8-afr">
+                                                        <rect key="frame" x="169" y="10" width="135" height="26"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="m0j-kv-PFY">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            <objectValues>
+                                                                <string>Item 1</string>
+                                                                <string>Item 2</string>
+                                                                <string>Item 3</string>
+                                                            </objectValues>
+                                                        </comboBoxCell>
+                                                    </comboBox>
                                                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JC4-HP-JE8">
-                                                        <rect key="frame" x="297" y="9" width="25" height="25"/>
+                                                        <rect key="frame" x="309" y="9" width="25" height="25"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hh1-mH-fhk">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -596,7 +601,7 @@ Gw
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="Jkw-Zi-tMR">
                                                 <rect key="frame" x="1" y="1" width="458" height="266"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" id="sAX-Hf-7on">
                                                         <rect key="frame" x="0.0" y="0.0" width="458" height="266"/>
@@ -669,7 +674,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="V2Ray Core" identifier="" id="67G-Pu-y5A">
-                                <view key="view" id="Jjh-Q6-tKG">
+                                <view key="view" ambiguous="YES" id="Jjh-Q6-tKG">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -772,7 +777,7 @@ Compatibility is not guaranteed.</string>
                         </tabViewItems>
                     </tabView>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Z5-SI-er6">
-                        <rect key="frame" x="368" y="9" width="82" height="32"/>
+                        <rect key="frame" x="362" y="9" width="82" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2bW-I2-dXF">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -786,7 +791,7 @@ Gw
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ogb-e2-2CM">
-                        <rect key="frame" x="300" y="9" width="68" height="32"/>
+                        <rect key="frame" x="280" y="9" width="82" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Help" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BKj-YZ-Vk2">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -865,6 +870,6 @@ will match all private IPs.</string>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
-        <image name="config_duplicate" width="12" height="12"/>
+        <image name="config_duplicate" width="24" height="24"/>
     </resources>
 </document>

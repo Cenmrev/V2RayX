@@ -43,8 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak) IBOutlet NSButton *portEnableButton;
 @property (weak) IBOutlet NSButton *networkEnableButton;
 @property (weak) IBOutlet NSPopUpButton *networkListButton;
-@property (weak) IBOutlet NSTextField *routeToField;
 @property (weak) IBOutlet NSButton *routeToHelpButton;
+@property (weak) IBOutlet NSComboBox *routeToBox;
 @property NSMutableArray* routingRuleSets;
 
 //config
