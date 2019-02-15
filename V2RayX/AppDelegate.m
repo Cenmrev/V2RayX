@@ -21,6 +21,9 @@
     ConfigWindowController *configWindowController;
 
     dispatch_queue_t taskQueue;
+    dispatch_queue_t coreLoopQueue;
+    dispatch_semaphore_t coreLoopSemaphore;
+    NSTask* coreProcess;
     dispatch_source_t dispatchPacSource;
     FSEventStreamRef fsEventStream;
     
@@ -81,6 +84,31 @@ static AppDelegate *appDelegate;
     
     // create a serial queue used for NSTask operations
     taskQueue = dispatch_queue_create("cenmrev.v2rayx.nstask", DISPATCH_QUEUE_SERIAL);
+    // create a loop to run core
+    coreLoopSemaphore = dispatch_semaphore_create(0);
+    coreLoopQueue = dispatch_queue_create("cenmrev.v2rayx.coreloop", DISPATCH_QUEUE_SERIAL);
+    
+    
+    dispatch_async(coreLoopQueue, ^{
+        while (true) {
+            dispatch_semaphore_wait(self->coreLoopSemaphore, DISPATCH_TIME_FOREVER);
+            self->coreProcess = [[NSTask alloc] init];
+            if (@available(macOS 10.13, *)) {
+                [self->coreProcess setExecutableURL:[NSURL fileURLWithPath:[self getV2rayPath]]];
+            } else {
+                [self->coreProcess setLaunchPath:[self getV2rayPath]];
+            }
+            [self->coreProcess setArguments:@[@"-config", @"stdin:"]];
+            NSPipe* stdinpipe = [NSPipe pipe];
+            [self->coreProcess setStandardInput:stdinpipe];
+            NSData* configData = [NSJSONSerialization dataWithJSONObject:[self generateConfigFile] options:0 error:nil];
+            [[stdinpipe fileHandleForWriting] writeData:configData];
+            [self->coreProcess launch];
+            [[stdinpipe fileHandleForWriting] closeFile];
+            [self->coreProcess waitUntilExit];
+            NSLog(@"core exit with code %d", [self->coreProcess terminationStatus]);
+        }
+    });
     
     plistPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/cenmrev.v2rayx.v2ray-core.plist",NSHomeDirectory()];
     
@@ -340,7 +368,8 @@ static AppDelegate *appDelegate;
         dispatch_source_cancel(dispatchPacSource);
     }
     //unload v2ray
-    runCommandLine(@"/bin/launchctl", @[@"unload", plistPath]);
+    //runCommandLine(@"/bin/launchctl", @[@"unload", plistPath]);
+    [self unloadV2ray];
     NSLog(@"V2RayX quiting, V2Ray core unloaded.");
     //remove log file
     [[NSFileManager defaultManager] removeItemAtPath:logDirPath error:nil];
@@ -664,7 +693,7 @@ static AppDelegate *appDelegate;
             NSDictionary *fullConfig = [self generateConfigFile];
             v2rayJSONconfig = [NSJSONSerialization dataWithJSONObject:fullConfig options:NSJSONWritingPrettyPrinted error:nil];
         }
-        [self generateLaunchdPlist:plistPath];
+        //[self generateLaunchdPlist:plistPath];
         [self toggleCore];
     }
     [self updateServerMenuList];
@@ -672,12 +701,14 @@ static AppDelegate *appDelegate;
 }
 
 -(void)toggleCore {
-    dispatch_async(taskQueue, ^{
-        runCommandLine(@"/bin/launchctl",  @[@"unload", self->plistPath]);
-        runCommandLine(@"/bin/cp", @[@"/dev/null", [NSString stringWithFormat:@"%@/access.log", self->logDirPath]]);
-        runCommandLine(@"/bin/cp", @[@"/dev/null", [NSString stringWithFormat:@"%@/error.log", self->logDirPath]]);
-        runCommandLine(@"/bin/launchctl",  @[@"load", self->plistPath]);
-    });
+    [self unloadV2ray];
+    dispatch_semaphore_signal(coreLoopSemaphore);
+//    dispatch_async(taskQueue, ^{
+//        runCommandLine(@"/bin/launchctl",  @[@"unload", self->plistPath]);
+//        runCommandLine(@"/bin/cp", @[@"/dev/null", [NSString stringWithFormat:@"%@/access.log", self->logDirPath]]);
+//        runCommandLine(@"/bin/cp", @[@"/dev/null", [NSString stringWithFormat:@"%@/error.log", self->logDirPath]]);
+//        runCommandLine(@"/bin/launchctl",  @[@"load", self->plistPath]);
+//    });
 }
 
 - (IBAction)showConfigWindow:(id)sender {
@@ -731,10 +762,13 @@ static AppDelegate *appDelegate;
 }
 
 -(void)unloadV2ray {
-    dispatch_async(taskQueue, ^{
-        runCommandLine(@"/bin/launchctl", @[@"unload", self->plistPath]);
-        NSLog(@"V2Ray core unloaded.");
-    });
+    if (coreProcess && [coreProcess isRunning]) {
+        [coreProcess terminate];
+    }
+//    dispatch_async(taskQueue, ^{
+//        runCommandLine(@"/bin/launchctl", @[@"unload", self->plistPath]);
+//        NSLog(@"V2Ray core unloaded.");
+//    });
 }
 
 - (NSDictionary*)generateConfigFile {
@@ -818,16 +852,15 @@ static AppDelegate *appDelegate;
         fullConfig[@"outbounds"] = configOutboundDict.allValues;
     }
     return fullConfig;
-
 }
 
--(void)generateLaunchdPlist:(NSString*)path {
-    NSString* v2rayPath = [self getV2rayPath];
-    NSLog(@"use core: %@", v2rayPath);
-    NSString *configPath = [NSString stringWithFormat:@"http://127.0.0.1:%d/config.json", webServerPort];
-    NSDictionary *runPlistDic = [[NSDictionary alloc] initWithObjects:@[@"v2rayproject.v2rayx.v2ray-core", @[v2rayPath, @"-config", configPath], [NSNumber numberWithBool:YES]] forKeys:@[@"Label", @"ProgramArguments", @"RunAtLoad"]];
-    [runPlistDic writeToFile:path atomically:NO];
-}
+//-(void)generateLaunchdPlist:(NSString*)path {
+//    NSString* v2rayPath = [self getV2rayPath];
+//    NSLog(@"use core: %@", v2rayPath);
+//    NSString *configPath = [NSString stringWithFormat:@"http://127.0.0.1:%d/config.json", webServerPort];
+//    NSDictionary *runPlistDic = [[NSDictionary alloc] initWithObjects:@[@"v2rayproject.v2rayx.v2ray-core", @[v2rayPath, @"-config", configPath], [NSNumber numberWithBool:YES]] forKeys:@[@"Label", @"ProgramArguments", @"RunAtLoad"]];
+//    [runPlistDic writeToFile:path atomically:NO];
+//}
 
 -(NSString*)getV2rayPath {
     NSString* defaultV2ray = [NSString stringWithFormat:@"%@/v2ray", [[NSBundle mainBundle] resourcePath]];
