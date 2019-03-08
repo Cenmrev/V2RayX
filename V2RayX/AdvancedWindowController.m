@@ -54,8 +54,16 @@
     for(NSString* network in ROUTING_NETWORK_LIST) {
         [[self networkListButton] addItemWithTitle:network];
     }
+    [_protocolButton removeAllItems];
+    for (NSString* p in SNIFFING_PROTOCOL) {
+        [_protocolButton addItemWithTitle:p];
+    }
     _outboundJsonView.automaticQuoteSubstitutionEnabled = false;
-    _domainIpTextView.automaticQuoteSubstitutionEnabled = false;
+    _domainTextView.automaticQuoteSubstitutionEnabled = false;
+    [_routeToBox removeAllItems];
+    [_routeToBox addItemsWithObjectValues:RESERVED_TAGS];
+    [_inboundTagBox removeAllItems];
+    [_inboundTagBox addItemsWithObjectValues:@[@"socksinbound", @"httpinbound"]];
     
     // outbound
     [_outboundJsonView setFont:[NSFont fontWithName:@"Menlo" size:13]];
@@ -86,12 +94,16 @@
                                              selector:@selector(textFieldDidChange:)
                                                  name:NSControlTextDidChangeNotification
                                                object:_portField];
-    [_routeToBox removeAllItems];
-    [_routeToBox addItemsWithObjectValues:RESERVED_TAGS];
+    
     
     // core path
     self.corePathField.stringValue = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/v2ray-core/",NSHomeDirectory()];
     self.enableRestore = configWindowController.enableRestore;
+    
+    self.enableEncryption = configWindowController.enableEncryption;
+    self.encryptionKey = [[NSString alloc] initWithString:configWindowController.encryptionKey];
+    // encryption
+    _changeIndicatorField.stringValue = @"";
     
     [self fillData];
 }
@@ -128,8 +140,6 @@
     if (![self checkConfig]) {
         return;
     }
-    [self textDidEndEditing:
-     [[NSNotification alloc] initWithName:NSTextDidEndEditingNotification object:_domainIpTextView userInfo:nil]];
     [self removeObservers];
     [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];
 }
@@ -227,7 +237,6 @@
     }
 }
 
-
 - (IBAction)addRemoveOutbound:(id)sender {
     if ([sender selectedSegment] == 0) {
         NSString* tagName = [NSString stringWithFormat:@"tag%lu", self.outbounds.count];
@@ -256,12 +265,10 @@
 // rules
 
 -(void)textFieldDidChange:(NSNotification *)notification {
-//    NSLog(@"%@", notification.object);
     if (notification.object == _ruleSetNameField) {
         self.routingRuleSets[_selectedRuleSet][@"name"] = _ruleSetNameField.stringValue;
     }
     if (notification.object == _routeToBox) {
-//        NSLog(@"%@", rule);
         NSMutableDictionary* rule =
         self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule];
         if ([@"balance" isEqualToString:_routeToBox.stringValue]) {
@@ -281,36 +288,8 @@
         NSNumber *port = [f numberFromString:trimedInput];
         rule[@"port"] = nilCoalescing(port, trimedInput);
     }
-}
-
--(void)textDidEndEditing:(NSNotification *)notification {
-//    NSLog(@"%@", notification);
-    NSCharacterSet* white = [NSCharacterSet whitespaceCharacterSet];
-    if ([notification object] == _domainIpTextView && _dipEnableButton.state) {
-        NSArray *parts = [_domainIpTextView.string componentsSeparatedByString:@"---"];
-        NSMutableDictionary* rule = _routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule];
-        NSArray* keys = @[@"domain", @"ip"];
-        for (int i = 0; i < 2; i += 1) {
-            if ([parts count] > i) {
-                NSArray* lines = [parts[i] componentsSeparatedByString:@"\n"];
-                NSMutableArray* trimedLines = [[NSMutableArray alloc] init];
-                for (NSString* line in lines) {
-                    NSString* trimedLine = [line stringByTrimmingCharactersInSet:white];
-                    if ([trimedLine length] > 0) {
-                        [trimedLines addObject:trimedLine];
-                    }
-                }
-                if ([trimedLines count]) {
-                    rule[keys[i]] = trimedLines;
-                } else {
-                    [rule removeObjectForKey:keys[i]];
-                }
-            }
-            else {
-                [rule removeObjectForKey:keys[i]];
-    
-            }
-        }
+    if (notification.object == _inboundTagBox) {
+        self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule][@"inboundTag"] = _inboundTagBox.stringValue;
     }
 }
 
@@ -374,32 +353,89 @@
 }
 
 - (IBAction)didClickEnable:(id)sender {
-    if (sender == _networkEnableButton) {
-        _networkListButton.enabled = _networkEnableButton.state;
-        if (!_networkEnableButton.state) {
-            [self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule] removeObjectForKey:@"network"];
+
+#define enableFilter(enableButton, field, key) \
+    field.enabled = enableButton.state; \
+    if (!enableButton.state) { \
+        [self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule] removeObjectForKey:key];\
+    }
+    
+    if (sender == _domainEnableButton) {
+        enableFilter(_domainEnableButton, _editDomainButton, @"domain")
+        if (_domainEnableButton.state) {
+            [self showEditView:_editDomainButton];
+        } else if (self.popover.shown) {
+            [self.popover close];
         }
-    } else if (sender == _dipEnableButton) {
-        _domainIpTextView.editable = _dipEnableButton.state;
-        if (!_dipEnableButton.state) {
-            for (NSString* key in @[@"domain", @"ip"]) {
-                [self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule] removeObjectForKey:key];
-            }
+    } else if (sender == _ipEnableButton) {
+        enableFilter(_ipEnableButton, _editIpButton, @"ip")
+        if (_ipEnableButton.state) {
+            [self showEditView:_editIpButton];
+        } else if (self.popover.shown) {
+            [self.popover close];
+        }
+    } else if (sender == _inboundEnableButton) {
+        enableFilter(_inboundEnableButton, _inboundTagBox, @"inboundTag")
+        if (_inboundEnableButton.state) {
+            [self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule] setObject:_inboundTagBox.stringValue forKey:@"inboundTag"];
+        }
+    } else if (sender == _protocolEnableButton) {
+        enableFilter(_protocolEnableButton, _protocolButton, @"protocol")
+        if (_protocolEnableButton.state) {
+            [self didSelectRuleItem:_protocolButton];
+        }
+    } else if (sender == _networkEnableButton) {
+        enableFilter(_networkEnableButton, _networkListButton, @"network")
+        if (_networkEnableButton.state) {
+            [self didSelectRuleItem:_networkListButton];
         }
     } else if (sender == _portEnableButton) {
-        _portField.enabled = _portEnableButton.state;
-        if (!_portEnableButton.state) {
-            [self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule] removeObjectForKey:@"port"];
+        enableFilter(_portEnableButton, _portField, @"port")
+        if (_portEnableButton.state) {
+            [self textFieldDidChange:[[NSNotification alloc] initWithName:NSTextDidChangeNotification object:_portField userInfo:nil]];
         }
     }
 }
 
 
-- (IBAction)didSelectNetwork:(id)sender {
+- (IBAction)didSelectRuleItem:(id)sender {
     if (sender == _networkListButton && _networkEnableButton.state) {
         [self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule] setObject:_networkListButton.selectedItem.title forKey:@"network"];
+    } else if (sender == _protocolButton && _protocolEnableButton.state) {
+        [self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule] setObject:_protocolButton.selectedItem.title forKey:@"protocol"];
+    } else if ((sender == _inboundTagBox && _inboundEnableButton.state) || sender == _routeToBox) {
+        [self textFieldDidChange:[[NSNotification alloc] initWithName:NSTextDidChangeNotification object:sender userInfo:nil]];
     }
 }
+
+- (IBAction)showEditView:(id)sender {
+    if (self.popover.shown) {
+        [self.popover close];
+    }
+    self.popover = [[NSPopover alloc] init];
+    self.popover.behavior = NSPopoverBehaviorApplicationDefined;
+    self.popover.contentViewController = [[NSViewController alloc] init];
+    if (sender == _editDomainButton) {
+        self.popover.contentViewController.view = _domainListEditView;
+    } else if (sender == _editIpButton) {
+        self.popover.contentViewController.view = _ipListEditView;
+    }
+    [self.popover showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
+}
+- (IBAction)saveDomainOrIPList:(id)sender {
+    [self.popover close];
+    if (sender == _saveIPListButton) {
+        self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule][@"ip"] = [[_ipTextView string] componentsSeparatedByString:@"\n"];
+        NSLog(@"%@", self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule][@"ip"]);
+    } else {
+        self.routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule][@"domain"] = [[_ipTextView string] componentsSeparatedByString:@"\n"];
+    }
+}
+
+- (IBAction)closeDomainOrIPList:(id)sender {
+    [self.popover close];
+}
+
 
 //
 
@@ -510,30 +546,65 @@
         self.selectedRule = _selectedRule; //toggle
     }
     if ([@"selectedRule" isEqualToString:keyPath] && _selectedRuleSet < _routingRuleSets.count && _selectedRule < [_routingRuleSets[_selectedRuleSet][@"rules"] count]  ) {
+        if (self.popover.shown) {
+            [self.popover close];
+        }
         NSDictionary* rules = _routingRuleSets[_selectedRuleSet][@"rules"][_selectedRule];
         BOOL selectedLastRule = _selectedRule + 1 == [_routingRuleSets[_selectedRuleSet][@"rules"] count];
         
+        _domainEnableButton.enabled = !selectedLastRule;
+        _domainEnableButton.state = rules[@"domain"] != NULL;
+        _editDomainButton.enabled = _domainEnableButton.state;
+        if (rules[@"domain"]) {
+            _domainTextView.string = [rules[@"domain"] componentsJoinedByString:@"\n"];
+        } else {
+            _domainTextView.string = @"";
+        }
+        
+        _ipEnableButton.enabled = !selectedLastRule;
+        _ipEnableButton.state = rules[@"ip"] != NULL;
+        _editIpButton.enabled = _ipEnableButton.state;
+        if (rules[@"ip"]) {
+            _ipTextView.string = [rules[@"ip"] componentsJoinedByString:@"\n"];
+        } else {
+            _ipTextView.string = @"";
+        }
+        
+        _inboundEnableButton.enabled = !selectedLastRule;
+        _inboundEnableButton.state = rules[@"inboundTag"] != NULL;
+        _inboundTagBox.enabled = _inboundEnableButton.state;
+        _inboundTagBox.stringValue = nilCoalescing(rules[@"inboundTag"], @"");
+        
+        _protocolEnableButton.enabled = !selectedLastRule;
+        _protocolEnableButton.state = rules[@"protocol"] != NULL;
+        _protocolButton.enabled = _protocolEnableButton.state;
+        [_protocolButton selectItemAtIndex:searchInArray(rules[@"protocol"], SNIFFING_PROTOCOL)];
+        
+        _portEnableButton.enabled = !selectedLastRule;
+        _portEnableButton.state = rules[@"port"] != NULL;
+        _portField.enabled = _portEnableButton.state && !selectedLastRule;
+        _portField.objectValue = nilCoalescing(rules[@"port"], @"0-65535");
+        
+        _networkEnableButton.enabled = !selectedLastRule;
         _networkEnableButton.state = rules[@"network"] != NULL;
         _networkListButton.enabled = _networkEnableButton.state;
         [_networkListButton selectItemAtIndex:searchInArray(rules[@"network"], ROUTING_NETWORK_LIST)];
         
-        _portEnableButton.state = rules[@"port"] != NULL;
-        _portField.enabled = _portEnableButton.state;
-        _portField.objectValue = rules[@"port"];
-        
-        _dipEnableButton.state = rules[@"domain"] || rules[@"ip"];
-        _domainIpTextView.editable = _dipEnableButton.state;
-        _domainIpTextView.string = [NSString stringWithFormat:@"%@\n---\n%@", [nilCoalescing(rules[@"domain"], @[]) componentsJoinedByString:@"\n"], [nilCoalescing(rules[@"ip"], @[]) componentsJoinedByString:@"\n"]];
-        
-        _networkListButton.enabled = _networkListButton.enabled && !selectedLastRule;
-        _networkEnableButton.enabled = !selectedLastRule;
-        _dipEnableButton.enabled = !selectedLastRule;
-        _domainIpTextView.editable = _domainIpTextView.editable && !selectedLastRule;
-        _portField.enabled = _portField.enabled && !selectedLastRule;
-        _portEnableButton.enabled = !selectedLastRule;
-        _domainIpHelpButton.enabled = !selectedLastRule;
         
         _routeToBox.stringValue = rules[@"outboundTag"] ? rules[@"outboundTag"] : rules[@"balancerTag"];
+    }
+}
+
+- (IBAction)changePassword:(id)sender {
+    if ([[_encryptionKeyField stringValue] isEqualToString:[_encryptionKeyConfirmField stringValue]]) {
+        if ([[_encryptionKeyField stringValue] length] > 32) {
+            self.encryptionKey = [_encryptionKeyField.stringValue substringToIndex:32];
+        } else {
+            self.encryptionKey = [_encryptionKeyConfirmField.stringValue stringByPaddingToLength:32 withString:@"-" startingAtIndex:0];
+        }
+        [_changeIndicatorField setStringValue:@"success"];
+    } else {
+        [_changeIndicatorField setStringValue:@"two password do not match each other."];
     }
 }
 

@@ -47,6 +47,8 @@
 @property NSMutableArray* routingRuleSets;
 @property (nonatomic) NSMutableArray *cusProfiles;
 @property BOOL enableRestore;
+@property BOOL enableEncryption;
+@property NSString* encryptionKey;
 
 @property (weak) IBOutlet NSTextField *versionField;
 

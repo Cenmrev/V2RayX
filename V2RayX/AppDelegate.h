@@ -23,7 +23,7 @@ typedef enum ProxyMode : NSInteger{
 
 int runCommandLine(NSString* launchPath, NSArray* arguments);
 
-@interface AppDelegate : NSObject <NSApplicationDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate> {
     BOOL proxyState;
     ProxyMode proxyMode;
     NSInteger localPort;
@@ -40,8 +40,6 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
     NSMutableArray *cusProfiles;
     NSString* logLevel;
     
-    
-    NSString* plistPath;
     NSString* logDirPath;
 }
 
@@ -67,6 +65,8 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property NSString* selectedPacFileName;
 @property BOOL enableRestore;
 @property NSMutableArray *subscriptions;
+@property BOOL enableEncryption;
+@property NSString* encryptionKey;
 
 - (IBAction)didChangeStatus:(id)sender;
 - (IBAction)updateSubscriptions:(id)sender;
@@ -83,7 +83,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property (weak) IBOutlet NSMenuItem *updateServerItem;
 @property (strong, nonatomic)  NSStatusItem *statusBarItem;
 @property (weak) IBOutlet NSMenuItem *upgradeMenuItem;
-@property (strong, nonatomic) IBOutlet NSMenu *statusBarMenu;
+@property (weak, nonatomic) IBOutlet NSMenu *statusBarMenu;
 @property (weak, nonatomic) IBOutlet NSMenuItem *v2rayStatusItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *enableV2rayItem;
 @property (weak, nonatomic) IBOutlet NSMenuItem *pacModeItem;
@@ -96,6 +96,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property (weak, nonatomic) IBOutlet NSMenu *pacListMenu;
 @property (weak) IBOutlet NSMenuItem *editPacMenuItem;
 
+@property (weak) IBOutlet NSMenu *authMenu;
 
 @end
 

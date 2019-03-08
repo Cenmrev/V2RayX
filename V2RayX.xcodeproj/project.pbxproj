@@ -45,6 +45,7 @@
 		9D7DFE541EBEC947001FECBD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7DFE531EBEC947001FECBD /* main.m */; };
 		9DA4A84120C14178000FF35D /* tcp_http_header_example.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9DA4A84020C14178000FF35D /* tcp_http_header_example.txt */; };
 		9DB4FE951F205BEB00CCEE5F /* config-sample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DB4FE941F205BEB00CCEE5F /* config-sample.plist */; };
+		9DBF54CF221615AD00B61D55 /* NSData+AES256Encryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DBF54CE221615AD00B61D55 /* NSData+AES256Encryption.m */; };
 		9DDC059121CA8CFF00C6C2D7 /* TransportWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDC059021CA8CFF00C6C2D7 /* TransportWindowController.m */; };
 		9DDC059621CA8EAD00C6C2D7 /* utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDC059521CA8EAD00C6C2D7 /* utilities.m */; };
 		9DEB294D21CB64CF0052D2BB /* AdvancedWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DEB294C21CB64CF0052D2BB /* AdvancedWindowController.m */; };
@@ -146,6 +147,8 @@
 		9DA4A84020C14178000FF35D /* tcp_http_header_example.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tcp_http_header_example.txt; sourceTree = "<group>"; };
 		9DB4FE941F205BEB00CCEE5F /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
 		9DBF3AA3213E1921008C7249 /* MutableDeepCopying.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MutableDeepCopying.h; sourceTree = "<group>"; };
+		9DBF54CD221615AD00B61D55 /* NSData+AES256Encryption.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+AES256Encryption.h"; sourceTree = "<group>"; };
+		9DBF54CE221615AD00B61D55 /* NSData+AES256Encryption.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES256Encryption.m"; sourceTree = "<group>"; };
 		9DDC058F21CA8CFF00C6C2D7 /* TransportWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransportWindowController.h; sourceTree = "<group>"; };
 		9DDC059021CA8CFF00C6C2D7 /* TransportWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransportWindowController.m; sourceTree = "<group>"; };
 		9DDC059421CA8DE900C6C2D7 /* utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utilities.h; sourceTree = "<group>"; };
@@ -206,6 +209,8 @@
 		9504C07A1C662C3000352520 /* V2RayX */ = {
 			isa = PBXGroup;
 			children = (
+				9DBF54CD221615AD00B61D55 /* NSData+AES256Encryption.h */,
+				9DBF54CE221615AD00B61D55 /* NSData+AES256Encryption.m */,
 				9577E1921C6B065D00093BD3 /* GCDWebServer */,
 				9504C07B1C662C3000352520 /* AppDelegate.h */,
 				9504C07C1C662C3000352520 /* AppDelegate.m */,
@@ -518,6 +523,7 @@
 				9577E1B71C6B065E00093BD3 /* GCDWebServerDataRequest.m in Sources */,
 				9577E1BC1C6B065E00093BD3 /* GCDWebServerErrorResponse.m in Sources */,
 				9577E1BD1C6B065E00093BD3 /* GCDWebServerFileResponse.m in Sources */,
+				9DBF54CF221615AD00B61D55 /* NSData+AES256Encryption.m in Sources */,
 				9DEB294D21CB64CF0052D2BB /* AdvancedWindowController.m in Sources */,
 				9577E1B31C6B065E00093BD3 /* GCDWebServerConnection.m in Sources */,
 				9504C07D1C662C3000352520 /* AppDelegate.m in Sources */,
@@ -615,7 +621,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -662,7 +668,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};

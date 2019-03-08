@@ -8,25 +8,39 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AdvancedWindowController">
             <connections>
+                <outlet property="changeIndicatorField" destination="2i8-WG-Jvl" id="EbX-Ps-tBn"/>
                 <outlet property="checkLabel" destination="nN6-wl-YxO" id="LhM-ek-MwD"/>
                 <outlet property="configAddControl" destination="aFK-VU-U5u" id="01n-0m-N3B"/>
                 <outlet property="configTable" destination="sAX-Hf-7on" id="YHW-T4-U6Z"/>
                 <outlet property="coreFileListField" destination="SbL-wp-TzE" id="O9n-fQ-Coz"/>
                 <outlet property="corePathField" destination="8Y7-Ux-q6J" id="Tnh-t0-6EK"/>
-                <outlet property="dipEnableButton" destination="e2v-9w-e45" id="pQV-5l-eoa"/>
+                <outlet property="domainEnableButton" destination="e2v-9w-e45" id="M5I-A3-4JO"/>
                 <outlet property="domainIpHelpButton" destination="mR8-QF-6Vz" id="tgx-nb-fhd"/>
                 <outlet property="domainIpHelpView" destination="o2X-Co-4Uk" id="yJU-k6-UuF"/>
-                <outlet property="domainIpTextView" destination="1mD-il-bEM" id="NFH-22-9XV"/>
+                <outlet property="domainListEditView" destination="F9v-Aq-oZG" id="EIl-0z-Ver"/>
                 <outlet property="domainStrategyButton" destination="go4-fU-8VR" id="dbi-6a-wSS"/>
+                <outlet property="domainTextView" destination="1mD-il-bEM" id="NFH-22-9XV"/>
+                <outlet property="editDomainButton" destination="qkf-gu-jAD" id="3jh-ii-Bah"/>
+                <outlet property="editIpButton" destination="pz5-A1-vVo" id="OUt-Th-GzW"/>
+                <outlet property="enableEncryptionButton" destination="UgR-3O-68p" id="ttK-r0-unJ"/>
                 <outlet property="enableRestoreButton" destination="Brv-Oa-rjx" id="JtK-Jh-zAk"/>
+                <outlet property="encryptionKeyConfirmField" destination="sHt-j7-mwK" id="IPv-yO-hIY"/>
+                <outlet property="encryptionKeyField" destination="MqC-Po-7Ay" id="ckz-rO-PXI"/>
+                <outlet property="inboundEnableButton" destination="RGU-Jf-XVA" id="4Fq-0M-iMT"/>
+                <outlet property="inboundTagBox" destination="3aY-he-a4p" id="iCo-WJ-W8p"/>
+                <outlet property="ipEnableButton" destination="8i6-Ji-on9" id="YSe-e8-vEe"/>
+                <outlet property="ipListEditView" destination="HaA-4d-JXp" id="v8r-2R-qPQ"/>
+                <outlet property="ipTextView" destination="3kN-VI-6Jc" id="B0c-z3-Bwm"/>
                 <outlet property="mainTabView" destination="QYP-On-JTO" id="wVr-XL-l8W"/>
-                <outlet property="networkEnableButton" destination="5bh-W3-sf1" id="ajt-c9-ENa"/>
+                <outlet property="networkEnableButton" destination="5bh-W3-sf1" id="b4C-oc-iUb"/>
                 <outlet property="networkListButton" destination="g4Z-Bg-9h9" id="AGs-ms-Bjs"/>
                 <outlet property="outboundAddControl" destination="hhh-bW-Kml" id="Pbg-mP-fcq"/>
                 <outlet property="outboundJsonView" destination="u9b-6e-BFb" id="g90-n8-BI0"/>
                 <outlet property="outboundTable" destination="XPi-HC-KJg" id="CkG-5u-rpo"/>
-                <outlet property="portEnableButton" destination="csz-yQ-hNt" id="pyl-x3-Eld"/>
+                <outlet property="portEnableButton" destination="csz-yQ-hNt" id="VV9-1q-kPc"/>
                 <outlet property="portField" destination="GJe-w6-K5h" id="FC9-1A-JrM"/>
+                <outlet property="protocolButton" destination="IaG-in-WIw" id="Whz-MN-6pD"/>
+                <outlet property="protocolEnableButton" destination="tc9-9B-I4x" id="CF8-e3-mUW"/>
                 <outlet property="routeToBox" destination="P9N-Y8-afr" id="WWN-8K-AWc"/>
                 <outlet property="routeToHelpButton" destination="JC4-HP-JE8" id="BZE-EO-mgO"/>
                 <outlet property="routingTagHelpView" destination="QAK-Cz-bFI" id="Irw-HU-E1u"/>
@@ -35,6 +49,8 @@
                 <outlet property="ruleSetNameField" destination="7eT-Ie-mUI" id="7yh-jU-7el"/>
                 <outlet property="ruleSetTable" destination="wbH-CA-T9F" id="zwJ-4V-mjo"/>
                 <outlet property="ruleTable" destination="VlQ-mV-pLn" id="TkH-iS-AuO"/>
+                <outlet property="saveDomainListButton" destination="0Xw-eT-Liy" id="STA-Bw-d5H"/>
+                <outlet property="saveIPListButton" destination="TGf-m6-LYU" id="rNb-bw-qm9"/>
                 <outlet property="subscriptionAddControl" destination="3fe-R5-yne" id="iaE-97-e45"/>
                 <outlet property="subscriptionTable" destination="WsS-Gf-yrN" id="UxJ-Ro-NDe"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="1sc-H8-xnH"/>
@@ -62,7 +78,7 @@ Gw
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="ok:" target="-2" id="6L0-eD-ibz"/>
+                            <action selector="ok:" target="-2" id="aNh-JL-vgi"/>
                         </connections>
                     </button>
                     <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nN6-wl-YxO">
@@ -80,7 +96,7 @@ Gw
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="Outbounds" identifier="" id="ubo-eB-GSJ">
-                                <view key="view" id="Cry-No-H0h">
+                                <view key="view" ambiguous="YES" id="Cry-No-H0h">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -146,7 +162,7 @@ Gw
                                                 </segments>
                                             </segmentedCell>
                                             <connections>
-                                                <action selector="addRemoveOutbound:" target="-2" id="mtF-Ce-Ege"/>
+                                                <action selector="addRemoveOutbound:" target="-2" id="jXG-Mw-eR9"/>
                                             </connections>
                                         </segmentedControl>
                                         <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" translatesAutoresizingMaskIntoConstraints="NO" id="eDx-Pc-Wrt">
@@ -198,7 +214,7 @@ Gw
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="Vi9-1X-hgV">
                                                 <rect key="frame" x="1" y="1" width="458" height="273"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" id="WsS-Gf-yrN">
                                                         <rect key="frame" x="0.0" y="0.0" width="458" height="273"/>
@@ -258,7 +274,7 @@ Gw
                                                 </segments>
                                             </segmentedCell>
                                             <connections>
-                                                <action selector="addRemoveSubscription:" target="-2" id="tqC-cw-BmY"/>
+                                                <action selector="addRemoveSubscription:" target="-2" id="z54-n0-f2T"/>
                                             </connections>
                                         </segmentedControl>
                                     </subviews>
@@ -274,7 +290,7 @@ Gw
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="R4k-Ta-qWH">
                                                 <rect key="frame" x="1" y="1" width="112" height="321"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="wbH-CA-T9F">
                                                         <rect key="frame" x="0.0" y="0.0" width="112" height="321"/>
@@ -337,7 +353,7 @@ Gw
                                                 </menu>
                                             </popUpButtonCell>
                                             <connections>
-                                                <action selector="didSelectStrategy:" target="-2" id="b06-T7-BuR"/>
+                                                <action selector="didSelectStrategy:" target="-2" id="ass-Rz-Zml"/>
                                             </connections>
                                         </popUpButton>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Wc-ck-QLK">
@@ -383,18 +399,29 @@ Gw
                                                             </segments>
                                                         </segmentedCell>
                                                         <connections>
-                                                            <action selector="addRemoveRule:" target="-2" id="c1M-PD-dCG"/>
+                                                            <action selector="addRemoveRule:" target="-2" id="6x0-hG-7dl"/>
                                                         </connections>
                                                     </segmentedControl>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e2v-9w-e45">
-                                                        <rect key="frame" x="107" y="247" width="86" height="18"/>
+                                                        <rect key="frame" x="110" y="192" width="68" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="check" title="domain/ip:" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="FXd-hg-kTV">
+                                                        <buttonCell key="cell" type="check" title="Domain" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="FXd-hg-kTV">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
-                                                            <action selector="didClickEnable:" target="-2" id="Fsa-Vy-hH9"/>
+                                                            <action selector="didClickEnable:" target="-2" id="ZZ8-Lt-RZH"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8i6-Ji-on9">
+                                                        <rect key="frame" x="110" y="163" width="34" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="check" title="IP" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="bEb-OZ-H5Q">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="didClickEnable:" target="-2" id="QEa-Hw-3d2"/>
                                                         </connections>
                                                     </button>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wd9-ps-Rqc">
@@ -411,7 +438,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <clipView key="contentView" ambiguous="YES" id="svV-1v-pv5">
                                                             <rect key="frame" x="1" y="1" width="85" height="228"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" id="VlQ-mV-pLn">
                                                                     <rect key="frame" x="0.0" y="0.0" width="85" height="228"/>
@@ -451,18 +478,18 @@ Gw
                                                         </scroller>
                                                     </scrollView>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5bh-W3-sf1">
-                                                        <rect key="frame" x="110" y="47" width="75" height="18"/>
+                                                        <rect key="frame" x="110" y="47" width="77" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="check" title="network:" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="j3B-yf-IFU">
+                                                        <buttonCell key="cell" type="check" title="Network:" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="j3B-yf-IFU">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
-                                                            <action selector="didClickEnable:" target="-2" id="9Ad-lh-aor"/>
+                                                            <action selector="didClickEnable:" target="-2" id="hTg-wC-8zB"/>
                                                         </connections>
                                                     </button>
                                                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g4Z-Bg-9h9">
-                                                        <rect key="frame" x="203" y="42" width="100" height="25"/>
+                                                        <rect key="frame" x="227" y="42" width="100" height="25"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="h2c-ET-iJb" id="o85-p6-eaa">
                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -476,48 +503,40 @@ Gw
                                                             </menu>
                                                         </popUpButtonCell>
                                                         <connections>
-                                                            <action selector="didSelectNetwork:" target="-2" id="Eeh-ml-Nf6"/>
+                                                            <action selector="didSelectRuleItem:" target="-2" id="S8k-lp-GLD"/>
                                                         </connections>
                                                     </popUpButton>
-                                                    <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ie4-oz-k96">
-                                                        <rect key="frame" x="109" y="104" width="217" height="137"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                        <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="RDn-zh-dIS">
-                                                            <rect key="frame" x="0.0" y="0.0" width="217" height="137"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                            <subviews>
-                                                                <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1mD-il-bEM">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="217" height="137"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                    <size key="minSize" width="217" height="137"/>
-                                                                    <size key="maxSize" width="240" height="10000000"/>
-                                                                    <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                    <connections>
-                                                                        <outlet property="delegate" destination="-2" id="6dP-Oi-Qd3"/>
-                                                                    </connections>
-                                                                </textView>
-                                                            </subviews>
-                                                        </clipView>
-                                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="V6i-GY-DXa">
-                                                            <rect key="frame" x="201" y="0.0" width="16" height="137"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                        </scroller>
-                                                    </scrollView>
+                                                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IaG-in-WIw">
+                                                        <rect key="frame" x="226" y="101" width="100" height="25"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="2Oy-Qp-IeQ" id="QGH-Zk-ysI">
+                                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="menu"/>
+                                                            <menu key="menu" id="4Tc-Zt-ZJE">
+                                                                <items>
+                                                                    <menuItem title="Item 1" state="on" id="2Oy-Qp-IeQ"/>
+                                                                    <menuItem title="Item 2" id="E4G-rh-24K"/>
+                                                                    <menuItem title="Item 3" id="CJg-8o-Fwh"/>
+                                                                </items>
+                                                            </menu>
+                                                        </popUpButtonCell>
+                                                        <connections>
+                                                            <action selector="didSelectRuleItem:" target="-2" id="rSD-al-Muk"/>
+                                                        </connections>
+                                                    </popUpButton>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="csz-yQ-hNt">
                                                         <rect key="frame" x="110" y="76" width="52" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="check" title="port:" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aZy-cf-V3d">
+                                                        <buttonCell key="cell" type="check" title="Port" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aZy-cf-V3d">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
-                                                            <action selector="didClickEnable:" target="-2" id="n4h-i1-baE"/>
+                                                            <action selector="didClickEnable:" target="-2" id="qCk-Ps-4fk"/>
                                                         </connections>
                                                     </button>
                                                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GJe-w6-K5h">
-                                                        <rect key="frame" x="205" y="74" width="96" height="22"/>
+                                                        <rect key="frame" x="229" y="74" width="95" height="22"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="WiB-gG-yjP">
                                                             <font key="font" metaFont="system"/>
@@ -533,7 +552,7 @@ Gw
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
-                                                            <action selector="showInformation:" target="-2" id="q9C-hd-tXa"/>
+                                                            <action selector="showInformation:" target="-2" id="ONj-aX-IUg"/>
                                                         </connections>
                                                     </button>
                                                     <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P9N-Y8-afr">
@@ -549,6 +568,9 @@ Gw
                                                                 <string>Item 3</string>
                                                             </objectValues>
                                                         </comboBoxCell>
+                                                        <connections>
+                                                            <action selector="didSelectRuleItem:" target="-2" id="Sl0-Ef-04w"/>
+                                                        </connections>
                                                     </comboBox>
                                                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JC4-HP-JE8">
                                                         <rect key="frame" x="309" y="9" width="25" height="25"/>
@@ -558,9 +580,79 @@ Gw
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
-                                                            <action selector="showInformation:" target="-2" id="EX9-jr-hxO"/>
+                                                            <action selector="showInformation:" target="-2" id="VAd-g7-cb3"/>
                                                         </connections>
                                                     </button>
+                                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tc9-9B-I4x">
+                                                        <rect key="frame" x="110" y="105" width="73" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="check" title="Protocol" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="eJB-Nw-fGt">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="didClickEnable:" target="-2" id="bWe-pp-qUM"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RGU-Jf-XVA">
+                                                        <rect key="frame" x="110" y="134" width="97" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="check" title="Inbound Tag" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hTm-DB-j4B">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="didClickEnable:" target="-2" id="w7A-lI-C8A"/>
+                                                        </connections>
+                                                    </button>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PA1-Jj-4Ac">
+                                                        <rect key="frame" x="110" y="216" width="200" height="38"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <textFieldCell key="cell" title="When ALL the following criteria are satisfied:" id="ZeT-4k-vxH">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qkf-gu-jAD">
+                                                        <rect key="frame" x="228" y="193" width="95" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="inline" title="Edit list" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="E4s-0q-jVZ">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="smallSystemBold"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="showEditView:" target="-2" id="lY8-gq-gRV"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pz5-A1-vVo">
+                                                        <rect key="frame" x="229" y="164" width="95" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="inline" title="Edit list" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="tWE-zk-ucK">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="smallSystemBold"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="showEditView:" target="-2" id="zPK-4R-5Tt"/>
+                                                        </connections>
+                                                    </button>
+                                                    <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3aY-he-a4p">
+                                                        <rect key="frame" x="229" y="130" width="98" height="26"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="btf-wg-PEM">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            <objectValues>
+                                                                <string>Item 1</string>
+                                                                <string>Item 2</string>
+                                                                <string>Item 3</string>
+                                                            </objectValues>
+                                                        </comboBoxCell>
+                                                        <connections>
+                                                            <action selector="didSelectRuleItem:" target="-2" id="P2f-GL-gii"/>
+                                                        </connections>
+                                                    </comboBox>
                                                 </subviews>
                                             </view>
                                         </box>
@@ -585,7 +677,7 @@ Gw
                                                 </segments>
                                             </segmentedCell>
                                             <connections>
-                                                <action selector="addRemoveRuleSet:" target="-2" id="hNP-fr-cqj"/>
+                                                <action selector="addRemoveRuleSet:" target="-2" id="PEN-Vk-9QX"/>
                                             </connections>
                                         </segmentedControl>
                                     </subviews>
@@ -601,7 +693,7 @@ Gw
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" id="Jkw-Zi-tMR">
                                                 <rect key="frame" x="1" y="1" width="458" height="266"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" id="sAX-Hf-7on">
                                                         <rect key="frame" x="0.0" y="0.0" width="458" height="266"/>
@@ -667,14 +759,14 @@ Gw
                                                 </segments>
                                             </segmentedCell>
                                             <connections>
-                                                <action selector="addRemoveConfig:" target="-2" id="3Ew-PA-GZc"/>
+                                                <action selector="addRemoveConfig:" target="-2" id="3aY-3H-ipo"/>
                                             </connections>
                                         </segmentedControl>
                                     </subviews>
                                 </view>
                             </tabViewItem>
-                            <tabViewItem label="V2Ray Core" identifier="" id="67G-Pu-y5A">
-                                <view key="view" ambiguous="YES" id="Jjh-Q6-tKG">
+                            <tabViewItem label="Core" identifier="" id="67G-Pu-y5A">
+                                <view key="view" id="Jjh-Q6-tKG">
                                     <rect key="frame" x="10" y="33" width="494" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -705,7 +797,7 @@ Gw
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="showCorePath:" target="-2" id="3lR-d7-lFL"/>
+                                                <action selector="showCorePath:" target="-2" id="FfT-7Z-L9B"/>
                                             </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" preferredMaxLayoutWidth="415" translatesAutoresizingMaskIntoConstraints="NO" id="Tfr-JR-7kn">
@@ -764,13 +856,111 @@ Compatibility is not guaranteed.</string>
                                                 </menu>
                                             </popUpButtonCell>
                                             <connections>
-                                                <action selector="changeEnableRestore:" target="-2" id="CeA-KN-s0i"/>
+                                                <action selector="changeEnableRestore:" target="-2" id="4AQ-BY-JAu"/>
                                             </connections>
                                         </popUpButton>
                                         <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="4nM-Ft-D96">
                                             <rect key="frame" x="9" y="74" width="476" height="5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         </box>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="Encryption" identifier="" id="EcZ-9w-1Yw">
+                                <view key="view" id="1w0-hb-2Ct">
+                                    <rect key="frame" x="10" y="33" width="494" height="360"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UgR-3O-68p">
+                                            <rect key="frame" x="31" y="211" width="124" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Enable Ecryption" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="qR7-nu-QAT">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="-2" name="value" keyPath="self.enableEncryption" id="etv-jb-ax1"/>
+                                            </connections>
+                                        </button>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="04Z-pl-uC6">
+                                            <rect key="frame" x="31" y="251" width="432" height="68"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" selectable="YES" id="EAT-73-Qh6">
+                                                <font key="font" metaFont="system"/>
+                                                <string key="title">All the configuration information are stored in ~/Library/Preferences/cenmrev.V2RayX.plist. In case the information is leaked to other unauthorized programs or individuals, set a password and V2RayX will use AES-256-ECB to encrypt the information.</string>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nek-2F-WfS">
+                                            <rect key="frame" x="31" y="17" width="376" height="17"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="WARNING: this function is still in beta. Backup before you try!" id="0s7-uP-t1h">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2AY-26-tgQ">
+                                            <rect key="frame" x="27" y="90" width="187" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="Change/setup password" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hbo-B3-M63">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="changePassword:" target="-2" id="8p5-Eb-cWj"/>
+                                                <binding destination="-2" name="enabled" keyPath="self.enableEncryption" id="ZK5-Pb-3g9"/>
+                                            </connections>
+                                        </button>
+                                        <secureTextField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MqC-Po-7Ay">
+                                            <rect key="frame" x="33" y="158" width="222" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="Zc2-Pa-LJd">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <allowedInputSourceLocales>
+                                                    <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                                                </allowedInputSourceLocales>
+                                            </secureTextFieldCell>
+                                            <connections>
+                                                <binding destination="-2" name="enabled" keyPath="self.enableEncryption" id="idb-ah-NqO"/>
+                                            </connections>
+                                        </secureTextField>
+                                        <secureTextField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sHt-j7-mwK">
+                                            <rect key="frame" x="33" y="126" width="222" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="qMi-cG-gw6">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <allowedInputSourceLocales>
+                                                    <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                                                </allowedInputSourceLocales>
+                                            </secureTextFieldCell>
+                                            <connections>
+                                                <binding destination="-2" name="enabled" keyPath="self.enableEncryption" id="5GK-nC-4J7"/>
+                                            </connections>
+                                        </secureTextField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4tZ-Ho-z6g">
+                                            <rect key="frame" x="31" y="188" width="214" height="17"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Input twice to set a new password:" id="AZm-tN-5qT">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2i8-WG-Jvl">
+                                            <rect key="frame" x="31" y="72" width="37" height="17"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="GuH-9u-diX">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                     </subviews>
                                 </view>
                             </tabViewItem>
@@ -787,7 +977,7 @@ Gw
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="cancel:" target="-2" id="BdU-SU-cNU"/>
+                            <action selector="cancel:" target="-2" id="cVE-EY-gVw"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ogb-e2-2CM">
@@ -798,7 +988,7 @@ Gw
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="showHelp:" target="-2" id="1vT-cW-C9o"/>
+                            <action selector="showHelp:" target="-2" id="W7C-Bx-NT7"/>
                         </connections>
                     </button>
                 </subviews>
@@ -864,6 +1054,135 @@ will match all private IPs.</string>
                 </textField>
             </subviews>
             <point key="canvasLocation" x="776" y="-2"/>
+        </customView>
+        <userDefaultsController representsSharedInstance="YES" id="8vE-Ob-ZFh"/>
+        <customView id="F9v-Aq-oZG">
+            <rect key="frame" x="0.0" y="0.0" width="276" height="174"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ie4-oz-k96">
+                    <rect key="frame" x="8" y="32" width="260" height="133"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="RDn-zh-dIS">
+                        <rect key="frame" x="0.0" y="0.0" width="260" height="133"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1mD-il-bEM">
+                                <rect key="frame" x="0.0" y="0.0" width="260" height="133"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <size key="minSize" width="260" height="133"/>
+                                <size key="maxSize" width="264" height="10000000"/>
+                                <attributedString key="textStorage">
+                                    <fragment content="domain list">
+                                        <attributes>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <font key="NSFont" metaFont="user"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            </textView>
+                        </subviews>
+                    </clipView>
+                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="V6i-GY-DXa">
+                        <rect key="frame" x="244" y="0.0" width="16" height="133"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                </scrollView>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Xw-eT-Liy">
+                    <rect key="frame" x="192" y="-2" width="82" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8kA-bO-a9z">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="saveDomainOrIPList:" target="-2" id="Yzk-5F-TJ2"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VCH-NX-Y3t">
+                    <rect key="frame" x="110" y="-2" width="82" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hp1-s7-XJV">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                    </buttonCell>
+                    <connections>
+                        <action selector="closeDomainOrIPList:" target="-2" id="aBw-X3-Ynf"/>
+                    </connections>
+                </button>
+            </subviews>
+            <point key="canvasLocation" x="695" y="598"/>
+        </customView>
+        <customView id="HaA-4d-JXp">
+            <rect key="frame" x="0.0" y="0.0" width="276" height="174"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bYJ-jn-eiL">
+                    <rect key="frame" x="8" y="32" width="260" height="133"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="jPy-Y0-jqx">
+                        <rect key="frame" x="0.0" y="0.0" width="260" height="133"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="3kN-VI-6Jc">
+                                <rect key="frame" x="0.0" y="0.0" width="260" height="133"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <size key="minSize" width="260" height="133"/>
+                                <size key="maxSize" width="264" height="10000000"/>
+                                <attributedString key="textStorage">
+                                    <fragment content="ip list">
+                                        <attributes>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <font key="NSFont" metaFont="user"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            </textView>
+                        </subviews>
+                    </clipView>
+                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="jgM-15-0UD">
+                        <rect key="frame" x="244" y="0.0" width="16" height="133"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                </scrollView>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TGf-m6-LYU">
+                    <rect key="frame" x="192" y="-2" width="82" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jQ2-JH-sjq">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="saveDomainOrIPList:" target="-2" id="rMe-5l-mbs"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D97-EN-bVV">
+                    <rect key="frame" x="110" y="-2" width="82" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="c0Q-Wz-IXk">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                    </buttonCell>
+                    <connections>
+                        <action selector="closeDomainOrIPList:" target="-2" id="jxT-I8-dLz"/>
+                    </connections>
+                </button>
+            </subviews>
+            <point key="canvasLocation" x="347" y="615"/>
         </customView>
     </objects>
     <resources>

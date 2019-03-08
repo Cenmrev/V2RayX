@@ -90,6 +90,8 @@
     self.shareOverLan = _appDelegate.shareOverLan;
     self.dnsString = _appDelegate.dnsString;
     self.enableRestore = _appDelegate.enableRestore;
+    self.enableEncryption = _appDelegate.enableEncryption;
+    self.encryptionKey = [NSString stringWithString:_appDelegate.encryptionKey];
     NSDictionary *logLevelDic = @{
                                @"debug": @4,
                                @"info": @3,
@@ -264,6 +266,8 @@
     if (_appDelegate.routingRuleSets.count == 0) {
         [_appDelegate.routingRuleSets addObject:[ROUTING_DIRECT mutableDeepCopy]];
     }
+    _appDelegate.enableEncryption = self.enableEncryption;
+    _appDelegate.encryptionKey = self.encryptionKey;
     [_appDelegate saveConfigInfo];
     [_appDelegate updateSubscriptions:self];
     [[self window] close];
@@ -278,6 +282,8 @@
             self.routingRuleSets = self.advancedWindowController.routingRuleSets;
             self.subscriptions = self.advancedWindowController.subscriptions;
             self.enableRestore = self.advancedWindowController.enableRestore;
+            self.enableEncryption = self.advancedWindowController.enableEncryption;
+            self.encryptionKey = self.advancedWindowController.encryptionKey;
         }
         self.advancedWindowController = nil;
     }];

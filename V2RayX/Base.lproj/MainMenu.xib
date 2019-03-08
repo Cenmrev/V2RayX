@@ -14,6 +14,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="authMenu" destination="vXy-mo-Nh0" id="AA1-I3-X0A"/>
                 <outlet property="editPacMenuItem" destination="3NY-51-bgh" id="dgA-Xq-mKn"/>
                 <outlet property="enableV2rayItem" destination="I9I-uu-xak" id="b3P-ct-RqE"/>
                 <outlet property="globalModeItem" destination="12u-76-Ytb" id="RA8-m2-Iv6"/>
@@ -805,5 +806,22 @@
                 <action selector="updateSubscriptions:" target="Voe-Tx-rLC" id="V21-6O-1ca"/>
             </connections>
         </menuItem>
+        <menu id="vXy-mo-Nh0">
+            <items>
+                <menuItem title="Input password..." id="h9O-kv-Vd7">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="inputPassword:" target="Voe-Tx-rLC" id="hYb-wG-V4T"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Quit" id="2N5-MP-9vf">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="terminate:" target="-1" id="xMQ-ZH-N94"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="120" y="-141"/>
+        </menu>
     </objects>
 </document>

@@ -13,6 +13,7 @@
 #import "ServerProfile.h"
 #import "MutableDeepCopying.h"
 #import "ConfigImporter.h"
+#import "NSData+AES256Encryption.h"
 
 #define kUseAllServer -10
 
@@ -40,21 +41,31 @@ static AppDelegate *appDelegate;
     return v2rayJSONconfig;
 }
 
+// a good reference: https://blog.gaelfoppolo.com/user-notifications-in-macos-66c25ed5c692
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center
+     shouldPresentNotification:(NSUserNotification *)notification {
+    return YES;
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
+    switch (notification.activationType) {
+        case NSUserNotificationActivationTypeActionButtonClicked:
+            [self inputPassword:self];
+            break;
+        default:
+            break;
+    }
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
     
     // check helper
     if (![self installHelper:false]) {
         [[NSApplication sharedApplication] terminate:nil];// installation failed or stopped by user,
     };
     
-    // initialize UI
-    _statusBarItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-    [_statusBarItem setMenu:_statusBarMenu];
-    [_statusBarItem setHighlightMode:YES];
-    _pacModeItem.tag = pacMode;
-    _globalModeItem.tag = globalMode;
-    _manualModeItem.tag = manualMode;
-
     // prepare directory
     NSFileManager* fileManager = [NSFileManager defaultManager];
     NSString *pacDir = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac", NSHomeDirectory()];
@@ -80,7 +91,6 @@ static AppDelegate *appDelegate;
     
     v2rayJSONconfig = [[NSData alloc] init];
     [self addObserver:self forKeyPath:@"selectedPacFileName" options:NSKeyValueObservingOptionNew context:nil];
-    [self readDefaults];
     
     // create a serial queue used for NSTask operations
     taskQueue = dispatch_queue_create("cenmrev.v2rayx.nstask", DISPATCH_QUEUE_SERIAL);
@@ -110,8 +120,6 @@ static AppDelegate *appDelegate;
         }
     });
     
-    plistPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/cenmrev.v2rayx.v2ray-core.plist",NSHomeDirectory()];
-    
     // set up pac server
     __weak typeof(self) weakSelf = self;
     //http://stackoverflow.com/questions/14556605/capturing-self-strongly-in-this-block-is-likely-to-lead-to-a-retain-cycle
@@ -124,14 +132,106 @@ static AppDelegate *appDelegate;
     }];
     [webServer startWithPort:webServerPort bonjourName:nil];
     
-    // start proxy
-    [self updateSubscriptions:self]; // also includes [self didChangeStatus:self];
+    
+    [self checkUpgrade:self];
     
     appDelegate = self;
     
     // resume the service when mac wakes up
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(didChangeStatus:) name:NSWorkspaceDidWakeNotification object:NULL];
-    [self checkUpgrade:self];
+    
+    // initialize UI
+    _statusBarItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+    [_statusBarItem setHighlightMode:YES];
+    _pacModeItem.tag = pacMode;
+    _globalModeItem.tag = globalMode;
+    _manualModeItem.tag = manualMode;
+    
+    // read defaults
+    [self readDefaults];
+    self.encryptionKey = @"";
+    if (_enableEncryption && ([profiles count] > 0 || [_subscriptions count] > 0)) {
+        NSUserNotification* notification = [[NSUserNotification alloc] init];
+        notification.identifier = [NSString stringWithFormat:@"cenmrev.v2rayx.passwork.%@", [NSUUID UUID]];
+        notification.title = @"Input Password";
+        notification.informativeText = @"input your password to continue";
+        notification.soundName = NSUserNotificationDefaultSoundName;
+        notification.actionButtonTitle = @"Continue";
+        notification.hasActionButton = true;
+        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+        [_statusBarItem setMenu:_authMenu];
+        [_statusBarItem setImage:[NSImage imageNamed:@"statusBarIcon_disabled"]];
+    } else {
+        [self continueInitialization];
+    }
+}
+
+- (IBAction)inputPassword:(id)sender {
+    NSAlert* alert = [[NSAlert alloc] init];
+    alert.messageText = @"input password to decrypt configurations";
+    [alert addButtonWithTitle:@"Decrypt"];
+    [alert addButtonWithTitle:@"Cancel"];
+    NSTextField *input = [[NSSecureTextField alloc] initWithFrame:NSMakeRect(0, 0, 200, 24)];
+    [input setStringValue:@""];
+    [alert setAccessoryView:input];
+    [input becomeFirstResponder];
+    [alert layout]; //important https://openmcl-devel.clozure.narkive.com/76HRbj5O/how-to-make-an-alert-accessory-view-be-first-responder
+    [alert.window makeFirstResponder:input];
+    while (true) {
+        NSModalResponse response = [alert runModal];
+        if (response == NSAlertSecondButtonReturn) {
+            return;
+        } else {
+            BOOL result = [self decryptConfigurationsWithKey:[[input stringValue] stringByPaddingToLength:32 withString:@"-" startingAtIndex:0]];
+            if (result) {
+                break;
+            }
+        }
+    }
+    [self continueInitialization];
+}
+
+-(BOOL)decryptConfigurationsWithKey:(NSString*)key {
+    NSMutableArray* decryptedLinks = [[NSMutableArray alloc] init];
+    for (NSString* encryptedLink in _subscriptions) {
+        NSData* encryptedData = [[NSData alloc] initWithBase64EncodedString:encryptedLink options:NSDataBase64DecodingIgnoreUnknownCharacters];
+        NSData* decryptedData = [encryptedData decryptedDataWithKey:key];
+        if (decryptedData) {
+            NSString* decryptedLink = [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+            if (decryptedLink) {
+                [decryptedLinks addObject:decryptedLink];
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    NSMutableArray* decryptedProfiles = [[NSMutableArray alloc] init];
+    for (NSString* encryptedJSON in profiles) {
+        NSData* encryptedData = [[NSData alloc] initWithBase64EncodedString:encryptedJSON options:NSDataBase64DecodingIgnoreUnknownCharacters];
+        NSData* decryptedData = [encryptedData decryptedDataWithKey:key];
+        if (decryptedData) {
+            NSDictionary* decryptedProfile = [NSJSONSerialization JSONObjectWithData:decryptedData options:0 error:nil];
+            if (decryptedProfile) {
+                [decryptedProfiles addObject:decryptedProfile];
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    _subscriptions = decryptedLinks;
+    profiles = decryptedProfiles;
+    return true;
+}
+
+- (void)continueInitialization {
+    [_statusBarItem setMenu:_statusBarMenu];
+    // start proxy
+    [self updateSubscriptions:self]; // also includes [self didChangeStatus:self];
 }
 
 - (BOOL)installHelper:(BOOL)force {
@@ -234,6 +334,7 @@ static AppDelegate *appDelegate;
 
 - (void)readDefaults {
     // just read defaults, didChangeStatus will handle invalid parameters.
+    // return encrypted or not
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary* appStatus = nilCoalescing([defaults objectForKey:@"appStatus"], @{});
@@ -247,6 +348,7 @@ static AppDelegate *appDelegate;
     useCusProfile = [nilCoalescing(appStatus[@"useCusProfile"], @(NO)) boolValue];
     self.selectedPacFileName = nilCoalescing(appStatus[@"selectedPacFileName"], @"pac.js");
     
+    _enableEncryption = [nilCoalescing([defaults objectForKey:@"enableEncryption"], @(NO)) boolValue];
     logLevel = nilCoalescing([defaults objectForKey:@"logLevel"], @"none");
     localPort = [nilCoalescing([defaults objectForKey:@"localPort"], @1081) integerValue]; //use 1081 as default local port
     httpPort = [nilCoalescing([defaults objectForKey:@"httpPort"], @8001) integerValue]; //use 8001 as default local http port
@@ -256,10 +358,18 @@ static AppDelegate *appDelegate;
     _enableRestore = [nilCoalescing([defaults objectForKey:@"enableRestore"],@(NO)) boolValue];
     
     profiles = [[NSMutableArray alloc] init];
-    if ([[defaults objectForKey:@"profiles"] isKindOfClass:[NSArray class]]) {
-        for (NSDictionary* aProfile in [defaults objectForKey:@"profiles"]) {
-            if ([aProfile isKindOfClass:[NSDictionary class]] && aProfile[@"tag"] && [aProfile[@"tag"] length] && [RESERVED_TAGS indexOfObject:aProfile[@"tag"]] == NSNotFound) {
-                [profiles addObject:aProfile];
+    if ([defaults objectForKey:@"profiles"] && [[defaults objectForKey:@"profiles"] isKindOfClass:[NSArray class]]) {
+        if (!_enableEncryption) {
+            for (NSDictionary* aProfile in [defaults objectForKey:@"profiles"]) {
+                if ([aProfile isKindOfClass:[NSDictionary class]] && aProfile[@"tag"] && [aProfile[@"tag"] length] && [RESERVED_TAGS indexOfObject:aProfile[@"tag"]] == NSNotFound) {
+                    [profiles addObject:aProfile];
+                }
+            }
+        } else {
+            for (NSString* encrypted in [defaults objectForKey:@"profiles"]) {
+                if ([encrypted isKindOfClass:[NSString class]]) {
+                    [profiles addObject:encrypted];
+                }
             }
         }
     }
@@ -274,7 +384,7 @@ static AppDelegate *appDelegate;
     }
     
     _subscriptions = [[NSMutableArray alloc] init];
-    if ([[defaults objectForKey:@"subscriptions"] isKindOfClass:[NSArray class]]) {
+    if ([defaults objectForKey:@"subscriptions"] && [[defaults objectForKey:@"subscriptions"] isKindOfClass:[NSArray class]]) {
         for (NSString* link in [defaults objectForKey:@"subscriptions"]) {
             if ([link isKindOfClass:[NSString class]]) {
                 [_subscriptions addObject:link];
@@ -302,6 +412,7 @@ static AppDelegate *appDelegate;
               @"useMultipleServer": @NO,
               @"selectedPacFileName": @"pac.js"
               },
+      @"enableEncryption":@(NO),
       @"logLevel": @"none",
       @"localPort": [NSNumber numberWithInteger:1081],
       @"httpPort": [NSNumber numberWithInteger:8001],
@@ -340,8 +451,25 @@ static AppDelegate *appDelegate;
 
 - (void)saveConfigInfo {
     dispatch_async(taskQueue, ^{
+        NSMutableArray* subscriptionToSave;
+        NSMutableArray* profilesToSave;
+        if (self->_enableEncryption) {
+            subscriptionToSave = [[NSMutableArray alloc] init];
+            for (NSString* link in self->_subscriptions) {
+                [subscriptionToSave addObject:[[[link dataUsingEncoding:NSUTF8StringEncoding] encryptedDataWithKey:self->_encryptionKey] base64EncodedStringWithOptions:0]];
+            }
+            profilesToSave = [[NSMutableArray alloc] init];
+            for (NSDictionary* profile in self->profiles) {
+                NSData* jsonData = [NSJSONSerialization dataWithJSONObject:profile options:0 error:nil];
+                [profilesToSave addObject:[[jsonData encryptedDataWithKey:self->_encryptionKey] base64EncodedStringWithOptions:0]];
+            }
+        } else {
+            subscriptionToSave = self->_subscriptions;
+            profilesToSave = self->profiles;
+        }
         NSDictionary *settings =
         @{
+          @"enableEncryption":@(self->_enableEncryption),
           @"setingVersion": [NSNumber numberWithInteger:kV2RayXSettingVersion],
           @"logLevel": self.logLevel,
           @"localPort": @(self.localPort),
@@ -349,9 +477,9 @@ static AppDelegate *appDelegate;
           @"udpSupport": @(self.udpSupport),
           @"shareOverLan": @(self.shareOverLan),
           @"dnsString": self.dnsString,
-          @"profiles":self.profiles,
+          @"profiles":profilesToSave,
           @"cusProfiles": self.cusProfiles,
-          @"subscriptions": self.subscriptions,
+          @"subscriptions": subscriptionToSave,
           @"routingRuleSets": self.routingRuleSets,
           @"enableRestore": @(self.enableRestore)
           };
@@ -427,6 +555,9 @@ static AppDelegate *appDelegate;
     }
     // make sure current status parameter is valid
     selectedServerIndex = MIN((NSInteger)profiles.count + (NSInteger)_subsOutbounds.count - 1, selectedServerIndex);
+    if (profiles.count + _subsOutbounds.count > 0) {
+        selectedServerIndex = MAX(selectedServerIndex, 0);
+    }
     selectedCusServerIndex = MIN((NSInteger)cusProfiles.count - 1, selectedCusServerIndex );
     _selectedRoutingSet = MIN((NSInteger)_routingRuleSets.count - 1, _selectedRoutingSet);
     
