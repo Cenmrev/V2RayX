@@ -761,6 +761,10 @@ static AppDelegate *appDelegate;
     [_serverListMenu removeAllItems];
     if ([profiles count] == 0 && [cusProfiles count] == 0 && [_subsOutbounds count] == 0) {
         [_serverListMenu addItem:[[NSMenuItem alloc] initWithTitle:@"no available servers, please add server profiles through config window." action:nil keyEquivalent:@""]];
+        if (_subscriptions.count > 0) {
+            [_serverListMenu addItem:[NSMenuItem separatorItem]];
+            [_serverListMenu addItem:_updateServerItem];
+        }
     } else {
         int i = 0;
         for (NSDictionary *p in profiles) {
