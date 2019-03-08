@@ -285,6 +285,9 @@
 + (NSMutableDictionary*)importFromHTTPSubscription: (NSString*)httpLink {
     // https://blog.csdn.net/yi_zz32/article/details/48769487
     NSMutableDictionary* result = [@{@"vmess": @[], @"other": @[]} mutableDeepCopy];
+    if ([httpLink length] < 4) {
+        return nil;
+    }
     if (![@"http" isEqualToString:[httpLink substringToIndex:4]]) {
         return nil;
     }
