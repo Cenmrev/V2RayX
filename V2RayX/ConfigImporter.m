@@ -174,8 +174,8 @@
         [set[@"rules"] addObject:lastRule];
     }
     NSMutableArray* ruleToRemove = [[NSMutableArray alloc] init];
-    NSArray* notSupported = SUPPORTED_ROUTING;
-    NSArray* supported = NOT_SUPPORTED_ROUTING;
+    NSArray* notSupported = NOT_SUPPORTED_ROUTING;
+    NSArray* supported = SUPPORTED_ROUTING;
     // currently, source/user/inboundTag/protocol are not supported
     for (NSMutableDictionary* aRule in set[@"rules"]) {
         [aRule removeObjectsForKeys:notSupported];
