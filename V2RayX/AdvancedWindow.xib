@@ -953,7 +953,7 @@ Compatibility is not guaranteed.</string>
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2i8-WG-Jvl">
-                                            <rect key="frame" x="31" y="72" width="37" height="17"/>
+                                            <rect key="frame" x="31" y="72" width="226" height="17"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="GuH-9u-diX">
                                                 <font key="font" metaFont="system"/>
