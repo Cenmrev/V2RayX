@@ -310,9 +310,13 @@
         }
         [_ruleSetTable reloadData];
     } else if ([sender selectedSegment] == 2) {
-        NSAlert* alert = [NSAlert alertWithMessageText:@"Do you want to reset rule sets to original three ones?" defaultButton:@"OK" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@""];
+        NSAlert* alert = [[NSAlert alloc] init];
+        alert.messageText = @"Do you want to reset rule sets to original three ones?";
+        [alert addButtonWithTitle:@"OK"];
+        [alert addButtonWithTitle:@"Cancel"];
         [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-            if (returnCode == NSModalResponseOK) {
+            if (returnCode == NSAlertFirstButtonReturn) {
+                NSLog(@"will rest");
                 self->_routingRuleSets = [@[ROUTING_GLOBAL, ROUTING_BYPASSCN_PRIVATE_APPLE, ROUTING_DIRECT] mutableDeepCopy];
                 NSUInteger originalIndex = self->_ruleSetTable.selectedRow;
                 [self->_ruleSetTable selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO]; // toggle

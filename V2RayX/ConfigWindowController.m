@@ -307,17 +307,17 @@
 
 // https://stackoverflow.com/questions/7387341/how-to-create-and-get-return-value-from-cocoa-dialog/7387395#7387395
 - (void)askInputWithPrompt: (NSString*)prompt handler:(void (^ __nullable)(NSString* inputStr))handler {
-    NSAlert *alert = [NSAlert alertWithMessageText: prompt
-                                     defaultButton:@"OK"
-                                   alternateButton:@"Cancel"
-                                       otherButton:nil
-                         informativeTextWithFormat:@""];
+    
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.messageText = prompt;
+    [alert addButtonWithTitle:@"OK"];
+    [alert addButtonWithTitle:@"Cancel"];
     NSTextField *inputField = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 400, 24)];
     inputField.usesSingleLineMode = true;
     inputField.lineBreakMode = NSLineBreakByTruncatingHead;
     [alert setAccessoryView:inputField];
     [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-        if (returnCode == NSModalResponseOK) {
+        if (returnCode == NSAlertFirstButtonReturn) {
             handler([inputField stringValue]);
         }
     }];
@@ -398,7 +398,7 @@
     [openPanel setDirectoryURL:[[NSFileManager defaultManager] homeDirectoryForCurrentUser]];
 
     [openPanel beginSheetModalForWindow:[self window]  completionHandler:^(NSModalResponse result) {
-        if (result == NSOKButton) {
+        if (result == NSModalResponseOK) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 NSArray* files = [openPanel URLs];
                 NSMutableDictionary* result = [ConfigImporter importFromStandardConfigFiles:files];
