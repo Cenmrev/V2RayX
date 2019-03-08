@@ -34,6 +34,11 @@
 
 #define EMPTY_DICT ([[NSMutableDictionary alloc] init])
 #define EMPTY_IMPORT_RESULT ([@{@"vmess": @[], @"other": @[], @"rules":@[]} mutableDeepCopy])
+#define SNIFFING_PROTOCOL (@[@"http", @"tls", @"bittorrent"])
+
+
+#define NOT_SUPPORTED_ROUTING (@[@"source", @"user"])
+#define SUPPORTED_ROUTING (@[@"domain", @"ip", @"network", @"port", @"inboundTag", @"protocol"])
 
 NSUInteger searchInArray(NSString* str, NSArray* array);
 
