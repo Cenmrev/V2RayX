@@ -12,7 +12,7 @@
 - (ServerProfile*)init {
     self = [super init];
     if (self) {
-        [self setAddress:@"server.cc"];
+        [self setAddress:@""];
         [self setPort:10086];
         [self setUserId:@"00000000-0000-0000-0000-000000000000"];
         [self setAlterId:64];
@@ -24,7 +24,7 @@
         [self setStreamSettings:@{
                                   @"security": @"none",
                                   @"tlsSettings": @{
-                                          @"serverName": @"server.cc",
+                                          @"serverName": @"",
                                           @"alpn": @[@"http/1.1"],
                                           @"allowInsecure": [NSNumber numberWithBool:NO],
                                           @"allowInsecureCiphers": [NSNumber numberWithBool:NO]
