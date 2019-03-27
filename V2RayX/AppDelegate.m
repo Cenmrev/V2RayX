@@ -14,6 +14,8 @@
 #import "MutableDeepCopying.h"
 #import "ConfigImporter.h"
 #import "NSData+AES256Encryption.h"
+#import "ShortcutsController.h"
+#import "ToastWindowController.h"
 
 #define kUseAllServer -10
 
@@ -29,6 +31,7 @@
     FSEventStreamRef fsEventStream;
     
     NSData* v2rayJSONconfig;
+    ToastWindowController *tosat;
 }
 
 @end
@@ -139,6 +142,10 @@ static AppDelegate *appDelegate;
     
     // resume the service when mac wakes up
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(didChangeStatus:) name:NSWorkspaceDidWakeNotification object:NULL];
+    
+    // Register global hotkey
+    [ShortcutsController bindShortcuts];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(hotkeyChangeProxyMode) name:@"NOTIFY_LOAD_UNLOAD_SHORTCUT" object:nil];
     
     // initialize UI
     _statusBarItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
@@ -844,6 +851,30 @@ static AppDelegate *appDelegate;
 //        runCommandLine(@"/bin/cp", @[@"/dev/null", [NSString stringWithFormat:@"%@/error.log", self->logDirPath]]);
 //        runCommandLine(@"/bin/launchctl",  @[@"load", self->plistPath]);
 //    });
+}
+
+- (void)hotkeyChangeProxyMode {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self didChangeStatus:self->_enableV2rayItem];
+        if(self->proxyState == YES) {
+            [self makeToast:@"V2Ray Load Core"];
+        }
+        else {
+            [self makeToast:@"V2Ray Unload Core"];
+        }
+    });
+}
+
+- (void)makeToast:(NSString *)message {
+    if (tosat) {
+        [tosat close];
+    }
+    tosat = [[ToastWindowController alloc] initWithWindowNibName:@"ToastWindowController"];
+    tosat.message = message;
+    [tosat showWindow:self];
+    [tosat fadeInHud];
+    
 }
 
 - (IBAction)showConfigWindow:(id)sender {
