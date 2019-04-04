@@ -619,6 +619,7 @@ static AppDelegate *appDelegate;
     [_pacModeItem setState:proxyMode == pacMode];
     [_manualModeItem setState:proxyMode == manualMode];
     [_globalModeItem setState:proxyMode == globalMode];
+    [_lauchAtLoginMenuItem setState:launchAtLogin];
 }
 
 - (void)updatePacMenuList {
@@ -1026,11 +1027,12 @@ static AppDelegate *appDelegate;
     
     if (SMLoginItemSetEnabled((__bridge CFStringRef)bundleID,enabled)) {
         launchAtLogin = enabled;
-
+        
         NSLog(@"Call SMLoginItemSetEnabled with [%hhd] success", enabled);
     } else {
         NSLog(@"Call SMLoginItemSetEnabled with [%hhd] failed", enabled);
     }
+    [self updateMenus];
 }
 
 

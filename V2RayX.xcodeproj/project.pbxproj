@@ -12,6 +12,7 @@
 		0A164CA9225599DE00076EB1 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A164CA7225599DE00076EB1 /* MainMenu.xib */; };
 		0A164CAC225599DE00076EB1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A164CAB225599DE00076EB1 /* main.m */; };
 		0A164CB322559CC400076EB1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A164CB222559CC300076EB1 /* SystemConfiguration.framework */; };
+		0AAC425F2255A80200B4D62A /* LaunchHelper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0A164CA0225599DD00076EB1 /* LaunchHelper.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9504C07D1C662C3000352520 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C07C1C662C3000352520 /* AppDelegate.m */; };
 		9504C0801C662C3000352520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C07F1C662C3000352520 /* main.m */; };
 		9504C0821C662C3000352520 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0811C662C3000352520 /* Assets.xcassets */; };
@@ -67,6 +68,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0AAC425E2255A7E100B4D62A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+				0AAC425F2255A80200B4D62A /* LaunchHelper.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9504C0C41C662DB400352520 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -420,6 +431,7 @@
 				9DB94D77209D273A0001E9DD /* Run Script */,
 				953B60541DB3E31D00D40654 /* Run Script */,
 				9504C0761C662C3000352520 /* Resources */,
+				0AAC425E2255A7E100B4D62A /* CopyFiles */,
 			);
 			buildRules = (
 			);
