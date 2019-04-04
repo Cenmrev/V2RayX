@@ -1,0 +1,216 @@
+
+/* Class = "NSTextFieldCell"; title = "WARNING: this function is still in beta. Backup before you try!"; ObjectID = "0s7-uP-t1h"; */
+"0s7-uP-t1h.title" = "警告: 本功能尚在测试中，请注意备份配置！";
+
+/* Class = "NSTextFieldCell"; title = "Make sure the following files are present:"; ObjectID = "1Vl-aE-8sN"; */
+"1Vl-aE-8sN.title" = "确保以下文件存在:";
+
+/* Class = "NSMenuItem"; title = "Item 1"; ObjectID = "2Oy-Qp-IeQ"; */
+"2Oy-Qp-IeQ.title" = "Item 1";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "2bW-I2-dXF"; */
+"2bW-I2-dXF.title" = "Cancel";
+
+/* Class = "NSMenuItem"; title = "Item 2"; ObjectID = "4DK-9y-rmk"; */
+"4DK-9y-rmk.title" = "Item 2";
+
+/* Class = "NSTabViewItem"; label = "Core"; ObjectID = "67G-Pu-y5A"; */
+"67G-Pu-y5A.label" = "Core";
+
+/* Class = "NSButtonCell"; title = "Save"; ObjectID = "8kA-bO-a9z"; */
+"8kA-bO-a9z.title" = "Save";
+
+/* Class = "NSTextFieldCell"; placeholderString = "rule set name"; ObjectID = "9nq-rX-rC3"; */
+"9nq-rX-rC3.placeholderString" = "rule set name";
+
+/* Class = "NSBox"; title = "Rules"; ObjectID = "A3j-NA-vk6"; */
+"A3j-NA-vk6.title" = "代理规则";
+
+/* Class = "NSTextFieldCell"; title = "Input twice to set a new password:"; ObjectID = "AZm-tN-5qT"; */
+"AZm-tN-5qT.title" = "请输入密码:";
+
+/* Class = "NSTextFieldCell"; title = "Domain Strategy:"; ObjectID = "Abd-Kl-8fv"; */
+"Abd-Kl-8fv.title" = "域名策略:";
+
+/* Class = "NSButtonCell"; title = "Help"; ObjectID = "BKj-YZ-Vk2"; */
+"BKj-YZ-Vk2.title" = "帮助";
+
+/* Class = "NSMenuItem"; title = "Item 3"; ObjectID = "CJg-8o-Fwh"; */
+"CJg-8o-Fwh.title" = "Item 3";
+
+/* Class = "NSMenuItem"; title = "Item 2"; ObjectID = "E4G-rh-24K"; */
+"E4G-rh-24K.title" = "Item 2";
+
+/* Class = "NSButtonCell"; title = "Edit list"; ObjectID = "E4s-0q-jVZ"; */
+"E4s-0q-jVZ.title" = "编辑列表";
+
+/* Class = "NSTextFieldCell"; title = "All the configuration information are stored in ~/Library/Preferences/cenmrev.V2RayX.plist. In case the information is leaked to other unauthorized programs or individuals, set a password and V2RayX will use AES-256-ECB to encrypt the information."; ObjectID = "EAT-73-Qh6"; */
+"EAT-73-Qh6.title" = "所有配置信息都存储在〜/Library/Preferences/cenmrev.V2RayX.plist中。如果信息泄露给其他未授权的程序或个人，请设置密码，V2RayX将使用AES-256-ECB加密信息。";
+
+/* Class = "NSTextFieldCell"; title = "To provide domain and IP rules, follow this format:\n    separate domains and ips with a line `---`.\nExamples:\n1.\n    v2ray.com\n    ----\n    10.0.0.0/8\n    geoip:private\nwill match traffic with (a destination domain includes \"v2ray.com\") AND (a destination IP in range of 10.0.0.0/8 OR a private destination IP)\n2.\n    domain:v2ray.com\n    ----\nwill match traffic with a destination domain of v2ray.com and *.v2ray.com.\n3.\n    ----\n    geoip:private\nwill match all private IPs."; ObjectID = "EXS-dL-5V7"; */
+"EXS-dL-5V7.title" = "IP及域名请遵循以下格式:\n    域名和IP区域请使用`---`来分隔.\n示例:\n1.\n    v2ray.com\n    ----\n    10.0.0.0/8\n    geoip:private\n将会匹配v2ray.com以及10.0.0.0/8范围内的IP地址和特定的IP地址\n2.\n    domain:v2ray.com\n    ----\n将会匹配v2ray.com以及*.v2ray.com\n3.\n    ----\n    geoip:private\n将会匹配所有特定的IP地址";
+
+/* Class = "NSTabViewItem"; label = "Encryption"; ObjectID = "EcZ-9w-1Yw"; */
+"EcZ-9w-1Yw.label" = "安全性";
+
+/* Class = "NSButtonCell"; title = "Domain"; ObjectID = "FXd-hg-kTV"; */
+"FXd-hg-kTV.title" = "域名";
+
+/* Class = "NSTextFieldCell"; title = "When an incoming connection matches ALL the criterions (domain/ip/port/network), it will be routed to the provided outbound tag. \n\nFour preset tags:\n   main: the outbound users choose from the menu list \"Server\"\ndecline: the connection will be closed.\n direct: incoming traffic will be send to its real destination.\nbalance: v2ray will randomly pickup an outbound from all \n         provided outbounds."; ObjectID = "GeG-md-J3l"; */
+"GeG-md-J3l.title" = "当传入连接符合所有规则时(domain/ip/port/network), 将会被转发至所选路由. \n\n路由规则介绍:\n   main: 转发至用户在主菜单中所选择的服务器。\ndecline: 拒绝连接。\n direct: 直接连接\nbalance: 在列表中随机选择可用的服务器";
+
+/* Class = "NSTextFieldCell"; title = "Label"; ObjectID = "GuH-9u-diX"; */
+"GuH-9u-diX.title" = "Label";
+
+/* Class = "NSTextFieldCell"; title = "To use outbounds of other protocols apart from vmess, directly provide the corresponding OutboundObject below. Click Help to see instructions."; ObjectID = "GuN-KN-aPK"; */
+"GuN-KN-aPK.title" = "若需要使用其它代理协议，请添加相应协议的配置。单击\"帮助\"以查看说明";
+
+/* Class = "NSButtonCell"; title = "Finish"; ObjectID = "Hv6-1n-72W"; */
+"Hv6-1n-72W.title" = "完成";
+
+/* Class = "NSTextFieldCell"; title = "/path/to/application support"; ObjectID = "IEx-Ah-Xhi"; */
+"IEx-Ah-Xhi.title" = "/path/to/application support";
+
+/* Class = "NSMenuItem"; title = "Item 3"; ObjectID = "NO6-7e-gtq"; */
+"NO6-7e-gtq.title" = "Item 3";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "OoL-C4-v5k"; */
+"OoL-C4-v5k.title" = "Text Cell";
+
+/* Class = "NSMenuItem"; title = "Item 3"; ObjectID = "PNJ-mc-Nhk"; */
+"PNJ-mc-Nhk.title" = "Item 3";
+
+/* Class = "NSTextFieldCell"; title = "v2ray-core/v2ray\nv2ray-core/v2ctl\nv2ray-core/geoip.dat\nv2ray-core/geosite.dat"; ObjectID = "QCH-HC-h7v"; */
+"QCH-HC-h7v.title" = "v2ray-core/v2ray\nv2ray-core/v2ctl\nv2ray-core/geoip.dat\nv2ray-core/geosite.dat";
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Window";
+
+/* Class = "NSTextFieldCell"; title = "checking..."; ObjectID = "R7w-O4-j5u"; */
+"R7w-O4-j5u.title" = "checking...";
+
+/* Class = "NSTextFieldCell"; title = "route to:"; ObjectID = "X80-bG-59t"; */
+"X80-bG-59t.title" = "route to:";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "ZS4-bp-UnJ"; */
+"ZS4-bp-UnJ.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "When ALL the following criteria are satisfied:"; ObjectID = "ZeT-4k-vxH"; */
+"ZeT-4k-vxH.title" = "满足所有以下条件时:";
+
+/* Class = "NSTextFieldCell"; title = "V2RayX is shipped with a v2ray binary file in the app bundle. If anyone wants to use a different v2ray core binary, put the binary file in the following directory:"; ObjectID = "a4D-MW-Gqf"; */
+"a4D-MW-Gqf.title" = "V2RayX 已经附带了v2ray core，如果想使用其它版本，请将文件放入以下目录中:";
+
+/* Class = "NSButtonCell"; title = "Port"; ObjectID = "aZy-cf-V3d"; */
+"aZy-cf-V3d.title" = "Port";
+
+/* Class = "NSButtonCell"; title = "IP"; ObjectID = "bEb-OZ-H5Q"; */
+"bEb-OZ-H5Q.title" = "IP";
+
+/* Class = "NSTextFieldCell"; placeholderString = "rule name"; ObjectID = "bg2-0h-Zy8"; */
+"bg2-0h-Zy8.placeholderString" = "rule name";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "bg2-0h-Zy8"; */
+"bg2-0h-Zy8.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; placeholderString = "full path to your config file, do not use ~"; ObjectID = "blU-qK-jS1"; */
+"blU-qK-jS1.placeholderString" = "full path to your config file, do not use ~";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "blU-qK-jS1"; */
+"blU-qK-jS1.title" = "Text Cell";
+
+/* Class = "NSComboBoxCell"; btf-wg-PEM.ibShadowedObjectValues[0] = "Item 1"; ObjectID = "btf-wg-PEM"; */
+"btf-wg-PEM.ibShadowedObjectValues[0]" = "Item 1";
+
+/* Class = "NSComboBoxCell"; btf-wg-PEM.ibShadowedObjectValues[1] = "Item 2"; ObjectID = "btf-wg-PEM"; */
+"btf-wg-PEM.ibShadowedObjectValues[1]" = "Item 2";
+
+/* Class = "NSComboBoxCell"; btf-wg-PEM.ibShadowedObjectValues[2] = "Item 3"; ObjectID = "btf-wg-PEM"; */
+"btf-wg-PEM.ibShadowedObjectValues[2]" = "Item 3";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "c0Q-Wz-IXk"; */
+"c0Q-Wz-IXk.title" = "取消";
+
+/* Class = "NSTabViewItem"; label = "Subscription"; ObjectID = "c9O-2e-b8g"; */
+"c9O-2e-b8g.label" = "订阅";
+
+/* Class = "NSTextFieldCell"; title = "When quiting V2RayX, or unloading core, or choosing manual mode:"; ObjectID = "dIM-hU-vOx"; */
+"dIM-hU-vOx.title" = "当退出V2RayX、关闭v2ray-core、使用手动模式时:";
+
+/* Class = "NSTextFieldCell"; placeholderString = "tag"; ObjectID = "dYt-6I-wvZ"; */
+"dYt-6I-wvZ.placeholderString" = "tag";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "dYt-6I-wvZ"; */
+"dYt-6I-wvZ.title" = "Text Cell";
+
+/* Class = "NSButtonCell"; title = "Protocol"; ObjectID = "eJB-Nw-fGt"; */
+"eJB-Nw-fGt.title" = "Protocol";
+
+/* Class = "NSMenuItem"; title = "Item 1"; ObjectID = "h2c-ET-iJb"; */
+"h2c-ET-iJb.title" = "Item 1";
+
+/* Class = "NSButtonCell"; title = "Inbound Tag"; ObjectID = "hTm-DB-j4B"; */
+"hTm-DB-j4B.title" = "Inbound Tag";
+
+/* Class = "NSButtonCell"; title = "Change/setup password"; ObjectID = "hbo-B3-M63"; */
+"hbo-B3-M63.title" = "设置/更改密码";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "hp1-s7-XJV"; */
+"hp1-s7-XJV.title" = "取消";
+
+/* Class = "NSTabViewItem"; label = "Rules"; ObjectID = "i0P-1v-Yeh"; */
+"i0P-1v-Yeh.label" = "代理规则";
+
+/* Class = "NSButtonCell"; title = "Network:"; ObjectID = "j3B-yf-IFU"; */
+"j3B-yf-IFU.title" = "Network:";
+
+/* Class = "NSButtonCell"; title = "Save"; ObjectID = "jQ2-JH-sjq"; */
+"jQ2-JH-sjq.title" = "Save";
+
+/* Class = "NSMenuItem"; title = "Item 1"; ObjectID = "jok-h9-59Z"; */
+"jok-h9-59Z.title" = "Item 1";
+
+/* Class = "NSTabViewItem"; label = "Configs"; ObjectID = "kZw-NT-AZ4"; */
+"kZw-NT-AZ4.label" = "配置";
+
+/* Class = "NSTextFieldCell"; title = "Otherwise V2RayX will still use default v2ray core binaries. \nCompatibility is not guaranteed."; ObjectID = "ldu-SF-fOd"; */
+"ldu-SF-fOd.title" = "否则V2rayX仍将使用默认的v2ray core.\n替换它将不会保证兼容性，请慎重";
+
+/* Class = "NSComboBoxCell"; m0j-kv-PFY.ibShadowedObjectValues[0] = "Item 1"; ObjectID = "m0j-kv-PFY"; */
+"m0j-kv-PFY.ibShadowedObjectValues[0]" = "Item 1";
+
+/* Class = "NSComboBoxCell"; m0j-kv-PFY.ibShadowedObjectValues[1] = "Item 2"; ObjectID = "m0j-kv-PFY"; */
+"m0j-kv-PFY.ibShadowedObjectValues[1]" = "Item 2";
+
+/* Class = "NSComboBoxCell"; m0j-kv-PFY.ibShadowedObjectValues[2] = "Item 3"; ObjectID = "m0j-kv-PFY"; */
+"m0j-kv-PFY.ibShadowedObjectValues[2]" = "Item 3";
+
+/* Class = "NSTextFieldCell"; title = "Rule Set Name:"; ObjectID = "nds-1r-ppI"; */
+"nds-1r-ppI.title" = "规则名称:";
+
+/* Class = "NSMenuItem"; title = "Turn off system proxy"; ObjectID = "pJL-wh-M4Z"; */
+"pJL-wh-M4Z.title" = "关闭系统代理";
+
+/* Class = "NSButtonCell"; title = "Enable Ecryption"; ObjectID = "qR7-nu-QAT"; */
+"qR7-nu-QAT.title" = "开启加密";
+
+/* Class = "NSTextFieldCell"; title = "Save your airport subscription link here and refresh config from server list in menubar icon."; ObjectID = "qfa-aV-cmn"; */
+"qfa-aV-cmn.title" = "请在此添加订阅链接，用以更新服务器列表";
+
+/* Class = "NSMenuItem"; title = "Item 2"; ObjectID = "rBE-Wt-bzW"; */
+"rBE-Wt-bzW.title" = "Item 2";
+
+/* Class = "NSButtonCell"; title = "Open..."; ObjectID = "sPe-U4-330"; */
+"sPe-U4-330.title" = "打开...";
+
+/* Class = "NSTextFieldCell"; title = "To fully take control of the V2Ray core, directly provide the full path to complete configure files below."; ObjectID = "sQg-oW-z1H"; */
+"sQg-oW-z1H.title" = "若想自行配置V2Ray core，请在下面添加配置文件路径";
+
+/* Class = "NSButtonCell"; title = "Edit list"; ObjectID = "tWE-zk-ucK"; */
+"tWE-zk-ucK.title" = "编辑列表";
+
+/* Class = "NSMenuItem"; title = "Restore system proxy to original states"; ObjectID = "uYN-nr-DtG"; */
+"uYN-nr-DtG.title" = "重置系统代理";
+
+/* Class = "NSTabViewItem"; label = "Outbounds"; ObjectID = "ubo-eB-GSJ"; */
+"ubo-eB-GSJ.label" = "出站协议配置";

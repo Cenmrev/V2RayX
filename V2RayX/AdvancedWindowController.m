@@ -226,7 +226,7 @@
     NSError *e;
     NSDictionary* newOutboud = [NSJSONSerialization JSONObjectWithData:[_outboundJsonView.string dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&e];
     if (e) {
-        [self showAlert:@"NOT a valid json"];
+        [self showAlert:NSLocalizedString(@"NOT a valid json", nil)];
         [_outboundTable selectRowIndexes:[NSIndexSet indexSetWithIndex:_selectedOutbound] byExtendingSelection:NO];
         return NO;
     } else {
@@ -311,9 +311,9 @@
         [_ruleSetTable reloadData];
     } else if ([sender selectedSegment] == 2) {
         NSAlert* alert = [[NSAlert alloc] init];
-        alert.messageText = @"Do you want to reset rule sets to original three ones?";
-        [alert addButtonWithTitle:@"OK"];
-        [alert addButtonWithTitle:@"Cancel"];
+        alert.messageText = NSLocalizedString(@"Do you want to reset rule sets to original three ones?", nil);
+        [alert addButtonWithTitle:NSLocalizedString(@"OK",nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Cancel",nil)];
         [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
             if (returnCode == NSAlertFirstButtonReturn) {
                 NSLog(@"will rest");
@@ -445,8 +445,9 @@
 
 - (IBAction)addRemoveSubscription:(id)sender {
     NSLog(@"%@", sender);
+    
     if ([sender selectedSegment] == 0) {
-        [_subscriptions addObject:@"enter your subscription link here"];
+        [_subscriptions addObject:NSLocalizedString(@"enter your subscription link here", nil)];
         [_subscriptionTable reloadData];
     } else if ([sender selectedSegment] == 1 && [_subscriptionTable selectedRow] >= 0 && [_subscriptionTable selectedRow] < _subscriptions.count) {
         [_subscriptions removeObjectAtIndex:[_subscriptionTable selectedRow]];
@@ -477,7 +478,7 @@
         if (returnCode != 0) {
             [_checkLabel setHidden:YES];
             NSAlert *alert = [[NSAlert alloc] init];
-            [alert setMessageText:[NSString stringWithFormat:@"%@ is not a valid v2ray config file", filePath]];
+            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"%@ is not a valid v2ray config file", nil), filePath]];
             [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
                 return;
             }];
@@ -606,9 +607,9 @@
         } else {
             self.encryptionKey = [_encryptionKeyConfirmField.stringValue stringByPaddingToLength:32 withString:@"-" startingAtIndex:0];
         }
-        [_changeIndicatorField setStringValue:@"success"];
+        [_changeIndicatorField setStringValue:NSLocalizedString(@"success", nil)];
     } else {
-        [_changeIndicatorField setStringValue:@"two password do not match each other."];
+        [_changeIndicatorField setStringValue:NSLocalizedString(@"two password do not match each other.", nil)];
     }
 }
 

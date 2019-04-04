@@ -1,0 +1,150 @@
+
+/* Class = "NSButtonCell"; title = "Import..."; ObjectID = "0Vd-cX-tz4"; */
+"0Vd-cX-tz4.title" = "导入配置...";
+
+/* Class = "NSMenuItem"; title = "chacha20-poly1305"; ObjectID = "1SH-Qb-KKl"; */
+"1SH-Qb-KKl.title" = "chacha20-poly1305";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "2Sy-sC-XkW"; */
+"2Sy-sC-XkW.title" = "Box";
+
+/* Class = "NSMenuItem"; title = "quic"; ObjectID = "54R-sf-YVo"; */
+"54R-sf-YVo.title" = "quic";
+
+/* Class = "NSMenuItem"; title = "kcp"; ObjectID = "5Eb-2c-mug"; */
+"5Eb-2c-mug.title" = "kcp";
+
+/* Class = "NSTextFieldCell"; title = "seperated by comma(,)"; ObjectID = "5N8-C0-QJV"; */
+"5N8-C0-QJV.title" = "请使用英文逗号(,)分割";
+
+/* Class = "NSMenuItem"; title = "Import from other links..."; ObjectID = "8rA-16-mml"; */
+"8rA-16-mml.title" = "使用其它协议的URL导入...";
+
+/* Class = "NSMenuItem"; title = "aes-128-gcm"; ObjectID = "92F-Fh-RHW"; */
+"92F-Fh-RHW.title" = "aes-128-gcm";
+
+/* Class = "NSMenuItem"; title = "Import from standard share links..."; ObjectID = "CTZ-Lq-X8f"; */
+"CTZ-Lq-X8f.title" = "使用标准ss或vmess协议的URL导入...";
+
+/* Class = "NSTextFieldCell"; title = "Network:"; ObjectID = "Dkz-gS-91s"; */
+"Dkz-gS-91s.title" = "协议:";
+
+/* Class = "NSMenuItem"; title = "Import from pastboard..."; ObjectID = "EQb-nS-Lf9"; */
+"EQb-nS-Lf9.title" = "从剪贴板导入...";
+
+/* Class = "NSTextFieldCell"; title = "Label"; ObjectID = "Eo2-Yu-0N0"; */
+"Eo2-Yu-0N0.title" = "Label";
+
+/* Class = "NSTextFieldCell"; title = "Local Socks5 Port:"; ObjectID = "FRd-8H-tqe"; */
+"FRd-8H-tqe.title" = "Socks5代理端口:";
+
+/* Class = "NSMenuItem"; title = "tcp"; ObjectID = "Jhw-Hk-xHQ"; */
+"Jhw-Hk-xHQ.title" = "tcp";
+
+/* Class = "NSTableColumn"; headerCell.title = "Server list"; ObjectID = "KrX-3H-19h"; */
+"KrX-3H-19h.headerCell.title" = "Server list";
+
+/* Class = "NSTextFieldCell"; title = "alterId:"; ObjectID = "MGr-Dc-svg"; */
+"MGr-Dc-svg.title" = "alterId:";
+
+/* Class = "NSButtonCell"; title = "Advanced..."; ObjectID = "MOG-35-OP1"; */
+"MOG-35-OP1.title" = "高级...";
+
+/* Class = "NSTextFieldCell"; title = ":"; ObjectID = "MdF-cg-Cxu"; */
+"MdF-cg-Cxu.title" = ":";
+
+/* Class = "NSMenuItem"; title = "info"; ObjectID = "O9h-My-OpK"; */
+"O9h-My-OpK.title" = "info";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "OSC-ac-Duc"; */
+"OSC-ac-Duc.title" = "Text Cell";
+
+/* Class = "NSButtonCell"; title = "OK"; ObjectID = "OfO-BZ-76k"; */
+"OfO-BZ-76k.title" = "确定";
+
+/* Class = "NSMenuItem"; title = "http/2"; ObjectID = "PLv-I0-cbi"; */
+"PLv-I0-cbi.title" = "http/2";
+
+/* Class = "NSMenuItem"; title = "WebSocket"; ObjectID = "PPM-JS-9Su"; */
+"PPM-JS-9Su.title" = "WebSocket";
+
+/* Class = "NSMenuItem"; title = "warning"; ObjectID = "Qko-Qu-7CT"; */
+"Qko-Qu-7CT.title" = "warning";
+
+/* Class = "NSWindow"; title = "V2RayX"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "V2RayX";
+
+/* Class = "NSButtonCell"; title = "Share Over LAN"; ObjectID = "TXX-VD-4P4"; */
+"TXX-VD-4P4.title" = "允许局域网访问";
+
+/* Class = "NSTextFieldCell"; title = "VMess Servers:"; ObjectID = "UpZ-NV-drp"; */
+"UpZ-NV-drp.title" = "VMess 服务器:";
+
+/* Class = "NSTextFieldCell"; title = "Log level:"; ObjectID = "Vo6-Qu-ybt"; */
+"Vo6-Qu-ybt.title" = "日志级别:";
+
+/* Class = "NSTextFieldCell"; title = "Security:"; ObjectID = "Yal-OT-vUv"; */
+"Yal-OT-vUv.title" = "加密方式:";
+
+/* Class = "NSButtonCell"; title = "transport settings..."; ObjectID = "az9-1y-OFB"; */
+"az9-1y-OFB.title" = "连接配置...";
+
+/* Class = "NSTextFieldCell"; title = "Address:"; ObjectID = "c8I-Ek-z9X"; */
+"c8I-Ek-z9X.title" = "地址:";
+
+/* Class = "NSMenuItem"; title = "auto (suggested)"; ObjectID = "clS-ih-hzy"; */
+"clS-ih-hzy.title" = "auto (suggested)";
+
+/* Class = "NSTextFieldCell"; title = "level:"; ObjectID = "dET-23-6A4"; */
+"dET-23-6A4.title" = "level:";
+
+/* Class = "NSTextFieldCell"; title = "Local Http Port:"; ObjectID = "eGi-xf-mFk"; */
+"eGi-xf-mFk.title" = "Http代理端口:";
+
+/* Class = "NSMenuItem"; title = "Import from standard JSON files..."; ObjectID = "eze-Oh-vyD"; */
+"eze-Oh-vyD.title" = "使用JSON配置文件导入...";
+
+/* Class = "NSTextFieldCell"; title = "Multiline Label"; ObjectID = "fni-U3-ufg"; */
+"fni-U3-ufg.title" = "Multiline Label";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Restart V2Ray and connected to the selected server above"; ObjectID = "fnz-Bw-lGu"; */
+"fnz-Bw-lGu.ibShadowedToolTip" = "Restart V2Ray and connected to the selected server above";
+
+/* Class = "NSMenuItem"; title = "none"; ObjectID = "foI-bt-EyF"; */
+"foI-bt-EyF.title" = "none";
+
+/* Class = "NSMenuItem"; title = "none"; ObjectID = "gAx-gn-R2X"; */
+"gAx-gn-R2X.title" = "none";
+
+/* Class = "NSButtonCell"; title = "show log"; ObjectID = "gkD-dq-Peq"; */
+"gkD-dq-Peq.title" = "查看日志";
+
+/* Class = "NSMenuItem"; title = "debug"; ObjectID = "hRW-dz-Ls3"; */
+"hRW-dz-Ls3.title" = "debug";
+
+/* Class = "NSTextFieldCell"; title = "User ID:"; ObjectID = "mWH-Q7-PYV"; */
+"mWH-Q7-PYV.title" = "User ID:";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "mkg-dU-bRq"; */
+"mkg-dU-bRq.title" = "取消";
+
+/* Class = "NSTextFieldCell"; title = "If the local port is changed, the pac file also needs manual modification."; ObjectID = "nRL-kf-uam"; */
+"nRL-kf-uam.title" = "如果更改了默认的代理端口，PAC文件中的端口仍需手动编辑才可生效";
+
+/* Class = "NSButtonCell"; title = "Support UDP"; ObjectID = "pEW-Gw-3ph"; */
+"pEW-Gw-3ph.title" = "开启UDP支持";
+
+/* Class = "NSTextFieldCell"; title = "Tag:"; ObjectID = "qUb-Rh-lCr"; */
+"qUb-Rh-lCr.title" = "备注:";
+
+/* Class = "NSTextFieldCell"; title = "DNS:"; ObjectID = "sKs-KL-14B"; */
+"sKs-KL-14B.title" = "DNS:";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Discard all the changes"; ObjectID = "sO7-Gh-BBo"; */
+"sO7-Gh-BBo.ibShadowedToolTip" = "Discard all the changes";
+
+/* Class = "NSMenuItem"; title = "error"; ObjectID = "tFp-yp-GMw"; */
+"tFp-yp-GMw.title" = "error";
+
+/* Class = "NSMenuItem"; title = "Item"; ObjectID = "tLs-gB-gFx"; */
+"tLs-gB-gFx.title" = "Item";

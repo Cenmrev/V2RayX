@@ -154,7 +154,7 @@
     [NSJSONSerialization JSONObjectWithData:[[_tcpHeaderField string] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&httpHeaderParseError];
     if (httpHeaderParseError) {
         NSAlert* parseAlert = [[NSAlert alloc] init];
-        [parseAlert setMessageText:@"Error in parsing customized tcp http header!"];
+        [parseAlert setMessageText:NSLocalizedString(@"Error in parsing customized tcp http header!", nil)];
         [parseAlert beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode) { }];
         return NO;
     }
@@ -166,7 +166,7 @@
     [NSJSONSerialization JSONObjectWithData:[[_wsHeaderField string] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&wsHeaderParseError];
     if(wsHeaderParseError) {
         NSAlert* parseAlert = [[NSAlert alloc] init];
-        [parseAlert setMessageText:@"Error in parsing customized WebSocket headers!"];
+        [parseAlert setMessageText:NSLocalizedString(@"Error in parsing customized WebSocket headers!", nil)];
         [parseAlert beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode) { }];
         return NO;
     }
