@@ -14,7 +14,7 @@
 #import "MutableDeepCopying.h"
 #import "ConfigImporter.h"
 #import "NSData+AES256Encryption.h"
-
+#import <ServiceManagement/SMLoginItem.h>
 #define kUseAllServer -10
 
 @interface AppDelegate () {
@@ -34,7 +34,6 @@
 @end
 
 @implementation AppDelegate
-
 static AppDelegate *appDelegate;
 
 - (NSData*)v2rayJSONconfig {
@@ -338,7 +337,7 @@ static AppDelegate *appDelegate;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary* appStatus = nilCoalescing([defaults objectForKey:@"appStatus"], @{});
-    
+    launchAtLogin = [nilCoalescing(appStatus[@"launchAtLogin"], @(NO)) boolValue];
     proxyState = [nilCoalescing(appStatus[@"proxyState"], @(NO)) boolValue]; //turn off proxy as default
     proxyMode = [nilCoalescing(appStatus[@"proxyMode"], @(manualMode)) integerValue];
     selectedServerIndex = [nilCoalescing(appStatus[@"selectedServerIndex"], @0) integerValue];
@@ -403,6 +402,7 @@ static AppDelegate *appDelegate;
     @{
       @"setingVersion": [NSNumber numberWithInteger:kV2RayXSettingVersion],
       @"appStatus": @{
+              @"launchAtLogin": [NSNumber numberWithBool:NO],
               @"proxyState": [NSNumber numberWithBool:NO],
               @"proxyMode": @(manualMode),
               @"selectedServerIndex": [NSNumber numberWithInteger:0],
@@ -437,6 +437,7 @@ static AppDelegate *appDelegate;
 
 - (void)saveAppStatus {
     NSDictionary* status = @{
+                             @"launchAtLogin": @(launchAtLogin),
                              @"proxyState": @(proxyState),
                              @"proxyMode": @(proxyMode),
                              @"selectedServerIndex": @(selectedServerIndex),
@@ -1019,8 +1020,27 @@ static AppDelegate *appDelegate;
     
 }
 
+- (void)setSettingOfLaunchAtLogin:(BOOL)enabled
+{
+    static NSString* bundleID = @"cenmrev.V2RayX.LaunchHelper";
+    
+    if (SMLoginItemSetEnabled((__bridge CFStringRef)bundleID,enabled)) {
+        launchAtLogin = enabled;
+
+        NSLog(@"Call SMLoginItemSetEnabled with [%hhd] success", enabled);
+    } else {
+        NSLog(@"Call SMLoginItemSetEnabled with [%hhd] failed", enabled);
+    }
+}
+
+
 - (IBAction)authorizeV2sys:(id)sender {
     [self installHelper:true];
+}
+- (IBAction)launchAtLoginAction:(id)sender {
+    
+    [self setSettingOfLaunchAtLogin:!launchAtLogin];
+    
 }
 
 - (IBAction)viewLog:(id)sender {
@@ -1106,7 +1126,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
 }
 
 @synthesize logDirPath;
-
+@synthesize launchAtLogin;
 @synthesize proxyState;
 @synthesize proxyMode;
 @synthesize localPort;

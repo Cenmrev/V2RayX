@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A164CA4225599DD00076EB1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A164CA3225599DD00076EB1 /* AppDelegate.m */; };
+		0A164CA6225599DE00076EB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A164CA5225599DE00076EB1 /* Assets.xcassets */; };
+		0A164CA9225599DE00076EB1 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A164CA7225599DE00076EB1 /* MainMenu.xib */; };
+		0A164CAC225599DE00076EB1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A164CAB225599DE00076EB1 /* main.m */; };
+		0A164CB322559CC400076EB1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A164CB222559CC300076EB1 /* SystemConfiguration.framework */; };
 		9504C07D1C662C3000352520 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C07C1C662C3000352520 /* AppDelegate.m */; };
 		9504C0801C662C3000352520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C07F1C662C3000352520 /* main.m */; };
 		9504C0821C662C3000352520 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0811C662C3000352520 /* Assets.xcassets */; };
@@ -83,6 +88,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A164CA0225599DD00076EB1 /* LaunchHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A164CA2225599DD00076EB1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0A164CA3225599DD00076EB1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0A164CA5225599DE00076EB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0A164CA8225599DE00076EB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		0A164CAA225599DE00076EB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A164CAB225599DE00076EB1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0A164CAD225599DE00076EB1 /* LaunchHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LaunchHelper.entitlements; sourceTree = "<group>"; };
+		0A164CB222559CC300076EB1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9504C0781C662C3000352520 /* V2RayX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = V2RayX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9504C07B1C662C3000352520 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9504C07C1C662C3000352520 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -158,10 +172,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0A164C9D225599DD00076EB1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9504C0751C662C3000352520 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A164CB322559CC400076EB1 /* SystemConfiguration.framework in Frameworks */,
 				95A143CC1C87FCDC008756B9 /* Cocoa.framework in Frameworks */,
 				9504C0C11C662D9400352520 /* libz.tbd in Frameworks */,
 			);
@@ -184,11 +206,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A164CA1225599DD00076EB1 /* LaunchHelper */ = {
+			isa = PBXGroup;
+			children = (
+				0A164CA2225599DD00076EB1 /* AppDelegate.h */,
+				0A164CA3225599DD00076EB1 /* AppDelegate.m */,
+				0A164CA5225599DE00076EB1 /* Assets.xcassets */,
+				0A164CA7225599DE00076EB1 /* MainMenu.xib */,
+				0A164CAA225599DE00076EB1 /* Info.plist */,
+				0A164CAB225599DE00076EB1 /* main.m */,
+				0A164CAD225599DE00076EB1 /* LaunchHelper.entitlements */,
+			);
+			path = LaunchHelper;
+			sourceTree = "<group>";
+		};
 		9504C06F1C662C3000352520 = {
 			isa = PBXGroup;
 			children = (
 				95862BD41DB2862E00F4A9CA /* compilefromsource.sh */,
 				9D7DFE521EBEC947001FECBD /* jsonplist */,
+				0A164CA1225599DD00076EB1 /* LaunchHelper */,
 				95FCB2451C688BB20081B6FD /* Frameworks */,
 				9504C07A1C662C3000352520 /* V2RayX */,
 				9504C0C71C662DB500352520 /* v2rayx_sysconf */,
@@ -202,6 +239,7 @@
 				9504C0781C662C3000352520 /* V2RayX.app */,
 				9504C0C61C662DB400352520 /* v2rayx_sysconf */,
 				9D7DFE511EBEC947001FECBD /* jsonplist */,
+				0A164CA0225599DD00076EB1 /* LaunchHelper.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -326,6 +364,7 @@
 		95FCB2451C688BB20081B6FD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A164CB222559CC300076EB1 /* SystemConfiguration.framework */,
 				95A143CA1C87FC6E008756B9 /* Cocoa.framework */,
 				9504C0C01C662D9400352520 /* libz.tbd */,
 			);
@@ -355,6 +394,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0A164C9F225599DD00076EB1 /* LaunchHelper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A164CB0225599DE00076EB1 /* Build configuration list for PBXNativeTarget "LaunchHelper" */;
+			buildPhases = (
+				0A164C9C225599DD00076EB1 /* Sources */,
+				0A164C9D225599DD00076EB1 /* Frameworks */,
+				0A164C9E225599DD00076EB1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LaunchHelper;
+			productName = LaunchHelper;
+			productReference = 0A164CA0225599DD00076EB1 /* LaunchHelper.app */;
+			productType = "com.apple.product-type.application";
+		};
 		9504C0771C662C3000352520 /* V2RayX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9504C0891C662C3000352520 /* Build configuration list for PBXNativeTarget "V2RayX" */;
@@ -418,6 +474,10 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Project V2Ray";
 				TargetAttributes = {
+					0A164C9F225599DD00076EB1 = {
+						CreatedOnToolsVersion = 10.2;
+						ProvisioningStyle = Manual;
+					};
 					9504C0771C662C3000352520 = {
 						CreatedOnToolsVersion = 7.2.1;
 					};
@@ -435,6 +495,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -444,6 +505,7 @@
 			projectRoot = "";
 			targets = (
 				9504C0771C662C3000352520 /* V2RayX */,
+				0A164C9F225599DD00076EB1 /* LaunchHelper */,
 				9504C0C51C662DB400352520 /* v2rayx_sysconf */,
 				9D7DFE501EBEC947001FECBD /* jsonplist */,
 			);
@@ -451,6 +513,15 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0A164C9E225599DD00076EB1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A164CA6225599DE00076EB1 /* Assets.xcassets in Resources */,
+				0A164CA9225599DE00076EB1 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9504C0761C662C3000352520 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -508,6 +579,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0A164C9C225599DD00076EB1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A164CAC225599DE00076EB1 /* main.m in Sources */,
+				0A164CA4225599DD00076EB1 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9504C0741C662C3000352520 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -564,6 +644,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0A164CA7225599DE00076EB1 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0A164CA8225599DE00076EB1 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
 		9504C0831C662C3000352520 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -575,6 +663,57 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0A164CAE225599DE00076EB1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = LaunchHelper/LaunchHelper.entitlements;
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = LaunchHelper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = cenmrev.V2RayX.LaunchHelper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Debug;
+		};
+		0A164CAF225599DE00076EB1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = LaunchHelper/LaunchHelper.entitlements;
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = LaunchHelper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = cenmrev.V2RayX.LaunchHelper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Release;
+		};
 		9504C0871C662C3000352520 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -737,6 +876,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0A164CB0225599DE00076EB1 /* Build configuration list for PBXNativeTarget "LaunchHelper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A164CAE225599DE00076EB1 /* Debug */,
+				0A164CAF225599DE00076EB1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9504C0731C662C3000352520 /* Build configuration list for PBXProject "V2RayX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
