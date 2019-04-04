@@ -1,0 +1,47 @@
+/* 
+  Localizable.strings
+  V2RayX
+
+  Created by Kevin on 2019/4/4.
+  Copyright © 2019 Project V2Ray. All rights reserved.
+*/
+"enter your subscription link here" = "enter your subscription link here";
+"% is not a valid v2ray config file" = "% is not a valid v2ray config file";
+"NOT a valid json" = "NOT a valid json";
+"Do you want to reset rule sets to original three ones?" = "Do you want to reset rule sets to original three ones?";
+
+"two password do not match each other." = "two password do not match each other.";
+"Error in parsing customized tcp http header!" = "Error in parsing customized tcp http header!";
+"Error in parsing customized WebSocket headers!" = "Error in parsing customized WebSocket headers!";
+"Both client and server must enable TLS to use HTTP/2 network! Enbale TLS in transport settings. Click \"Help\" if you need more information" = "Both client and server must enable TLS to use HTTP/2 network! Enbale TLS in transport settings. Click \"Help\" if you need more information";
+"%\ntag is not valid!" = "%\ntag is not valid!";
+"tag % is reserved, please use another one!" = "tag % is reserved, please use another one!";
+"The two outbounds share the same tag: %\n%\nAND\n%" = "The two outbounds share the same tag: %\n%\nAND\n%";
+"Support standard vmess:// and ss:// link. Standard vmess:// link is still under discussion. Use \"Import from other links...\" to import other links, for example, vmess:// invented by v2rayN." = "Support standard vmess:// and ss:// link. Standard vmess:// link is still under discussion. Use \"Import from other links...\" to import other links, for example, vmess:// invented by v2rayN.";
+"Imported %lu vmess and %lu other protocol outbounds, %lu routing rule sets." = "Imported %lu vmess and %lu other protocol outbounds, %lu routing rule sets.";
+"V2RayX will try importing ssd://, vmess:// and http(s):// links from v2rayN and SSD(may cause failure)." = "V2RayX will try importing ssd://, vmess:// and http(s):// links from v2rayN and SSD(may cause failure).";
+"If you are running V2RayX for the first time, ignore this message. \nSorry, unknown settings!\nAll V2RayX settings will be reset." = "If you are running V2RayX for the first time, ignore this message. \nSorry, unknown settings!\nAll V2RayX settings will be reset.";
+"Input Password" = "Input Password";
+"input your password to continue" = "input your password to continue";
+"input password to decrypt configurations" = "input password to decrypt configurations";
+"V2RayX needs to install a small tool to /Library/Application Support/V2RayX/ with administrator privileges to set system proxy quickly.\nOtherwise you need to type in the administrator password every time you change system proxy through V2RayX." = "V2RayX needs to install a small tool to /Library/Application Support/V2RayX/ with administrator privileges to set system proxy quickly.\nOtherwise you need to type in the administrator password every time you change system proxy through V2RayX.";
+
+"v2ray-core: loaded" = "v2ray-core: loaded";
+"Unload core" = "Unload core";
+"v2ray-core: unloaded" = "v2ray-core: unloaded";
+"Load core" = "Load core";
+"The pac file will be reset to the original one coming with V2RayX. Are you sure to proceed?" = "The pac file will be reset to the original one coming with V2RayX. Are you sure to proceed?";
+"% is not writable!" = "% is not writable!";
+"no available servers, please add server profiles through config window." = "no available servers, please add server profiles through config window.";
+"Use All" = "Use All";
+
+
+"success" = "success";
+"Decrypt" = "Decrypt";
+"Close" = "Close";
+"Help" = "Help";
+"Quit" = "Quit";
+"Continue" = "Continue";
+"Cancel" = "Cancel";
+"Yes" = "Yes";
+"Install" = "Install";

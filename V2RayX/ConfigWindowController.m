@@ -146,9 +146,9 @@
         BOOL tlsEnabled = [self.selectedProfile.streamSettings[@"security"] isEqual: @"tls"];
         if (!tlsEnabled) {
             NSAlert *httpTlsAlerm = [[NSAlert alloc] init];
-            [httpTlsAlerm addButtonWithTitle:@"Close"];
-            [httpTlsAlerm addButtonWithTitle:@"Help"];
-            [httpTlsAlerm setMessageText:@"Both client and server must enable TLS to use HTTP/2 network! Enbale TLS in transport settings. Click \"Help\" if you need more information"];
+            [httpTlsAlerm addButtonWithTitle:NSLocalizedString(@"Close", nil)];
+            [httpTlsAlerm addButtonWithTitle:NSLocalizedString(@"Help", nil)];
+            [httpTlsAlerm setMessageText:NSLocalizedString(@"Both client and server must enable TLS to use HTTP/2 network! Enbale TLS in transport settings. Click \"Help\" if you need more information", nil)];
             [httpTlsAlerm beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
                 if (returnCode == NSAlertSecondButtonReturn) {
                     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/transport/h2.html#tips"]];
@@ -229,15 +229,15 @@
     NSMutableDictionary *allOutboundDict =[[NSMutableDictionary alloc] init];
     for (NSMutableDictionary* outbound in allOutbounds) {
         if (!outbound[@"tag"] || ![outbound[@"tag"] isKindOfClass:[NSString class]] || [outbound[@"tag"] length] == 0) {
-            [self showAlert: [NSString stringWithFormat:@"%@\ntag is not valid!", [self firstFewLines:outbound]]];
+            [self showAlert: [NSString stringWithFormat:NSLocalizedString(@"%@\ntag is not valid!", nil), [self firstFewLines:outbound]]];
             return;
         }
         if ([RESERVED_TAGS indexOfObject:outbound[@"tag"]] != NSNotFound) {
-            [self showAlert: [NSString stringWithFormat:@"tag %@ is reserved, please use another one!", outbound[@"tag"]]];
+            [self showAlert: [NSString stringWithFormat:NSLocalizedString(@"tag %@ is reserved, please use another one!", nil), outbound[@"tag"]]];
             return;
         }
         if (allOutboundDict[outbound[@"tag"]]) {
-            [self showAlert: [NSString stringWithFormat:@"The two outbounds share the same tag: %@\n%@\nAND\n%@",outbound[@"tag"], [self firstFewLines:outbound], [self firstFewLines:allOutboundDict[outbound[@"tag"]]]]];
+            [self showAlert: [NSString stringWithFormat:NSLocalizedString(@"The two outbounds share the same tag: %@\n%@\nAND\n%@", nil),outbound[@"tag"], [self firstFewLines:outbound], [self firstFewLines:allOutboundDict[outbound[@"tag"]]]]];
             return;
         }
         allOutboundDict[outbound[@"tag"]] = outbound;
@@ -332,7 +332,7 @@
 }
 
 - (IBAction)importFromStandardLink:(id)sender {
-    [self askInputWithPrompt:@"Support standard vmess:// and ss:// link. Standard vmess:// link is still under discussion. Use \"Import from other links...\" to import other links, for example, vmess:// invented by v2rayN." handler:^(NSString *inputStr) {
+    [self askInputWithPrompt:NSLocalizedString(@"Support standard vmess:// and ss:// link. Standard vmess:// link is still under discussion. Use \"Import from other links...\" to import other links, for example, vmess:// invented by v2rayN.", nil) handler:^(NSString *inputStr) {
         if (inputStr.length) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 NSMutableDictionary* ssOutbound = [ConfigImporter ssOutboundFromSSLink:inputStr];
@@ -351,7 +351,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->_profileTable reloadData];
         self.popover = [[NSPopover alloc] init];
-        self.importMessageField.stringValue = [NSString stringWithFormat:@"Imported %lu vmess and %lu other protocol outbounds, %lu routing rule sets.", vmessCount, otherCount, ruleSetCount];
+        self.importMessageField.stringValue = [NSString stringWithFormat:NSLocalizedString(@"Imported %lu vmess and %lu other protocol outbounds, %lu routing rule sets.", nil), vmessCount, otherCount, ruleSetCount];
         self.popover.contentViewController = [[NSViewController alloc] init];
         self.popover.contentViewController.view = self.importResultView;
         self.popover.behavior = NSPopoverBehaviorTransient;
@@ -361,7 +361,7 @@
 }
 
 - (IBAction)importFromMiscLinks:(id)sender {
-    [self askInputWithPrompt:@"V2RayX will try importing ssd://, vmess:// and http(s):// links from v2rayN and SSD(may cause failure)." handler:^(NSString *inputStr) {
+    [self askInputWithPrompt:NSLocalizedString(@"V2RayX will try importing ssd://, vmess:// and http(s):// links from v2rayN and SSD(may cause failure).", nil) handler:^(NSString *inputStr) {
         inputStr = [inputStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([inputStr length] != 0) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{

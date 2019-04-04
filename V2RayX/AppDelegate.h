@@ -24,6 +24,7 @@ typedef enum ProxyMode : NSInteger{
 int runCommandLine(NSString* launchPath, NSArray* arguments);
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate> {
+    BOOL launchAtLogin;
     BOOL proxyState;
     ProxyMode proxyMode;
     NSInteger localPort;
@@ -44,7 +45,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 }
 
 @property NSString* logDirPath;
-
+@property BOOL launchAtLogin;
 @property BOOL proxyState;
 @property ProxyMode proxyMode;
 @property NSInteger localPort;
@@ -95,6 +96,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments);
 @property (weak, nonatomic) IBOutlet NSMenu *serverListMenu;
 @property (weak, nonatomic) IBOutlet NSMenu *pacListMenu;
 @property (weak) IBOutlet NSMenuItem *editPacMenuItem;
+@property (weak) IBOutlet NSMenuItem *lauchAtLoginMenuItem;
 
 @property (weak) IBOutlet NSMenu *authMenu;
 

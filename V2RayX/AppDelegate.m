@@ -14,7 +14,7 @@
 #import "MutableDeepCopying.h"
 #import "ConfigImporter.h"
 #import "NSData+AES256Encryption.h"
-
+#import <ServiceManagement/SMLoginItem.h>
 #define kUseAllServer -10
 
 @interface AppDelegate () {
@@ -34,7 +34,6 @@
 @end
 
 @implementation AppDelegate
-
 static AppDelegate *appDelegate;
 
 - (NSData*)v2rayJSONconfig {
@@ -84,7 +83,7 @@ static AppDelegate *appDelegate;
     NSNumber* setingVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"setingVersion"];
     if(setingVersion == nil || [setingVersion integerValue] != kV2RayXSettingVersion) {
         NSAlert *noServerAlert = [[NSAlert alloc] init];
-        [noServerAlert setMessageText:@"If you are running V2RayX for the first time, ignore this message. \nSorry, unknown settings!\nAll V2RayX settings will be reset."];
+        [noServerAlert setMessageText:NSLocalizedString(@"If you are running V2RayX for the first time, ignore this message. \nSorry, unknown settings!\nAll V2RayX settings will be reset.", nil)];
         [noServerAlert runModal];
         [self writeDefaultSettings]; //explicitly write default settings to user defaults file
     }
@@ -153,10 +152,10 @@ static AppDelegate *appDelegate;
     if (_enableEncryption && ([profiles count] > 0 || [_subscriptions count] > 0)) {
         NSUserNotification* notification = [[NSUserNotification alloc] init];
         notification.identifier = [NSString stringWithFormat:@"cenmrev.v2rayx.passwork.%@", [NSUUID UUID]];
-        notification.title = @"Input Password";
-        notification.informativeText = @"input your password to continue";
+        notification.title = NSLocalizedString(@"Input Password", nil);
+        notification.informativeText = NSLocalizedString(@"input your password to continue", nil);
         notification.soundName = NSUserNotificationDefaultSoundName;
-        notification.actionButtonTitle = @"Continue";
+        notification.actionButtonTitle = NSLocalizedString(@"Continue", nil);
         notification.hasActionButton = true;
         [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
         [_statusBarItem setMenu:_authMenu];
@@ -168,9 +167,9 @@ static AppDelegate *appDelegate;
 
 - (IBAction)inputPassword:(id)sender {
     NSAlert* alert = [[NSAlert alloc] init];
-    alert.messageText = @"input password to decrypt configurations";
-    [alert addButtonWithTitle:@"Decrypt"];
-    [alert addButtonWithTitle:@"Cancel"];
+    alert.messageText = NSLocalizedString(@"input password to decrypt configurations", nil);
+    [alert addButtonWithTitle:NSLocalizedString(@"Decrypt", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
     NSTextField *input = [[NSSecureTextField alloc] initWithFrame:NSMakeRect(0, 0, 200, 24)];
     [input setStringValue:@""];
     [alert setAccessoryView:input];
@@ -241,9 +240,9 @@ static AppDelegate *appDelegate;
         return YES;
     }
     NSAlert *installAlert = [[NSAlert alloc] init];
-    [installAlert addButtonWithTitle:@"Install"];
-    [installAlert addButtonWithTitle:@"Quit"];
-    [installAlert setMessageText:@"V2RayX needs to install a small tool to /Library/Application Support/V2RayX/ with administrator privileges to set system proxy quickly.\nOtherwise you need to type in the administrator password every time you change system proxy through V2RayX."];
+    [installAlert addButtonWithTitle:NSLocalizedString(@"Install", nil)];
+    [installAlert addButtonWithTitle:NSLocalizedString(@"Quit", nil)];
+    [installAlert setMessageText:NSLocalizedString(@"V2RayX needs to install a small tool to /Library/Application Support/V2RayX/ with administrator privileges to set system proxy quickly.\nOtherwise you need to type in the administrator password every time you change system proxy through V2RayX.", nil)];
     if ([installAlert runModal] == NSAlertFirstButtonReturn) {
         NSLog(@"start install");
         NSString *helperPath = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"install_helper.sh"];
@@ -338,7 +337,7 @@ static AppDelegate *appDelegate;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary* appStatus = nilCoalescing([defaults objectForKey:@"appStatus"], @{});
-    
+    launchAtLogin = [nilCoalescing(appStatus[@"launchAtLogin"], @(NO)) boolValue];
     proxyState = [nilCoalescing(appStatus[@"proxyState"], @(NO)) boolValue]; //turn off proxy as default
     proxyMode = [nilCoalescing(appStatus[@"proxyMode"], @(manualMode)) integerValue];
     selectedServerIndex = [nilCoalescing(appStatus[@"selectedServerIndex"], @0) integerValue];
@@ -403,6 +402,7 @@ static AppDelegate *appDelegate;
     @{
       @"setingVersion": [NSNumber numberWithInteger:kV2RayXSettingVersion],
       @"appStatus": @{
+              @"launchAtLogin": [NSNumber numberWithBool:NO],
               @"proxyState": [NSNumber numberWithBool:NO],
               @"proxyMode": @(manualMode),
               @"selectedServerIndex": [NSNumber numberWithInteger:0],
@@ -437,6 +437,7 @@ static AppDelegate *appDelegate;
 
 - (void)saveAppStatus {
     NSDictionary* status = @{
+                             @"launchAtLogin": @(launchAtLogin),
                              @"proxyState": @(proxyState),
                              @"proxyMode": @(proxyMode),
                              @"selectedServerIndex": @(selectedServerIndex),
@@ -605,19 +606,20 @@ static AppDelegate *appDelegate;
 
 - (void)updateMenus {
     if (proxyState) {
-        [_v2rayStatusItem setTitle:@"v2ray-core: loaded"];
-        [_enableV2rayItem setTitle:@"Unload core"];
+        [_v2rayStatusItem setTitle:NSLocalizedString(@"v2ray-core: loaded", nil)];
+        [_enableV2rayItem setTitle:NSLocalizedString(@"Unload core", nil)];
         NSImage *icon = [NSImage imageNamed:@"statusBarIcon"];
         [icon setTemplate:YES];
         [_statusBarItem setImage:icon];
     } else {
-        [_v2rayStatusItem setTitle:@"v2ray-core: unloaded"];
-        [_enableV2rayItem setTitle:@"Load core"];
+        [_v2rayStatusItem setTitle:NSLocalizedString(@"v2ray-core: unloaded", nil)];
+        [_enableV2rayItem setTitle:NSLocalizedString(@"Load core", nil)];
         [_statusBarItem setImage:[NSImage imageNamed:@"statusBarIcon_disabled"]];
     }
     [_pacModeItem setState:proxyMode == pacMode];
     [_manualModeItem setState:proxyMode == manualMode];
     [_globalModeItem setState:proxyMode == globalMode];
+    [_lauchAtLoginMenuItem setState:launchAtLogin];
 }
 
 - (void)updatePacMenuList {
@@ -650,9 +652,9 @@ static AppDelegate *appDelegate;
 
 - (IBAction)resetPac:(id)sender {
     NSAlert *resetAlert = [[NSAlert alloc] init];
-    [resetAlert setMessageText:@"The pac file will be reset to the original one coming with V2RayX. Are you sure to proceed?"];
-    [resetAlert addButtonWithTitle:@"Yes"];
-    [resetAlert addButtonWithTitle:@"Cancel"];
+    [resetAlert setMessageText:NSLocalizedString(@"The pac file will be reset to the original one coming with V2RayX. Are you sure to proceed?", nil)];
+    [resetAlert addButtonWithTitle:NSLocalizedString(@"Yes", nil)];
+    [resetAlert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
     NSModalResponse response = [resetAlert runModal];
     if(response == NSAlertFirstButtonReturn) {
         NSString* simplePac = [[NSBundle mainBundle] pathForResource:@"simple" ofType:@"pac"];
@@ -661,7 +663,7 @@ static AppDelegate *appDelegate;
             [[NSData dataWithContentsOfFile:simplePac] writeToFile:pacPath atomically:YES];
         } else {
             NSAlert* writePacAlert = [[NSAlert alloc] init];
-            [writePacAlert setMessageText:[NSString stringWithFormat:@"%@ is not writable!", pacPath]];
+            [writePacAlert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"%@ is not writable!", nil), pacPath]];
             [writePacAlert runModal];
         }
     }
@@ -760,7 +762,7 @@ static AppDelegate *appDelegate;
 - (void)updateServerMenuList {
     [_serverListMenu removeAllItems];
     if ([profiles count] == 0 && [cusProfiles count] == 0 && [_subsOutbounds count] == 0) {
-        [_serverListMenu addItem:[[NSMenuItem alloc] initWithTitle:@"no available servers, please add server profiles through config window." action:nil keyEquivalent:@""]];
+        [_serverListMenu addItem:[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"no available servers, please add server profiles through config window.", nil) action:nil keyEquivalent:@""]];
         if (_subscriptions.count > 0) {
             [_serverListMenu addItem:[NSMenuItem separatorItem]];
             [_serverListMenu addItem:_updateServerItem];
@@ -792,7 +794,7 @@ static AppDelegate *appDelegate;
             i += 1;
         }
         if([profiles count] + [_subsOutbounds count]> 0) {
-            NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:@"Use All" action:@selector(switchServer:) keyEquivalent:@""];
+            NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Use All", nil) action:@selector(switchServer:) keyEquivalent:@""];
             [newItem setTag:kUseAllServer];
             newItem.state = useMultipleServer & !useCusProfile;
             [_serverListMenu addItem:newItem];
@@ -1019,8 +1021,28 @@ static AppDelegate *appDelegate;
     
 }
 
+- (void)setSettingOfLaunchAtLogin:(BOOL)enabled
+{
+    static NSString* bundleID = @"cenmrev.V2RayX.LaunchHelper";
+    
+    if (SMLoginItemSetEnabled((__bridge CFStringRef)bundleID,enabled)) {
+        launchAtLogin = enabled;
+        
+        NSLog(@"Call SMLoginItemSetEnabled with [%hhd] success", enabled);
+    } else {
+        NSLog(@"Call SMLoginItemSetEnabled with [%hhd] failed", enabled);
+    }
+    [self updateMenus];
+}
+
+
 - (IBAction)authorizeV2sys:(id)sender {
     [self installHelper:true];
+}
+- (IBAction)launchAtLoginAction:(id)sender {
+    
+    [self setSettingOfLaunchAtLogin:!launchAtLogin];
+    
 }
 
 - (IBAction)viewLog:(id)sender {
@@ -1106,7 +1128,7 @@ int runCommandLine(NSString* launchPath, NSArray* arguments) {
 }
 
 @synthesize logDirPath;
-
+@synthesize launchAtLogin;
 @synthesize proxyState;
 @synthesize proxyMode;
 @synthesize localPort;

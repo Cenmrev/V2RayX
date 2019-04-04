@@ -1,0 +1,51 @@
+/*
+ Localizable.strings
+ V2RayX
+ 
+ Created by Kevin on 2019/4/4.
+ Copyright © 2019 Project V2Ray. All rights reserved.
+ */
+"enter your subscription link here" = "在此输入链接";
+"%@ is not a valid v2ray config file" = "%@ 不是有效的v2ray配置文件";
+"NOT a valid json" = "无效的json";
+"Do you want to reset rule sets to original three ones?" = "确定重置配置吗?";
+
+"two password do not match each other." = "两个密码不一致！请重新输入";
+"Error in parsing customized tcp http header!" = "无法解析自定义的tcp http header!";
+"Error in parsing customized WebSocket headers!" = "无法解析WebSocket headers!";
+"Both client and server must enable TLS to use HTTP/2 network! Enbale TLS in transport settings. Click \"Help\" if you need more information" = "要使用Http/2，服务器与客户端必须同时启用TLS! 请在连接配置中开启TLS。如果需要更多信息，请单击\"帮助\"。";
+"%@\ntag is not valid!" = "%@\n出站配置无效!";
+"tag %@ is reserved, please use another one!" = "配置 %@ 冲突，请重新选择!";
+"The two outbounds share the same tag: %@\n%@\nAND\n%@" = "两个配置不能相同: %@\n%@\n与\n%@";
+
+"Support standard vmess:// and ss:// link. Standard vmess:// link is still under discussion. Use \"Import from other links...\" to import other links, for example, vmess:// invented by v2rayN." = "支持标准vmess://和ss://链接，vmess://链接标准仍在指定当中。使用\"使用其它协议的URL导入...\"来导入其它类型的链接, 例如由v2rayN导出的vmess://链接.";
+
+"Imported %lu vmess and %lu other protocol outbounds, %lu routing rule sets." = "已导入 %lu条vmess和%lu条其它协议的配置, 以及%lu条路由配置.";
+
+"V2RayX will try importing ssd://, vmess:// and http(s):// links from v2rayN and SSD(may cause failure)." = "V2RayX 将尝试导入v2rayN或SSD生成的ssd://,vmess://,http(s)://三种链接(可能会导入失败)";
+
+"If you are running V2RayX for the first time, ignore this message. \nSorry, unknown settings!\nAll V2RayX settings will be reset." = "如果你是第一次运行V2rayX，请忽略这条信息。 \错误, 没有找到配置!\nV2RayX的所有配置将会被重置！";
+"Input Password" = "请输入密码";
+"input your password to continue" = "请输入密码";
+"input password to decrypt configurations" = "请输入密码解锁配置";
+"V2RayX needs to install a small tool to /Library/Application Support/V2RayX/ with administrator privileges to set system proxy quickly.\nOtherwise you need to type in the administrator password every time you change system proxy through V2RayX." = "V2RayX需要在/Library/Application Support/V2RayX/中安装小工具，这需要管理权限.\n否则每次配置系统代理时，将会提示输入管理权限密码";
+
+"v2ray-core: loaded" = "v2ray-core: 已启动";
+"Unload core" = "关闭v2ray";
+"v2ray-core: unloaded" = "v2ray-core: 未启动";
+"Load core" = "启动v2ray";
+"The pac file will be reset to the original one coming with V2RayX. Are you sure to proceed?" = "PAC文件将会用默认PAC重置，确定继续吗？";
+"%@ is not writable!" = "%@ is not writable!";
+"no available servers, please add server profiles through config window." = "没有可用的服务器配置，请在\"服务器配置中添加服务器\"";
+"Use All" = "全选";
+
+
+"success" = "成功";
+"Decrypt" = "解密";
+"Close" = "关闭";
+"Help" = "帮助";
+"Quit" = "退出";
+"Continue" = "继续";
+"Cancel" = "取消";
+"Yes" = "确定";
+"Install" = "安装";
