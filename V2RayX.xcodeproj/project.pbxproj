@@ -58,6 +58,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0AAC42602255AD6400B4D62A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9504C0701C662C3000352520 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A164C9F225599DD00076EB1;
+			remoteInfo = LaunchHelper;
+		};
 		9504C0CD1C662DC500352520 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9504C0701C662C3000352520 /* Project object */;
@@ -436,6 +443,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				0AAC42612255AD6400B4D62A /* PBXTargetDependency */,
 				9504C0CE1C662DC500352520 /* PBXTargetDependency */,
 			);
 			name = V2RayX;
@@ -648,6 +656,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0AAC42612255AD6400B4D62A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A164C9F225599DD00076EB1 /* LaunchHelper */;
+			targetProxy = 0AAC42602255AD6400B4D62A /* PBXContainerItemProxy */;
+		};
 		9504C0CE1C662DC500352520 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9504C0C51C662DB400352520 /* v2rayx_sysconf */;
