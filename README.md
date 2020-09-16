@@ -1,3 +1,9 @@
+# V2RayX: V2Ray macOS 汉化版
+
+
+
+# 以下为原版介绍
+
 # V2RayX: A simple GUI for V2Ray on macOS
 
 [![Build Status](https://travis-ci.org/Cenmrev/V2RayX.svg?branch=master)](https://travis-ci.org/Cenmrev/V2RayX)
