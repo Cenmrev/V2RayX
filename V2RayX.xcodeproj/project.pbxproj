@@ -10,6 +10,7 @@
 		4ED2C8CB25122DDE0059ABB0 /* ConfigWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4ED2C8CD25122DDE0059ABB0 /* ConfigWindow.xib */; };
 		4ED2C8D025122E100059ABB0 /* AdvancedWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4ED2C8D225122E100059ABB0 /* AdvancedWindow.xib */; };
 		4ED2C8D525122E240059ABB0 /* TransportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4ED2C8D725122E240059ABB0 /* TransportWindow.xib */; };
+		4ED2C8DC251248420059ABB0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4ED2C8DE251248420059ABB0 /* Localizable.strings */; };
 		9504C07D1C662C3000352520 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C07C1C662C3000352520 /* AppDelegate.m */; };
 		9504C0801C662C3000352520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C07F1C662C3000352520 /* main.m */; };
 		9504C0821C662C3000352520 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0811C662C3000352520 /* Assets.xcassets */; };
@@ -90,6 +91,8 @@
 		4ED2C8D425122E180059ABB0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AdvancedWindow.strings"; sourceTree = "<group>"; };
 		4ED2C8D625122E240059ABB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TransportWindow.xib; sourceTree = "<group>"; };
 		4ED2C8D925122E2B0059ABB0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TransportWindow.strings"; sourceTree = "<group>"; };
+		4ED2C8DD251248420059ABB0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		4ED2C8E0251248620059ABB0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9504C0781C662C3000352520 /* V2RayX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = V2RayX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9504C07B1C662C3000352520 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9504C07C1C662C3000352520 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -235,6 +238,7 @@
 				9504C0D31C66511B00352520 /* ServerProfile.m */,
 				9504C0861C662C3000352520 /* Info.plist */,
 				9504C07E1C662C3000352520 /* Supporting Files */,
+				4ED2C8DE251248420059ABB0 /* Localizable.strings */,
 			);
 			path = V2RayX;
 			sourceTree = "<group>";
@@ -460,6 +464,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4ED2C8DC251248420059ABB0 /* Localizable.strings in Resources */,
 				9D5EAC151FDCD70300C14B46 /* geoip.dat in Resources */,
 				9D5EAC161FDCD70300C14B46 /* geosite.dat in Resources */,
 				4ED2C8D025122E100059ABB0 /* AdvancedWindow.xib in Resources */,
@@ -594,6 +599,15 @@
 				4ED2C8D925122E2B0059ABB0 /* zh-Hans */,
 			);
 			name = TransportWindow.xib;
+			sourceTree = "<group>";
+		};
+		4ED2C8DE251248420059ABB0 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4ED2C8DD251248420059ABB0 /* zh-Hans */,
+				4ED2C8E0251248620059ABB0 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		9504C0831C662C3000352520 /* MainMenu.xib */ = {

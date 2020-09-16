@@ -1,0 +1,37 @@
+/* 
+  Localizable.strings
+  V2RayX
+
+  Created by kangbing on 2020/9/16.
+  Copyright © 2020 Project V2Ray. All rights reserved.
+*/
+
+
+"Unload core" = "关闭";
+"v2ray-core: loaded" = "已开启";
+"v2ray-core: unloaded" = "已关闭";
+"Load core" = "开启";
+
+"The pac file will be reset to the original one coming with V2RayX. Are you sure to proceed?" = "PAC 文件将重置为 V2RayX 安装时的原始文件。 您确定要继续吗？";
+
+"Yes" = "确定";
+"Cancel" = "取消";
+"Close" = "关闭";
+"Help" = "帮助";
+
+"is not writable!" = "不可写！";
+
+
+
+"no available servers, please add server profiles through config window." = "没有可用的服务器，请通过设置窗口添加服务器配置文件。";
+
+
+
+"Error in parsing customized WebSocket headers!" = "解析自定义WebSocket headers 时出错！";
+
+"Error in parsing customized tcp http header!" = "解析自定义tcp http header 时出错！";
+
+"is not a valid v2ray config file" = "不是有效的v2ray配置文件";
+
+
+"Both client and server must enable TLS to use HTTP/2 network! Enbale TLS in transport settings. Click \"Help\" if you need more information" = "客户端和服务器都必须启用 TLS 才能使用 HTTP/2 网络！ 在传输设置中启用TLS。 如果需要更多信息，请单击\"帮助\" ";

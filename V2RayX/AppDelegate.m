@@ -605,14 +605,14 @@ static AppDelegate *appDelegate;
 
 - (void)updateMenus {
     if (proxyState) {
-        [_v2rayStatusItem setTitle:@"v2ray-core: loaded"];
-        [_enableV2rayItem setTitle:@"Unload core"];
+        [_v2rayStatusItem setTitle:NSLocalizedString(@"v2ray-core: loaded", @"已开启")];
+        [_enableV2rayItem setTitle:NSLocalizedString(@"Unload core", @"关闭")];
         NSImage *icon = [NSImage imageNamed:@"statusBarIcon"];
         [icon setTemplate:YES];
         [_statusBarItem setImage:icon];
     } else {
-        [_v2rayStatusItem setTitle:@"v2ray-core: unloaded"];
-        [_enableV2rayItem setTitle:@"Load core"];
+        [_v2rayStatusItem setTitle:NSLocalizedString(@"v2ray-core: unloaded", @"已关闭")];
+        [_enableV2rayItem setTitle:NSLocalizedString(@"Load core", @"开启")];
         [_statusBarItem setImage:[NSImage imageNamed:@"statusBarIcon_disabled"]];
     }
     [_pacModeItem setState:proxyMode == pacMode];
@@ -650,9 +650,10 @@ static AppDelegate *appDelegate;
 
 - (IBAction)resetPac:(id)sender {
     NSAlert *resetAlert = [[NSAlert alloc] init];
-    [resetAlert setMessageText:@"The pac file will be reset to the original one coming with V2RayX. Are you sure to proceed?"];
-    [resetAlert addButtonWithTitle:@"Yes"];
-    [resetAlert addButtonWithTitle:@"Cancel"];
+    [resetAlert setMessageText:NSLocalizedString(@"The pac file will be reset to the original one coming with V2RayX. Are you sure to proceed?", @"重置")];
+    
+    [resetAlert addButtonWithTitle:NSLocalizedString(@"Yes", @"确定")];
+    [resetAlert addButtonWithTitle:NSLocalizedString(@"Cancel", @"取消")];
     NSModalResponse response = [resetAlert runModal];
     if(response == NSAlertFirstButtonReturn) {
         NSString* simplePac = [[NSBundle mainBundle] pathForResource:@"simple" ofType:@"pac"];
@@ -661,7 +662,8 @@ static AppDelegate *appDelegate;
             [[NSData dataWithContentsOfFile:simplePac] writeToFile:pacPath atomically:YES];
         } else {
             NSAlert* writePacAlert = [[NSAlert alloc] init];
-            [writePacAlert setMessageText:[NSString stringWithFormat:@"%@ is not writable!", pacPath]];
+            [writePacAlert setMessageText:[NSString stringWithFormat:@"%@ %@", pacPath,NSLocalizedString(@"is not writable!", @"不可写")]];
+            
             [writePacAlert runModal];
         }
     }
@@ -760,7 +762,8 @@ static AppDelegate *appDelegate;
 - (void)updateServerMenuList {
     [_serverListMenu removeAllItems];
     if ([profiles count] == 0 && [cusProfiles count] == 0 && [_subsOutbounds count] == 0) {
-        [_serverListMenu addItem:[[NSMenuItem alloc] initWithTitle:@"no available servers, please add server profiles through config window." action:nil keyEquivalent:@""]];
+        [_serverListMenu addItem:[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"no available servers, please add server profiles through config window.", @"配置") action:nil keyEquivalent:@""]];
+        
         if (_subscriptions.count > 0) {
             [_serverListMenu addItem:[NSMenuItem separatorItem]];
             [_serverListMenu addItem:_updateServerItem];
