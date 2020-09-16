@@ -35,10 +35,10 @@ if [[ ! -f /Applications/Xcode.app/Contents/MacOS/Xcode ]]; then
     echo "${RED}Xcode is needed to build V2RayX, Please install Xcode from App Store!${NORMAL}"
     echo "${RED}编译 V2RayX 需要 Xcode.app，请从 App Store 里安装 Xcode.${NORMAL}"
 else
-    echo "${BOLD}-- Downloading source code --${NORMAL}"
-    echo "${BOLD}-- 正在下载源码 --${NORMAL}"
-    git clone --recursive https://github.com/Cenmrev/V2RayX.git "V2RayX${datetime}"
-    cd "V2RayX${datetime}"
+#    echo "${BOLD}-- Downloading source code --${NORMAL}"
+#    echo "${BOLD}-- 正在下载源码 --${NORMAL}"
+#    git clone --recursive https://github.com/Cenmrev/V2RayX.git "V2RayX${datetime}"
+#    cd "V2RayX${datetime}"
     echo "${BOLD}-- Start building V2RayX --${NORMAL}"
     echo "${BOLD}-- 开始编译 V2RayX --${NORMAL}"
     xcodebuild -project V2RayX.xcodeproj -target V2RayX -configuration Release
