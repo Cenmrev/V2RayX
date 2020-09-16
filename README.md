@@ -1,20 +1,21 @@
 # V2RayX: v2ray macOS 汉化版
 
-> ####基于 V2RayX v1.5.1 汉化，原版地址 [V2RayX](https://github.com/Cenmrev/V2RayX) 感谢原作者。
+> #### 基于 V2RayX v1.5.1 汉化，原版地址 [V2RayX](https://github.com/Cenmrev/V2RayX) 感谢原作者。
 
 ## 下载 V2RayX 汉化版
 
 Download from [Releases](https://github.com/kangbingbing/V2RayX/releases)
- [汉化版](https://github.com/kangbingbing/V2RayX/releases/tag/v1.5.1)
+
+Download from [汉化版](https://github.com/kangbingbing/V2RayX/releases/tag/v1.5.1)
 
 * 最新版 v2ray-core 4.27.5
 * 新增状态指示图标
 
-![菜单](SampleImage/1.png)
+![菜单](./SampleImage/1.png)
 
-![配置](SampleImage/2.png)
+![配置](./SampleImage/2.png)
 
-![配置](SampleImage/3.png)
+![配置](./SampleImage/3.png)
 
 
 
