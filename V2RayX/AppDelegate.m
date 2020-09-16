@@ -606,13 +606,18 @@ static AppDelegate *appDelegate;
 - (void)updateMenus {
     if (proxyState) {
         [_v2rayStatusItem setTitle:NSLocalizedString(@"v2ray-core: loaded", @"已开启")];
+        _v2rayStatusItem.image = [NSImage imageNamed:@"on"];
         [_enableV2rayItem setTitle:NSLocalizedString(@"Unload core", @"关闭")];
+        _enableV2rayItem.image = [NSImage imageNamed:@"close"];
         NSImage *icon = [NSImage imageNamed:@"statusBarIcon"];
         [icon setTemplate:YES];
         [_statusBarItem setImage:icon];
     } else {
         [_v2rayStatusItem setTitle:NSLocalizedString(@"v2ray-core: unloaded", @"已关闭")];
+        _v2rayStatusItem.image = [NSImage imageNamed:@"close"];
         [_enableV2rayItem setTitle:NSLocalizedString(@"Load core", @"开启")];
+        _enableV2rayItem.image = [NSImage imageNamed:@"on"];
+        
         [_statusBarItem setImage:[NSImage imageNamed:@"statusBarIcon_disabled"]];
     }
     [_pacModeItem setState:proxyMode == pacMode];
