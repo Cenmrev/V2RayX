@@ -42,8 +42,12 @@
         NSData *data = [file readDataToEndOfFile];
         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self->_versionField setStringValue:[string componentsSeparatedByString:@"\n"][0]];
-             });
+            if ([string containsString:@"("]) {
+                [self->_versionField setStringValue:[string componentsSeparatedByString:@"("][0]];
+            }else{
+                [self->_versionField setStringValue:[string componentsSeparatedByString:@"\n"][0]];
+            }
+        });
         
     });
     
