@@ -132,8 +132,8 @@ static AppDelegate *appDelegate;
     }];
     [webServer startWithPort:webServerPort bonjourName:nil];
     
-    
-    [self checkUpgrade:self];
+    // 检查更新
+//    [self checkUpgrade:self];
     
     appDelegate = self;
     

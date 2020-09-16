@@ -7,18 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4ED2C8CB25122DDE0059ABB0 /* ConfigWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4ED2C8CD25122DDE0059ABB0 /* ConfigWindow.xib */; };
+		4ED2C8D025122E100059ABB0 /* AdvancedWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4ED2C8D225122E100059ABB0 /* AdvancedWindow.xib */; };
+		4ED2C8D525122E240059ABB0 /* TransportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4ED2C8D725122E240059ABB0 /* TransportWindow.xib */; };
 		9504C07D1C662C3000352520 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C07C1C662C3000352520 /* AppDelegate.m */; };
 		9504C0801C662C3000352520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C07F1C662C3000352520 /* main.m */; };
 		9504C0821C662C3000352520 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0811C662C3000352520 /* Assets.xcassets */; };
 		9504C0851C662C3000352520 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0831C662C3000352520 /* MainMenu.xib */; };
-		9504C08D1C662C9100352520 /* ConfigWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9504C08C1C662C9100352520 /* ConfigWindow.xib */; };
 		9504C0901C662CBF00352520 /* ConfigWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C08F1C662CBF00352520 /* ConfigWindowController.m */; };
 		9504C0C11C662D9400352520 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9504C0C01C662D9400352520 /* libz.tbd */; };
 		9504C0C91C662DB500352520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C0C81C662DB500352520 /* main.m */; };
 		9504C0CF1C662DE300352520 /* v2rayx_sysconf in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0C61C662DB400352520 /* v2rayx_sysconf */; };
 		9504C0D11C66373400352520 /* install_helper.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9504C0D01C662E0800352520 /* install_helper.sh */; };
 		9504C0D41C66511B00352520 /* ServerProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9504C0D31C66511B00352520 /* ServerProfile.m */; };
-		9565E28B1DB25C010082658C /* TransportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9565E28A1DB25C010082658C /* TransportWindow.xib */; };
 		9577E1B21C6B065E00093BD3 /* GCDWebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1951C6B065D00093BD3 /* GCDWebServer.m */; };
 		9577E1B31C6B065E00093BD3 /* GCDWebServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1971C6B065D00093BD3 /* GCDWebServerConnection.m */; };
 		9577E1B41C6B065E00093BD3 /* GCDWebServerFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9577E1991C6B065D00093BD3 /* GCDWebServerFunctions.m */; };
@@ -35,7 +36,6 @@
 		95A143CC1C87FCDC008756B9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A143CA1C87FC6E008756B9 /* Cocoa.framework */; };
 		95E524CB1C674CC80008BB12 /* simple.pac in Resources */ = {isa = PBXBuildFile; fileRef = 95E524CA1C674CC80008BB12 /* simple.pac */; };
 		9D24863421CD9EC100C529AB /* config-sample_new.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9D24863321CD9EC000C529AB /* config-sample_new.plist */; };
-		9D3CEE6F209E070F0077CCFE /* AdvancedWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D3CEE6E209E070F0077CCFE /* AdvancedWindow.xib */; };
 		9D5EAC151FDCD70300C14B46 /* geoip.dat in Resources */ = {isa = PBXBuildFile; fileRef = 9D5EAC101FDCD54700C14B46 /* geoip.dat */; };
 		9D5EAC161FDCD70300C14B46 /* geosite.dat in Resources */ = {isa = PBXBuildFile; fileRef = 9D5EAC0F1FDCD54600C14B46 /* geosite.dat */; };
 		9D5EAC171FDCD70300C14B46 /* v2ctl in Resources */ = {isa = PBXBuildFile; fileRef = 9D5EAC0E1FDCD54600C14B46 /* v2ctl */; };
@@ -83,6 +83,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4E84B9192512117000C01385 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		4ED2C8CC25122DDE0059ABB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ConfigWindow.xib; sourceTree = "<group>"; };
+		4ED2C8CF25122DE60059ABB0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ConfigWindow.strings"; sourceTree = "<group>"; };
+		4ED2C8D125122E100059ABB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AdvancedWindow.xib; sourceTree = "<group>"; };
+		4ED2C8D425122E180059ABB0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AdvancedWindow.strings"; sourceTree = "<group>"; };
+		4ED2C8D625122E240059ABB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TransportWindow.xib; sourceTree = "<group>"; };
+		4ED2C8D925122E2B0059ABB0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TransportWindow.strings"; sourceTree = "<group>"; };
 		9504C0781C662C3000352520 /* V2RayX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = V2RayX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9504C07B1C662C3000352520 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9504C07C1C662C3000352520 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -90,7 +97,6 @@
 		9504C0811C662C3000352520 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9504C0841C662C3000352520 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		9504C0861C662C3000352520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9504C08C1C662C9100352520 /* ConfigWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigWindow.xib; sourceTree = "<group>"; };
 		9504C08E1C662CBF00352520 /* ConfigWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigWindowController.h; sourceTree = "<group>"; };
 		9504C08F1C662CBF00352520 /* ConfigWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigWindowController.m; sourceTree = "<group>"; };
 		9504C0C01C662D9400352520 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -101,7 +107,6 @@
 		9504C0D31C66511B00352520 /* ServerProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerProfile.m; sourceTree = "<group>"; };
 		953B60551DB3F65A00D40654 /* dlcore.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dlcore.sh; sourceTree = "<group>"; };
 		953B60571DB3F6B700D40654 /* v2ray */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = v2ray; path = "../v2ray-core-bin/v2ray"; sourceTree = "<group>"; };
-		9565E28A1DB25C010082658C /* TransportWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransportWindow.xib; sourceTree = "<group>"; };
 		9577E1941C6B065D00093BD3 /* GCDWebServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDWebServer.h; sourceTree = "<group>"; };
 		9577E1951C6B065D00093BD3 /* GCDWebServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDWebServer.m; sourceTree = "<group>"; };
 		9577E1961C6B065D00093BD3 /* GCDWebServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDWebServerConnection.h; sourceTree = "<group>"; };
@@ -134,7 +139,6 @@
 		95A143CA1C87FC6E008756B9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		95E524CA1C674CC80008BB12 /* simple.pac */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple.pac; sourceTree = "<group>"; };
 		9D24863321CD9EC000C529AB /* config-sample_new.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample_new.plist"; sourceTree = "<group>"; };
-		9D3CEE6E209E070F0077CCFE /* AdvancedWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvancedWindow.xib; sourceTree = "<group>"; };
 		9D5EAC0E1FDCD54600C14B46 /* v2ctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = v2ctl; path = "v2ray-core-bin/v2ctl"; sourceTree = SOURCE_ROOT; };
 		9D5EAC0F1FDCD54600C14B46 /* geosite.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = geosite.dat; path = "v2ray-core-bin/geosite.dat"; sourceTree = SOURCE_ROOT; };
 		9D5EAC101FDCD54700C14B46 /* geoip.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = geoip.dat; path = "v2ray-core-bin/geoip.dat"; sourceTree = SOURCE_ROOT; };
@@ -216,13 +220,13 @@
 				9504C07C1C662C3000352520 /* AppDelegate.m */,
 				9504C0811C662C3000352520 /* Assets.xcassets */,
 				9504C0831C662C3000352520 /* MainMenu.xib */,
-				9504C08C1C662C9100352520 /* ConfigWindow.xib */,
+				4ED2C8CD25122DDE0059ABB0 /* ConfigWindow.xib */,
 				9D71D61521D06006007DA052 /* ConfigImporter.h */,
 				9D71D61621D06006007DA052 /* ConfigImporter.m */,
-				9D3CEE6E209E070F0077CCFE /* AdvancedWindow.xib */,
+				4ED2C8D225122E100059ABB0 /* AdvancedWindow.xib */,
 				9DEB294B21CB64CF0052D2BB /* AdvancedWindowController.h */,
 				9DEB294C21CB64CF0052D2BB /* AdvancedWindowController.m */,
-				9565E28A1DB25C010082658C /* TransportWindow.xib */,
+				4ED2C8D725122E240059ABB0 /* TransportWindow.xib */,
 				9DDC058F21CA8CFF00C6C2D7 /* TransportWindowController.h */,
 				9DDC059021CA8CFF00C6C2D7 /* TransportWindowController.m */,
 				9504C08E1C662CBF00352520 /* ConfigWindowController.h */,
@@ -432,11 +436,12 @@
 			};
 			buildConfigurationList = 9504C0731C662C3000352520 /* Build configuration list for PBXProject "V2RayX" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 9504C06F1C662C3000352520;
 			productRefGroup = 9504C0791C662C3000352520 /* Products */;
@@ -457,7 +462,7 @@
 			files = (
 				9D5EAC151FDCD70300C14B46 /* geoip.dat in Resources */,
 				9D5EAC161FDCD70300C14B46 /* geosite.dat in Resources */,
-				9D3CEE6F209E070F0077CCFE /* AdvancedWindow.xib in Resources */,
+				4ED2C8D025122E100059ABB0 /* AdvancedWindow.xib in Resources */,
 				9D5EAC171FDCD70300C14B46 /* v2ctl in Resources */,
 				9D5EAC181FDCD70300C14B46 /* v2ray in Resources */,
 				9DB4FE951F205BEB00CCEE5F /* config-sample.plist in Resources */,
@@ -468,8 +473,8 @@
 				9504C0821C662C3000352520 /* Assets.xcassets in Resources */,
 				9D7109611E0F43BD008A6362 /* Credits.rtf in Resources */,
 				9504C0851C662C3000352520 /* MainMenu.xib in Resources */,
-				9565E28B1DB25C010082658C /* TransportWindow.xib in Resources */,
-				9504C08D1C662C9100352520 /* ConfigWindow.xib in Resources */,
+				4ED2C8D525122E240059ABB0 /* TransportWindow.xib in Resources */,
+				4ED2C8CB25122DDE0059ABB0 /* ConfigWindow.xib in Resources */,
 				9D24863421CD9EC100C529AB /* config-sample_new.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -564,10 +569,38 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4ED2C8CD25122DDE0059ABB0 /* ConfigWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4ED2C8CC25122DDE0059ABB0 /* Base */,
+				4ED2C8CF25122DE60059ABB0 /* zh-Hans */,
+			);
+			name = ConfigWindow.xib;
+			sourceTree = "<group>";
+		};
+		4ED2C8D225122E100059ABB0 /* AdvancedWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4ED2C8D125122E100059ABB0 /* Base */,
+				4ED2C8D425122E180059ABB0 /* zh-Hans */,
+			);
+			name = AdvancedWindow.xib;
+			sourceTree = "<group>";
+		};
+		4ED2C8D725122E240059ABB0 /* TransportWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4ED2C8D625122E240059ABB0 /* Base */,
+				4ED2C8D925122E2B0059ABB0 /* zh-Hans */,
+			);
+			name = TransportWindow.xib;
+			sourceTree = "<group>";
+		};
 		9504C0831C662C3000352520 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				9504C0841C662C3000352520 /* Base */,
+				4E84B9192512117000C01385 /* zh-Hans */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
