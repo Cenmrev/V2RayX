@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -766,6 +766,12 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="YAD-DW-T91"/>
+                <menuItem title="Update PAC List" id="0CS-lU-Fj8">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="updatePacList:" target="Voe-Tx-rLC" id="h9X-nz-bmS"/>
+                    </connections>
+                </menuItem>
                 <menuItem title="Upgrade" id="29h-Cl-9kt">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
@@ -775,7 +781,7 @@
                 <menuItem title="Help" id="Yq1-i5-ecF">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="showHelp:" target="Voe-Tx-rLC" id="S0S-9o-8U5"/>
+                        <action selector="showHelp:" target="Voe-Tx-rLC" id="cuC-HD-fNv"/>
                     </connections>
                 </menuItem>
                 <menuItem title="About" id="esg-xy-8ve">

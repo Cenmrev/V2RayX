@@ -21,7 +21,9 @@
 
 "is not writable!" = "不可写！";
 
+"gfwlist update completed!" = "gfwlist 更新成功！";
 
+"gfwlist update failed!" = "gfwlist 更新失败！";
 
 "no available servers, please add server profiles through config window." = "没有可用的服务器，请通过设置窗口添加服务器配置文件。";
 

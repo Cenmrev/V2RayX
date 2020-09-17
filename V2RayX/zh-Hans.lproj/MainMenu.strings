@@ -460,3 +460,9 @@
 
 /* Class = "NSMenuItem"; title = "Show Substitutions"; ObjectID = "z6F-FW-3nz"; */
 "z6F-FW-3nz.title" = "Show Substitutions";
+
+
+/* Class = "NSMenuItem"; title = "Update PAC List"; ObjectID = "0CS-lU-Fj8"; */
+"0CS-lU-Fj8.title" = "更新PAC列表...";
+
+

@@ -513,6 +513,89 @@ static AppDelegate *appDelegate;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com"]];
 }
 
+#pragma mark Update PAC List
+- (IBAction)updatePacList:(NSMenuItem *)sender {
+    
+    NSLog(@"update pac list");
+    
+    NSURL *url = [NSURL URLWithString:@"https://gitlab.com/gfwlist/gfwlist/raw/master/gfwlist.txt"];
+    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        @try {
+            
+            NSData *decodeData = [[NSData alloc] initWithBase64EncodedData:data options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            NSString *result = [[NSString alloc] initWithData:decodeData encoding:NSUTF8StringEncoding];
+            NSArray *pacArray = [result componentsSeparatedByString:@"\n"];
+            NSMutableArray *urlArray = [NSMutableArray array];
+            for (NSString *url in pacArray) {
+                if ([url hasPrefix:@"||"]) {
+                    NSString *domain = [url stringByReplacingOccurrencesOfString:@"||" withString:@""];
+                    if (![urlArray containsObject:domain]) {
+                        [urlArray addObject:domain];
+                    }
+                }else if ([url hasPrefix:@"."]){
+                    NSString *domain = [url substringFromIndex:1];
+                    if (![urlArray containsObject:domain]) {
+                        [urlArray addObject:domain];
+                    }
+                }
+            }
+            
+            NSMutableString *pacJs = [NSMutableString string];
+            NSString *line = @"var V2Ray = \"SOCKS5 127.0.0.1:1081; SOCKS 127.0.0.1:1081; DIRECT;\"\n\n";
+            NSString *line1 = @"var domains = [\n";
+            [pacJs appendString:line];
+            [pacJs appendString:line1];
+            
+            for (NSString *urlString in urlArray) {
+                NSString *url = [NSString stringWithFormat:@"    \"%@\",\n",urlString];
+                [pacJs appendString:url];
+            }
+            NSString *line10 = @"];\n";
+            NSString *line2 = @"function FindProxyForURL(url, host) {\n";
+            NSString *line3 = @"    for (var i = domains.length - 1; i >= 0; i--) {\n";
+            NSString *line4 = @"        if (dnsDomainIs(host, domains[i])) {\n";
+            NSString *line5 = @"            return V2Ray\n";
+            NSString *line6 = @"        };\n";
+            NSString *line7 = @"    };\n";
+            NSString *line8 = @"    return \"DIRECT\";\n";
+            NSString *line9 = @"}\n";
+            [pacJs appendString:line10];
+            [pacJs appendString:line2];
+            [pacJs appendString:line3];
+            [pacJs appendString:line4];
+            [pacJs appendString:line5];
+            [pacJs appendString:line6];
+            [pacJs appendString:line7];
+            [pacJs appendString:line8];
+            [pacJs appendString:line9];
+            
+            NSString *pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/%@",NSHomeDirectory(), @"gfwlist.js"];
+
+            NSError *error = nil;
+            [pacJs writeToFile:pacPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+            
+            NSUserNotification *notification = [[NSUserNotification alloc] init];
+            notification.title = @"V2RayX";
+            if (error) {
+                notification.subtitle = NSLocalizedString(@"gfwlist update failed!", @"gfwlist 更新失败！");
+            }else{
+                notification.subtitle = NSLocalizedString(@"gfwlist update completed!", @"gfwlist 更新成功！");
+                [self updatePacMenuList];
+            }
+            [[NSUserNotificationCenter defaultUserNotificationCenter]  deliverNotification:notification];
+            
+            
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
+        }
+    }];
+    [task resume];
+    
+}
+
+
 // v2rayx status part
 
 // back up system proxy state when V2RayX starts to take control of
