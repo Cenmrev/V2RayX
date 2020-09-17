@@ -24,7 +24,7 @@
 "2N5-MP-9vf.title" = "退出";
 
 /* Class = "NSMenuItem"; title = "Copy HTTP Proxy Shell Export Line"; ObjectID = "2fK-AZ-akH"; */
-"2fK-AZ-akH.title" = "复制HTTP代理到Shell命令行";
+"2fK-AZ-akH.title" = "复制 HTTP Proxy Shell 到粘贴板";
 
 /* Class = "NSMenuItem"; title = "Raise"; ObjectID = "2h7-ER-AoG"; */
 "2h7-ER-AoG.title" = "Raise";
@@ -45,7 +45,7 @@
 "3rS-ZA-NoH.title" = "Speech";
 
 /* Class = "NSMenuItem"; title = "Server"; ObjectID = "3wi-Co-2Kd"; */
-"3wi-Co-2Kd.title" = "服务器";
+"3wi-Co-2Kd.title" = "选择服务器";
 
 /* Class = "NSMenuItem"; title = "Tighten"; ObjectID = "46P-cB-AYj"; */
 "46P-cB-AYj.title" = "Tighten";

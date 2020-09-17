@@ -8,9 +8,9 @@
 
 
 "Unload core" = "关闭";
-"v2ray-core: loaded" = "已开启";
-"v2ray-core: unloaded" = "已关闭";
-"Load core" = "开启";
+"v2ray-core: loaded" = "v2ray-core：已启动";
+"v2ray-core: unloaded" = "v2ray-core：已关闭";
+"Load core" = "启动";
 
 "The pac file will be reset to the original one coming with V2RayX. Are you sure to proceed?" = "PAC 文件将重置为 V2RayX 安装时的原始文件。 您确定要继续吗？";
 
