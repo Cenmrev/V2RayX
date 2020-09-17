@@ -6,7 +6,7 @@
 
 Download from [Releases](https://github.com/kangbingbing/V2RayX/releases)
 
-Download from [汉化版](https://github.com/kangbingbing/V2RayX/releases/tag/v1.5.1)
+Download from [汉化版](https://github.com/kangbingbing/V2RayX/releases/tag/v1.5.1-zh)
 
 * 增加更新paclist
 * 最新版 v2ray-core 4.27.5
