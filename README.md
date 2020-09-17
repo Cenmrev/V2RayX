@@ -12,13 +12,10 @@ Download from [汉化版](https://github.com/kangbingbing/V2RayX/releases/tag/v1
 * 最新版 v2ray-core 4.27.5
 * 新增状态指示图标
 
-![菜单](./SampleImage/1.png)
-
-![配置](./SampleImage/2.png)
-
-![配置](./SampleImage/3.png)
-
-![配置](./SampleImage/4.png)
+![1](https://user-images.githubusercontent.com/15312953/93425910-904b1a00-f8ed-11ea-856f-cf2d96df8c52.png)
+![4](https://user-images.githubusercontent.com/15312953/93421252-6a207c80-f8e3-11ea-8e6f-f3eeb951df02.png)
+![3](https://user-images.githubusercontent.com/15312953/93421254-6ab91300-f8e3-11ea-9ea1-bb8fc02fe546.png)
+![2](https://user-images.githubusercontent.com/15312953/93421255-6bea4000-f8e3-11ea-87c9-c80ea572fcf4.png)
 
 
 
