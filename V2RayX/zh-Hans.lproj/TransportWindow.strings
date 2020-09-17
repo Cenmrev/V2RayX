@@ -1,0 +1,129 @@
+
+/* Class = "NSTextFieldCell"; title = "Multiple hosts should be seperated by comma(,). No spaces."; ObjectID = "0jK-Zu-IjJ"; */
+"0jK-Zu-IjJ.title" = "多个主机以逗号(,)分隔。不要有空格。";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "2Tc-I8-c1W"; */
+"2Tc-I8-c1W.title" = "取消";
+
+/* Class = "NSTabViewItem"; label = "HTTP/2"; ObjectID = "3a5-FH-jdA"; */
+"3a5-FH-jdA.label" = "HTTP/2";
+
+/* Class = "NSTextFieldCell"; title = "{ \"Host\": \"v2ray.com\" }"; ObjectID = "5Nf-oY-kxe"; */
+"5Nf-oY-kxe.title" = "{ \"Host\": \"v2ray.com\" }";
+
+/* Class = "NSTextFieldCell"; title = "security:"; ObjectID = "5jf-XH-tbH"; */
+"5jf-XH-tbH.title" = "security:";
+
+/* Class = "NSTextFieldCell"; title = "header type:"; ObjectID = "AfV-VI-p2V"; */
+"AfV-VI-p2V.title" = "header type:";
+
+/* Class = "NSTextFieldCell"; title = "mtu"; ObjectID = "BOl-9E-v9O"; */
+"BOl-9E-v9O.title" = "mtu";
+
+/* Class = "NSTabViewItem"; label = "QUIC"; ObjectID = "DRH-Zh-vX2"; */
+"DRH-Zh-vX2.label" = "QUIC";
+
+/* Class = "NSButtonCell"; title = "Reset All"; ObjectID = "FgQ-ns-dS8"; */
+"FgQ-ns-dS8.title" = "重置";
+
+/* Class = "NSButtonCell"; title = "Help"; ObjectID = "Khe-UB-CcP"; */
+"Khe-UB-CcP.title" = "帮助";
+
+/* Class = "NSTextFieldCell"; title = "path:"; ObjectID = "KmU-8N-PNy"; */
+"KmU-8N-PNy.title" = "path:";
+
+/* Class = "NSTextFieldCell"; title = "\"headers\":"; ObjectID = "N1a-VD-e73"; */
+"N1a-VD-e73.title" = "\"headers\":";
+
+/* Class = "NSTextFieldCell"; title = "read buffer size"; ObjectID = "NxV-UV-hGH"; */
+"NxV-UV-hGH.title" = "read buffer size";
+
+/* Class = "NSTabViewItem"; label = "TCP"; ObjectID = "OFA-OY-bP4"; */
+"OFA-OY-bP4.label" = "TCP";
+
+/* Class = "NSTextFieldCell"; title = "congestion"; ObjectID = "PeU-Y2-Tha"; */
+"PeU-Y2-Tha.title" = "congestion";
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Window";
+
+/* Class = "NSTabViewItem"; label = "···"; ObjectID = "QwI-cq-3dE"; */
+"QwI-cq-3dE.label" = "···";
+
+/* Class = "NSButtonCell"; title = "Force Tcp Fast Open"; ObjectID = "Rjq-TS-APs"; */
+"Rjq-TS-APs.title" = "强制开启TCP";
+
+/* Class = "NSTextFieldCell"; title = "downlink capacity"; ObjectID = "RrO-iQ-y0q"; */
+"RrO-iQ-y0q.title" = "downlink capacity";
+
+/* Class = "NSButtonCell"; title = "TLS allowInsecure"; ObjectID = "Rxl-Fh-p8u"; */
+"Rxl-Fh-p8u.title" = "TLS 允许不安全";
+
+/* Class = "NSTextFieldCell"; title = "header type"; ObjectID = "Uwv-C4-vWW"; */
+"Uwv-C4-vWW.title" = "header type";
+
+/* Class = "NSTextFieldCell"; title = "Mux concurrency:"; ObjectID = "V4v-kP-BDQ"; */
+"V4v-kP-BDQ.title" = "Mux 并发：";
+
+/* Class = "NSTextFieldCell"; title = "tti"; ObjectID = "X10-mD-ytG"; */
+"X10-mD-ytG.title" = "tti";
+
+/* Class = "NSButtonCell"; title = "Customize http-header"; ObjectID = "XK7-pb-uYz"; */
+"XK7-pb-uYz.title" = "自定义 http-header";
+
+/* Class = "NSTextFieldCell"; title = "uplink capacity"; ObjectID = "a88-Re-zzm"; */
+"a88-Re-zzm.title" = "uplink capacity";
+
+/* Class = "NSTextFieldCell"; title = "Example: "; ObjectID = "cJm-42-mob"; */
+"cJm-42-mob.title" = "示例：";
+
+/* Class = "NSButtonCell"; title = "Use TLS"; ObjectID = "cY9-cQ-T9f"; */
+"cY9-cQ-T9f.title" = "使用TLS";
+
+/* Class = "NSMenuItem"; title = "false"; ObjectID = "dOx-RU-DS8"; */
+"dOx-RU-DS8.title" = "false";
+
+/* Class = "NSTextFieldCell"; title = "alpn:"; ObjectID = "eb7-WI-WKe"; */
+"eb7-WI-WKe.title" = "alpn:";
+
+/* Class = "NSButtonCell"; title = "OK"; ObjectID = "eeS-8U-mHp"; */
+"eeS-8U-mHp.title" = "OK";
+
+/* Class = "NSTextFieldCell"; title = "TLS serverName:"; ObjectID = "etO-0e-iiM"; */
+"etO-0e-iiM.title" = "TLS 服务器名称：";
+
+/* Class = "NSButtonCell"; title = "Enable Mux"; ObjectID = "fd8-nx-L0h"; */
+"fd8-nx-L0h.title" = "开启 Mux";
+
+/* Class = "NSTextFieldCell"; title = "host:"; ObjectID = "i9E-fj-OGM"; */
+"i9E-fj-OGM.title" = "host:";
+
+/* Class = "NSTabViewItem"; label = "KCP"; ObjectID = "jR2-p0-bjc"; */
+"jR2-p0-bjc.label" = "KCP";
+
+/* Class = "NSMenuItem"; title = "true"; ObjectID = "lAh-Af-Ylj"; */
+"lAh-Af-Ylj.title" = "true";
+
+/* Class = "NSButtonCell"; title = "See Example"; ObjectID = "lrs-YU-384"; */
+"lrs-YU-384.title" = "参见示例";
+
+/* Class = "NSTextFieldCell"; title = "path:"; ObjectID = "oah-mG-Lcv"; */
+"oah-mG-Lcv.title" = "path:";
+
+/* Class = "NSTextFieldCell"; title = "key:"; ObjectID = "pOx-5i-iHo"; */
+"pOx-5i-iHo.title" = "key:";
+
+/* Class = "NSTabViewItem"; label = "TLS"; ObjectID = "sCQ-Dt-YCG"; */
+"sCQ-Dt-YCG.label" = "TLS";
+
+/* Class = "NSButtonCell"; title = "TLS allowInsecureCiphers"; ObjectID = "tGs-7I-7qD"; */
+"tGs-7I-7qD.title" = "TLS 允许不安全的密码";
+
+/* Class = "NSTextFieldCell"; title = "write buffer size"; ObjectID = "vY4-qQ-mjc"; */
+"vY4-qQ-mjc.title" = "write buffer size";
+
+/* Class = "NSTextFieldCell"; title = "QUIC is now an experiment in V2Ray. It implements IETF specification. As the spec is still being standardized, compatibility can't be guaranteed."; ObjectID = "vZ8-pU-aE3"; */
+"vZ8-pU-aE3.title" = "QUIC现在是V2Ray中的实验。 它实现了IETF规范。由于规范仍在标准化中，因此无法保证兼容性。";
+
+/* Class = "NSTabViewItem"; label = "WebSocket"; ObjectID = "wRJ-HD-bnc"; */
+"wRJ-HD-bnc.label" = "WebSocket";

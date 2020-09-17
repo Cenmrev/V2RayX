@@ -1,3 +1,27 @@
+# V2RayX: v2ray macOS 汉化版
+
+> #### 基于 V2RayX v1.5.1 汉化。感谢原作者，原版地址 [V2RayX](https://github.com/Cenmrev/V2RayX) 。
+
+## 下载 V2RayX 汉化版
+
+Download from [Releases](https://github.com/kangbingbing/V2RayX/releases)
+
+Download from [汉化版](https://github.com/kangbingbing/V2RayX/releases/tag/v1.5.1-zh)
+
+* 增加更新paclist
+* 最新版 v2ray-core 4.27.5
+* 新增状态指示图标
+
+![1](https://user-images.githubusercontent.com/15312953/93425910-904b1a00-f8ed-11ea-856f-cf2d96df8c52.png)
+![4](https://user-images.githubusercontent.com/15312953/93421252-6a207c80-f8e3-11ea-8e6f-f3eeb951df02.png)
+![3](https://user-images.githubusercontent.com/15312953/93421254-6ab91300-f8e3-11ea-9ea1-bb8fc02fe546.png)
+![2](https://user-images.githubusercontent.com/15312953/93421255-6bea4000-f8e3-11ea-87c9-c80ea572fcf4.png)
+
+
+
+
+> ## ========以下为原版介绍========
+
 # V2RayX: A simple GUI for V2Ray on macOS
 
 [![Build Status](https://travis-ci.org/Cenmrev/V2RayX.svg?branch=master)](https://travis-ci.org/Cenmrev/V2RayX)

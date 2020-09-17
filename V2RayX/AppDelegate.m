@@ -132,8 +132,8 @@ static AppDelegate *appDelegate;
     }];
     [webServer startWithPort:webServerPort bonjourName:nil];
     
-    
-    [self checkUpgrade:self];
+    // 检查更新
+//    [self checkUpgrade:self];
     
     appDelegate = self;
     
@@ -513,6 +513,89 @@ static AppDelegate *appDelegate;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com"]];
 }
 
+#pragma mark Update PAC List
+- (IBAction)updatePacList:(NSMenuItem *)sender {
+    
+    NSLog(@"update pac list");
+    
+    NSURL *url = [NSURL URLWithString:@"https://gitlab.com/gfwlist/gfwlist/raw/master/gfwlist.txt"];
+    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        @try {
+            
+            NSData *decodeData = [[NSData alloc] initWithBase64EncodedData:data options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            NSString *result = [[NSString alloc] initWithData:decodeData encoding:NSUTF8StringEncoding];
+            NSArray *pacArray = [result componentsSeparatedByString:@"\n"];
+            NSMutableArray *urlArray = [NSMutableArray array];
+            for (NSString *url in pacArray) {
+                if ([url hasPrefix:@"||"]) {
+                    NSString *domain = [url stringByReplacingOccurrencesOfString:@"||" withString:@""];
+                    if (![urlArray containsObject:domain]) {
+                        [urlArray addObject:domain];
+                    }
+                }else if ([url hasPrefix:@"."]){
+                    NSString *domain = [url substringFromIndex:1];
+                    if (![urlArray containsObject:domain]) {
+                        [urlArray addObject:domain];
+                    }
+                }
+            }
+            
+            NSMutableString *pacJs = [NSMutableString string];
+            NSString *line = @"var V2Ray = \"SOCKS5 127.0.0.1:1081; SOCKS 127.0.0.1:1081; DIRECT;\"\n\n";
+            NSString *line1 = @"var domains = [\n";
+            [pacJs appendString:line];
+            [pacJs appendString:line1];
+            
+            for (NSString *urlString in urlArray) {
+                NSString *url = [NSString stringWithFormat:@"    \"%@\",\n",urlString];
+                [pacJs appendString:url];
+            }
+            NSString *line10 = @"];\n";
+            NSString *line2 = @"function FindProxyForURL(url, host) {\n";
+            NSString *line3 = @"    for (var i = domains.length - 1; i >= 0; i--) {\n";
+            NSString *line4 = @"        if (dnsDomainIs(host, domains[i])) {\n";
+            NSString *line5 = @"            return V2Ray\n";
+            NSString *line6 = @"        };\n";
+            NSString *line7 = @"    };\n";
+            NSString *line8 = @"    return \"DIRECT\";\n";
+            NSString *line9 = @"}\n";
+            [pacJs appendString:line10];
+            [pacJs appendString:line2];
+            [pacJs appendString:line3];
+            [pacJs appendString:line4];
+            [pacJs appendString:line5];
+            [pacJs appendString:line6];
+            [pacJs appendString:line7];
+            [pacJs appendString:line8];
+            [pacJs appendString:line9];
+            
+            NSString *pacPath = [NSString stringWithFormat:@"%@/Library/Application Support/V2RayX/pac/%@",NSHomeDirectory(), @"gfwlist.js"];
+
+            NSError *error = nil;
+            [pacJs writeToFile:pacPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+            
+            NSUserNotification *notification = [[NSUserNotification alloc] init];
+            notification.title = @"V2RayX";
+            if (error) {
+                notification.subtitle = NSLocalizedString(@"gfwlist update failed!", @"gfwlist 更新失败！");
+            }else{
+                notification.subtitle = NSLocalizedString(@"gfwlist update completed!", @"gfwlist 更新成功！");
+                [self updatePacMenuList];
+            }
+            [[NSUserNotificationCenter defaultUserNotificationCenter]  deliverNotification:notification];
+            
+            
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
+        }
+    }];
+    [task resume];
+    
+}
+
+
 // v2rayx status part
 
 // back up system proxy state when V2RayX starts to take control of
@@ -605,14 +688,19 @@ static AppDelegate *appDelegate;
 
 - (void)updateMenus {
     if (proxyState) {
-        [_v2rayStatusItem setTitle:@"v2ray-core: loaded"];
-        [_enableV2rayItem setTitle:@"Unload core"];
+        [_v2rayStatusItem setTitle:NSLocalizedString(@"v2ray-core: loaded", @"已开启")];
+        _v2rayStatusItem.image = [NSImage imageNamed:@"on"];
+        [_enableV2rayItem setTitle:NSLocalizedString(@"Unload core", @"关闭")];
+        _enableV2rayItem.image = [NSImage imageNamed:@"close"];
         NSImage *icon = [NSImage imageNamed:@"statusBarIcon"];
         [icon setTemplate:YES];
         [_statusBarItem setImage:icon];
     } else {
-        [_v2rayStatusItem setTitle:@"v2ray-core: unloaded"];
-        [_enableV2rayItem setTitle:@"Load core"];
+        [_v2rayStatusItem setTitle:NSLocalizedString(@"v2ray-core: unloaded", @"已关闭")];
+        _v2rayStatusItem.image = [NSImage imageNamed:@"close"];
+        [_enableV2rayItem setTitle:NSLocalizedString(@"Load core", @"开启")];
+        _enableV2rayItem.image = [NSImage imageNamed:@"on"];
+        
         [_statusBarItem setImage:[NSImage imageNamed:@"statusBarIcon_disabled"]];
     }
     [_pacModeItem setState:proxyMode == pacMode];
@@ -650,9 +738,10 @@ static AppDelegate *appDelegate;
 
 - (IBAction)resetPac:(id)sender {
     NSAlert *resetAlert = [[NSAlert alloc] init];
-    [resetAlert setMessageText:@"The pac file will be reset to the original one coming with V2RayX. Are you sure to proceed?"];
-    [resetAlert addButtonWithTitle:@"Yes"];
-    [resetAlert addButtonWithTitle:@"Cancel"];
+    [resetAlert setMessageText:NSLocalizedString(@"The pac file will be reset to the original one coming with V2RayX. Are you sure to proceed?", @"重置")];
+    
+    [resetAlert addButtonWithTitle:NSLocalizedString(@"Yes", @"确定")];
+    [resetAlert addButtonWithTitle:NSLocalizedString(@"Cancel", @"取消")];
     NSModalResponse response = [resetAlert runModal];
     if(response == NSAlertFirstButtonReturn) {
         NSString* simplePac = [[NSBundle mainBundle] pathForResource:@"simple" ofType:@"pac"];
@@ -661,7 +750,8 @@ static AppDelegate *appDelegate;
             [[NSData dataWithContentsOfFile:simplePac] writeToFile:pacPath atomically:YES];
         } else {
             NSAlert* writePacAlert = [[NSAlert alloc] init];
-            [writePacAlert setMessageText:[NSString stringWithFormat:@"%@ is not writable!", pacPath]];
+            [writePacAlert setMessageText:[NSString stringWithFormat:@"%@ %@", pacPath,NSLocalizedString(@"is not writable!", @"不可写")]];
+            
             [writePacAlert runModal];
         }
     }
@@ -760,7 +850,8 @@ static AppDelegate *appDelegate;
 - (void)updateServerMenuList {
     [_serverListMenu removeAllItems];
     if ([profiles count] == 0 && [cusProfiles count] == 0 && [_subsOutbounds count] == 0) {
-        [_serverListMenu addItem:[[NSMenuItem alloc] initWithTitle:@"no available servers, please add server profiles through config window." action:nil keyEquivalent:@""]];
+        [_serverListMenu addItem:[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"no available servers, please add server profiles through config window.", @"配置") action:nil keyEquivalent:@""]];
+        
         if (_subscriptions.count > 0) {
             [_serverListMenu addItem:[NSMenuItem separatorItem]];
             [_serverListMenu addItem:_updateServerItem];

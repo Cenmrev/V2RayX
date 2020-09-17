@@ -42,8 +42,12 @@
         NSData *data = [file readDataToEndOfFile];
         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self->_versionField setStringValue:[string componentsSeparatedByString:@"\n"][0]];
-             });
+            if ([string containsString:@"("]) {
+                [self->_versionField setStringValue:[string componentsSeparatedByString:@"("][0]];
+            }else{
+                [self->_versionField setStringValue:[string componentsSeparatedByString:@"\n"][0]];
+            }
+        });
         
     });
     
@@ -146,9 +150,11 @@
         BOOL tlsEnabled = [self.selectedProfile.streamSettings[@"security"] isEqual: @"tls"];
         if (!tlsEnabled) {
             NSAlert *httpTlsAlerm = [[NSAlert alloc] init];
-            [httpTlsAlerm addButtonWithTitle:@"Close"];
-            [httpTlsAlerm addButtonWithTitle:@"Help"];
-            [httpTlsAlerm setMessageText:@"Both client and server must enable TLS to use HTTP/2 network! Enbale TLS in transport settings. Click \"Help\" if you need more information"];
+            [httpTlsAlerm addButtonWithTitle:NSLocalizedString(@"Close", @"关闭")];
+            [httpTlsAlerm addButtonWithTitle:NSLocalizedString(@"Help", @"帮助")];
+            
+            [httpTlsAlerm setMessageText:NSLocalizedString(@"Both client and server must enable TLS to use HTTP/2 network! Enbale TLS in transport settings. Click \"Help\" if you need more information", @"HTTP/2")];
+            
             [httpTlsAlerm beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
                 if (returnCode == NSAlertSecondButtonReturn) {
                     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.v2ray.com/chapter_02/transport/h2.html#tips"]];
