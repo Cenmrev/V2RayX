@@ -26,6 +26,8 @@ brew cask install v2rayx
 V2RayX.app is built by running one of the following commands in your terminal. You can install this via the command-line with curl.
 
 `sh -c "$(curl -fsSL https://raw.githubusercontent.com/Cenmrev/V2RayX/master/compilefromsource.sh)"`
+or
+`sh -c "$(curl -fsSL https://raw.githubusercontent.com/jerryinu/V2RayX/master/compilefromsource.sh)"`
 
 or step by step:
 

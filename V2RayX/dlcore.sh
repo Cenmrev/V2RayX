@@ -1,4 +1,4 @@
-VERSION="4.18.0"
+VERSION="4.28.2"
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 BOLD='\033[1m'
@@ -14,7 +14,7 @@ if [ "$VERSION" != "$existingVersion" ]; then
     getCore=0
     mkdir -p v2ray-core-bin
     cd v2ray-core-bin
-    curl -s -L -o v2ray-macos.zip https://github.com/v2ray/v2ray-core/releases/download/v${VERSION}/v2ray-macos.zip
+    curl -s -L -o v2ray-macos.zip https://github.com/v2ray/v2ray-core/releases/download/v${VERSION}/v2ray-macos-64.zip
     if [[ $? == 0 ]]; then
         unzip -o v2ray-macos.zip
         getCore=1
