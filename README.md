@@ -18,7 +18,7 @@ Download from [Releases](https://github.com/Cenmrev/V2RayX/releases). (compiled 
 By [Homebrew-Cask](https://caskroom.github.io/).
 
 ```sh
-brew cask install v2rayx
+brew install --cask v2rayx
 ```
 
 ## How to build
