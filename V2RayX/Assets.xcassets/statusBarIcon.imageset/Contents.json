@@ -1,13 +1,13 @@
 {
   "images" : [
     {
+      "filename" : "vx 16x16.png",
       "idiom" : "universal",
-      "filename" : "b16.png",
       "scale" : "1x"
     },
     {
+      "filename" : "vx 32x32.png",
       "idiom" : "universal",
-      "filename" : "b32.png",
       "scale" : "2x"
     },
     {
@@ -16,7 +16,7 @@
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
