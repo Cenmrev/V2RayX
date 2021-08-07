@@ -15,10 +15,10 @@ Other V2Ray clients on macOS: [V2RayU](https://github.com/yanue/v2rayu).
 
 Download from [Releases](https://github.com/Cenmrev/V2RayX/releases). (compiled by [travis-ci.org](https://travis-ci.org/Cenmrev/V2RayX)).
 
-By [Homebrew-Cask](https://caskroom.github.io/).
+By [Homebrew-Cask](https://brew.sh).
 
 ```sh
-brew cask install v2rayx
+brew install --cask v2rayx
 ```
 
 ## How to build
